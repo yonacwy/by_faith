@@ -6,15 +6,15 @@ publish_to: 'none'
 version: 3.0.0
 
 environment:
-  sdk: 3.8.0
+  sdk: 3.8.1
 
 dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: 1.0.8
-  material_symbols_icons: 4.3.0
+  material_symbols_icons: ^4.2815.1
   intl: 0.20.2
-  provider: 6.1.2
+  provider: ^6.1.5
   flutter_quill: 11.4.1
   objectbox: 4.3.0
   objectbox_flutter_libs: 4.3.0
@@ -22,18 +22,18 @@ dependencies:
   flutter_map_tile_caching: 11.0.0-dev.2
   latlong2: 0.9.1
   path_provider: 2.1.5
-  http: 1.2.2
+  http: ^1.4.0
   archive: 3.6.1
   file_picker: 10.1.9
   url_launcher: 6.3.1
   permission_handler: 12.0.0+1
   quill_delta: 3.0.0-nullsafety.2 # Explicitly add quill_delta
   share_plus: 11.0.0
-  connectivity_plus: 6.0.5
+  connectivity_plus: ^6.1.4
   onboarding: 4.0.2
-  font_awesome_flutter: 10.7.0
+  font_awesome_flutter: ^10.8.0
   characters: 1.4.0
-  collection: 1.18.0
+  collection: ^1.19.1
   vector_math: 2.1.4
   uuid: 3.0.7
   fastforge: 0.5.1
@@ -45,7 +45,7 @@ dependencies:
   table_calendar: 3.2.0
 
 dev_dependencies:
-  build_runner: 2.4.13
+  build_runner: ^2.4.15
   flutter_test:
     sdk: flutter
   flutter_lints: 6.0.0
@@ -55,14 +55,4 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - lib/read/assets/data/akjv.json
-    - lib/read/assets/data/kjv.json
-    - lib/read/assets/data/book.chapters.json
-    - lib/study/assets/data/book.chapters.json    
-    - lib/study/assets/data/kjv-strongs-numbers.json
-    - lib/study/assets/datastrongs-greek-dictionary.json
-    - lib/study/assets/data/strongs-hebrew-dictionary.json
-    - lib/study/assets/data/websters1828dictionary.json
-    - lib/assets/marker.png
-    - lib/assets/app_icon/app_icon.png
     - .env
