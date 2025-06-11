@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:by_faith/features/study/screens/study_notes_screen.dart';
 import 'package:by_faith/features/study/screens/study_search_screen.dart';
 import 'package:by_faith/features/study/screens/study_settings_screen.dart';
+import 'package:by_faith/features/study/screens/study_mapping_screen.dart';
 
 class StudyTabScreen extends StatelessWidget {
   const StudyTabScreen({super.key});
@@ -45,6 +47,17 @@ class StudyTabScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const StudyNotesScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Symbols.network_node),
+              title: const Text('Mapping'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const StudyMappingScreen()),
                 );
               },
             ),
