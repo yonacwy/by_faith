@@ -1269,6 +1269,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.2"
+  reactive_mind_map:
+    dependency: "direct main"
+    description:
+      name: reactive_mind_map
+      sha256: "9f6165957c8d06a4a5fec538e3c829c8ec79c460478f58e201349f1fc79404bd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   recase:
     dependency: transitive
     description:

@@ -43,6 +43,7 @@ dependencies:
   cached_network_image: 3.3.1
   flutter_local_notifications: 19.2.1
   table_calendar: 3.2.0
+  reactive_mind_map: 1.0.2
 
 dev_dependencies:
   build_runner: ^2.4.15
