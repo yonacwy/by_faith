@@ -1,0 +1,6 @@
+targets:
+  by_faith:
+    builders:
+      objectbox_generator:
+        options:
+          output_dir: lib/core/data/data_sources/local

@@ -1,0 +1,72 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:9077208173614620082",
+      "lastPropertyId": "9:2051360467651454776",
+      "name": "GoContact",
+      "properties": [
+        {
+          "id": "1:51495153017569285",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:9200720110178257691",
+          "name": "fullName",
+          "type": 9
+        },
+        {
+          "id": "3:5131360232346431248",
+          "name": "latitude",
+          "type": 8
+        },
+        {
+          "id": "4:6640889400510525567",
+          "name": "longitude",
+          "type": 8
+        },
+        {
+          "id": "5:8168857772514348397",
+          "name": "address",
+          "type": 9
+        },
+        {
+          "id": "6:7524185378735438134",
+          "name": "birthday",
+          "type": 9
+        },
+        {
+          "id": "7:5263109076646214696",
+          "name": "phone",
+          "type": 9
+        },
+        {
+          "id": "8:859315067842534403",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "9:2051360467651454776",
+          "name": "notes",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:9077208173614620082",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

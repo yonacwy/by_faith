@@ -7,6 +7,10 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:by_faith/core/data/data_sources/local/go_map_cache.dart';
+import 'package:by_faith/features/go/screens/go_add_edit_contact_screen.dart';
+import 'package:by_faith/features/go/models/go_model.dart';
+import 'package:by_faith/core/data/data_sources/local/objectbox.dart';
+import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart'; // For StreamBuilder
 
 class GoTabScreen extends StatefulWidget {
   const GoTabScreen({super.key});
@@ -20,11 +24,22 @@ class _GoTabScreenState extends State<GoTabScreen> {
   static const LatLng _initialCenter = LatLng(39.0, -98.0); // Center on the Americas
   bool _isLoading = true;
   TileProvider? _tileProvider;
+  List<Marker> _markers = [];
+  bool _isAddingMarker = false;
 
   @override
   void initState() {
     super.initState();
-    _initializeMapCache();
+    _setupMarkers();
+    goContactsBox.query().watch(triggerImmediately: true).listen((query) {
+      _setupMarkers();
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _initializeMapCache(); // Initialize map cache here
   }
 
   Future<void> _initializeMapCache() async {
@@ -42,6 +57,53 @@ class _GoTabScreenState extends State<GoTabScreen> {
     if (mounted) {
       setState(() {
         _isLoading = false;
+      });
+    }
+  }
+
+  void _setupMarkers() {
+    final List<Marker> newMarkers = [];
+    for (final contact in goContactsBox.getAll()) {
+      if (contact.latitude != null && contact.longitude != null) {
+        newMarkers.add(
+          Marker(
+            point: LatLng(contact.latitude!, contact.longitude!),
+            width: 80.0,
+            height: 80.0,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GoAddEditContactScreen(contact: contact),
+                  ),
+                );
+              },
+              child: Image.asset('lib/features/go/assets/images/marker.png'),
+            ),
+          ),
+        );
+      }
+    }
+    setState(() {
+      _markers = newMarkers;
+    });
+  }
+
+  void _handleMapTap(TapPosition tapPosition, LatLng latLng) {
+    if (_isAddingMarker) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GoAddEditContactScreen(
+            latitude: latLng.latitude,
+            longitude: latLng.longitude,
+          ),
+        ),
+      ).then((_) {
+        setState(() {
+          _isAddingMarker = false; // Reset after returning from add contact screen
+        });
       });
     }
   }
@@ -133,6 +195,7 @@ class _GoTabScreenState extends State<GoTabScreen> {
                 initialZoom: 5.0,
                 minZoom: 2.0,
                 maxZoom: 18.0,
+                onTap: _handleMapTap, // Add onTap callback
               ),
               children: [
                 TileLayer(
@@ -141,14 +204,7 @@ class _GoTabScreenState extends State<GoTabScreen> {
                   tileProvider: _tileProvider ?? NetworkTileProvider(),
                 ),
                 MarkerLayer(
-                  markers: [
-                    Marker(
-                      point: _initialCenter,
-                      width: 80.0,
-                      height: 80.0,
-                      child: Image.asset('lib/features/go/assets/images/marker.png'),
-                    ),
-                  ],
+                  markers: _markers, // Use the dynamic markers list
                 ),
                 RichAttributionWidget(
                   attributions: [
@@ -188,9 +244,18 @@ class _GoTabScreenState extends State<GoTabScreen> {
                       FloatingActionButton(
                         heroTag: "add_marker_fab",
                         onPressed: () {
-                          _mapController.move(_initialCenter, 5.0);
+                          setState(() {
+                            _isAddingMarker = !_isAddingMarker; // Toggle adding marker mode
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(_isAddingMarker
+                                  ? 'Tap on map to place a marker'
+                                  : 'Marker placement mode off'),
+                            ),
+                          );
                         },
-                        child: const Icon(Icons.add_location_alt_outlined),
+                        child: Icon(_isAddingMarker ? Icons.cancel : Icons.add_location_alt_outlined),
                       ),
                     ],
                   ),
