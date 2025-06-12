@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class GoProfileScreen extends StatelessWidget {
-  const GoProfileScreen({super.key});
+class HomeUserProfileScreen extends StatelessWidget {
+  const HomeUserProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Go Profile'),
+        title: const Text('Profile'),
       ),
       body: const Center(
-        child: Text('Go Profile Screen Content'),
+        child: Text('Profile Screen Content'),
       ),
     );
   }

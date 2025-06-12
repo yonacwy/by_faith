@@ -4,61 +4,129 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:9077208173614620082",
-      "lastPropertyId": "9:2051360467651454776",
+      "id": "1:3836900684201653483",
+      "lastPropertyId": "9:6170918920625697576",
       "name": "GoContact",
       "properties": [
         {
-          "id": "1:51495153017569285",
+          "id": "1:2129799799898802935",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:9200720110178257691",
+          "id": "2:1022466354034110592",
           "name": "fullName",
           "type": 9
         },
         {
-          "id": "3:5131360232346431248",
+          "id": "3:8047456950048283744",
           "name": "latitude",
           "type": 8
         },
         {
-          "id": "4:6640889400510525567",
+          "id": "4:638607129387162999",
           "name": "longitude",
           "type": 8
         },
         {
-          "id": "5:8168857772514348397",
+          "id": "5:1696666807424852131",
           "name": "address",
           "type": 9
         },
         {
-          "id": "6:7524185378735438134",
+          "id": "6:5286293869569311756",
           "name": "birthday",
           "type": 9
         },
         {
-          "id": "7:5263109076646214696",
+          "id": "7:3296799045274231238",
           "name": "phone",
           "type": 9
         },
         {
-          "id": "8:859315067842534403",
+          "id": "8:8087026039763638184",
           "name": "email",
           "type": 9
         },
         {
-          "id": "9:2051360467651454776",
+          "id": "9:6170918920625697576",
           "name": "notes",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:87539309607590254",
+      "lastPropertyId": "8:8170994179355428510",
+      "name": "GoMapInfo",
+      "properties": [
+        {
+          "id": "1:2992229009089361253",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:9199056273155101234",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:4820881896309233728",
+          "name": "filePath",
+          "type": 9
+        },
+        {
+          "id": "4:8331004809866588064",
+          "name": "downloadUrl",
+          "type": 9
+        },
+        {
+          "id": "5:2693854043792098286",
+          "name": "isTemporary",
+          "type": 1
+        },
+        {
+          "id": "6:7734808670061162662",
+          "name": "latitude",
+          "type": 8
+        },
+        {
+          "id": "7:6315291923043886499",
+          "name": "longitude",
+          "type": 8
+        },
+        {
+          "id": "8:8170994179355428510",
+          "name": "zoomLevel",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:7899136867862860732",
+      "lastPropertyId": "2:5306431945915742256",
+      "name": "UserPreferences",
+      "properties": [
+        {
+          "id": "1:686690415429032040",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5306431945915742256",
+          "name": "currentMap",
           "type": 9
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "1:9077208173614620082",
+  "lastEntityId": "3:7899136867862860732",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

@@ -9,7 +9,7 @@ import 'package:by_faith/features/read/screens/read_tab_screen.dart';
 import 'package:by_faith/features/study/screens/study_tab_screen.dart';
 import 'package:by_faith/features/go/screens/go_tab_screen.dart';
 
-import 'package:by_faith/core/data/data_sources/local/objectbox.dart';
+import 'package:by_faith/objectbox.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

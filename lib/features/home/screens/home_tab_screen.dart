@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:by_faith/features/home/screens/home_app_info_screen.dart';
-import 'package:by_faith/features/home/screens/home_app_support_screen.dart';
+import 'package:by_faith/features/home/screens/home_info_screen.dart';
+import 'package:by_faith/features/home/screens/home_support_screen.dart';
 import 'package:by_faith/features/home/screens/home_calendar_screen.dart';
 import 'package:by_faith/features/home/screens/home_settings_screen.dart';
+import 'package:by_faith/features/home/screens/home_user_profile_screen.dart';
 
 class HomeTabScreen extends StatelessWidget {
   const HomeTabScreen({super.key});
@@ -40,23 +41,34 @@ class HomeTabScreen extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.info),
-              title: const Text('App Info'),
+              title: const Text('Info'),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomeAppInfoScreen()),
+                  MaterialPageRoute(builder: (context) => const HomeInfoScreen()),
                 );
               },
             ),
             ListTile(
               leading: const Icon(Icons.support_agent),
-              title: const Text('App Support'),
+              title: const Text('Support'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomeAppSupportScreen()),
+                  MaterialPageRoute(builder: (context) => const HomeSupportScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text('Profile'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeUserProfileScreen()),
                 );
               },
             ),

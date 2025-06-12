@@ -14,68 +14,150 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
+import 'core/models/user_preferences_model.dart';
+import 'features/go/models/go_map_info_model.dart';
 import 'features/go/models/go_model.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(1, 9077208173614620082),
+    id: const obx_int.IdUid(1, 3836900684201653483),
     name: 'GoContact',
-    lastPropertyId: const obx_int.IdUid(9, 2051360467651454776),
+    lastPropertyId: const obx_int.IdUid(9, 6170918920625697576),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 51495153017569285),
+        id: const obx_int.IdUid(1, 2129799799898802935),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 9200720110178257691),
+        id: const obx_int.IdUid(2, 1022466354034110592),
         name: 'fullName',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 5131360232346431248),
+        id: const obx_int.IdUid(3, 8047456950048283744),
         name: 'latitude',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 6640889400510525567),
+        id: const obx_int.IdUid(4, 638607129387162999),
         name: 'longitude',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 8168857772514348397),
+        id: const obx_int.IdUid(5, 1696666807424852131),
         name: 'address',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 7524185378735438134),
+        id: const obx_int.IdUid(6, 5286293869569311756),
         name: 'birthday',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(7, 5263109076646214696),
+        id: const obx_int.IdUid(7, 3296799045274231238),
         name: 'phone',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(8, 859315067842534403),
+        id: const obx_int.IdUid(8, 8087026039763638184),
         name: 'email',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(9, 2051360467651454776),
+        id: const obx_int.IdUid(9, 6170918920625697576),
         name: 'notes',
+        type: 9,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(2, 87539309607590254),
+    name: 'GoMapInfo',
+    lastPropertyId: const obx_int.IdUid(8, 8170994179355428510),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 2992229009089361253),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 9199056273155101234),
+        name: 'name',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 4820881896309233728),
+        name: 'filePath',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 8331004809866588064),
+        name: 'downloadUrl',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 2693854043792098286),
+        name: 'isTemporary',
+        type: 1,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 7734808670061162662),
+        name: 'latitude',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 6315291923043886499),
+        name: 'longitude',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 8170994179355428510),
+        name: 'zoomLevel',
+        type: 6,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(3, 7899136867862860732),
+    name: 'UserPreferences',
+    lastPropertyId: const obx_int.IdUid(2, 5306431945915742256),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 686690415429032040),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 5306431945915742256),
+        name: 'currentMap',
         type: 9,
         flags: 0,
       ),
@@ -123,7 +205,7 @@ Future<obx.Store> openStore({
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(1, 9077208173614620082),
+    lastEntityId: const obx_int.IdUid(3, 7899136867862860732),
     lastIndexId: const obx_int.IdUid(0, 0),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
@@ -220,6 +302,124 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
+    GoMapInfo: obx_int.EntityDefinition<GoMapInfo>(
+      model: _entities[1],
+      toOneRelations: (GoMapInfo object) => [],
+      toManyRelations: (GoMapInfo object) => {},
+      getId: (GoMapInfo object) => object.id,
+      setId: (GoMapInfo object, int id) {
+        object.id = id;
+      },
+      objectToFB: (GoMapInfo object, fb.Builder fbb) {
+        final nameOffset = fbb.writeString(object.name);
+        final filePathOffset = object.filePath == null
+            ? null
+            : fbb.writeString(object.filePath!);
+        final downloadUrlOffset = object.downloadUrl == null
+            ? null
+            : fbb.writeString(object.downloadUrl!);
+        fbb.startTable(9);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, nameOffset);
+        fbb.addOffset(2, filePathOffset);
+        fbb.addOffset(3, downloadUrlOffset);
+        fbb.addBool(4, object.isTemporary);
+        fbb.addFloat64(5, object.latitude);
+        fbb.addFloat64(6, object.longitude);
+        fbb.addInt64(7, object.zoomLevel);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final nameParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final filePathParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 8);
+        final downloadUrlParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 10);
+        final isTemporaryParam = const fb.BoolReader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          12,
+        );
+        final latitudeParam = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          14,
+        );
+        final longitudeParam = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          16,
+        );
+        final zoomLevelParam = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          18,
+        );
+        final object = GoMapInfo(
+          id: idParam,
+          name: nameParam,
+          filePath: filePathParam,
+          downloadUrl: downloadUrlParam,
+          isTemporary: isTemporaryParam,
+          latitude: latitudeParam,
+          longitude: longitudeParam,
+          zoomLevel: zoomLevelParam,
+        );
+
+        return object;
+      },
+    ),
+    UserPreferences: obx_int.EntityDefinition<UserPreferences>(
+      model: _entities[2],
+      toOneRelations: (UserPreferences object) => [],
+      toManyRelations: (UserPreferences object) => {},
+      getId: (UserPreferences object) => object.id,
+      setId: (UserPreferences object, int id) {
+        object.id = id;
+      },
+      objectToFB: (UserPreferences object, fb.Builder fbb) {
+        final currentMapOffset = object.currentMap == null
+            ? null
+            : fbb.writeString(object.currentMap!);
+        fbb.startTable(3);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, currentMapOffset);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final currentMapParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 6);
+        final object = UserPreferences(
+          id: idParam,
+          currentMap: currentMapParam,
+        );
+
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -270,5 +470,61 @@ class GoContact_ {
   /// See [GoContact.notes].
   static final notes = obx.QueryStringProperty<GoContact>(
     _entities[0].properties[8],
+  );
+}
+
+/// [GoMapInfo] entity fields to define ObjectBox queries.
+class GoMapInfo_ {
+  /// See [GoMapInfo.id].
+  static final id = obx.QueryIntegerProperty<GoMapInfo>(
+    _entities[1].properties[0],
+  );
+
+  /// See [GoMapInfo.name].
+  static final name = obx.QueryStringProperty<GoMapInfo>(
+    _entities[1].properties[1],
+  );
+
+  /// See [GoMapInfo.filePath].
+  static final filePath = obx.QueryStringProperty<GoMapInfo>(
+    _entities[1].properties[2],
+  );
+
+  /// See [GoMapInfo.downloadUrl].
+  static final downloadUrl = obx.QueryStringProperty<GoMapInfo>(
+    _entities[1].properties[3],
+  );
+
+  /// See [GoMapInfo.isTemporary].
+  static final isTemporary = obx.QueryBooleanProperty<GoMapInfo>(
+    _entities[1].properties[4],
+  );
+
+  /// See [GoMapInfo.latitude].
+  static final latitude = obx.QueryDoubleProperty<GoMapInfo>(
+    _entities[1].properties[5],
+  );
+
+  /// See [GoMapInfo.longitude].
+  static final longitude = obx.QueryDoubleProperty<GoMapInfo>(
+    _entities[1].properties[6],
+  );
+
+  /// See [GoMapInfo.zoomLevel].
+  static final zoomLevel = obx.QueryIntegerProperty<GoMapInfo>(
+    _entities[1].properties[7],
+  );
+}
+
+/// [UserPreferences] entity fields to define ObjectBox queries.
+class UserPreferences_ {
+  /// See [UserPreferences.id].
+  static final id = obx.QueryIntegerProperty<UserPreferences>(
+    _entities[2].properties[0],
+  );
+
+  /// See [UserPreferences.currentMap].
+  static final currentMap = obx.QueryStringProperty<UserPreferences>(
+    _entities[2].properties[1],
   );
 }

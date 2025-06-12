@@ -3,7 +3,7 @@ import 'package:flutter_quill_extensions/flutter_quill_extensions.dart' as quill
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:by_faith/features/go/models/go_model.dart';
-import 'package:by_faith/core/data/data_sources/local/objectbox.dart';
+import 'package:by_faith/objectbox.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import 'package:file_picker/file_picker.dart';
