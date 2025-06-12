@@ -3,7 +3,7 @@ import 'package:objectbox/objectbox.dart';
 @Entity()
 class GoMapInfo {
   @Id()
-  int id = 1;
+  int id = 0;
 
   String name;
   String? filePath;
@@ -14,7 +14,7 @@ class GoMapInfo {
   int? zoomLevel;
 
   GoMapInfo({
-    this.id = 1,
+    this.id = 0,
     required this.name,
     required this.filePath,
     required this.downloadUrl,

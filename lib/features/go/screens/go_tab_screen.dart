@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:by_faith/features/go/screens/go_contacts_screen.dart';
 import 'package:by_faith/features/go/screens/go_offline_maps_screen.dart';
+import 'package:by_faith/features/go/screens/go_churches_screen.dart';
+import 'package:by_faith/features/go/screens/go_ministries_screen.dart';
 import 'package:by_faith/features/go/screens/go_select_map_area_screen.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart' as fmtc;
 import 'package:by_faith/core/data/data_sources/local/go_map_cache.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_contact_screen.dart';
+import 'package:by_faith/features/go/screens/go_add_edit_church_screen.dart';
+import 'package:by_faith/features/go/screens/go_add_edit_ministry_screen.dart';
 import 'package:by_faith/features/go/models/go_model.dart';
 import 'package:by_faith/objectbox.dart';
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart'; // For StreamBuilder
@@ -56,6 +60,12 @@ class _GoTabScreenState extends State<GoTabScreen> {
         });
       }
       goContactsBox.query().watch(triggerImmediately: true).listen((query) {
+        _setupMarkers();
+      });
+      goChurchesBox.query().watch(triggerImmediately: true).listen((query) {
+        _setupMarkers();
+      });
+      goMinistriesBox.query().watch(triggerImmediately: true).listen((query) {
         _setupMarkers();
       });
     });
@@ -311,7 +321,51 @@ class _GoTabScreenState extends State<GoTabScreen> {
                   ),
                 );
               },
-              child: Image.asset('lib/features/go/assets/images/marker.png'),
+              child: Image.asset('lib/features/go/assets/images/marker_person.png'),
+            ),
+          ),
+        );
+      }
+    }
+    for (final church in goChurchesBox.getAll()) {
+      if (church.latitude != null && church.longitude != null) {
+        newMarkers.add(
+          Marker(
+            point: LatLng(church.latitude!, church.longitude!),
+            width: 80.0,
+            height: 80.0,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GoAddEditChurchScreen(church: church),
+                  ),
+                );
+              },
+              child: Image.asset('lib/features/go/assets/images/marker_church.png'), // Use a different marker for churches
+            ),
+          ),
+        );
+      }
+    }
+    for (final ministry in goMinistriesBox.getAll()) {
+      if (ministry.latitude != null && ministry.longitude != null) {
+        newMarkers.add(
+          Marker(
+            point: LatLng(ministry.latitude!, ministry.longitude!),
+            width: 80.0,
+            height: 80.0,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GoAddEditMinistryScreen(ministry: ministry),
+                  ),
+                );
+              },
+              child: Image.asset('lib/features/go/assets/images/marker_ministry.png'), // Use a different marker for ministries
             ),
           ),
         );
@@ -324,19 +378,7 @@ class _GoTabScreenState extends State<GoTabScreen> {
 
   void _handleMapTap(TapPosition tapPosition, LatLng latLng) {
     if (_isAddingMarker) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => GoAddEditContactScreen(
-            latitude: latLng.latitude,
-            longitude: latLng.longitude,
-          ),
-        ),
-      ).then((_) {
-        setState(() {
-          _isAddingMarker = false; // Reset after returning from add contact screen
-        });
-      });
+      _showAddMarkerOptions(latLng);
     }
   }
 
@@ -362,14 +404,14 @@ class _GoTabScreenState extends State<GoTabScreen> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
+                color: Colors.red[900],
               ),
               child: Text(
                 'Go Menu',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
               ),
             ),
             ListTile(
@@ -381,6 +423,24 @@ class _GoTabScreenState extends State<GoTabScreen> {
               leading: const Icon(Icons.map),
               title: const Text('Offline Maps'),
               onTap: _showOfflineMaps,
+            ),
+            ListTile(
+              leading: const Icon(Icons.church),
+              title: const Text('Churches'),
+              onTap: _showChurches,
+            ),
+            ListTile(
+              leading: const Icon(Icons.people),
+              title: const Text('Ministries'),
+              onTap: _showMinistries,
+            ),
+            ListTile(
+              leading: const Icon(Icons.add_location_alt_outlined),
+              title: const Text('Add Marker'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                _startAddingMarker();
+              },
             ),
           ],
         ),
@@ -485,35 +545,123 @@ class _GoTabScreenState extends State<GoTabScreen> {
   void _startAddingMarker() {
     if (_isDisposed || !mounted) return;
     setState(() {
-      _isAddingMarker = true;
+      _isAddingMarker = !_isAddingMarker; // Toggle the state
     });
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Tap on map to place a marker')),
+    if (_isAddingMarker) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Tap on the map to add a marker.')),
+      );
+    }
+  }
+
+  void _showAddMarkerOptions(LatLng latLng) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.person),
+                title: const Text('Add Contact'),
+                onTap: () {
+                  Navigator.pop(context); // Close the bottom sheet
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GoAddEditContactScreen(
+                        latitude: latLng.latitude,
+                        longitude: latLng.longitude,
+                      ),
+                    ),
+                  ).then((_) {
+                    setState(() {
+                      _isAddingMarker = false;
+                    });
+                  });
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.church),
+                title: const Text('Add Church'),
+                onTap: () {
+                  Navigator.pop(context); // Close the bottom sheet
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GoAddEditChurchScreen(
+                        latitude: latLng.latitude,
+                        longitude: latLng.longitude,
+                      ),
+                    ),
+                  ).then((_) {
+                    setState(() {
+                      _isAddingMarker = false;
+                    });
+                  });
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.people),
+                title: const Text('Add Ministry'),
+                onTap: () {
+                  Navigator.pop(context); // Close the bottom sheet
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GoAddEditMinistryScreen(
+                        latitude: latLng.latitude,
+                        longitude: latLng.longitude,
+                      ),
+                    ),
+                  ).then((_) {
+                    setState(() {
+                      _isAddingMarker = false;
+                    });
+                  });
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showChurches() {
+    if (_isDisposed || !mounted) return;
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const GoChurchesScreen(),
+      ),
+    );
+  }
+
+  void _showMinistries() {
+    if (_isDisposed || !mounted) return;
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const GoMinistriesScreen(),
+      ),
     );
   }
 
   void zoomIn() {
-    if (_isDisposed || !mounted) return;
-    final newZoom = (_mapController.camera.zoom + 1).clamp(2.0, 20.0);
-    _mapController.move(_currentCenter, newZoom);
-    setState(() {
-      _currentZoom = newZoom;
-    });
+    _mapController.move(_mapController.camera.center, _mapController.camera.zoom + 1);
   }
 
   void zoomOut() {
-    if (_isDisposed || !mounted) return;
-    final newZoom = (_mapController.camera.zoom - 1).clamp(2.0, 20.0);
-    _mapController.move(_currentCenter, newZoom);
-    setState(() {
-      _currentZoom = newZoom;
-    });
+    _mapController.move(_mapController.camera.center, _mapController.camera.zoom - 1);
   }
 
   @override
   void dispose() {
     _isDisposed = true;
-    goContactsBox.query().watch(triggerImmediately: true).listen((query) {}).cancel(); // Cancel the listener
     _mapController.dispose();
     super.dispose();
   }

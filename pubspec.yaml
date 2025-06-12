@@ -63,7 +63,9 @@ flutter:
   generate: true
   assets:
     - .env
-    - lib/features/go/assets/images/marker.png
+    - lib/features/go/assets/images/marker_person.png
+    - lib/features/go/assets/images/marker_church.png
+    - lib/features/go/assets/images/marker_ministry.png
 
 localization:
   arb-dir: lib/app/l10n

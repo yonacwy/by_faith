@@ -4,53 +4,53 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:3836900684201653483",
-      "lastPropertyId": "9:6170918920625697576",
-      "name": "GoContact",
+      "id": "1:5350016023309546907",
+      "lastPropertyId": "9:1298379684831929308",
+      "name": "GoChurch",
       "properties": [
         {
-          "id": "1:2129799799898802935",
+          "id": "1:6357958379181956922",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:1022466354034110592",
-          "name": "fullName",
+          "id": "2:6935351593356037256",
+          "name": "churchName",
           "type": 9
         },
         {
-          "id": "3:8047456950048283744",
-          "name": "latitude",
-          "type": 8
+          "id": "3:589429986410284512",
+          "name": "pastorName",
+          "type": 9
         },
         {
-          "id": "4:638607129387162999",
-          "name": "longitude",
-          "type": 8
-        },
-        {
-          "id": "5:1696666807424852131",
+          "id": "4:265351620501000022",
           "name": "address",
           "type": 9
         },
         {
-          "id": "6:5286293869569311756",
-          "name": "birthday",
-          "type": 9
-        },
-        {
-          "id": "7:3296799045274231238",
+          "id": "5:4035958085859759027",
           "name": "phone",
           "type": 9
         },
         {
-          "id": "8:8087026039763638184",
+          "id": "6:1817913557413862187",
           "name": "email",
           "type": 9
         },
         {
-          "id": "9:6170918920625697576",
+          "id": "7:580089587305992488",
+          "name": "latitude",
+          "type": 8
+        },
+        {
+          "id": "8:1607823915575230605",
+          "name": "longitude",
+          "type": 8
+        },
+        {
+          "id": "9:1298379684831929308",
           "name": "notes",
           "type": 9
         }
@@ -58,48 +58,102 @@
       "relations": []
     },
     {
-      "id": "2:87539309607590254",
-      "lastPropertyId": "8:8170994179355428510",
-      "name": "GoMapInfo",
+      "id": "2:7250186927962936190",
+      "lastPropertyId": "9:1785129971405111623",
+      "name": "GoContact",
       "properties": [
         {
-          "id": "1:2992229009089361253",
+          "id": "1:8925175012142009401",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:9199056273155101234",
-          "name": "name",
+          "id": "2:4750513567222676102",
+          "name": "fullName",
           "type": 9
         },
         {
-          "id": "3:4820881896309233728",
-          "name": "filePath",
-          "type": 9
-        },
-        {
-          "id": "4:8331004809866588064",
-          "name": "downloadUrl",
-          "type": 9
-        },
-        {
-          "id": "5:2693854043792098286",
-          "name": "isTemporary",
-          "type": 1
-        },
-        {
-          "id": "6:7734808670061162662",
+          "id": "3:6447560359044426054",
           "name": "latitude",
           "type": 8
         },
         {
-          "id": "7:6315291923043886499",
+          "id": "4:2633735341133375452",
           "name": "longitude",
           "type": 8
         },
         {
-          "id": "8:8170994179355428510",
+          "id": "5:8940692975734396540",
+          "name": "address",
+          "type": 9
+        },
+        {
+          "id": "6:1365142456165448530",
+          "name": "birthday",
+          "type": 9
+        },
+        {
+          "id": "7:5772086395796534197",
+          "name": "phone",
+          "type": 9
+        },
+        {
+          "id": "8:1028193774484305196",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "9:1785129971405111623",
+          "name": "notes",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:4392967218454196711",
+      "lastPropertyId": "8:7699948360459118671",
+      "name": "GoMapInfo",
+      "properties": [
+        {
+          "id": "1:5200240097147001010",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3661023731097816668",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:5778188883361345371",
+          "name": "filePath",
+          "type": 9
+        },
+        {
+          "id": "4:3958523109249675695",
+          "name": "downloadUrl",
+          "type": 9
+        },
+        {
+          "id": "5:4015781672955967240",
+          "name": "isTemporary",
+          "type": 1
+        },
+        {
+          "id": "6:4262729499330904879",
+          "name": "latitude",
+          "type": 8
+        },
+        {
+          "id": "7:7829480290863092465",
+          "name": "longitude",
+          "type": 8
+        },
+        {
+          "id": "8:7699948360459118671",
           "name": "zoomLevel",
           "type": 6
         }
@@ -107,18 +161,72 @@
       "relations": []
     },
     {
-      "id": "3:7899136867862860732",
-      "lastPropertyId": "2:5306431945915742256",
-      "name": "UserPreferences",
+      "id": "4:7352407617121361936",
+      "lastPropertyId": "9:4713549497845143613",
+      "name": "GoMinistry",
       "properties": [
         {
-          "id": "1:686690415429032040",
+          "id": "1:7575091609649622915",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:5306431945915742256",
+          "id": "2:210403764312498059",
+          "name": "ministryName",
+          "type": 9
+        },
+        {
+          "id": "3:3920448805048701642",
+          "name": "contactName",
+          "type": 9
+        },
+        {
+          "id": "4:1619083126971628999",
+          "name": "address",
+          "type": 9
+        },
+        {
+          "id": "5:3781324015766128352",
+          "name": "phone",
+          "type": 9
+        },
+        {
+          "id": "6:291994059304922824",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "7:5797902032508838181",
+          "name": "latitude",
+          "type": 8
+        },
+        {
+          "id": "8:7510084318023346372",
+          "name": "longitude",
+          "type": 8
+        },
+        {
+          "id": "9:4713549497845143613",
+          "name": "notes",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:8366639292166459463",
+      "lastPropertyId": "2:1515756660950378899",
+      "name": "UserPreferences",
+      "properties": [
+        {
+          "id": "1:1704793108614317608",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1515756660950378899",
           "name": "currentMap",
           "type": 9
         }
@@ -126,7 +234,7 @@
       "relations": []
     }
   ],
-  "lastEntityId": "3:7899136867862860732",
+  "lastEntityId": "5:8366639292166459463",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

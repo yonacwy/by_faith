@@ -11,6 +11,8 @@ import 'dart:io';
 
 late Store store;
 late Box<GoContact> goContactsBox;
+late Box<GoChurch> goChurchesBox;
+late Box<GoMinistry> goMinistriesBox;
 late Box<GoMapInfo> goMapInfoBox;
 late Box<UserPreferences> userPreferencesBox;
 
@@ -24,6 +26,8 @@ Future<void> setupObjectBox() async {
     // Initialize ObjectBox store
     store = await openStore(directory: objectBoxDir);
     goContactsBox = store.box<GoContact>();
+    goChurchesBox = store.box<GoChurch>();
+    goMinistriesBox = store.box<GoMinistry>();
     goMapInfoBox = store.box<GoMapInfo>();
     userPreferencesBox = store.box<UserPreferences>();
 

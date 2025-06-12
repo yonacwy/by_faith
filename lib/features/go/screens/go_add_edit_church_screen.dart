@@ -4,31 +4,29 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:by_faith/features/go/models/go_model.dart';
 import 'package:by_faith/objectbox.dart';
-import 'package:intl/intl.dart';
-import 'package:uuid/uuid.dart';
 import 'package:file_picker/file_picker.dart';
 
-class GoAddEditContactScreen extends StatefulWidget {
-  final GoContact? contact;
+class GoAddEditChurchScreen extends StatefulWidget {
+  final GoChurch? church;
   final double? latitude;
   final double? longitude;
 
-  const GoAddEditContactScreen({
+  const GoAddEditChurchScreen({
     super.key,
-    this.contact,
+    this.church,
     this.latitude,
     this.longitude,
   });
 
   @override
-  State<GoAddEditContactScreen> createState() => _GoAddEditContactScreenState();
+  State<GoAddEditChurchScreen> createState() => _GoAddEditChurchScreenState();
 }
 
-class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
+class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _fullNameController = TextEditingController();
+  final _churchNameController = TextEditingController();
+  final _pastorNameController = TextEditingController();
   final _addressController = TextEditingController();
-  final _birthdayController = TextEditingController();
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _latitudeController = TextEditingController();
@@ -41,21 +39,20 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    _isEditing = widget.contact != null;
+    _isEditing = widget.church != null;
     if (_isEditing) {
-      _fullNameController.text = widget.contact!.fullName;
-      _addressController.text = widget.contact!.address ?? '';
-      _birthdayController.text = widget.contact!.birthday ?? '';
-      _phoneController.text = widget.contact!.phone ?? '';
-      _emailController.text = widget.contact!.email ?? '';
-      _latitudeController.text = widget.contact!.latitude?.toString() ?? '';
-      _longitudeController.text = widget.contact!.longitude?.toString() ?? '';
-      if (widget.contact!.notes != null) {
+      _churchNameController.text = widget.church!.churchName;
+      _pastorNameController.text = widget.church!.pastorName ?? '';
+      _addressController.text = widget.church!.address ?? '';
+      _phoneController.text = widget.church!.phone ?? '';
+      _emailController.text = widget.church!.email ?? '';
+      _latitudeController.text = widget.church!.latitude?.toString() ?? '';
+      _longitudeController.text = widget.church!.longitude?.toString() ?? '';
+      if (widget.church!.notes != null && widget.church!.notes!.isNotEmpty) {
         try {
-          _notesController.document = quill.Document.fromJson(jsonDecode(widget.contact!.notes!));
+          _notesController.document = quill.Document.fromJson(jsonDecode(widget.church!.notes!));
         } catch (e) {
-          // Fallback for malformed JSON or plain text notes
-          _notesController.document = quill.Document()..insert(0, widget.contact!.notes!);
+          _notesController.document = quill.Document()..insert(0, widget.church!.notes!);
         }
       }
     } else {
@@ -66,29 +63,16 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
 
   @override
   void dispose() {
-    _fullNameController.dispose();
+    _churchNameController.dispose();
+    _pastorNameController.dispose();
     _addressController.dispose();
-    _birthdayController.dispose();
     _phoneController.dispose();
     _emailController.dispose();
     _latitudeController.dispose();
     _longitudeController.dispose();
     _notesController.dispose();
+    _scrollController.dispose();
     super.dispose();
-  }
-
-  Future<void> _pickBirthday() async {
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    if (pickedDate != null) {
-      setState(() {
-        _birthdayController.text = DateFormat.yMMMd().format(pickedDate);
-      });
-    }
   }
 
   Future<String?> _pickImage(BuildContext context) async {
@@ -100,15 +84,15 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
     if (result != null && result.files.single.path != null) {
       return result.files.single.path!;
     }
-    return null; // Return null if no image is selected
+    return null;
   }
 
-  void _saveContact() {
+  void _saveChurch() {
     if (_formKey.currentState!.validate()) {
-      final newContact = GoContact(
-        fullName: _fullNameController.text,
+      final newChurch = GoChurch(
+        churchName: _churchNameController.text,
+        pastorName: _pastorNameController.text.isNotEmpty ? _pastorNameController.text : null,
         address: _addressController.text.isNotEmpty ? _addressController.text : null,
-        birthday: _birthdayController.text.isNotEmpty ? _birthdayController.text : null,
         phone: _phoneController.text.isNotEmpty ? _phoneController.text : null,
         email: _emailController.text.isNotEmpty ? _emailController.text : null,
         latitude: double.tryParse(_latitudeController.text),
@@ -116,17 +100,16 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
         notes: jsonEncode(_notesController.document.toDelta().toJson()),
       );
 
-      // If editing, assign the existing ID to the newContact object
       if (_isEditing) {
-        newContact.id = widget.contact!.id;
+        newChurch.id = widget.church!.id;
       }
 
-      goContactsBox.put(newContact);
+      goChurchesBox.put(newChurch);
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(_isEditing ? 'Contact updated!' : 'Contact added!')),
+        SnackBar(content: Text(_isEditing ? 'Church updated!' : 'Church added!')),
       );
-      Navigator.pop(context); // Go back to contacts list
+      Navigator.pop(context);
     }
   }
 
@@ -134,11 +117,11 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? 'Edit Contact' : 'Add Contact'),
+        title: Text(_isEditing ? 'Edit Church' : 'Add Church'),
         actions: [
           IconButton(
             icon: const Icon(Icons.save),
-            onPressed: _saveContact,
+            onPressed: _saveChurch,
           ),
         ],
       ),
@@ -150,20 +133,28 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Personal Information', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                const Text('Church Information', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
                 TextFormField(
-                  controller: _fullNameController,
+                  controller: _churchNameController,
                   decoration: const InputDecoration(
-                    labelText: 'Full Name',
+                    labelText: 'Church Name',
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter a full name';
+                      return 'Please enter a church name';
                     }
                     return null;
                   },
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _pastorNameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Pastor Name (Optional)',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
@@ -178,16 +169,6 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                     }
                     return null;
                   },
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _birthdayController,
-                  readOnly: true,
-                  onTap: _pickBirthday,
-                  decoration: const InputDecoration(
-                    labelText: 'Birthday (Optional)',
-                    border: OutlineInputBorder(),
-                  ),
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
@@ -261,16 +242,13 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                 const SizedBox(height: 24),
                 const Text('Notes', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: quill.QuillSimpleToolbar(
-                    controller: _notesController,
-                    config: quill.QuillSimpleToolbarConfig(
-                      embedButtons: quill_extensions.FlutterQuillEmbeds.toolbarButtons(
-                        imageButtonOptions: quill_extensions.QuillToolbarImageButtonOptions(
-                          imageButtonConfig: quill_extensions.QuillToolbarImageConfig(
-                            onRequestPickImage: _pickImage,
-                          ),
+                quill.QuillSimpleToolbar(
+                  controller: _notesController,
+                  config: quill.QuillSimpleToolbarConfig(
+                    embedButtons: quill_extensions.FlutterQuillEmbeds.toolbarButtons(
+                      imageButtonOptions: quill_extensions.QuillToolbarImageButtonOptions(
+                        imageButtonConfig: quill_extensions.QuillToolbarImageConfig(
+                          onRequestPickImage: _pickImage,
                         ),
                       ),
                     ),
@@ -298,8 +276,8 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                 const SizedBox(height: 24),
                 Center(
                   child: ElevatedButton(
-                    onPressed: _saveContact,
-                    child: const Text('Save Contact'),
+                    onPressed: _saveChurch,
+                    child: const Text('Save Church'),
                   ),
                 ),
               ],

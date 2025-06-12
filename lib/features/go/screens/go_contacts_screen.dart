@@ -99,8 +99,10 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (contact.latitude != null && contact.longitude != null)
-                        Text('Map: Lat ${contact.latitude!.toStringAsFixed(4)}, Lon ${contact.longitude!.toStringAsFixed(4)}'),
+                      if (contact.phone != null && contact.phone!.isNotEmpty)
+                        Text('Phone: ${contact.phone}'),
+                      if (contact.email != null && contact.email!.isNotEmpty)
+                        Text('Email: ${contact.email}'),
                       if (contact.address != null && contact.address!.isNotEmpty)
                         Text('Address: ${contact.address}'),
                     ],

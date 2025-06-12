@@ -27,9 +27,9 @@ class HomeTabScreen extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const DrawerHeader(
+            DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.deepPurple,
+                color: Colors.red[900],
               ),
               child: Text(
                 'Home Menu',

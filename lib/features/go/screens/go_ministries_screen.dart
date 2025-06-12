@@ -1,0 +1,161 @@
+import 'package:flutter/material.dart';
+import 'package:by_faith/features/go/models/go_model.dart';
+import 'package:by_faith/objectbox.dart';
+import 'package:by_faith/features/go/screens/go_add_edit_ministry_screen.dart';
+import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
+import 'dart:convert';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
+
+class GoMinistriesScreen extends StatefulWidget {
+  const GoMinistriesScreen({super.key});
+
+  @override
+  State<GoMinistriesScreen> createState() => _GoMinistriesScreenState();
+}
+
+class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
+  void _navigateToAddMinistry() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const GoAddEditMinistryScreen()),
+    );
+  }
+
+  void _navigateToEditMinistry(GoMinistry ministry) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => GoAddEditMinistryScreen(ministry: ministry)),
+    );
+  }
+
+  void _deleteMinistry(GoMinistry ministry) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Ministry'),
+        content: Text('Are you sure you want to delete ${ministry.ministryName}?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              goMinistriesBox.remove(ministry.id);
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Ministry ${ministry.ministryName} deleted')),
+              );
+            },
+            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Go Ministries'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: _navigateToAddMinistry,
+            tooltip: 'Add Ministry',
+          ),
+        ],
+      ),
+      body: StreamBuilder<List<GoMinistry>>(
+        stream: goMinistriesBox == null
+            ? Stream.value([])
+            : goMinistriesBox.query().watch(triggerImmediately: true).map((query) => query.find()),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No ministries added yet.'));
+          }
+
+          final ministries = snapshot.data!;
+          return ListView.builder(
+            padding: const EdgeInsets.all(16.0),
+            itemCount: ministries.length,
+            itemBuilder: (context, index) {
+              final ministry = ministries[index];
+              return Card(
+                margin: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ExpansionTile(
+                  leading: const CircleAvatar(
+                    child: Icon(Icons.people),
+                  ),
+                  title: Text(
+                    ministry.ministryName,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (ministry.contactName != null && ministry.contactName!.isNotEmpty)
+                        Text('Contact: ${ministry.contactName}'),
+                      if (ministry.phone != null && ministry.phone!.isNotEmpty)
+                        Text('Phone: ${ministry.phone}'),
+                      if (ministry.email != null && ministry.email!.isNotEmpty)
+                        Text('Email: ${ministry.email}'),
+                      if (ministry.address != null && ministry.address!.isNotEmpty)
+                        Text('Address: ${ministry.address}'),
+                    ],
+                  ),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (ministry.phone != null && ministry.phone!.isNotEmpty)
+                            Text('Phone: ${ministry.phone}'),
+                          if (ministry.email != null && ministry.email!.isNotEmpty)
+                            Text('Email: ${ministry.email}'),
+                          if (ministry.notes != null && ministry.notes!.isNotEmpty) ...[
+                            const SizedBox(height: 16),
+                            const Text('Notes:', style: TextStyle(fontWeight: FontWeight.bold)),
+                            quill.QuillEditor.basic(
+                              controller: quill.QuillController(
+                                document: quill.Document.fromJson(jsonDecode(ministry.notes!)),
+                                selection: const TextSelection.collapsed(offset: 0),
+                                readOnly: true,
+                              ),
+                            ),
+                          ],
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit, color: Colors.blue),
+                                  onPressed: () => _navigateToEditMinistry(ministry),
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete, color: Colors.red),
+                                  onPressed: () => _deleteMinistry(ministry),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
