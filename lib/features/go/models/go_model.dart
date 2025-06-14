@@ -13,6 +13,7 @@ class GoContact {
   String? phone;
   String? email;
   String? notes;
+  bool isVisited;
 
   GoContact({
     this.id = 0,
@@ -24,6 +25,7 @@ class GoContact {
     this.phone,
     this.email,
     this.notes,
+    this.isVisited = false,
   });
 }
 

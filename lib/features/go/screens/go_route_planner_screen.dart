@@ -3,7 +3,6 @@ import 'package:by_faith/features/go/models/go_route_models.dart';
 import 'package:by_faith/objectbox.dart';
 import 'package:by_faith/features/go/screens/go_tab_screen.dart';
 import 'package:objectbox/objectbox.dart';
-import 'package:by_faith/objectbox.g.dart';
 
 class GoRoutePlannerScreen extends StatefulWidget {
   const GoRoutePlannerScreen({super.key});
@@ -15,20 +14,20 @@ class GoRoutePlannerScreen extends StatefulWidget {
 class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
   late Box<GoArea> _areaBox;
   late Box<GoStreet> _streetBox;
-  late Box<GoTag> _tagBox;
+  late Box<GoZone> _zoneBox;
 
   @override
   void initState() {
     super.initState();
     _areaBox = store.box<GoArea>();
     _streetBox = store.box<GoStreet>();
-    _tagBox = store.box<GoTag>();
+    _zoneBox = store.box<GoZone>();
   }
 
   void _showRouteSelection() {
     showModalBottomSheet(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return SafeArea(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -50,11 +49,11 @@ class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.tag),
-                title: const Text('Add Tag'),
+                leading: const Icon(Icons.analytics),
+                title: const Text('Add Zone'),
                 onTap: () {
                   Navigator.pop(context);
-                  _navigateToMapScreen('Tag');
+                  _navigateToMapScreen('Zone');
                 },
               ),
             ],
@@ -84,8 +83,8 @@ class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
         _areaBox.remove(id);
       } else if (type == 'Street') {
         _streetBox.remove(id);
-      } else if (type == 'Tag') {
-        _tagBox.remove(id);
+      } else if (type == 'Zone') {
+        _zoneBox.remove(id);
       }
       setState(() {});
     } catch (error) {
@@ -103,7 +102,7 @@ class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
         title: Text('Rename $type'),
         content: TextField(
           controller: controller,
-          decoration: InputDecoration(hintText: 'Enter new name'),
+          decoration: const InputDecoration(hintText: 'Enter new name'),
         ),
         actions: [
           TextButton(
@@ -119,17 +118,23 @@ class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
     );
 
     if (result != null && result.isNotEmpty) {
-      if (type == 'Area') {
-        item.name = result;
-        _areaBox.put(item as GoArea);
-      } else if (type == 'Street') {
-        item.name = result;
-        _streetBox.put(item as GoStreet);
-      } else if (type == 'Tag') {
-        item.name = result;
-        _tagBox.put(item as GoTag);
+      try {
+        if (type == 'Area') {
+          item.name = result;
+          _areaBox.put(item as GoArea);
+        } else if (type == 'Street') {
+          item.name = result;
+          _streetBox.put(item as GoStreet);
+        } else if (type == 'Zone') {
+          item.name = result;
+          _zoneBox.put(item as GoZone);
+        }
+        setState(() {});
+      } catch (error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to rename $type: $error')),
+        );
       }
-      setState(() {});
     }
   }
 
@@ -186,41 +191,27 @@ class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
                   StreamBuilder<List<GoArea>>(
                     stream: _areaBox.query().watch(triggerImmediately: true).map((query) => query.find()),
                     builder: (context, snapshot) {
-                      print('Area StreamBuilder: connectionState=${snapshot.connectionState}, hasData=${snapshot.hasData}, dataLength=${snapshot.data?.length}');
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
                       }
                       if (!snapshot.hasData || snapshot.data!.isEmpty) {
                         return const Center(child: Text('No areas added yet.'));
                       }
-                      final areas = snapshot.data!;
                       return ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: areas.length,
+                        itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
-                          final area = areas[index];
+                          final area = snapshot.data![index];
                           return ListTile(
                             title: Text(area.name),
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Area', area),
                               itemBuilder: (context) => [
-                                const PopupMenuItem(
-                                  value: 'view',
-                                  child: Text('View'),
-                                ),
-                                const PopupMenuItem(
-                                  value: 'edit',
-                                  child: Text('Edit'),
-                                ),
-                                const PopupMenuItem(
-                                  value: 'rename',
-                                  child: Text('Rename'),
-                                ),
-                                const PopupMenuItem(
-                                  value: 'delete',
-                                  child: Text('Delete'),
-                                ),
+                                const PopupMenuItem(value: 'view', child: Text('View')),
+                                const PopupMenuItem(value: 'edit', child: Text('Edit')),
+                                const PopupMenuItem(value: 'rename', child: Text('Rename')),
+                                const PopupMenuItem(value: 'delete', child: Text('Delete')),
                               ],
                             ),
                           );
@@ -240,41 +231,27 @@ class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
                   StreamBuilder<List<GoStreet>>(
                     stream: _streetBox.query().watch(triggerImmediately: true).map((query) => query.find()),
                     builder: (context, snapshot) {
-                      print('Street StreamBuilder: connectionState=${snapshot.connectionState}, hasData=${snapshot.hasData}, dataLength=${snapshot.data?.length}');
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
                       }
                       if (!snapshot.hasData || snapshot.data!.isEmpty) {
                         return const Center(child: Text('No streets added yet.'));
                       }
-                      final streets = snapshot.data!;
                       return ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: streets.length,
+                        itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
-                          final street = streets[index];
+                          final street = snapshot.data![index];
                           return ListTile(
                             title: Text(street.name),
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Street', street),
                               itemBuilder: (context) => [
-                                const PopupMenuItem(
-                                  value: 'view',
-                                  child: Text('View'),
-                                ),
-                                const PopupMenuItem(
-                                  value: 'edit',
-                                  child: Text('Edit'),
-                                ),
-                                const PopupMenuItem(
-                                  value: 'rename',
-                                  child: Text('Rename'),
-                                ),
-                                const PopupMenuItem(
-                                  value: 'delete',
-                                  child: Text('Delete'),
-                                ),
+                                const PopupMenuItem(value: 'view', child: Text('View')),
+                                const PopupMenuItem(value: 'edit', child: Text('Edit')),
+                                const PopupMenuItem(value: 'rename', child: Text('Rename')),
+                                const PopupMenuItem(value: 'delete', child: Text('Delete')),
                               ],
                             ),
                           );
@@ -286,50 +263,35 @@ class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
               ),
               ExpansionTile(
                 title: Text(
-                  'Tags',
+                  'Zones',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 initiallyExpanded: true,
                 children: [
-                  StreamBuilder<List<GoTag>>(
-                    stream: _tagBox.query().watch(triggerImmediately: true).map((query) => query.find()),
+                  StreamBuilder<List<GoZone>>(
+                    stream: _zoneBox.query().watch(triggerImmediately: true).map((query) => query.find()),
                     builder: (context, snapshot) {
-                      print('Tag StreamBuilder: connectionState=${snapshot.connectionState}, hasData=${snapshot.hasData}, dataLength=${snapshot.data?.length}');
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
                       }
                       if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Center(child: Text('No tags added yet.'));
+                        return const Center(child: Text('No zones added yet.'));
                       }
-                      final tags = snapshot.data!;
                       return ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: tags.length,
+                        itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
-                          final tag = tags[index];
+                          final zone = snapshot.data![index];
                           return ListTile(
-                            title: Text(tag.name),
-                            subtitle: Text(tag.text),
+                            title: Text(zone.name),
                             trailing: PopupMenuButton<String>(
-                              onSelected: (value) => _handleMenuSelection(value, 'Tag', tag),
+                              onSelected: (value) => _handleMenuSelection(value, 'Zone', zone),
                               itemBuilder: (context) => [
-                                const PopupMenuItem(
-                                  value: 'view',
-                                  child: Text('View'),
-                                ),
-                                const PopupMenuItem(
-                                  value: 'edit',
-                                  child: Text('Edit'),
-                                ),
-                                const PopupMenuItem(
-                                  value: 'rename',
-                                  child: Text('Rename'),
-                                ),
-                                const PopupMenuItem(
-                                  value: 'delete',
-                                  child: Text('Delete'),
-                                ),
+                                const PopupMenuItem(value: 'view', child: Text('View')),
+                                const PopupMenuItem(value: 'edit', child: Text('Edit')),
+                                const PopupMenuItem(value: 'rename', child: Text('Rename')),
+                                const PopupMenuItem(value: 'delete', child: Text('Delete')),
                               ],
                             ),
                           );

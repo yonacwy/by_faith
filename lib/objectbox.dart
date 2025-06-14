@@ -9,16 +9,21 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'dart:io';
 
+/// Global ObjectBox store instance.
 late Store store;
+
+/// Boxes for various entity types.
 late Box<GoContact> goContactsBox;
 late Box<GoChurch> goChurchesBox;
 late Box<GoMinistry> goMinistriesBox;
 late Box<GoMapInfo> goMapInfoBox;
 late Box<UserPreferences> userPreferencesBox;
 
-Future<void> setupObjectBox() async {
+/// Initializes the ObjectBox store and FMTC backend.
+/// Returns `true` if successful, `false` otherwise.
+Future<bool> setupObjectBox() async {
   try {
-    // Get the app's cache directory
+    // Get the app's documents directory
     final appDocDir = await getApplicationDocumentsDirectory();
     final objectBoxDir = path.join(appDocDir.path, 'objectbox');
     await Directory(objectBoxDir).create(recursive: true);
@@ -31,13 +36,22 @@ Future<void> setupObjectBox() async {
     goMapInfoBox = store.box<GoMapInfo>();
     userPreferencesBox = store.box<UserPreferences>();
 
-    // Initialize FMTC backend
+    // Initialize FMTC backend with ObjectBox
     await FMTCObjectBoxBackend().initialise();
 
-    // Initialize FMTCStore
+    // Create FMTC store for tile caching
     await fmtc.FMTCStore('tile_cache').manage.create();
+
+    return true;
   } catch (e) {
     print('ObjectBox initialization error: $e');
-    rethrow;
+    // Optionally notify the user or log to a file
+    return false;
   }
+}
+
+/// Cleans up ObjectBox resources when the app closes.
+/// Call this in the app's dispose method if needed.
+void closeObjectBox() {
+  store.close();
 }

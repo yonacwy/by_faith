@@ -45,20 +45,18 @@ class GoStreet {
 }
 
 @Entity()
-class GoTag {
+class GoZone {
   @Id()
   int id = 0;
-  String name;
-  String text;
-  double latitude; // Center of the tag
-  double longitude;
-  double widthInMeters; // Width of the widget
-  double heightInMeters; // Height of the widget
 
-  GoTag({
-    this.id = 0,
+  String name;
+  double latitude; // Center latitude
+  double longitude; // Center longitude
+  double widthInMeters; // Zone width
+  double heightInMeters; // Zone height
+
+  GoZone({
     required this.name,
-    required this.text,
     required this.latitude,
     required this.longitude,
     required this.widthInMeters,

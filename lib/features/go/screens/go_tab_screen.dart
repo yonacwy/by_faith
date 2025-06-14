@@ -6,20 +6,16 @@ import 'package:by_faith/features/go/screens/go_ministries_screen.dart';
 import 'package:flutter_map/flutter_map.dart' as fm;
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart' as fmtc;
-import 'package:by_faith/core/data/data_sources/local/go_map_cache.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_contact_screen.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_church_screen.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_ministry_screen.dart';
 import 'package:by_faith/features/go/models/go_model.dart';
 import 'package:by_faith/features/go/models/go_route_models.dart';
 import 'package:by_faith/objectbox.dart';
-import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
-import 'package:by_faith/features/go/models/go_map_info_model.dart';
-import 'package:by_faith/core/models/user_preferences_model.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:by_faith/objectbox.g.dart';
-import 'dart:async';
-import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:by_faith/features/go/models/go_map_info_model.dart';
+import 'package:by_faith/core/models/user_preferences_model.dart';
 import 'package:by_faith/features/go/screens/go_settings_screen.dart';
 import 'package:by_faith/features/go/screens/go_route_planner_screen.dart';
 import 'package:by_faith/features/go/screens/go_export_import_screen.dart';
@@ -28,6 +24,9 @@ import 'package:flutter_map_line_editor/flutter_map_line_editor.dart';
 import 'package:flutter_map_dragmarker/flutter_map_dragmarker.dart';
 import 'package:flutter_map_polywidget/flutter_map_polywidget.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'dart:async';
+import 'dart:math' as math;
 
 class GoTabScreen extends StatefulWidget {
   final String? routeType;
@@ -54,7 +53,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
   late Box<GoMapInfo> _goMapInfoBox;
   late Box<GoArea> _areaBox;
   late Box<GoStreet> _streetBox;
-  late Box<GoTag> _tagBox;
+  late Box<GoZone> _zoneBox;
   bool _isLoadingMaps = true;
   bool _showRoutes = true;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -74,8 +73,52 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
   PolyEditor? _polyEditor;
   String? _routeType;
   String _routeName = '';
-  String _tagText = '';
   Timer? _debounceTimer;
+  PolyWidget? _tempZoneWidget;
+
+  double _calculateZoneWidthInMeters(double zoom) {
+    const minZoom = 2.0;
+    const maxZoom = 18.0;
+    const maxWidth = 500000.0; // 500km at world level
+    const minWidth = 100.0; // 100m at street level
+    final t = (zoom - minZoom) / (maxZoom - minZoom);
+    return maxWidth * (1 - t) + minWidth * t;
+  }
+
+  double _calculateZoneHeightInMeters(double zoom) {
+    return _calculateZoneWidthInMeters(zoom) * 0.5;
+  }
+
+  double _calculateProgress(GoZone zone) {
+    final contacts = goContactsBox.getAll();
+    final zoneBounds = _getZoneBounds(zone);
+    int totalContacts = 0;
+    int visitedContacts = 0;
+
+    for (final contact in contacts) {
+      if (contact.latitude != null && contact.longitude != null) {
+        final contactPoint = LatLng(contact.latitude!, contact.longitude!);
+        if (zoneBounds.contains(contactPoint)) {
+          totalContacts++;
+          if (contact.isVisited ?? false) {
+            visitedContacts++;
+          }
+        }
+      }
+    }
+
+    return totalContacts > 0 ? visitedContacts / totalContacts : 0.0;
+  }
+
+  fm.LatLngBounds _getZoneBounds(GoZone zone) {
+    const metersPerDegree = 111000;
+    final latDelta = zone.heightInMeters / metersPerDegree / 2;
+    final lngDelta = zone.widthInMeters / metersPerDegree / 2;
+    return fm.LatLngBounds(
+      LatLng(zone.latitude - latDelta, zone.longitude - lngDelta),
+      LatLng(zone.latitude + latDelta, zone.longitude + lngDelta),
+    );
+  }
 
   @override
   void initState() {
@@ -85,7 +128,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       if (_isDisposed) return;
       _areaBox = store.box<GoArea>();
       _streetBox = store.box<GoStreet>();
-      _tagBox = store.box<GoTag>();
+      _zoneBox = store.box<GoZone>();
       await _initTileProvider();
       await _restoreLastMap();
       await _setupLayers();
@@ -95,22 +138,22 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
         });
       }
       goContactsBox.query().watch(triggerImmediately: true).listen((_) {
-        _setupLayers();
+        _debounceSetupLayers();
       });
       goChurchesBox.query().watch(triggerImmediately: true).listen((_) {
-        _setupLayers();
+        _debounceSetupLayers();
       });
       goMinistriesBox.query().watch(triggerImmediately: true).listen((_) {
-        _setupLayers();
+        _debounceSetupLayers();
       });
       _areaBox.query().watch(triggerImmediately: true).listen((_) {
-        _setupLayers();
+        _debounceSetupLayers();
       });
       _streetBox.query().watch(triggerImmediately: true).listen((_) {
-        _setupLayers();
+        _debounceSetupLayers();
       });
-      _tagBox.query().watch(triggerImmediately: true).listen((_) {
-        _setupLayers();
+      _zoneBox.query().watch(triggerImmediately: true).listen((_) {
+        _debounceSetupLayers();
       });
       if (widget.routeType != null || widget.existingRoute != null) {
         _startRouteMode();
@@ -122,6 +165,14 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     const debounceDuration = Duration(milliseconds: 100);
     _debounceTimer?.cancel();
     _debounceTimer = Timer(debounceDuration, callback);
+  }
+
+  void _debounceSetupLayers() {
+    _debounce(() {
+      if (mounted) {
+        _setupLayers();
+      }
+    });
   }
 
   Future<void> _initObjectBox() async {
@@ -161,7 +212,6 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     try {
       if (storeName != null) {
         final store = fmtc.FMTCStore(storeName);
-        await store.manage.create();
         final tileProvider = store.getTileProvider();
         if (mounted) {
           setState(() {
@@ -176,9 +226,10 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
         }
       }
     } catch (e) {
+      print('Tile provider error: $e'); // Log for debugging
       if (mounted) {
         setState(() {
-          _tileProvider = fm.NetworkTileProvider();
+          _tileProvider = fm.NetworkTileProvider(); // Fallback
         });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error initializing tile provider: $e')),
@@ -216,6 +267,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     try {
       final newCenter = LatLng(mapInfo.latitude ?? 39.0, mapInfo.longitude ?? -98.0);
       final newZoom = (mapInfo.zoomLevel?.toDouble() ?? 2.0).clamp(2.0, 18.0);
+
+      // Ensure tile provider is initialized
       if (mapInfo.filePath?.isNotEmpty ?? false) {
         final store = fmtc.FMTCStore(mapInfo.name);
         final bool storeReady = await store.manage.ready;
@@ -223,7 +276,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
           await _initTileProvider(storeName: mapInfo.name);
           _tileProviderUrl = mapInfo.downloadUrl ?? 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
         } else {
-          await _initTileProvider();
+          await _initTileProvider(); // Fallback to online tiles
           _tileProviderUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
           _currentMapName = 'World';
           ScaffoldMessenger.of(context).showSnackBar(
@@ -231,18 +284,21 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
           );
         }
       } else {
-        await _initTileProvider();
+        await _initTileProvider(); // Default to online tiles
         _tileProviderUrl = mapInfo.downloadUrl?.isNotEmpty ?? false
-            ? mapInfo.downloadUrl ?? 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+            ? mapInfo.downloadUrl!
             : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
       }
+
       if (mounted) {
         setState(() {
           _currentMapName = mapInfo.name;
           _currentCenter = newCenter;
           _currentZoom = newZoom;
-          _layerUpdateKey++;
+          _layerUpdateKey++; // Force map refresh
         });
+
+        // Ensure map controller is updated
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _mapController.mapController.move(newCenter, newZoom);
         });
@@ -262,20 +318,11 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     final List<fm.Polygon> newPolygons = [];
     final List<PolyWidget> newPolyWidgets = [];
 
-    print('Contacts in box: ${goContactsBox.getAll().length}');
-    print('Churches in box: ${goChurchesBox.getAll().length}');
-    print('Ministries in box: ${goMinistriesBox.getAll().length}');
-    print('Areas in box: ${_areaBox.getAll().length}');
-    print('Streets in box: ${_streetBox.getAll().length}');
-    print('Tags in box: ${_tagBox.getAll().length}');
-
     for (final contact in goContactsBox.getAll()) {
       if (contact.latitude != null && contact.longitude != null) {
         newMarkers.add(
           fm.Marker(
             point: LatLng(contact.latitude!, contact.longitude!),
-            width: 80.0,
-            height: 80.0,
             child: GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -296,8 +343,6 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
         newMarkers.add(
           fm.Marker(
             point: LatLng(church.latitude!, church.longitude!),
-            width: 80.0,
-            height: 80.0,
             child: GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -318,8 +363,6 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
         newMarkers.add(
           fm.Marker(
             point: LatLng(ministry.latitude!, ministry.longitude!),
-            width: 80.0,
-            height: 80.0,
             child: GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -360,12 +403,15 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
           );
         }
       }
-      for (final tag in _tagBox.getAll()) {
+      for (final zone in _zoneBox.getAll()) {
+        final progress = _calculateProgress(zone);
+        final widthInMeters = _calculateZoneWidthInMeters(_currentZoom); // Use current zoom
+        final heightInMeters = _calculateZoneHeightInMeters(_currentZoom); // Use current zoom
         newPolyWidgets.add(
           PolyWidget(
-            center: tag.center,
-            widthInMeters: tag.widthInMeters * 2,
-            heightInMeters: tag.heightInMeters * 2,
+            center: zone.center,
+            widthInMeters: widthInMeters,
+            heightInMeters: heightInMeters,
             child: GestureDetector(
               onTap: () {
                 if (!_isAddingRoute) {
@@ -373,21 +419,42 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                     context,
                     MaterialPageRoute(
                       builder: (context) => GoTabScreen(
-                        routeType: 'Tag',
-                        existingRoute: tag,
+                        routeType: 'Zone',
+                        existingRoute: zone,
                         isViewMode: true,
                         onRouteSave: (dynamic result) {
-                          _tagBox.put(result);
+                          _zoneBox.put(result);
                         },
                       ),
                     ),
                   );
                 }
               },
-              child: SizedBox(
-                width: 50,
-                height: 50,
-                child: ColoredBox(color: Colors.red),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.8),
+                  border: Border.all(color: Colors.black, width: 1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      zone.name,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    LinearProgressIndicator(
+                      value: progress,
+                      backgroundColor: Colors.grey[300],
+                      color: progress < 0.5 ? Colors.red : Colors.green,
+                    ),
+                    Text('${(progress * 100).toStringAsFixed(0)}%'),
+                  ],
+                ),
               ),
             ),
           ),
@@ -402,7 +469,6 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
         _polygons = newPolygons;
         _polyWidgets = newPolyWidgets;
         _layerUpdateKey++;
-        print('Layers updated: Polygons=${_polygons.length}, Polylines=${_polylines.length}, Widgets=${_polyWidgets.length}');
       });
     }
   }
@@ -414,14 +480,12 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       _isAddingMarker = false;
       _routeType = widget.routeType;
       _polyWidgets.clear();
+      _tempZoneWidget = null;
       if (_routeType == 'Area' || _routeType == 'Street') {
         _polyEditor = PolyEditor(
           addClosePathMarker: _routeType == 'Area',
           points: [],
-          pointIcon: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            child: const Icon(Icons.circle, size: 12, color: Colors.red),
-          ),
+          pointIcon: const Icon(Icons.circle, size: 12, color: Colors.red),
           intermediateIcon: const Icon(Icons.circle, size: 8, color: Colors.blue),
           callbackRefresh: (LatLng? latLng) {
             _debounce(() {
@@ -433,6 +497,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             });
           },
         );
+      } else {
+        _polyEditor = null;
       }
       if (widget.existingRoute != null) {
         _loadExistingRoute();
@@ -462,46 +528,94 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       _routeName = street.name;
       _polyEditor!.points.addAll(street.points);
       _fitBounds(street.points);
-    } else if (widget.existingRoute is GoTag) {
-      final tag = widget.existingRoute as GoTag;
-      _routeName = tag.name;
-      _tagText = tag.text;
-      _polyWidgets.add(
-        PolyWidget(
-          center: tag.center,
-          widthInMeters: tag.widthInMeters,
-          heightInMeters: tag.heightInMeters,
-          child: Container(
+    } else if (widget.existingRoute is GoZone) {
+      final zone = widget.existingRoute as GoZone;
+      _routeName = zone.name;
+      final widthInMeters = _calculateZoneWidthInMeters(_currentZoom);
+      final heightInMeters = _calculateZoneHeightInMeters(_currentZoom);
+      _tempZoneWidget = PolyWidget(
+        center: zone.center,
+        widthInMeters: widthInMeters,
+        heightInMeters: heightInMeters,
+        child: Container(
+          decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.8),
-            alignment: Alignment.center,
-            child: Text(
-              tag.text,
-              style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
+            border: Border.all(color: Colors.black, width: 1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                zone.name,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 4),
+              LinearProgressIndicator(
+                value: _calculateProgress(zone),
+                backgroundColor: Colors.grey[300],
+                color: _calculateProgress(zone) < 0.5 ? Colors.red : Colors.green,
+              ),
+              Text('${(_calculateProgress(zone) * 100).toStringAsFixed(0)}%'),
+            ],
           ),
         ),
       );
-      _currentCenter = tag.center;
-      _currentZoom = 14.0;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _mapController.animateTo(dest: _currentCenter, zoom: _currentZoom);
-      });
+      _fitBounds([zone.center]);
     }
     _updateTempRouteLayers();
+    setState(() {
+      _layerUpdateKey++;
+    });
   }
 
   void _fitBounds(List<LatLng> points) {
-    if (points.isEmpty) return;
-    final bounds = fm.LatLngBounds.fromPoints(points);
-    final center = bounds.center;
-    final latDiff = (bounds.north - bounds.south).abs();
-    final lngDiff = (bounds.east - bounds.west).abs();
-    final maxDiff = latDiff > lngDiff ? latDiff : lngDiff;
-    double zoom = 12.0 - (maxDiff * 10).clamp(0.0, 10.0);
+    if (points.isEmpty) {
+      _currentCenter = const LatLng(39.0, -98.0);
+      _currentZoom = 2.0;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _mapController.animateTo(dest: _currentCenter, zoom: _currentZoom);
+      });
+      return;
+    }
+
+    // Calculate bounds manually
+    double minLat = points[0].latitude;
+    double maxLat = points[0].latitude;
+    double minLng = points[0].longitude;
+    double maxLng = points[0].longitude;
+
+    for (var point in points) {
+      minLat = math.min(minLat, point.latitude);
+      maxLat = math.max(maxLat, point.latitude);
+      minLng = math.min(minLng, point.longitude);
+      maxLng = math.max(maxLng, point.longitude);
+    }
+
+    // Calculate center
+    final center = LatLng((minLat + maxLat) / 2, (minLng + maxLng) / 2);
+
+    // Calculate approximate zoom level based on latitude/longitude span
+    final latDiff = (maxLat - minLat).abs();
+    final lngDiff = (maxLng - minLng).abs();
+    final maxDiff = math.max(latDiff, lngDiff);
+
+    // Adjust zoom to fit the bounds, with a closer view for small shapes
+    double zoom = 15.0 - (maxDiff * 50).clamp(0.0, 13.0);
     zoom = zoom.clamp(2.0, 18.0);
+
+    // Add padding (in degrees) to ensure all points are visible
+    final padding = maxDiff * 0.2;
+    minLat -= padding;
+    maxLat += padding;
+    minLng -= padding;
+    maxLng += padding;
+
     _currentCenter = center;
     _currentZoom = zoom;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _mapController.animateTo(dest: _currentCenter, zoom: _currentZoom);
     });
@@ -539,38 +653,58 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
   }
 
   void _addRoutePoint(LatLng point) {
-    print('Adding point: $point');
     if (_routeType == 'Area' || _routeType == 'Street') {
       _polyEditor!.add(_polyEditor!.points, point);
       _debounce(() {
         if (mounted) {
           setState(() {
             _updateTempRouteLayers();
-            if (_polyEditor!.points.length >= 2) {
+            if (_routeType == 'Area' && _polyEditor!.points.length >= 3) {
+              _fitBounds(_polyEditor!.points);
+            } else if (_routeType == 'Street' && _polyEditor!.points.length >= 2) {
               _fitBounds(_polyEditor!.points);
             }
           });
         }
       });
-    } else if (_routeType == 'Tag') {
+    } else if (_routeType == 'Zone') {
       _debounce(() {
         if (mounted) {
           setState(() {
             _polyWidgets.clear();
-            _polyWidgets.add(
-              PolyWidget(
-                center: point,
-                widthInMeters: 200,
-                heightInMeters: 100,
-                child: SizedBox(
-                  width: 50,
-                  height: 50,
-                  child: ColoredBox(color: Colors.red),
+            final widthInMeters = _calculateZoneWidthInMeters(_currentZoom);
+            final heightInMeters = _calculateZoneHeightInMeters(_currentZoom);
+            _tempZoneWidget = PolyWidget(
+              center: point,
+              widthInMeters: widthInMeters,
+              heightInMeters: heightInMeters,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.8),
+                  border: Border.all(color: Colors.black, width: 1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  children: [
+                    Text(
+                      _routeName.isEmpty ? 'New Zone' : _routeName,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    const LinearProgressIndicator(
+                      value: 0.0,
+                      backgroundColor: Colors.grey,
+                      color: Colors.red,
+                    ),
+                    const Text('0%'),
+                  ],
                 ),
               ),
             );
-            _currentCenter = point;
-            _mapController.animateTo(dest: _currentCenter);
+            _fitBounds([point]);
           });
         }
       });
@@ -602,11 +736,11 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.tag),
-                title: const Text('Add Tag'),
+                leading: const Icon(Icons.analytics),
+                title: const Text('Add Zone'),
                 onTap: () {
                   Navigator.pop(context);
-                  _startNewRoute('Tag');
+                  _startNewRoute('Zone');
                 },
               ),
             ],
@@ -622,14 +756,12 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       _isAddingRoute = true;
       _isAddingMarker = false;
       _polyWidgets.clear();
+      _tempZoneWidget = null;
       if (type == 'Area' || type == 'Street') {
         _polyEditor = PolyEditor(
           addClosePathMarker: type == 'Area',
           points: [],
-          pointIcon: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            child: const Icon(Icons.circle, size: 12, color: Colors.red),
-          ),
+          pointIcon: const Icon(Icons.circle, size: 12, color: Colors.red),
           intermediateIcon: const Icon(Icons.circle, size: 8, color: Colors.blue),
           callbackRefresh: (LatLng? latLng) {
             _debounce(() {
@@ -657,7 +789,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
   }
 
   void _cancelRouteMode() async {
-    if (_polyEditor?.points.isNotEmpty ?? false || _polyWidgets.isNotEmpty) {
+    if (_polyEditor?.points.isNotEmpty ?? false || _tempZoneWidget != null) {
       final confirm = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
@@ -682,8 +814,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       _routeType = null;
       _polyEditor = null;
       _polyWidgets.clear();
+      _tempZoneWidget = null;
       _routeName = '';
-      _tagText = '';
       _setupLayers();
     });
     ScaffoldMessenger.of(context).showSnackBar(
@@ -709,9 +841,9 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       );
       return;
     }
-    if (_routeType == 'Tag' && _polyWidgets.isEmpty) {
+    if (_routeType == 'Zone' && _tempZoneWidget == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add a tag to save.')),
+        const SnackBar(content: Text('Add a zone to save.')),
       );
       return;
     }
@@ -721,31 +853,17 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
           ? '$_routeType ${_polyEditor!.points[0].latitude.toStringAsFixed(2)},${_polyEditor!.points[0].longitude.toStringAsFixed(2)}'
           : _routeName,
     );
-    TextEditingController tagTextController = TextEditingController(text: _tagText.isEmpty ? 'New Tag' : _tagText);
 
     String? name = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text('${widget.isEditMode ? 'Edit' : 'Save'} $_routeType'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: nameController,
-              decoration: const InputDecoration(
-                hintText: 'Enter name',
-                labelText: 'Name',
-              ),
-            ),
-            if (_routeType == 'Tag')
-              TextField(
-                controller: tagTextController,
-                decoration: const InputDecoration(
-                  hintText: 'Enter tag text',
-                  labelText: 'Tag Text',
-                ),
-              ),
-          ],
+        content: TextField(
+          controller: nameController,
+          decoration: const InputDecoration(
+            hintText: 'Enter name',
+            labelText: 'Name',
+          ),
         ),
         actions: [
           TextButton(
@@ -783,30 +901,25 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             latitudes: _polyEditor!.points.map((p) => p.latitude).toList(),
             longitudes: _polyEditor!.points.map((p) => p.longitude).toList(),
           );
-        } else if (_routeType == 'Tag') {
-          item = GoTag(
+        } else if (_routeType == 'Zone') {
+          item = GoZone(
             name: name,
-            text: tagTextController.text.trim().isEmpty ? 'New Tag' : tagTextController.text.trim(),
-            latitude: _polyWidgets.last.center.latitude,
-            longitude: _polyWidgets.last.center.longitude,
-            widthInMeters: 100,
-            heightInMeters: 50,
+            latitude: _tempZoneWidget!.center.latitude,
+            longitude: _tempZoneWidget!.center.longitude,
+            widthInMeters: _calculateZoneWidthInMeters(_currentZoom),
+            heightInMeters: _calculateZoneHeightInMeters(_currentZoom),
           );
         }
         if (widget.existingRoute != null) {
           item.id = (widget.existingRoute as dynamic).id;
         }
 
-        // Save the item directly in GoTabScreen
         if (item is GoArea) {
           _areaBox.put(item);
-          print('Saved GoArea with ID: ${item.id}');
         } else if (item is GoStreet) {
           _streetBox.put(item);
-          print('Saved GoStreet with ID: ${item.id}');
-        } else if (item is GoTag) {
-          _tagBox.put(item);
-          print('Saved GoTag with ID: ${item.id}');
+        } else if (item is GoZone) {
+          _zoneBox.put(item);
         }
 
         if (mounted) {
@@ -814,23 +927,17 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             _isAddingRoute = false;
             _routeType = null;
             _polyEditor = null;
+            _polyWidgets.clear();
+            _tempZoneWidget = null;
             _routeName = '';
-            _tagText = '';
             _setupLayers();
           });
-          // Navigate back to GoRoutePlannerScreen
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const GoRoutePlannerScreen(),
-            ),
-          );
+          Navigator.pop(context); // Navigate back to GoRoutePlannerScreen
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('$_routeType saved successfully.')),
           );
         }
-      } catch (e, stackTrace) {
-        print('Error saving route: $e\n$stackTrace');
+      } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Error saving $_routeType: $e')),
@@ -863,12 +970,10 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             },
             tooltip: _showRoutes ? 'Hide Routes' : 'Show Routes',
           ),
-          Builder(
-            builder: (context) => IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            ),
+          IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
+            tooltip: 'Open Menu',
           ),
         ],
       ),
@@ -884,7 +989,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                 children: [
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
+                    child: const Text(
                       'Go Menu',
                       style: TextStyle(
                         color: Colors.white,
@@ -992,6 +1097,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                         setState(() {
                           _currentCenter = position.center!;
                           _currentZoom = position.zoom!;
+                          _debounceSetupLayers();
                         });
                       }
                     },
@@ -999,7 +1105,6 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                   children: [
                     fm.TileLayer(
                       urlTemplate: _tileProviderUrl,
-                      userAgentPackageName: 'com.byfaith.app',
                       tileProvider: _tileProvider ?? fm.NetworkTileProvider(),
                     ),
                     if (_polygons.isNotEmpty && _showRoutes)
@@ -1012,10 +1117,13 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                         key: ValueKey<String>('polyline_layer_$_layerUpdateKey'),
                         polylines: _polylines,
                       ),
-                    if (_polyWidgets.isNotEmpty && _showRoutes)
+                    if (_polyWidgets.isNotEmpty && _showRoutes || _tempZoneWidget != null)
                       PolyWidgetLayer(
                         key: ValueKey<String>('polywidget_layer_$_layerUpdateKey'),
-                        polyWidgets: _polyWidgets,
+                        polyWidgets: [
+                          ..._polyWidgets,
+                          if (_tempZoneWidget != null) _tempZoneWidget!,
+                        ],
                       ),
                     fm.MarkerLayer(
                       key: ValueKey<int>(_layerUpdateKey),
@@ -1029,7 +1137,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                       attributions: [
                         fm.TextSourceAttribution(
                           'OpenStreetMap contributors',
-                          onTap: () => {},
+                          onTap: () {},
                         ),
                       ],
                     ),
@@ -1230,7 +1338,6 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       return;
     }
     final store = fmtc.FMTCStore(mapName);
-    await store.manage.create();
     final completer = Completer<BuildContext>();
     final downloadOperation = store.download.startForeground(
       region: fmtc.RectangleRegion(
@@ -1321,7 +1428,12 @@ class _DownloadProgressDialog extends StatefulWidget {
   final String storeName;
   final Stream<fmtc.DownloadProgress> downloadStream;
 
-  const _DownloadProgressDialog({required this.mapName, required this.url, required this.storeName, required this.downloadStream});
+  const _DownloadProgressDialog({
+    required this.mapName,
+    required this.url,
+    required this.storeName,
+    required this.downloadStream,
+  });
 
   @override
   _DownloadProgressDialogState createState() => _DownloadProgressDialogState();
