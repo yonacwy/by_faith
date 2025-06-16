@@ -9,6 +9,7 @@ import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart' as fmtc;
 import 'package:by_faith/features/go/screens/go_add_edit_contact_screen.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_church_screen.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_ministry_screen.dart';
+import 'package:by_faith/features/go/screens/go_add_edit_zone_screen.dart';
 import 'package:by_faith/features/go/models/go_model.dart';
 import 'package:by_faith/features/go/models/go_route_models.dart';
 import 'package:by_faith/objectbox.dart';
@@ -22,27 +23,12 @@ import 'package:by_faith/features/go/screens/go_export_import_screen.dart';
 import 'package:by_faith/features/go/screens/go_share_screen.dart';
 import 'package:flutter_map_line_editor/flutter_map_line_editor.dart';
 import 'package:flutter_map_dragmarker/flutter_map_dragmarker.dart';
-import 'package:flutter_map_polywidget/flutter_map_polywidget.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'dart:async';
-import 'dart:math' as math;
 
 class GoTabScreen extends StatefulWidget {
-  final String? routeType;
-  final dynamic existingRoute;
-  final bool isEditMode;
-  final bool isViewMode;
-  final Function(dynamic)? onRouteSave;
-
-  const GoTabScreen({
-    super.key,
-    this.routeType,
-    this.existingRoute,
-    this.isEditMode = false,
-    this.isViewMode = false,
-    this.onRouteSave,
-  });
+  const GoTabScreen({super.key});
 
   @override
   State<GoTabScreen> createState() => _GoTabScreenState();
@@ -51,18 +37,23 @@ class GoTabScreen extends StatefulWidget {
 class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin {
   late AnimatedMapController _mapController;
   late Box<GoMapInfo> _goMapInfoBox;
+  late Box<GoZone> _zoneBox;
   late Box<GoArea> _areaBox;
   late Box<GoStreet> _streetBox;
-  late Box<GoZone> _zoneBox;
   bool _isLoadingMaps = true;
   bool _showRoutes = true;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<fm.Marker> _markers = [];
-  List<fm.Polyline> _polylines = [];
+  List<fm.CircleMarker> _circleMarkers = [];
+  List<DragMarker> _dragMarkers = [];
+  List<GoZone> _zones = [];
   List<fm.Polygon> _polygons = [];
-  List<PolyWidget> _polyWidgets = [];
+  List<fm.Polyline> _polylines = [];
   bool _isAddingMarker = false;
   bool _isAddingRoute = false;
+  String? _routeType;
+  PolyEditor? _polyEditor;
+  String _routeName = '';
   bool _isDisposed = false;
   String? _currentMapName;
   int _layerUpdateKey = 0;
@@ -70,35 +61,28 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
   double _currentZoom = 2.0;
   LatLng _currentCenter = const LatLng(39.0, -98.0);
   fm.TileProvider? _tileProvider;
-  PolyEditor? _polyEditor;
-  String? _routeType;
-  String _routeName = '';
   Timer? _debounceTimer;
-  PolyWidget? _tempZoneWidget;
+  GoZone? _selectedZone;
+  List<dynamic> _markersInZone = [];
 
-  double _calculateZoneWidthInMeters(double zoom) {
+  double _calculateZoneRadiusInMeters(double zoom) {
     const minZoom = 2.0;
     const maxZoom = 18.0;
-    const maxWidth = 500000.0; // 500km at world level
-    const minWidth = 100.0; // 100m at street level
+    const maxRadius = 250000.0; // 250km at world level
+    const minRadius = 50.0; // 50m at street level
     final t = (zoom - minZoom) / (maxZoom - minZoom);
-    return maxWidth * (1 - t) + minWidth * t;
-  }
-
-  double _calculateZoneHeightInMeters(double zoom) {
-    return _calculateZoneWidthInMeters(zoom) * 0.5;
+    return maxRadius * (1 - t) + minRadius * t;
   }
 
   double _calculateProgress(GoZone zone) {
     final contacts = goContactsBox.getAll();
-    final zoneBounds = _getZoneBounds(zone);
     int totalContacts = 0;
     int visitedContacts = 0;
 
     for (final contact in contacts) {
       if (contact.latitude != null && contact.longitude != null) {
         final contactPoint = LatLng(contact.latitude!, contact.longitude!);
-        if (zoneBounds.contains(contactPoint)) {
+        if (_isPointInZone(contactPoint, zone)) {
           totalContacts++;
           if (contact.isVisited ?? false) {
             visitedContacts++;
@@ -110,13 +94,98 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     return totalContacts > 0 ? visitedContacts / totalContacts : 0.0;
   }
 
-  fm.LatLngBounds _getZoneBounds(GoZone zone) {
-    const metersPerDegree = 111000;
-    final latDelta = zone.heightInMeters / metersPerDegree / 2;
-    final lngDelta = zone.widthInMeters / metersPerDegree / 2;
-    return fm.LatLngBounds(
-      LatLng(zone.latitude - latDelta, zone.longitude - lngDelta),
-      LatLng(zone.latitude + latDelta, zone.longitude + lngDelta),
+  bool _isPointInZone(LatLng point, GoZone zone) {
+    const Distance distance = Distance();
+    final center = LatLng(zone.latitude, zone.longitude);
+    final radius = (zone.widthInMeters / 2); // Use width/2 as radius
+    return distance(center, point) <= radius;
+  }
+
+  void _updateMarkersInZone(GoZone zone) {
+    _markersInZone.clear();
+    final contacts = goContactsBox.getAll();
+    final churches = goChurchesBox.getAll();
+    final ministries = goMinistriesBox.getAll();
+
+    for (final contact in contacts) {
+      if (contact.latitude != null && contact.longitude != null) {
+        final point = LatLng(contact.latitude!, contact.longitude!);
+        if (_isPointInZone(point, zone)) {
+          _markersInZone.add(contact);
+        }
+      }
+    }
+    for (final church in churches) {
+      if (church.latitude != null && church.longitude != null) {
+        final point = LatLng(church.latitude!, church.longitude!);
+        if (_isPointInZone(point, zone)) {
+          _markersInZone.add(church);
+        }
+      }
+    }
+    for (final ministry in ministries) {
+      if (ministry.latitude != null && ministry.longitude != null) {
+        final point = LatLng(ministry.latitude!, ministry.longitude!);
+        if (_isPointInZone(point, zone)) {
+          _markersInZone.add(ministry);
+        }
+      }
+    }
+
+    if (_markersInZone.isNotEmpty) {
+      _showMarkersInZoneDialog();
+    }
+  }
+
+  void _showMarkersInZoneDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Markers in Zone'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: _markersInZone.map((item) {
+              String type = item is GoContact ? 'Contact' : item is GoChurch ? 'Church' : 'Ministry';
+              return ListTile(
+                title: Text(item is GoContact ? item.fullName : item is GoChurch ? item.churchName : item.ministryName),
+                subtitle: Text(type),
+                onTap: () {
+                  Navigator.pop(context);
+                  if (item is GoContact) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GoAddEditContactScreen(contact: item),
+                      ),
+                    );
+                  } else if (item is GoChurch) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GoAddEditChurchScreen(church: item),
+                      ),
+                    );
+                  } else if (item is GoMinistry) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GoAddEditMinistryScreen(ministry: item),
+                      ),
+                    );
+                  }
+                },
+              );
+            }).toList(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
     );
   }
 
@@ -126,9 +195,6 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     _mapController = AnimatedMapController(vsync: this);
     _initObjectBox().then((_) async {
       if (_isDisposed) return;
-      _areaBox = store.box<GoArea>();
-      _streetBox = store.box<GoStreet>();
-      _zoneBox = store.box<GoZone>();
       await _initTileProvider();
       await _restoreLastMap();
       await _setupLayers();
@@ -146,18 +212,9 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       goMinistriesBox.query().watch(triggerImmediately: true).listen((_) {
         _debounceSetupLayers();
       });
-      _areaBox.query().watch(triggerImmediately: true).listen((_) {
-        _debounceSetupLayers();
-      });
-      _streetBox.query().watch(triggerImmediately: true).listen((_) {
-        _debounceSetupLayers();
-      });
       _zoneBox.query().watch(triggerImmediately: true).listen((_) {
         _debounceSetupLayers();
       });
-      if (widget.routeType != null || widget.existingRoute != null) {
-        _startRouteMode();
-      }
     });
   }
 
@@ -178,6 +235,9 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
   Future<void> _initObjectBox() async {
     try {
       _goMapInfoBox = store.box<GoMapInfo>();
+      _zoneBox = store.box<GoZone>();
+      _areaBox = store.box<GoArea>();
+      _streetBox = store.box<GoStreet>();
       GoMapInfo? worldMapInfo = _goMapInfoBox.query(GoMapInfo_.name.equals('World')).build().findFirst();
       if (worldMapInfo == null) {
         worldMapInfo = GoMapInfo(
@@ -226,10 +286,10 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
         }
       }
     } catch (e) {
-      print('Tile provider error: $e'); // Log for debugging
+      print('Tile provider error: $e');
       if (mounted) {
         setState(() {
-          _tileProvider = fm.NetworkTileProvider(); // Fallback
+          _tileProvider = fm.NetworkTileProvider();
         });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error initializing tile provider: $e')),
@@ -268,7 +328,6 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       final newCenter = LatLng(mapInfo.latitude ?? 39.0, mapInfo.longitude ?? -98.0);
       final newZoom = (mapInfo.zoomLevel?.toDouble() ?? 2.0).clamp(2.0, 18.0);
 
-      // Ensure tile provider is initialized
       if (mapInfo.filePath?.isNotEmpty ?? false) {
         final store = fmtc.FMTCStore(mapInfo.name);
         final bool storeReady = await store.manage.ready;
@@ -276,7 +335,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
           await _initTileProvider(storeName: mapInfo.name);
           _tileProviderUrl = mapInfo.downloadUrl ?? 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
         } else {
-          await _initTileProvider(); // Fallback to online tiles
+          await _initTileProvider();
           _tileProviderUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
           _currentMapName = 'World';
           ScaffoldMessenger.of(context).showSnackBar(
@@ -284,7 +343,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
           );
         }
       } else {
-        await _initTileProvider(); // Default to online tiles
+        await _initTileProvider();
         _tileProviderUrl = mapInfo.downloadUrl?.isNotEmpty ?? false
             ? mapInfo.downloadUrl!
             : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -295,10 +354,9 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
           _currentMapName = mapInfo.name;
           _currentCenter = newCenter;
           _currentZoom = newZoom;
-          _layerUpdateKey++; // Force map refresh
+          _layerUpdateKey++;
         });
 
-        // Ensure map controller is updated
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _mapController.mapController.move(newCenter, newZoom);
         });
@@ -314,9 +372,9 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
 
   Future<void> _setupLayers() async {
     final List<fm.Marker> newMarkers = [];
-    final List<fm.Polyline> newPolylines = [];
-    final List<fm.Polygon> newPolygons = [];
-    final List<PolyWidget> newPolyWidgets = [];
+    final List<fm.CircleMarker> newCircleMarkers = [];
+    final List<DragMarker> newDragMarkers = [];
+    final List<GoZone> newZones = [];
 
     for (final contact in goContactsBox.getAll()) {
       if (contact.latitude != null && contact.longitude != null) {
@@ -379,85 +437,100 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       }
     }
 
+    _polygons.clear();
+    _polylines.clear();
+
     if (_showRoutes) {
-      for (final area in _areaBox.getAll()) {
-        if (area.points.length >= 3) {
-          newPolygons.add(
-            fm.Polygon(
-              points: area.points,
-              color: Colors.blue.withOpacity(0.3),
-              borderColor: Colors.blue,
-              borderStrokeWidth: 2.0,
-            ),
-          );
-        }
-      }
-      for (final street in _streetBox.getAll()) {
-        if (street.points.isNotEmpty) {
-          newPolylines.add(
-            fm.Polyline(
-              points: street.points,
-              color: Colors.red,
-              strokeWidth: 4.0,
-            ),
-          );
-        }
-      }
-      for (final zone in _zoneBox.getAll()) {
-        final progress = _calculateProgress(zone);
-        final widthInMeters = _calculateZoneWidthInMeters(_currentZoom); // Use current zoom
-        final heightInMeters = _calculateZoneHeightInMeters(_currentZoom); // Use current zoom
-        newPolyWidgets.add(
-          PolyWidget(
-            center: zone.center,
-            widthInMeters: widthInMeters,
-            heightInMeters: heightInMeters,
-            child: GestureDetector(
-              onTap: () {
-                if (!_isAddingRoute) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => GoTabScreen(
-                        routeType: 'Zone',
-                        existingRoute: zone,
-                        isViewMode: true,
-                        onRouteSave: (dynamic result) {
-                          _zoneBox.put(result);
-                        },
-                      ),
-                    ),
-                  );
-                }
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.8),
-                  border: Border.all(color: Colors.black, width: 1),
-                  borderRadius: BorderRadius.circular(8),
+      if (_selectedZone != null) {
+        // Show only areas and streets within the selected zone
+        for (final area in _areaBox.getAll()) {
+          if (area.points.length >= 3) {
+            // Check if any point of the area is within the selected zone
+            bool isInZone = area.points.any((point) => _isPointInZone(point, _selectedZone!));
+            if (isInZone) {
+              _polygons.add(
+                fm.Polygon(
+                  points: area.points,
+                  color: Colors.blue.withOpacity(0.3),
+                  borderColor: Colors.blue,
+                  borderStrokeWidth: 2.0,
                 ),
-                padding: const EdgeInsets.all(8),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      zone.name,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-                    LinearProgressIndicator(
-                      value: progress,
-                      backgroundColor: Colors.grey[300],
-                      color: progress < 0.5 ? Colors.red : Colors.green,
-                    ),
-                    Text('${(progress * 100).toStringAsFixed(0)}%'),
-                  ],
+              );
+            }
+          }
+        }
+        for (final street in _streetBox.getAll()) {
+          if (street.points.isNotEmpty) {
+            // Check if any point of the street is within the selected zone
+            bool isInZone = street.points.any((point) => _isPointInZone(point, _selectedZone!));
+            if (isInZone) {
+              _polylines.add(
+                fm.Polyline(
+                  points: street.points,
+                  color: Colors.red,
+                  strokeWidth: 4.0,
                 ),
+              );
+            }
+          }
+        }
+      } else {
+        // Show all areas and streets if no zone is selected
+        for (final area in _areaBox.getAll()) {
+          if (area.points.length >= 3) {
+            _polygons.add(
+              fm.Polygon(
+                points: area.points,
+                color: Colors.blue.withOpacity(0.3),
+                borderColor: Colors.blue,
+                borderStrokeWidth: 2.0,
               ),
-            ),
+            );
+          }
+        }
+        for (final street in _streetBox.getAll()) {
+          if (street.points.isNotEmpty) {
+            _polylines.add(
+              fm.Polyline(
+                points: street.points,
+                color: Colors.red,
+                strokeWidth: 4.0,
+              ),
+            );
+          }
+        }
+      }
+
+      for (final zone in _zoneBox.getAll()) {
+        newZones.add(zone);
+        final center = LatLng(zone.latitude, zone.longitude);
+        final radius = zone.widthInMeters / 2;
+        newCircleMarkers.add(
+          fm.CircleMarker(
+            point: center,
+            radius: radius,
+            color: Colors.blue.withOpacity(0.3),
+            borderColor: Colors.blue,
+            borderStrokeWidth: 2.0,
+            useRadiusInMeter: true,
           ),
+        );
+        newDragMarkers.add(
+          DragMarker(
+                point: center,
+                size: const Size(24.0, 24.0),
+                builder: (context, point, isDragging) => const Icon(Icons.circle, color: Colors.red, size: 24.0),
+                onDragEnd: (details, newPoint) {
+                  setState(() {
+                    zone.latitude = newPoint.latitude;
+                    zone.longitude = newPoint.longitude;
+                    _zoneBox.put(zone);
+                    _selectedZone = zone;
+                    _updateMarkersInZone(zone);
+                    _setupLayers();
+                  });
+                },
+              ),
         );
       }
     }
@@ -465,190 +538,29 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     if (mounted) {
       setState(() {
         _markers = newMarkers;
-        _polylines = newPolylines;
-        _polygons = newPolygons;
-        _polyWidgets = newPolyWidgets;
+        _circleMarkers = newCircleMarkers;
+        _dragMarkers = newDragMarkers;
+        _zones = newZones;
         _layerUpdateKey++;
       });
-    }
-  }
-
-  void _startRouteMode() {
-    if (_isDisposed || !mounted) return;
-    setState(() {
-      _isAddingRoute = true;
-      _isAddingMarker = false;
-      _routeType = widget.routeType;
-      _polyWidgets.clear();
-      _tempZoneWidget = null;
-      if (_routeType == 'Area' || _routeType == 'Street') {
-        _polyEditor = PolyEditor(
-          addClosePathMarker: _routeType == 'Area',
-          points: [],
-          pointIcon: const Icon(Icons.circle, size: 12, color: Colors.red),
-          intermediateIcon: const Icon(Icons.circle, size: 8, color: Colors.blue),
-          callbackRefresh: (LatLng? latLng) {
-            _debounce(() {
-              if (mounted) {
-                setState(() {
-                  _updateTempRouteLayers();
-                });
-              }
-            });
-          },
-        );
-      } else {
-        _polyEditor = null;
-      }
-      if (widget.existingRoute != null) {
-        _loadExistingRoute();
-      }
-    });
-    if (_isAddingRoute && !widget.isViewMode) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Tap on the map to add points for $_routeType.'),
-          action: SnackBarAction(
-            label: 'Cancel',
-            onPressed: _cancelRouteMode,
-          ),
-        ),
-      );
-    }
-  }
-
-  void _loadExistingRoute() {
-    if (widget.existingRoute is GoArea) {
-      final area = widget.existingRoute as GoArea;
-      _routeName = area.name;
-      _polyEditor!.points.addAll(area.points);
-      _fitBounds(area.points);
-    } else if (widget.existingRoute is GoStreet) {
-      final street = widget.existingRoute as GoStreet;
-      _routeName = street.name;
-      _polyEditor!.points.addAll(street.points);
-      _fitBounds(street.points);
-    } else if (widget.existingRoute is GoZone) {
-      final zone = widget.existingRoute as GoZone;
-      _routeName = zone.name;
-      final widthInMeters = _calculateZoneWidthInMeters(_currentZoom);
-      final heightInMeters = _calculateZoneHeightInMeters(_currentZoom);
-      _tempZoneWidget = PolyWidget(
-        center: zone.center,
-        widthInMeters: widthInMeters,
-        heightInMeters: heightInMeters,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.8),
-            border: Border.all(color: Colors.black, width: 1),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                zone.name,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 4),
-              LinearProgressIndicator(
-                value: _calculateProgress(zone),
-                backgroundColor: Colors.grey[300],
-                color: _calculateProgress(zone) < 0.5 ? Colors.red : Colors.green,
-              ),
-              Text('${(_calculateProgress(zone) * 100).toStringAsFixed(0)}%'),
-            ],
-          ),
-        ),
-      );
-      _fitBounds([zone.center]);
-    }
-    _updateTempRouteLayers();
-    setState(() {
-      _layerUpdateKey++;
-    });
-  }
-
-  void _fitBounds(List<LatLng> points) {
-    if (points.isEmpty) {
-      _currentCenter = const LatLng(39.0, -98.0);
-      _currentZoom = 2.0;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _mapController.animateTo(dest: _currentCenter, zoom: _currentZoom);
-      });
-      return;
-    }
-
-    // Calculate bounds manually
-    double minLat = points[0].latitude;
-    double maxLat = points[0].latitude;
-    double minLng = points[0].longitude;
-    double maxLng = points[0].longitude;
-
-    for (var point in points) {
-      minLat = math.min(minLat, point.latitude);
-      maxLat = math.max(maxLat, point.latitude);
-      minLng = math.min(minLng, point.longitude);
-      maxLng = math.max(maxLng, point.longitude);
-    }
-
-    // Calculate center
-    final center = LatLng((minLat + maxLat) / 2, (minLng + maxLng) / 2);
-
-    // Calculate approximate zoom level based on latitude/longitude span
-    final latDiff = (maxLat - minLat).abs();
-    final lngDiff = (maxLng - minLng).abs();
-    final maxDiff = math.max(latDiff, lngDiff);
-
-    // Adjust zoom to fit the bounds, with a closer view for small shapes
-    double zoom = 15.0 - (maxDiff * 50).clamp(0.0, 13.0);
-    zoom = zoom.clamp(2.0, 18.0);
-
-    // Add padding (in degrees) to ensure all points are visible
-    final padding = maxDiff * 0.2;
-    minLat -= padding;
-    maxLat += padding;
-    minLng -= padding;
-    maxLng += padding;
-
-    _currentCenter = center;
-    _currentZoom = zoom;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _mapController.animateTo(dest: _currentCenter, zoom: _currentZoom);
-    });
-  }
-
-  void _updateTempRouteLayers() {
-    _polygons.clear();
-    _polylines.clear();
-    if (_routeType == 'Area' && _polyEditor!.points.length >= 3) {
-      _polygons.add(
-        fm.Polygon(
-          points: _polyEditor!.points,
-          color: Colors.blue.withOpacity(0.3),
-          borderColor: Colors.blue,
-          borderStrokeWidth: 2.0,
-        ),
-      );
-    } else if (_routeType == 'Street' && _polyEditor!.points.isNotEmpty) {
-      _polylines.add(
-        fm.Polyline(
-          points: _polyEditor!.points,
-          color: Colors.red,
-          strokeWidth: 4.0,
-        ),
-      );
     }
   }
 
   void _handleMapTap(fm.TapPosition tapPosition, LatLng latLng) {
     if (_isAddingMarker) {
       _showAddMarkerOptions(latLng);
-    } else if (_isAddingRoute && !widget.isViewMode && _routeType != null) {
+    } else if (_isAddingRoute && _routeType != null) {
       _addRoutePoint(latLng);
+    } else {
+      for (final zone in _zones) {
+        if (_isPointInZone(latLng, zone)) {
+          setState(() {
+            _selectedZone = zone;
+            _updateMarkersInZone(zone);
+          });
+          break;
+        }
+      }
     }
   }
 
@@ -668,46 +580,25 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
         }
       });
     } else if (_routeType == 'Zone') {
-      _debounce(() {
-        if (mounted) {
-          setState(() {
-            _polyWidgets.clear();
-            final widthInMeters = _calculateZoneWidthInMeters(_currentZoom);
-            final heightInMeters = _calculateZoneHeightInMeters(_currentZoom);
-            _tempZoneWidget = PolyWidget(
-              center: point,
-              widthInMeters: widthInMeters,
-              heightInMeters: heightInMeters,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.8),
-                  border: Border.all(color: Colors.black, width: 1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: const EdgeInsets.all(8),
-                child: Column(
-                  children: [
-                    Text(
-                      _routeName.isEmpty ? 'New Zone' : _routeName,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-                    const LinearProgressIndicator(
-                      value: 0.0,
-                      backgroundColor: Colors.grey,
-                      color: Colors.red,
-                    ),
-                    const Text('0%'),
-                  ],
-                ),
-              ),
-            );
-            _fitBounds([point]);
-          });
-        }
+      final zone = GoZone(
+        name: 'New Zone',
+        latitude: point.latitude,
+        longitude: point.longitude,
+        widthInMeters: _calculateZoneRadiusInMeters(_currentZoom) * 2,
+        heightInMeters: _calculateZoneRadiusInMeters(_currentZoom),
+      );
+      _zoneBox.put(zone);
+      setState(() {
+        _isAddingRoute = false;
+        _routeType = null;
+        _setupLayers();
       });
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GoAddEditZoneScreen(zone: zone),
+        ),
+      );
     }
   }
 
@@ -755,31 +646,27 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       _routeType = type;
       _isAddingRoute = true;
       _isAddingMarker = false;
-      _polyWidgets.clear();
-      _tempZoneWidget = null;
-      if (type == 'Area' || type == 'Street') {
-        _polyEditor = PolyEditor(
-          addClosePathMarker: type == 'Area',
-          points: [],
-          pointIcon: const Icon(Icons.circle, size: 12, color: Colors.red),
-          intermediateIcon: const Icon(Icons.circle, size: 8, color: Colors.blue),
-          callbackRefresh: (LatLng? latLng) {
-            _debounce(() {
-              if (mounted) {
-                setState(() {
-                  _updateTempRouteLayers();
-                });
-              }
-            });
-          },
-        );
-      } else {
-        _polyEditor = null;
-      }
+      _polyEditor = PolyEditor(
+        addClosePathMarker: type == 'Area',
+        points: [],
+        pointIcon: const Icon(Icons.circle, size: 12, color: Colors.red),
+        intermediateIcon: const Icon(Icons.circle, size: 8, color: Colors.blue),
+        callbackRefresh: (LatLng? latLng) {
+          _debounce(() {
+            if (mounted) {
+              setState(() {
+                _updateTempRouteLayers();
+              });
+            }
+          });
+        },
+      );
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Tap on the map to add points for $type.'),
+        content: Text(type == 'Zone'
+            ? 'Tap to place the zone.'
+            : 'Select Area or Street from the Route Planner.'),
         action: SnackBarAction(
           label: 'Cancel',
           onPressed: _cancelRouteMode,
@@ -788,34 +675,13 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     );
   }
 
-  void _cancelRouteMode() async {
-    if (_polyEditor?.points.isNotEmpty ?? false || _tempZoneWidget != null) {
-      final confirm = await showDialog<bool>(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Cancel Route Creation'),
-          content: const Text('Discard changes to this route?'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Keep Editing'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Discard'),
-            ),
-          ],
-        ),
-      );
-      if (!confirm!) return;
-    }
+  void _cancelRouteMode() {
     setState(() {
       _isAddingRoute = false;
       _routeType = null;
       _polyEditor = null;
-      _polyWidgets.clear();
-      _tempZoneWidget = null;
-      _routeName = '';
+      _polygons.clear();
+      _polylines.clear();
       _setupLayers();
     });
     ScaffoldMessenger.of(context).showSnackBar(
@@ -823,128 +689,51 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     );
   }
 
-  void _showSaveRouteDialog() async {
-    if (widget.isViewMode) {
-      Navigator.pop(context);
-      return;
-    }
-
-    if (_routeType == 'Area' && (_polyEditor?.points.length ?? 0) < 3) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add at least 3 points to create an area.')),
-      );
-      return;
-    }
-    if (_routeType == 'Street' && (_polyEditor?.points.length ?? 0) < 2) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add at least 2 points to create a street.')),
-      );
-      return;
-    }
-    if (_routeType == 'Zone' && _tempZoneWidget == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add a zone to save.')),
-      );
-      return;
-    }
-
-    TextEditingController nameController = TextEditingController(
-      text: _routeName.isEmpty && _polyEditor != null && _polyEditor!.points.isNotEmpty
-          ? '$_routeType ${_polyEditor!.points[0].latitude.toStringAsFixed(2)},${_polyEditor!.points[0].longitude.toStringAsFixed(2)}'
-          : _routeName,
-    );
-
-    String? name = await showDialog<String>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('${widget.isEditMode ? 'Edit' : 'Save'} $_routeType'),
-        content: TextField(
-          controller: nameController,
-          decoration: const InputDecoration(
-            hintText: 'Enter name',
-            labelText: 'Name',
-          ),
+  void _updateTempRouteLayers() {
+    _polygons.clear();
+    _polylines.clear();
+    if (_routeType == 'Area' && _polyEditor!.points.length >= 3) {
+      _polygons.add(
+        fm.Polygon(
+          points: _polyEditor!.points,
+          color: Colors.blue.withOpacity(0.3),
+          borderColor: Colors.blue,
+          borderStrokeWidth: 2.0,
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              if (nameController.text.trim().isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Name cannot be empty.')),
-                );
-                return;
-              }
-              Navigator.pop(context, nameController.text.trim());
-            },
-            child: const Text('Save'),
-          ),
-        ],
-      ),
-    );
-
-    if (name != null && name.isNotEmpty) {
-      try {
-        dynamic item;
-        if (_routeType == 'Area') {
-          item = GoArea(
-            name: name,
-            latitudes: _polyEditor!.points.map((p) => p.latitude).toList(),
-            longitudes: _polyEditor!.points.map((p) => p.longitude).toList(),
-          );
-        } else if (_routeType == 'Street') {
-          item = GoStreet(
-            name: name,
-            latitudes: _polyEditor!.points.map((p) => p.latitude).toList(),
-            longitudes: _polyEditor!.points.map((p) => p.longitude).toList(),
-          );
-        } else if (_routeType == 'Zone') {
-          item = GoZone(
-            name: name,
-            latitude: _tempZoneWidget!.center.latitude,
-            longitude: _tempZoneWidget!.center.longitude,
-            widthInMeters: _calculateZoneWidthInMeters(_currentZoom),
-            heightInMeters: _calculateZoneHeightInMeters(_currentZoom),
-          );
-        }
-        if (widget.existingRoute != null) {
-          item.id = (widget.existingRoute as dynamic).id;
-        }
-
-        if (item is GoArea) {
-          _areaBox.put(item);
-        } else if (item is GoStreet) {
-          _streetBox.put(item);
-        } else if (item is GoZone) {
-          _zoneBox.put(item);
-        }
-
-        if (mounted) {
-          setState(() {
-            _isAddingRoute = false;
-            _routeType = null;
-            _polyEditor = null;
-            _polyWidgets.clear();
-            _tempZoneWidget = null;
-            _routeName = '';
-            _setupLayers();
-          });
-          Navigator.pop(context); // Navigate back to GoRoutePlannerScreen
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('$_routeType saved successfully.')),
-          );
-        }
-      } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error saving $_routeType: $e')),
-          );
-        }
-      }
+      );
+    } else if (_routeType == 'Street' && _polyEditor!.points.isNotEmpty) {
+      _polylines.add(
+        fm.Polyline(
+          points: _polyEditor!.points,
+          color: Colors.red,
+          strokeWidth: 4.0,
+        ),
+      );
     }
+  }
+
+  void _fitBounds(List<LatLng> points, {EdgeInsets? padding}) {
+    if (points.isEmpty) {
+      _currentCenter = const LatLng(39.0, -98.0);
+      _currentZoom = 2.0;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _mapController.animateTo(dest: _currentCenter, zoom: _currentZoom);
+      });
+      return;
+    }
+
+    final bounds = fm.LatLngBounds.fromPoints(points);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final cameraFit = fm.CameraFit.bounds(
+        bounds: bounds,
+        padding: padding ?? EdgeInsets.all(20.0),
+      );
+      final targetCamera = cameraFit.fit(_mapController.mapController.camera);
+      _mapController.animateTo(
+        dest: targetCamera.center,
+        zoom: targetCamera.zoom,
+      );
+    });
   }
 
   @override
@@ -954,7 +743,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       appBar: AppBar(
         title: Text(_isAddingRoute ? 'Add/Edit $_routeType' : _currentMapName ?? 'World'),
         actions: [
-          if (_isAddingRoute && !widget.isViewMode)
+          if (_isAddingRoute)
             IconButton(
               icon: const Icon(Icons.save),
               onPressed: _showSaveRouteDialog,
@@ -987,9 +776,9 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               ),
               child: Stack(
                 children: [
-                  Align(
+                  const Align(
                     alignment: Alignment.centerLeft,
-                    child: const Text(
+                    child: Text(
                       'Go Menu',
                       style: TextStyle(
                         color: Colors.white,
@@ -1117,22 +906,27 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                         key: ValueKey<String>('polyline_layer_$_layerUpdateKey'),
                         polylines: _polylines,
                       ),
-                    if (_polyWidgets.isNotEmpty && _showRoutes || _tempZoneWidget != null)
-                      PolyWidgetLayer(
-                        key: ValueKey<String>('polywidget_layer_$_layerUpdateKey'),
-                        polyWidgets: [
-                          ..._polyWidgets,
-                          if (_tempZoneWidget != null) _tempZoneWidget!,
-                        ],
+                    if (_circleMarkers.isNotEmpty && _showRoutes)
+                      fm.CircleLayer(
+                        key: ValueKey<String>('circle_layer_$_layerUpdateKey'),
+                        circles: _circleMarkers,
                       ),
                     fm.MarkerLayer(
                       key: ValueKey<int>(_layerUpdateKey),
-                      markers: _markers,
+                      markers: [
+                        ..._markers,
+                        ..._dragMarkers.map(
+                          (m) => fm.Marker(
+                            point: m.point,
+                            width: m.size.width,
+                            height: m.size.height,
+                            key: m.key,
+                            child: m.builder(context, m.point, false),
+                            alignment: m.alignment,
+                          ),
+                        ),
+                      ],
                     ),
-                    if (_isAddingRoute && !widget.isViewMode && _polyEditor != null)
-                      DragMarkers(
-                        markers: _polyEditor!.edit(),
-                      ),
                     fm.RichAttributionWidget(
                       attributions: [
                         fm.TextSourceAttribution(
@@ -1413,6 +1207,94 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     }
   }
 
+  void _showSaveRouteDialog() {
+    if (_routeType == 'Area' && _polyEditor!.points.length < 3) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Add at least 3 points to create an area.')),
+      );
+      return;
+    }
+    if (_routeType == 'Street' && _polyEditor!.points.length < 2) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Add at least 2 points to create a street.')),
+      );
+      return;
+    }
+
+    TextEditingController nameController = TextEditingController(
+      text: _routeName.isEmpty && _polyEditor!.points.isNotEmpty
+          ? '$_routeType ${_polyEditor!.points[0].latitude.toStringAsFixed(2)},${_polyEditor!.points[0].longitude.toStringAsFixed(2)}'
+          : _routeName,
+    );
+
+    showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Save $_routeType'),
+        content: TextField(
+          controller: nameController,
+          decoration: const InputDecoration(
+            hintText: 'Enter name',
+            labelText: 'Name',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              if (nameController.text.trim().isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Name cannot be empty.')),
+                );
+                return;
+              }
+              Navigator.of(context).pop(nameController.text.trim());
+            },
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    ).then((name) {
+      if (name != null && name.isNotEmpty) {
+        try {
+          if (_routeType == 'Area') {
+            final area = GoArea(
+              name: name,
+              latitudes: _polyEditor!.points.map((p) => p.latitude).toList(),
+              longitudes: _polyEditor!.points.map((p) => p.longitude).toList(),
+            );
+            _areaBox.put(area);
+          } else if (_routeType == 'Street') {
+            final street = GoStreet(
+              name: name,
+              latitudes: _polyEditor!.points.map((p) => p.latitude).toList(),
+              longitudes: _polyEditor!.points.map((p) => p.longitude).toList(),
+            );
+            _streetBox.put(street);
+          }
+          setState(() {
+            _isAddingRoute = false;
+            _routeType = null;
+            _polyEditor = null;
+            _polygons.clear();
+            _polylines.clear();
+            _setupLayers();
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('$_routeType saved successfully.')),
+          );
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error saving $_routeType: $e')),
+          );
+        }
+      }
+    });
+  }
+
   @override
   void dispose() {
     _isDisposed = true;
@@ -1436,40 +1318,52 @@ class _DownloadProgressDialog extends StatefulWidget {
   });
 
   @override
-  _DownloadProgressDialogState createState() => _DownloadProgressDialogState();
+  State<_DownloadProgressDialog> createState() => _DownloadProgressDialogState();
 }
 
 class _DownloadProgressDialogState extends State<_DownloadProgressDialog> {
+  double _progress = 0.0;
+  String _message = 'Starting download...';
+  StreamSubscription<fmtc.DownloadProgress>? _subscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _subscription = widget.downloadStream.listen((progress) {
+      setState(() {
+        _progress = progress.percentageProgress / 100;
+        _message = 'Downloaded ${progress.attemptedTilesCount} of ${progress.maxTilesCount} tiles (${(progress.percentageProgress).toStringAsFixed(1)}%)';
+      });
+    }, onError: (error) {
+      setState(() {
+        _message = 'Download failed: $error';
+        _progress = 0.0;
+      });
+    }, onDone: () {
+      setState(() {
+        _message = 'Download complete!';
+        _progress = 1.0;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Downloading ${widget.mapName}'),
-      content: StreamBuilder<fmtc.DownloadProgress>(
-        stream: widget.downloadStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          }
-          if (!snapshot.hasData) {
-            return const Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Initializing download...'),
-                SizedBox(height: 16),
-                LinearProgressIndicator(),
-              ],
-            );
-          }
-          final progress = snapshot.data!;
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              LinearProgressIndicator(value: progress.percentageProgress / 100),
-              const SizedBox(height: 16),
-              Text('Progress: ${progress.percentageProgress.toStringAsFixed(1)}%'),
-            ],
-          );
-        },
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          LinearProgressIndicator(value: _progress),
+          const SizedBox(height: 16),
+          Text(_message),
+        ],
       ),
     );
   }

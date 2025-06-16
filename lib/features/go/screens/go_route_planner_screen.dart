@@ -3,6 +3,9 @@ import 'package:by_faith/features/go/models/go_route_models.dart';
 import 'package:by_faith/objectbox.dart';
 import 'package:by_faith/features/go/screens/go_tab_screen.dart';
 import 'package:objectbox/objectbox.dart';
+import 'package:by_faith/features/go/screens/go_add_edit_area_screen.dart';
+import 'package:by_faith/features/go/screens/go_add_edit_street_screen.dart';
+import 'package:by_faith/features/go/screens/go_add_edit_zone_screen.dart';
 
 class GoRoutePlannerScreen extends StatefulWidget {
   const GoRoutePlannerScreen({super.key});
@@ -64,16 +67,23 @@ class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
   }
 
   void _navigateToMapScreen(String type, {dynamic item, bool isEdit = false, bool isView = false}) {
+    Widget screen;
+    switch (type) {
+      case 'Area':
+        screen = GoAddEditAreaScreen(area: isEdit || isView ? item as GoArea : null, isViewMode: isView);
+        break;
+      case 'Street':
+        screen = GoAddEditStreetScreen(street: isEdit || isView ? item as GoStreet : null, isViewMode: isView);
+        break;
+      case 'Zone':
+        screen = GoAddEditZoneScreen(zone: isEdit || isView ? item as GoZone : null);
+        break;
+      default:
+        return; // Should not happen
+    }
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => GoTabScreen(
-          routeType: type,
-          existingRoute: item,
-          isEditMode: isEdit,
-          isViewMode: isView,
-        ),
-      ),
+      MaterialPageRoute(builder: (context) => screen),
     );
   }
 

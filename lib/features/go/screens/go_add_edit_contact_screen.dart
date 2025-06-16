@@ -36,6 +36,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
   final quill.QuillController _notesController = quill.QuillController.basic();
   bool _isEditing = false;
   late ScrollController _scrollController;
+  String? _eternalStatus; // Added variable for eternal status
 
   @override
   void initState() {
@@ -50,6 +51,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
       _emailController.text = widget.contact!.email ?? '';
       _latitudeController.text = widget.contact!.latitude?.toString() ?? '';
       _longitudeController.text = widget.contact!.longitude?.toString() ?? '';
+      _eternalStatus = widget.contact!.eternalStatus; // Initialize eternal status
       if (widget.contact!.notes != null) {
         try {
           _notesController.document = quill.Document.fromJson(jsonDecode(widget.contact!.notes!));
@@ -217,6 +219,27 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                   },
                 ),
                 const SizedBox(height: 24),
+                const Text('Eternal Status', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)), // Added Eternal Status section title
+                const SizedBox(height: 8),
+                DropdownButtonFormField<String>( // Added Dropdown for Eternal Status
+                  value: _eternalStatus,
+                  decoration: const InputDecoration(
+                    labelText: 'Status',
+                    border: OutlineInputBorder(),
+                  ),
+                  items: ['Saved', 'Lost', 'Seed Planted'].map((String status) {
+                    return DropdownMenuItem<String>(
+                      value: status,
+                      child: Text(status),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _eternalStatus = newValue;
+                    });
+                  },
+                ),
+                const SizedBox(height: 24),
                 const Text('Map Information', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
                 TextFormField(
@@ -309,4 +332,5 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
       ),
     );
   }
+
 }

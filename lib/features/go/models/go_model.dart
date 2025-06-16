@@ -14,6 +14,7 @@ class GoContact {
   String? email;
   String? notes;
   bool isVisited;
+  String? eternalStatus; // Added eternalStatus field
 
   GoContact({
     this.id = 0,
@@ -26,6 +27,7 @@ class GoContact {
     this.email,
     this.notes,
     this.isVisited = false,
+    this.eternalStatus, // Added eternalStatus to constructor
   });
 }
 
