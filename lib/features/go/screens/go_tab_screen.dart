@@ -28,7 +28,9 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'dart:async';
 
 class GoTabScreen extends StatefulWidget {
-  const GoTabScreen({super.key});
+  final GoZone? zoneToEdit;
+
+  const GoTabScreen({super.key, this.zoneToEdit});
 
   @override
   State<GoTabScreen> createState() => _GoTabScreenState();
@@ -52,6 +54,12 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
   bool _isAddingMarker = false;
   bool _isAddingRoute = false;
   String? _routeType;
+  bool _showContacts = true;
+  bool _showChurches = true;
+  bool _showMinistries = true;
+  bool _showAreas = true;
+  bool _showStreets = true;
+  bool _showZones = true;
   PolyEditor? _polyEditor;
   String _routeName = '';
   bool _isDisposed = false;
@@ -64,6 +72,9 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
   Timer? _debounceTimer;
   GoZone? _selectedZone;
   List<dynamic> _markersInZone = [];
+  double _zoneRadius = 0.0;
+  LatLng? _zoneCenter;
+  bool _isEditingZone = false;
 
   double _calculateZoneRadiusInMeters(double zoom) {
     const minZoom = 2.0;
@@ -197,7 +208,18 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       if (_isDisposed) return;
       await _initTileProvider();
       await _restoreLastMap();
-      await _setupLayers();
+      if (widget.zoneToEdit != null) {
+        _selectedZone = widget.zoneToEdit;
+        _isEditingZone = true;
+        _zoneCenter = LatLng(_selectedZone!.latitude, _selectedZone!.longitude);
+        _zoneRadius = _selectedZone!.widthInMeters / 2;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _mapController.mapController.move(_zoneCenter!, _currentZoom);
+        });
+      }
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          await _setupLayers();
+        });
       if (mounted) {
         setState(() {
           _isLoadingMaps = false;
@@ -376,78 +398,119 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     final List<DragMarker> newDragMarkers = [];
     final List<GoZone> newZones = [];
 
-    for (final contact in goContactsBox.getAll()) {
-      if (contact.latitude != null && contact.longitude != null) {
-        newMarkers.add(
-          fm.Marker(
-            point: LatLng(contact.latitude!, contact.longitude!),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => GoAddEditContactScreen(contact: contact),
-                  ),
-                );
-              },
-              child: Image.asset('lib/features/go/assets/images/marker_person.png'),
+    if (_showContacts) {
+      for (final contact in goContactsBox.getAll()) {
+        if (contact.latitude != null && contact.longitude != null) {
+          newMarkers.add(
+            fm.Marker(
+              point: LatLng(contact.latitude!, contact.longitude!),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GoAddEditContactScreen(contact: contact),
+                    ),
+                  );
+                },
+                child: Image.asset('lib/features/go/assets/images/marker_person.png'),
+              ),
             ),
-          ),
-        );
+          );
+        }
       }
     }
-    for (final church in goChurchesBox.getAll()) {
-      if (church.latitude != null && church.longitude != null) {
-        newMarkers.add(
-          fm.Marker(
-            point: LatLng(church.latitude!, church.longitude!),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => GoAddEditChurchScreen(church: church),
-                  ),
-                );
-              },
-              child: Image.asset('lib/features/go/assets/images/marker_church.png'),
+    if (_showChurches) {
+      for (final church in goChurchesBox.getAll()) {
+        if (church.latitude != null && church.longitude != null) {
+          newMarkers.add(
+            fm.Marker(
+              point: LatLng(church.latitude!, church.longitude!),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GoAddEditChurchScreen(church: church),
+                    ),
+                  );
+                },
+                child: Image.asset('lib/features/go/assets/images/marker_church.png'),
+              ),
             ),
-          ),
-        );
+          );
+        }
       }
     }
-    for (final ministry in goMinistriesBox.getAll()) {
-      if (ministry.latitude != null && ministry.longitude != null) {
-        newMarkers.add(
-          fm.Marker(
-            point: LatLng(ministry.latitude!, ministry.longitude!),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => GoAddEditMinistryScreen(ministry: ministry),
-                  ),
-                );
-              },
-              child: Image.asset('lib/features/go/assets/images/marker_ministry.png'),
+    if (_showMinistries) {
+      for (final ministry in goMinistriesBox.getAll()) {
+        if (ministry.latitude != null && ministry.longitude != null) {
+          newMarkers.add(
+            fm.Marker(
+              point: LatLng(ministry.latitude!, ministry.longitude!),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GoAddEditMinistryScreen(ministry: ministry),
+                    ),
+                  );
+                },
+                child: Image.asset('lib/features/go/assets/images/marker_ministry.png'),
+              ),
             ),
-          ),
-        );
+          );
+        }
       }
     }
 
     _polygons.clear();
     _polylines.clear();
 
-    if (_showRoutes) {
+    if (_showAreas || _showStreets || _showZones) { // Only process if any route/zone type is visible
       if (_selectedZone != null) {
-        // Show only areas and streets within the selected zone
-        for (final area in _areaBox.getAll()) {
-          if (area.points.length >= 3) {
-            // Check if any point of the area is within the selected zone
-            bool isInZone = area.points.any((point) => _isPointInZone(point, _selectedZone!));
-            if (isInZone) {
+        // Show only areas and streets within the selected zone if they are visible
+        if (_showAreas) {
+          for (final area in _areaBox.getAll()) {
+            if (area.points.length >= 3) {
+              // Check if any point of the area is within the selected zone
+              bool isInZone = area.points.any((point) => _isPointInZone(point, _selectedZone!));
+              if (isInZone) {
+                _polygons.add(
+                  fm.Polygon(
+                    points: area.points,
+                    color: Colors.blue.withOpacity(0.3),
+                    borderColor: Colors.blue,
+                    borderStrokeWidth: 2.0,
+                  ),
+                );
+              }
+            }
+          }
+        }
+        if (_showStreets) {
+          for (final street in _streetBox.getAll()) {
+            if (street.points.isNotEmpty) {
+              // Check if any point of the street is within the selected zone
+              bool isInZone = street.points.any((point) => _isPointInZone(point, _selectedZone!));
+              if (isInZone) {
+                _polylines.add(
+                  fm.Polyline(
+                    points: street.points,
+                    color: Colors.red,
+                    strokeWidth: 4.0,
+                  ),
+                );
+              }
+            }
+          }
+        }
+      } else {
+        // Show all areas and streets if no zone is selected and they are visible
+        if (_showAreas) {
+          for (final area in _areaBox.getAll()) {
+            if (area.points.length >= 3) {
               _polygons.add(
                 fm.Polygon(
                   points: area.points,
@@ -459,11 +522,9 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             }
           }
         }
-        for (final street in _streetBox.getAll()) {
-          if (street.points.isNotEmpty) {
-            // Check if any point of the street is within the selected zone
-            bool isInZone = street.points.any((point) => _isPointInZone(point, _selectedZone!));
-            if (isInZone) {
+        if (_showStreets) {
+          for (final street in _streetBox.getAll()) {
+            if (street.points.isNotEmpty) {
               _polylines.add(
                 fm.Polyline(
                   points: street.points,
@@ -474,64 +535,42 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             }
           }
         }
-      } else {
-        // Show all areas and streets if no zone is selected
-        for (final area in _areaBox.getAll()) {
-          if (area.points.length >= 3) {
-            _polygons.add(
-              fm.Polygon(
-                points: area.points,
-                color: Colors.blue.withOpacity(0.3),
-                borderColor: Colors.blue,
-                borderStrokeWidth: 2.0,
-              ),
-            );
-          }
-        }
-        for (final street in _streetBox.getAll()) {
-          if (street.points.isNotEmpty) {
-            _polylines.add(
-              fm.Polyline(
-                points: street.points,
-                color: Colors.red,
-                strokeWidth: 4.0,
-              ),
-            );
-          }
-        }
       }
 
-      for (final zone in _zoneBox.getAll()) {
-        newZones.add(zone);
-        final center = LatLng(zone.latitude, zone.longitude);
-        final radius = zone.widthInMeters / 2;
-        newCircleMarkers.add(
-          fm.CircleMarker(
-            point: center,
-            radius: radius,
-            color: Colors.blue.withOpacity(0.3),
-            borderColor: Colors.blue,
-            borderStrokeWidth: 2.0,
-            useRadiusInMeter: true,
-          ),
-        );
-        newDragMarkers.add(
-          DragMarker(
-                point: center,
-                size: const Size(24.0, 24.0),
-                builder: (context, point, isDragging) => const Icon(Icons.circle, color: Colors.red, size: 24.0),
-                onDragEnd: (details, newPoint) {
-                  setState(() {
-                    zone.latitude = newPoint.latitude;
-                    zone.longitude = newPoint.longitude;
-                    _zoneBox.put(zone);
-                    _selectedZone = zone;
-                    _updateMarkersInZone(zone);
-                    _setupLayers();
-                  });
-                },
-              ),
-        );
+      if (_showZones) {
+        for (final zone in _zoneBox.getAll()) {
+          newZones.add(zone);
+          final center = LatLng(zone.latitude, zone.longitude);
+          final radius = zone.widthInMeters / 2;
+          newCircleMarkers.add(
+            fm.CircleMarker(
+              point: center,
+              radius: radius,
+              color: Colors.blue.withOpacity(0.3),
+              borderColor: Colors.blue,
+              borderStrokeWidth: 2.0,
+              useRadiusInMeter: true,
+            ),
+          );
+          final currentZone = zone; // Capture the zone for the closure
+          newDragMarkers.add(
+            DragMarker(
+                  point: center,
+                  size: const Size(24.0, 24.0),
+                  builder: (context, point, isDragging) => const Icon(Icons.circle, color: Colors.red, size: 24.0),
+                  onDragEnd: (details, newPoint) {
+                    setState(() {
+                      currentZone.latitude = newPoint.latitude;
+                      currentZone.longitude = newPoint.longitude;
+                      _zoneBox.put(currentZone);
+                      _selectedZone = currentZone;
+                      _updateMarkersInZone(currentZone);
+                      _setupLayers();
+                    });
+                  },
+                ),
+          );
+        }
       }
     }
 
@@ -689,6 +728,97 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     );
   }
 
+  void _showHideOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter modalSetState) {
+            return SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    title: const Text('Contacts'),
+                    trailing: Switch(
+                      value: _showContacts,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showContacts = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Churches'),
+                    trailing: Switch(
+                      value: _showChurches,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showChurches = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Ministries'),
+                    trailing: Switch(
+                      value: _showMinistries,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showMinistries = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Areas'),
+                    trailing: Switch(
+                      value: _showAreas,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showAreas = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Streets'),
+                    trailing: Switch(
+                      value: _showStreets,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showStreets = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Zones'),
+                    trailing: Switch(
+                      value: _showZones,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showZones = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   void _updateTempRouteLayers() {
     _polygons.clear();
     _polylines.clear();
@@ -750,14 +880,9 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               tooltip: 'Save Route',
             ),
           IconButton(
-            icon: Icon(_showRoutes ? Icons.visibility : Icons.visibility_off),
-            onPressed: () {
-              setState(() {
-                _showRoutes = !_showRoutes;
-                _setupLayers();
-              });
-            },
-            tooltip: _showRoutes ? 'Hide Routes' : 'Show Routes',
+            icon: const Icon(Icons.visibility),
+            onPressed: _showHideOptions,
+            tooltip: 'Hide Options',
           ),
           IconButton(
             icon: const Icon(Icons.menu),
@@ -836,17 +961,17 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             ListTile(
               leading: const Icon(Icons.church),
               title: const Text('Churches'),
-              onTap: _showChurches,
+              onTap: _navigateToChurches,
             ),
             ListTile(
               leading: const Icon(Icons.contacts),
               title: const Text('Contacts'),
-              onTap: _showContacts,
+              onTap: _navigateToContacts,
             ),
             ListTile(
               leading: const Icon(Icons.people),
               title: const Text('Ministries'),
-              onTap: _showMinistries,
+              onTap: _navigateToMinistries,
             ),
             ListTile(
               leading: const Icon(Icons.map),
@@ -1088,7 +1213,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     );
   }
 
-  void _showContacts() {
+  void _navigateToContacts() {
     if (_isDisposed || !mounted) return;
     Navigator.pop(context);
     Navigator.push(
@@ -1099,7 +1224,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     );
   }
 
-  void _showChurches() {
+  void _navigateToChurches() {
     if (_isDisposed || !mounted) return;
     Navigator.pop(context);
     Navigator.push(
@@ -1110,7 +1235,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     );
   }
 
-  void _showMinistries() {
+  void _navigateToMinistries() {
     if (_isDisposed || !mounted) return;
     Navigator.pop(context);
     Navigator.push(

@@ -27,44 +27,6 @@ class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
     _zoneBox = store.box<GoZone>();
   }
 
-  void _showRouteSelection() {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: const Icon(Icons.map),
-                title: const Text('Add Area'),
-                onTap: () {
-                  Navigator.pop(context);
-                  _navigateToMapScreen('Area');
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.directions),
-                title: const Text('Add Street'),
-                onTap: () {
-                  Navigator.pop(context);
-                  _navigateToMapScreen('Street');
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.analytics),
-                title: const Text('Add Zone'),
-                onTap: () {
-                  Navigator.pop(context);
-                  _navigateToMapScreen('Zone');
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
 
   void _navigateToMapScreen(String type, {dynamic item, bool isEdit = false, bool isView = false}) {
     Widget screen;
@@ -96,7 +58,9 @@ class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
       } else if (type == 'Zone') {
         _zoneBox.remove(id);
       }
-      setState(() {});
+WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {});
+      });
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to delete $type: $error')),
@@ -138,8 +102,10 @@ class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
         } else if (type == 'Zone') {
           item.name = result;
           _zoneBox.put(item as GoZone);
+WidgetsBinding.instance.addPostFrameCallback((_) {
+            setState(() {});
+          });
         }
-        setState(() {});
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to rename $type: $error')),
@@ -184,12 +150,34 @@ class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
           child: Column(
             children: [
               ListTile(
-                leading: const Icon(Icons.route),
+                leading: const Icon(Icons.map),
                 title: Text(
-                  'Select Route on Map',
+                  'Add Area',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                onTap: _showRouteSelection,
+                onTap: () {
+                  _navigateToMapScreen('Area');
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.directions),
+                title: Text(
+                  'Add Street',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                onTap: () {
+                  _navigateToMapScreen('Street');
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.analytics),
+                title: Text(
+                  'Add Zone',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                onTap: () {
+                  _navigateToMapScreen('Zone');
+                },
               ),
               ExpansionTile(
                 title: Text(
@@ -215,6 +203,9 @@ class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
                           final area = snapshot.data![index];
                           return ListTile(
                             title: Text(area.name),
+                            subtitle: area.points.isNotEmpty
+                                ? Text('Lat: ${area.points.first.latitude.toStringAsFixed(4)}, Lon: ${area.points.first.longitude.toStringAsFixed(4)}')
+                                : const Text('No coordinates'),
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Area', area),
                               itemBuilder: (context) => [
@@ -255,6 +246,9 @@ class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
                           final street = snapshot.data![index];
                           return ListTile(
                             title: Text(street.name),
+                            subtitle: street.points.isNotEmpty
+                                ? Text('Lat: ${street.points.first.latitude.toStringAsFixed(4)}, Lon: ${street.points.first.longitude.toStringAsFixed(4)}')
+                                : const Text('No coordinates'),
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Street', street),
                               itemBuilder: (context) => [
@@ -295,6 +289,7 @@ class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
                           final zone = snapshot.data![index];
                           return ListTile(
                             title: Text(zone.name),
+                            subtitle: Text('Lat: ${zone.latitude.toStringAsFixed(4)}, Lon: ${zone.longitude.toStringAsFixed(4)}'),
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Zone', zone),
                               itemBuilder: (context) => [

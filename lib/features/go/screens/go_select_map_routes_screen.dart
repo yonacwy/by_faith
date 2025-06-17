@@ -66,7 +66,7 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
 
   // Debounce function to limit state updates
   void _debounce(VoidCallback callback) {
-    const debounceDuration = Duration(milliseconds: 100);
+    const debounceDuration = Duration(milliseconds: 500);
     _debounceTimer?.cancel();
     _debounceTimer = Timer(debounceDuration, callback);
   }
@@ -126,34 +126,36 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
       }
       // Defer map animation until after the first frame is rendered
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        if (widget.selectionType == 'Street' && _polyEditor.points.isNotEmpty) {
-          // Calculate bounds from points
-          final southwest = _polyEditor.points.reduce((a, b) => LatLng(
-                a.latitude < b.latitude ? a.latitude : b.latitude,
-                a.longitude < b.longitude ? a.longitude : b.longitude,
-              ));
-          final northeast = _polyEditor.points.reduce((a, b) => LatLng(
-                a.latitude > b.latitude ? a.latitude : b.latitude,
-                a.longitude > b.longitude ? a.longitude : b.longitude,
-              ));
-          // Calculate center and zoom to fit bounds
-          final center = LatLng(
-            (southwest.latitude + northeast.latitude) / 2,
-            (southwest.longitude + northeast.longitude) / 2,
-          );
-          // Approximate zoom level based on bounds (adjust as needed)
-          final latDiff = (northeast.latitude - southwest.latitude).abs();
-          final lngDiff = (northeast.longitude - southwest.longitude).abs();
-          final maxDiff = latDiff > lngDiff ? latDiff : lngDiff;
-          double zoom = 12.0 - (maxDiff * 10).clamp(0.0, 10.0); // Adjust zoom based on span
-          zoom = zoom.clamp(2.0, 18.0); // Respect min/max zoom
-          _mapController.animateTo(
-            dest: center,
-            zoom: zoom,
-          );
-        } else {
-          _mapController.animateTo(dest: _currentCenter, zoom: _currentZoom);
-        }
+        Future.delayed(const Duration(milliseconds: 200), () {
+          if (widget.selectionType == 'Street' && _polyEditor.points.isNotEmpty) {
+            // Calculate bounds from points
+            final southwest = _polyEditor.points.reduce((a, b) => LatLng(
+                  a.latitude < b.latitude ? a.latitude : b.latitude,
+                  a.longitude < b.longitude ? a.longitude : b.longitude,
+                ));
+            final northeast = _polyEditor.points.reduce((a, b) => LatLng(
+                  a.latitude > b.latitude ? a.latitude : b.latitude,
+                  a.longitude > b.longitude ? a.longitude : b.longitude,
+                ));
+            // Calculate center and zoom to fit bounds
+            final center = LatLng(
+              (southwest.latitude + northeast.latitude) / 2,
+              (southwest.longitude + northeast.longitude) / 2,
+            );
+            // Approximate zoom level based on bounds (adjust as needed)
+            final latDiff = (northeast.latitude - southwest.latitude).abs();
+            final lngDiff = (northeast.longitude - southwest.longitude).abs();
+            final maxDiff = latDiff > lngDiff ? latDiff : lngDiff;
+            double zoom = 12.0 - (maxDiff * 10).clamp(0.0, 10.0); // Adjust zoom based on span
+            zoom = zoom.clamp(2.0, 18.0); // Respect min/max zoom
+            _mapController.animateTo(
+              dest: center,
+              zoom: zoom,
+            );
+          } else {
+            _mapController.animateTo(dest: _currentCenter, zoom: _currentZoom);
+          }
+        });
       });
     } catch (e) {
       if (mounted) {
@@ -409,7 +411,6 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
             children: [
               fm.TileLayer(
                 urlTemplate: _tileProviderUrl,
-                subdomains: const ['a', 'b', 'c'],
               ),
               if (widget.selectionType == 'Area' && _polygons.isNotEmpty)
                 fm.PolygonLayer(
