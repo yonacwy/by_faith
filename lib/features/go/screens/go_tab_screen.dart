@@ -10,6 +10,8 @@ import 'package:by_faith/features/go/screens/go_add_edit_contact_screen.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_church_screen.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_ministry_screen.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_zone_screen.dart';
+import 'package:by_faith/features/go/screens/go_add_edit_area_screen.dart';
+import 'package:by_faith/features/go/screens/go_add_edit_street_screen.dart';
 import 'package:by_faith/features/go/models/go_model.dart';
 import 'package:by_faith/features/go/models/go_route_models.dart';
 import 'package:by_faith/objectbox.dart';
@@ -240,6 +242,26 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     });
   }
 
+void _navigateToMapScreen(String type, {dynamic item, bool isEdit = false, bool isView = false}) {
+    Widget screen;
+    switch (type) {
+      case 'Area':
+        screen = GoAddEditAreaScreen(area: isEdit || isView ? item as GoArea : null, isViewMode: isView);
+        break;
+      case 'Street':
+        screen = GoAddEditStreetScreen(street: isEdit || isView ? item as GoStreet : null, isViewMode: isView);
+        break;
+      case 'Zone':
+        screen = GoAddEditZoneScreen(zone: isEdit || isView ? item as GoZone : null);
+        break;
+      default:
+        return; // Should not happen
+    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => screen),
+    );
+  }
   void _debounce(VoidCallback callback) {
     const debounceDuration = Duration(milliseconds: 100);
     _debounceTimer?.cancel();
@@ -249,7 +271,11 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
   void _debounceSetupLayers() {
     _debounce(() {
       if (mounted) {
-        _setupLayers();
+        Future.delayed(const Duration(milliseconds: 50), () {
+          if (mounted) {
+            _setupLayers();
+          }
+        });
       }
     });
   }
@@ -653,24 +679,21 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                 leading: const Icon(Icons.map),
                 title: const Text('Add Area'),
                 onTap: () {
-                  Navigator.pop(context);
-                  _startNewRoute('Area');
+                  _navigateToMapScreen('Area');
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.directions),
                 title: const Text('Add Street'),
                 onTap: () {
-                  Navigator.pop(context);
-                  _startNewRoute('Street');
+                  _navigateToMapScreen('Street');
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.analytics),
                 title: const Text('Add Zone'),
                 onTap: () {
-                  Navigator.pop(context);
-                  _startNewRoute('Zone');
+                  _navigateToMapScreen('Zone');
                 },
               ),
             ],

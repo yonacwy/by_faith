@@ -355,16 +355,15 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
               ),
             ],
           ),
-          if (!widget.isViewMode)
-            Positioned(
-              bottom: 16.0,
-              right: 16.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  FloatingActionButton.small(
-                    heroTag: 'zoomInBtn',
+          Positioned(
+            bottom: 16.0,
+            right: 16.0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                FloatingActionButton.small(
+                  heroTag: 'zoomInBtn',
                     onPressed: () {
                       _mapController.animateTo(zoom: _mapController.mapController.camera.zoom + 1);
                     },

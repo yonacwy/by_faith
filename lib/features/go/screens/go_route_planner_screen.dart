@@ -209,7 +209,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Area', area),
                               itemBuilder: (context) => [
-                                const PopupMenuItem(value: 'view', child: Text('View')),
+                                
                                 const PopupMenuItem(value: 'edit', child: Text('Edit')),
                                 const PopupMenuItem(value: 'rename', child: Text('Rename')),
                                 const PopupMenuItem(value: 'delete', child: Text('Delete')),
@@ -252,7 +252,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Street', street),
                               itemBuilder: (context) => [
-                                const PopupMenuItem(value: 'view', child: Text('View')),
+                                
                                 const PopupMenuItem(value: 'edit', child: Text('Edit')),
                                 const PopupMenuItem(value: 'rename', child: Text('Rename')),
                                 const PopupMenuItem(value: 'delete', child: Text('Delete')),
@@ -293,7 +293,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Zone', zone),
                               itemBuilder: (context) => [
-                                const PopupMenuItem(value: 'view', child: Text('View')),
+                                
                                 const PopupMenuItem(value: 'edit', child: Text('Edit')),
                                 const PopupMenuItem(value: 'rename', child: Text('Rename')),
                                 const PopupMenuItem(value: 'delete', child: Text('Delete')),
