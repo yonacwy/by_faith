@@ -131,7 +131,6 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
         );
         _updateZoneLayer();
         _fitBounds([_currentZoneCenter], radius: _currentZoneRadius);
-        debugPrint('Map Tapped: Center updated to $_currentZoneCenter');
       });
     }
   }

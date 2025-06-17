@@ -24,11 +24,12 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
   late Box<GoArea> _areaBox;
   PolyEditor? _polyEditor;
   List<fm.Polygon> _polygons = [];
+  fm.Polygon? _tempPolygon; // Declare _tempPolygon
   String _areaName = '';
   Timer? _debounceTimer;
   bool _didInitAreaMode = false;
+  int _layerUpdateKey = 0;
 
-  @override
   @override
   void initState() {
     super.initState();
@@ -53,7 +54,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
 
   void _startAreaMode() {
     _polyEditor = PolyEditor(
-      addClosePathMarker: true, // Areas are polygons, so close the path
+      addClosePathMarker: true,
       points: [],
       pointIcon: const Icon(Icons.circle, size: 12, color: Colors.red),
       intermediateIcon: const Icon(Icons.circle, size: 8, color: Colors.blue),
@@ -62,6 +63,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
           if (mounted) {
             setState(() {
               _updateTempAreaLayers();
+              _layerUpdateKey++;
+              debugPrint('Area: Updated layers, polygons count: ${_polygons.length}, points: ${_polyEditor!.points.length}');
             });
           }
         });
@@ -91,29 +94,32 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
     if (widget.area != null) {
       _areaName = widget.area!.name;
       _polyEditor!.points.addAll(widget.area!.points);
-      // Schedule fitting bounds after the map is rendered
+      _updateTempAreaLayers();
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _fitBounds(widget.area!.points);
       });
+      setState(() {
+        _layerUpdateKey++; // Increment key when points are loaded
+        debugPrint('Area: Loaded existing area, polygons count: ${_polygons.length}');
+      });
     }
-    _updateTempAreaLayers();
-    setState(() {
-    });
   }
 
   void _fitBounds(List<LatLng> points, {EdgeInsets? padding}) {
     if (points.isEmpty) {
       _mapController.animateTo(dest: const LatLng(39.0, -98.0), zoom: 2.0);
+      debugPrint('Area: No points, reset to default view');
       return;
     }
 
     final bounds = fm.LatLngBounds.fromPoints(points);
-
     final cameraFit = fm.CameraFit.bounds(
       bounds: bounds,
-      padding: padding ?? EdgeInsets.all(20.0),
+      padding: padding ?? const EdgeInsets.all(20.0),
     );
     final targetCamera = cameraFit.fit(_mapController.mapController.camera);
+
+    debugPrint('Area: Fitting bounds to points: ${points.length}, center: ${targetCamera.center}, zoom: ${targetCamera.zoom}');
 
     _mapController.animateTo(
       dest: targetCamera.center,
@@ -122,17 +128,30 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
   }
 
   void _updateTempAreaLayers() {
-    _polygons.clear();
-    if (_polyEditor!.points.isNotEmpty) {
-      _polygons.add(
-        fm.Polygon(
+    if (_polyEditor!.points.length >= 3) {
+      // Update the existing polygon or create a new one if it doesn't exist
+      if (_tempPolygon == null) {
+        _tempPolygon = fm.Polygon(
           points: _polyEditor!.points,
           color: Colors.blue.withOpacity(0.3),
           borderColor: Colors.blue,
           borderStrokeWidth: 2.0,
-        ),
-      );
+        );
+        _polygons = [_tempPolygon!]; // Replace the list with the single polygon
+      } else {
+        _tempPolygon = fm.Polygon( // Create a new polygon with updated points
+          points: _polyEditor!.points,
+          color: Colors.blue.withOpacity(0.3),
+          borderColor: Colors.blue,
+          borderStrokeWidth: 2.0,
+        );
+         _polygons[0] = _tempPolygon!; // Update the polygon in the list
+      }
+    } else {
+      _polygons.clear(); // Clear the polygon if not enough points
+      _tempPolygon = null;
     }
+    debugPrint('Area: Updated temp layers, polygons count: ${_polygons.length}');
   }
 
   void _handleMapTap(fm.TapPosition tapPosition, LatLng latLng) {
@@ -147,10 +166,10 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
       if (mounted) {
         setState(() {
           _updateTempAreaLayers();
-          if (_polyEditor!.points.length >= 2) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              _fitBounds(_polyEditor!.points);
-            });
+          _layerUpdateKey++; // Increment key when points are updated
+          debugPrint('Area: Added point, total points: ${_polyEditor!.points.length}, polygons: ${_polygons.length}');
+          if (_polyEditor!.points.length >= 3) {
+            _fitBounds(_polyEditor!.points);
           }
         });
       }
@@ -187,7 +206,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
       return;
     }
 
-    if ((_polyEditor?.points.length ?? 0) < 3) {
+    if (_polyEditor!.points.length < 3) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Add at least 3 points to create an area.')),
       );
@@ -195,7 +214,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
     }
 
     TextEditingController nameController = TextEditingController(
-      text: _areaName.isEmpty && _polyEditor != null && _polyEditor!.points.isNotEmpty
+      text: _areaName.isEmpty && _polyEditor!.points.isNotEmpty
           ? 'Area ${_polyEditor!.points[0].latitude.toStringAsFixed(2)},${_polyEditor!.points[0].longitude.toStringAsFixed(2)}'
           : _areaName,
     );
@@ -249,7 +268,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Area saved successfully.')),
           );
-          Navigator.pop(context); // Pop the add/edit screen
+          Navigator.pop(context);
         }
       } catch (e) {
         if (mounted) {
@@ -268,10 +287,11 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
         if (mounted) {
           setState(() {
             _updateTempAreaLayers();
+            _layerUpdateKey++; // Increment key when points are updated
+            debugPrint('Area: Removed last point, remaining: ${_polyEditor!.points.length}, polygons: ${_polygons.length}');
             if (_polyEditor!.points.isNotEmpty) {
               _fitBounds(_polyEditor!.points);
             } else {
-              // If no points left, reset map view
               _mapController.animateTo(dest: const LatLng(39.0, -98.0), zoom: 2.0);
             }
           });
@@ -281,14 +301,12 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
   }
 
   @override
-  @override
   void dispose() {
     _debounceTimer?.cancel();
     _mapController.dispose();
     super.dispose();
   }
 
-  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -319,10 +337,10 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             children: [
               fm.TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                // Assuming a default online tile provider for now
               ),
               if (_polygons.isNotEmpty)
                 fm.PolygonLayer(
+                  key: ValueKey<String>('polygon_layer_$_layerUpdateKey'),
                   polygons: _polygons,
                 ),
               if (!widget.isViewMode && _polyEditor != null)
@@ -339,7 +357,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
               ),
             ],
           ),
-          if (!widget.isViewMode) // Only show controls in add/edit mode
+          if (!widget.isViewMode)
             Positioned(
               bottom: 16.0,
               right: 16.0,
@@ -347,9 +365,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  // Zoom Controls
                   FloatingActionButton.small(
-                    heroTag: 'zoomInBtn', // Unique tag for hero animation
+                    heroTag: 'zoomInBtn',
                     onPressed: () {
                       _mapController.animateTo(zoom: _mapController.mapController.camera.zoom + 1);
                     },
@@ -357,27 +374,24 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                   ),
                   const SizedBox(height: 8.0),
                   FloatingActionButton.small(
-                    heroTag: 'zoomOutBtn', // Unique tag for hero animation
+                    heroTag: 'zoomOutBtn',
                     onPressed: () {
                       _mapController.animateTo(zoom: _mapController.mapController.camera.zoom - 1);
                     },
                     child: const Icon(Icons.remove),
                   ),
-                  const SizedBox(height: 16.0), // Space between zoom and add/remove controls
-                  // Add Point Button
+                  const SizedBox(height: 16.0),
                   FloatingActionButton(
-                    heroTag: 'addPointBtn', // Unique tag for hero animation
+                    heroTag: 'addPointBtn',
                     onPressed: () {
-                      // Add point at the current map center
                       _addAreaPoint(_mapController.mapController.camera.center);
                     },
                     child: const Icon(Icons.add_location_alt),
                   ),
-                  const SizedBox(height: 8.0), // Space between add and remove point button
-                  // Remove Point Button (conditional)
-                  if (!widget.isViewMode && (_polyEditor?.points.isNotEmpty ?? false))
+                  const SizedBox(height: 8.0),
+                  if (_polyEditor?.points.isNotEmpty ?? false)
                     FloatingActionButton(
-                      heroTag: 'removePointBtn', // Unique tag for hero animation
+                      heroTag: 'removePointBtn',
                       onPressed: _removeLastAreaPoint,
                       child: const Icon(Icons.remove_circle_outline),
                     ),
