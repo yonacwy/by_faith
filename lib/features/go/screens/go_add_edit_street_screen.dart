@@ -4,9 +4,11 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_line_editor/flutter_map_line_editor.dart';
 import 'package:flutter_map_dragmarker/flutter_map_dragmarker.dart';
 import 'package:by_faith/features/go/models/go_route_models.dart';
+import 'package:by_faith/features/go/models/go_model.dart'; // Added import for GoContact, GoChurch, GoMinistry
 import 'package:by_faith/objectbox.dart';
 import 'package:objectbox/objectbox.dart';
 import 'dart:async';
+import 'dart:math'; // Added import for math functions
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 
 class GoAddEditStreetScreen extends StatefulWidget {
@@ -32,18 +34,57 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
   String _routeName = '';
   Timer? _debounceTimer;
   int _layerUpdateKey = 0;
+  List<fm.Marker> _markers = [];
+  List<fm.Polygon> _polygons = [];
+  List<fm.CircleMarker> _circleMarkers = [];
+
+  // ObjectBox Boxes for other map elements
+  late Box<GoContact> _contactBox;
+  late Box<GoChurch> _churchBox;
+  late Box<GoMinistry> _ministryBox;
+  late Box<GoArea> _areaBox;
+  late Box<GoZone> _zoneBox;
+
+  // Lists to hold fetched data
+  List<GoContact> _contacts = [];
+  List<GoChurch> _churches = [];
+  List<GoMinistry> _ministries = [];
+  List<GoArea> _areas = [];
+  List<GoZone> _zones = [];
+  List<GoStreet> _streets = [];
+
+  bool _showContacts = true;
+  bool _showChurches = true;
+  bool _showMinistries = true;
+  bool _showAreas = true;
+  bool _showStreets = true;
+  bool _showZones = true;
+
+  @override
+  bool _didLoadMapData = false;
 
   @override
   void initState() {
     super.initState();
     _mapController = AnimatedMapController(vsync: this);
     _streetBox = store.box<GoStreet>();
+    _contactBox = store.box<GoContact>();
+    _churchBox = store.box<GoChurch>();
+    _ministryBox = store.box<GoMinistry>();
+    _areaBox = store.box<GoArea>();
+    _zoneBox = store.box<GoZone>();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _startRouteMode();
+    if (!_didLoadMapData) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await _loadAllMapData();
+        await _setupLayers(); // Call setupLayers after loading data
+        _didLoadMapData = true;
+      });
+    }
   }
 
   void _debounce(VoidCallback callback) {
@@ -76,17 +117,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
     }
 
     if (!widget.isViewMode) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Tap on the map to add points for Street.'),
-            action: SnackBarAction(
-              label: 'Cancel',
-              onPressed: _cancelRouteMode,
-            ),
-          ),
-        );
-      });
+      // Moved snackbar display inside the post frame callback in didChangeDependencies
     }
   }
 
@@ -138,12 +169,13 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
         );
         _polylines = [_tempPolyline!]; // Replace the list with the single polyline
       } else {
-        _tempPolyline = fm.Polyline( // Create a new polyline with updated points
+        // Create a new polyline with updated points
+        _tempPolyline = fm.Polyline(
           points: _polyEditor!.points,
           color: Colors.red,
           strokeWidth: 4.0,
         );
-        _polylines[0] = _tempPolyline!; // Update the polyline in the list
+        _polylines = [_tempPolyline!]; // Replace the list with the new polyline
       }
     } else {
       _polylines.clear(); // Clear the polyline if not enough points
@@ -309,94 +341,280 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.street != null ? (widget.isViewMode ? 'View' : 'Edit') : 'Add'} Street'),
+        title: Text(widget.street != null ? 'Edit Street' : 'Add Street'),
         actions: [
           if (!widget.isViewMode)
             IconButton(
               icon: const Icon(Icons.save),
               onPressed: _showSaveRouteDialog,
-              tooltip: 'Save Street',
             ),
+          IconButton(
+            icon: const Icon(Icons.layers),
+            onPressed: _showHideOptions,
+          ),
         ],
       ),
       body: Stack(
         children: [
           fm.FlutterMap(
+            key: ValueKey<int>(_layerUpdateKey), // Use key to force rebuild layers
             mapController: _mapController.mapController,
             options: fm.MapOptions(
-              initialCenter: widget.street != null && widget.street!.points.isNotEmpty
-                  ? widget.street!.points.first
-                  : const LatLng(39.0, -98.0),
-              initialZoom: widget.street != null && widget.street!.points.isNotEmpty ? 12.0 : 2.0,
-              minZoom: 2.0,
-              maxZoom: 18.0,
+              initialCenter: const LatLng(35.580646, -84.222486), // Default center
+              initialZoom: 10.0, // Default zoom
               onTap: _handleMapTap,
+              interactionOptions: fm.InteractionOptions(
+                flags: widget.isViewMode
+                    ? fm.InteractiveFlag.all
+                    : fm.InteractiveFlag.pinchZoom | fm.InteractiveFlag.drag,
+              ),
             ),
             children: [
               fm.TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                userAgentPackageName: 'com.example.app',
               ),
-              if (_polylines.isNotEmpty)
+              if (_polyEditor != null)
                 fm.PolylineLayer(
-                  key: ValueKey<String>('polyline_layer_$_layerUpdateKey'),
                   polylines: _polylines,
                 ),
-              if (!widget.isViewMode && _polyEditor != null)
+              if (_polyEditor != null && !widget.isViewMode)
                 DragMarkers(
                   markers: _polyEditor!.edit(),
                 ),
-              fm.RichAttributionWidget(
-                attributions: [
-                  fm.TextSourceAttribution(
-                    'OpenStreetMap contributors',
-                    onTap: () {},
-                  ),
-                ],
-              ),
+              fm.MarkerLayer(markers: _markers),
+              fm.PolygonLayer(polygons: _polygons),
+              fm.CircleLayer(circles: _circleMarkers),
             ],
           ),
-          Positioned(
-            bottom: 16.0,
-            right: 16.0,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                FloatingActionButton.small(
-                  heroTag: 'zoomInBtn',
-                    onPressed: () {
-                      _mapController.animateTo(zoom: _mapController.mapController.camera.zoom + 1);
-                    },
-                    child: const Icon(Icons.add),
-                  ),
-                  const SizedBox(height: 8.0),
-                  FloatingActionButton.small(
-                    heroTag: 'zoomOutBtn',
-                    onPressed: () {
-                      _mapController.animateTo(zoom: _mapController.mapController.camera.zoom - 1);
-                    },
+          if (!widget.isViewMode)
+            Positioned(
+              bottom: 16.0,
+              right: 16.0,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  FloatingActionButton(
+                    heroTag: 'removePointBtn',
+                    mini: true,
+                    onPressed: _removeLastRoutePoint,
                     child: const Icon(Icons.remove),
                   ),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 8),
                   FloatingActionButton(
                     heroTag: 'addPointBtn',
+                    mini: true,
                     onPressed: () {
                       _addRoutePoint(_mapController.mapController.camera.center);
                     },
-                    child: const Icon(Icons.add_location_alt),
+                    child: const Icon(Icons.add),
                   ),
-                  const SizedBox(height: 8.0),
-                  if (_polyEditor?.points.isNotEmpty ?? false) 
-                    FloatingActionButton(
-                      heroTag: 'removePointBtn',
-                      onPressed: _removeLastRoutePoint,
-                      child: const Icon(Icons.remove_circle_outline),
-                    ),
                 ],
               ),
             ),
         ],
       ),
+    );
+  }
+
+  Future<void> _loadAllMapData() async {
+    _contacts = _contactBox.getAll();
+    _churches = _churchBox.getAll();
+    _ministries = _ministryBox.getAll();
+    _areas = _areaBox.getAll();
+    _zones = _zoneBox.getAll();
+  }
+
+  Future<void> _setupLayers() async {
+    final allPoints = <LatLng>[];
+    if (_polyEditor != null) {
+      allPoints.addAll(_polyEditor!.points);
+    }
+
+    final List<fm.Marker> newMarkers = [];
+    final List<fm.Polyline> newPolylines = [];
+    final List<fm.Polygon> newPolygons = [];
+    final List<fm.CircleMarker> newCircleMarkers = [];
+
+    if (_showContacts) {
+      newMarkers.addAll(_contacts.where((c) => c.latitude != null && c.longitude != null).map(
+            (contact) => fm.Marker(
+              point: LatLng(contact.latitude!, contact.longitude!),
+              width: 40.0,
+              height: 40.0,
+              child: Image.asset('lib/features/go/assets/images/marker_person.png'),
+            ),
+          ));
+    }
+    if (_showChurches) {
+      newMarkers.addAll(_churches.where((c) => c.latitude != null && c.longitude != null).map(
+            (church) => fm.Marker(
+              point: LatLng(church.latitude!, church.longitude!),
+              width: 40.0,
+              height: 40.0,
+              child: Image.asset('lib/features/go/assets/images/marker_church.png'),
+            ),
+          ));
+    }
+    if (_showMinistries) {
+      newMarkers.addAll(_ministries.where((m) => m.latitude != null && m.longitude != null).map(
+            (ministry) => fm.Marker(
+              point: LatLng(ministry.latitude!, ministry.longitude!),
+              width: 40.0,
+              height: 40.0,
+              child: Image.asset('lib/features/go/assets/images/marker_ministry.png'),
+            ),
+          ));
+    }
+    if (_showStreets) {
+      newPolylines.addAll(_streets.map((street) => fm.Polyline(
+            points: street.points,
+            color: Colors.red,
+            strokeWidth: 3.0,
+          )));
+    }
+    if (_showAreas) {
+      newPolygons.addAll(_areas.map((area) => fm.Polygon(
+            points: area.points,
+            color: Colors.blue.withOpacity(0.3),
+            borderColor: Colors.blue,
+            borderStrokeWidth: 2.0,
+          )));
+    }
+    if (_showZones) {
+      newCircleMarkers.addAll(_zones.map((zone) => fm.CircleMarker(
+            point: zone.center,
+            radius: zone.widthInMeters,
+            color: Colors.purple.withOpacity(0.2),
+            borderColor: Colors.purple,
+            borderStrokeWidth: 2.0,
+            useRadiusInMeter: true,
+          )));
+    }
+
+    if (mounted) {
+      setState(() {
+        _markers = newMarkers;
+        _polylines = newPolylines;
+        _polygons = newPolygons;
+        _circleMarkers = newCircleMarkers;
+        _layerUpdateKey++;
+      });
+    }
+    _fitBounds(allPoints);
+  }
+
+  List<LatLng> _getAllMapPoints() {
+    final allPoints = <LatLng>[];
+    if (_polyEditor != null) {
+      allPoints.addAll(_polyEditor!.points);
+    }
+    if (_showContacts) {
+      allPoints.addAll(_contacts.where((c) => c.latitude != null && c.longitude != null).map((c) => LatLng(c.latitude!, c.longitude!)));
+    }
+    if (_showChurches) {
+      allPoints.addAll(_churches.where((c) => c.latitude != null && c.longitude != null).map((c) => LatLng(c.latitude!, c.longitude!)));
+    }
+    if (_showMinistries) {
+      allPoints.addAll(_ministries.where((m) => m.latitude != null && m.longitude != null).map((m) => LatLng(m.latitude!, m.longitude!)));
+    }
+    if (_showAreas) {
+      allPoints.addAll(_areas.expand((a) => a.points));
+    }
+    if (_showZones) {
+      allPoints.addAll(_zones.map((z) => z.center));
+    }
+    return allPoints;
+  }
+
+  void _showHideOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter modalSetState) {
+            return SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    title: const Text('Contacts'),
+                    trailing: Switch(
+                      value: _showContacts,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showContacts = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Churches'),
+                    trailing: Switch(
+                      value: _showChurches,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showChurches = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Ministries'),
+                    trailing: Switch(
+                      value: _showMinistries,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showMinistries = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Areas'),
+                    trailing: Switch(
+                      value: _showAreas,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showAreas = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Streets'),
+                    trailing: Switch(
+                      value: _showStreets,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showStreets = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Zones'),
+                    trailing: Switch(
+                      value: _showZones,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showZones = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

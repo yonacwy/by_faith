@@ -3,9 +3,11 @@ import 'package:flutter_map/flutter_map.dart' as fm;
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_dragmarker/flutter_map_dragmarker.dart';
 import 'package:by_faith/features/go/models/go_route_models.dart';
+import 'package:by_faith/features/go/models/go_model.dart'; // Added import for GoContact, GoChurch, GoMinistry
 import 'package:by_faith/objectbox.dart';
 import 'package:objectbox/objectbox.dart';
 import 'dart:async';
+import 'dart:math'; // Added import for math functions
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 
 class GoAddEditZoneScreen extends StatefulWidget {
@@ -30,16 +32,49 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
   String _zoneName = '';
   Timer? _debounceTimer;
   int _layerUpdateKey = 0;
+  List<fm.Marker> _markers = [];
+  List<fm.Polyline> _polylines = [];
+  List<fm.Polygon> _polygons = [];
+  List<fm.CircleMarker> _circleMarkers = [];
+
+  // ObjectBox Boxes for other map elements
+  late Box<GoContact> _contactBox;
+  late Box<GoChurch> _churchBox;
+  late Box<GoMinistry> _ministryBox;
+  late Box<GoArea> _areaBox;
+  late Box<GoStreet> _streetBox;
+
+  // Lists to hold fetched data
+  List<GoContact> _contacts = [];
+  List<GoChurch> _churches = [];
+  List<GoMinistry> _ministries = [];
+  List<GoArea> _areas = [];
+  List<GoStreet> _streets = [];
 
   static const double _minRadius = 50.0; // meters
   static const double _maxRadius = 5000.0; // meters
   static const double _radiusStep = 50.0; // meters
+
+  bool _showContacts = true;
+  bool _showChurches = true;
+  bool _showMinistries = true;
+  bool _showAreas = true;
+  bool _showStreets = true;
+  bool _showZones = true;
+
+  @override
+  bool _didLoadMapData = false;
 
   @override
   void initState() {
     super.initState();
     _mapController = AnimatedMapController(vsync: this);
     _zoneBox = store.box<GoZone>();
+    _contactBox = store.box<GoContact>();
+    _churchBox = store.box<GoChurch>();
+    _ministryBox = store.box<GoMinistry>();
+    _areaBox = store.box<GoArea>();
+    _streetBox = store.box<GoStreet>();
 
     if (widget.zone != null) {
       _zoneName = widget.zone!.name;
@@ -61,6 +96,13 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
   void didChangeDependencies() {
     super.didChangeDependencies();
     _updateZoneLayer();
+    if (!_didLoadMapData) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await _loadAllMapData();
+        await _setupLayers(); // Call setupLayers after loading data
+        _didLoadMapData = true;
+      });
+    }
     if (widget.zone != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _fitBounds([_currentZoneCenter], radius: _currentZoneRadius);
@@ -240,6 +282,11 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
       appBar: AppBar(
         title: Text('${widget.zone != null ? (widget.isViewMode ? 'View' : 'Edit') : 'Add'} Zone'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.visibility),
+            onPressed: _showHideOptions,
+            tooltip: 'Hide Options',
+          ),
           if (!widget.isViewMode)
             IconButton(
               icon: const Icon(Icons.save),
@@ -266,19 +313,11 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                   debugPrint('Tile loading error: $error');
                 },
               ),
-              fm.CircleLayer(
-                key: ValueKey<String>('circle_layer_$_layerUpdateKey'),
-                circles: [
-                  fm.CircleMarker(
-                    point: _currentZoneCenter,
-                    radius: _currentZoneRadius.clamp(10.0, 10000.0), // Extra safety clamp
-                    color: Colors.blue.withOpacity(0.3),
-                    borderColor: Colors.blue,
-                    borderStrokeWidth: 2.0,
-                    useRadiusInMeter: true,
-                  ),
-                ],
-              ),
+              if (_showZones)
+                fm.CircleLayer(
+                  key: ValueKey<String>('circle_layer_$_layerUpdateKey'),
+                  circles: _circleMarkers,
+                ),
               if (!widget.isViewMode)
                 DragMarkers(
                   markers: [
@@ -304,6 +343,21 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                       },
                     ),
                   ],
+                ),
+              // Markers for Churches, Contacts, Ministries
+              if (_showChurches || _showContacts || _showMinistries)
+                fm.MarkerLayer(
+                  markers: _markers,
+                ),
+              // Polygons for Areas
+              if (_showAreas)
+                fm.PolygonLayer(
+                  polygons: _polygons,
+                ),
+              // Polylines for Streets
+              if (_showStreets)
+                fm.PolylineLayer(
+                  polylines: _polylines,
                 ),
               fm.RichAttributionWidget(
                 attributions: [
@@ -377,10 +431,206 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
     );
   }
 
+
   @override
   void dispose() {
     _debounceTimer?.cancel();
     _mapController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadAllMapData() async {
+    _contacts = _contactBox.getAll();
+    _churches = _churchBox.getAll();
+    _ministries = _ministryBox.getAll();
+    _areas = _areaBox.getAll();
+    _streets = _streetBox.getAll();
+  }
+
+  Future<void> _setupLayers() async {
+    final allPoints = <LatLng>[];
+    allPoints.add(_currentZoneCenter);
+
+    _markers.clear();
+    _polylines.clear();
+    _polygons.clear();
+    _circleMarkers.clear();
+
+    if (_showContacts) {
+      _markers.addAll(_contacts.where((c) => c.latitude != null && c.longitude != null).map(
+            (contact) => fm.Marker(
+              point: LatLng(contact.latitude!, contact.longitude!),
+              width: 40.0,
+              height: 40.0,
+              child: Image.asset('lib/features/go/assets/images/marker_person.png'),
+            ),
+          ));
+    }
+    if (_showChurches) {
+      _markers.addAll(_churches.where((c) => c.latitude != null && c.longitude != null).map(
+            (church) => fm.Marker(
+              point: LatLng(church.latitude!, church.longitude!),
+              width: 40.0,
+              height: 40.0,
+              child: Image.asset('lib/features/go/assets/images/marker_church.png'),
+            ),
+          ));
+    }
+    if (_showMinistries) {
+      _markers.addAll(_ministries.where((m) => m.latitude != null && m.longitude != null).map(
+            (ministry) => fm.Marker(
+              point: LatLng(ministry.latitude!, ministry.longitude!),
+              width: 40.0,
+              height: 40.0,
+              child: Image.asset('lib/features/go/assets/images/marker_ministry.png'),
+            ),
+          ));
+    }
+    if (_showStreets) {
+      _polylines.addAll(_streets.map((street) => fm.Polyline(
+            points: street.points,
+            color: Colors.red,
+            strokeWidth: 3.0,
+          )));
+    }
+    if (_showAreas) {
+      _polygons.addAll(_areas.map((area) => fm.Polygon(
+            points: area.points,
+            color: Colors.blue.withOpacity(0.3),
+            borderColor: Colors.blue,
+            borderStrokeWidth: 2.0,
+          )));
+    }
+    if (_showZones) {
+      _circleMarkers.add(
+        fm.CircleMarker(
+          point: _currentZoneCenter,
+          radius: _currentZoneRadius.clamp(10.0, 10000.0),
+          color: Colors.blue.withOpacity(0.3),
+          borderColor: Colors.blue,
+          borderStrokeWidth: 2.0,
+          useRadiusInMeter: true,
+        ),
+      );
+    }
+
+    if (mounted) {
+      setState(() {
+        _layerUpdateKey++;
+      });
+    }
+    _fitBounds(allPoints, radius: _currentZoneRadius);
+  }
+
+  List<LatLng> _getAllMapPoints() {
+    final allPoints = <LatLng>[];
+    allPoints.add(_currentZoneCenter);
+    if (_showContacts) {
+      allPoints.addAll(_contacts.where((c) => c.latitude != null && c.longitude != null).map((c) => LatLng(c.latitude!, c.longitude!)));
+    }
+    if (_showChurches) {
+      allPoints.addAll(_churches.where((c) => c.latitude != null && c.longitude != null).map((c) => LatLng(c.latitude!, c.longitude!)));
+    }
+    if (_showMinistries) {
+      allPoints.addAll(_ministries.where((m) => m.latitude != null && m.longitude != null).map((m) => LatLng(m.latitude!, m.longitude!)));
+    }
+    if (_showAreas) {
+      allPoints.addAll(_areas.expand((a) => a.points));
+    }
+    if (_showStreets) {
+      allPoints.addAll(_streets.expand((s) => s.points));
+    }
+    return allPoints;
+  }
+
+  void _showHideOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter modalSetState) {
+            return SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    title: const Text('Contacts'),
+                    trailing: Switch(
+                      value: _showContacts,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showContacts = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Churches'),
+                    trailing: Switch(
+                      value: _showChurches,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showChurches = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Ministries'),
+                    trailing: Switch(
+                      value: _showMinistries,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showMinistries = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Areas'),
+                    trailing: Switch(
+                      value: _showAreas,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showAreas = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Streets'),
+                    trailing: Switch(
+                      value: _showStreets,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showStreets = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Zones'),
+                    trailing: Switch(
+                      value: _showZones,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showZones = value;
+                          _setupLayers();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }
