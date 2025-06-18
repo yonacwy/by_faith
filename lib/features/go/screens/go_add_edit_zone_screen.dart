@@ -1,34 +1,31 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart' as fm;
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_dragmarker/flutter_map_dragmarker.dart';
 import 'package:by_faith/features/go/models/go_route_models.dart';
-import 'package:by_faith/features/go/models/go_model.dart'; // Added import for GoContact, GoChurch, GoMinistry
+import 'package:by_faith/features/go/models/go_model.dart';
 import 'package:by_faith/objectbox.dart';
 import 'package:objectbox/objectbox.dart';
 import 'dart:async';
-import 'dart:math'; // Added import for math functions
 import 'package:flutter_map_animations/flutter_map_animations.dart';
+import 'package:vector_math/vector_math.dart' show radians, degrees;
 
 class GoAddEditZoneScreen extends StatefulWidget {
   final GoZone? zone;
   final bool isViewMode;
 
-  const GoAddEditZoneScreen({
-    super.key,
-    this.zone,
-    this.isViewMode = false,
-  });
+  const GoAddEditZoneScreen({Key? key, this.zone, this.isViewMode = false}) : super(key: key);
 
   @override
-  State<GoAddEditZoneScreen> createState() => _GoAddEditZoneScreenState();
+  _GoAddEditZoneScreenState createState() => _GoAddEditZoneScreenState();
 }
 
 class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerProviderStateMixin {
   late AnimatedMapController _mapController;
   late Box<GoZone> _zoneBox;
   late LatLng _currentZoneCenter;
-  late double _currentZoneRadius; // In meters
+  late double _currentZoneRadius;
   String _zoneName = '';
   Timer? _debounceTimer;
   int _layerUpdateKey = 0;
@@ -50,10 +47,11 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
   List<GoMinistry> _ministries = [];
   List<GoArea> _areas = [];
   List<GoStreet> _streets = [];
+  List<GoZone> _zones = [];
 
-  static const double _minRadius = 50.0; // meters
-  static const double _maxRadius = 5000.0; // meters
-  static const double _radiusStep = 50.0; // meters
+  static const double _minRadius = 50.0;
+  static const double _maxRadius = 5000.0;
+  static const double _radiusStep = 50.0;
 
   bool _showContacts = true;
   bool _showChurches = true;
@@ -62,7 +60,6 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
   bool _showStreets = true;
   bool _showZones = true;
 
-  @override
   bool _didLoadMapData = false;
 
   @override
@@ -84,28 +81,36 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
       );
       _currentZoneRadius = widget.zone!.widthInMeters.clamp(_minRadius, _maxRadius);
     } else {
-      _currentZoneCenter = const LatLng(39.0, -98.0); // Default center (central USA)
-      _currentZoneRadius = 500.0; // Default radius
+      _currentZoneCenter = const LatLng(39.0, -98.0);
+      _currentZoneRadius = 500.0;
     }
-
-    // Log initial values for debugging
-    debugPrint('Initial Center: $_currentZoneCenter, Radius: $_currentZoneRadius');
+    debugPrint('Zone: Initial center: $_currentZoneCenter, radius: $_currentZoneRadius');
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _updateZoneLayer();
     if (!_didLoadMapData) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await _loadAllMapData();
-        await _setupLayers(); // Call setupLayers after loading data
+        await _setupLayers();
+        _updateZoneLayer();
         _didLoadMapData = true;
-      });
-    }
-    if (widget.zone != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _fitBounds([_currentZoneCenter], radius: _currentZoneRadius);
+        if (widget.zone != null) {
+          _fitBounds([_currentZoneCenter], radius: _currentZoneRadius);
+        }
+        if (!widget.isViewMode) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text('Tap on the map to set the zone center.'),
+              action: SnackBarAction(
+                label: 'Cancel',
+                onPressed: _cancelZoneMode,
+              ),
+            ),
+          );
+        }
+        debugPrint('Zone: didChangeDependencies completed, circleMarkers: ${_circleMarkers.length}');
       });
     }
   }
@@ -120,7 +125,21 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
     _debounce(() {
       if (mounted) {
         setState(() {
-          _layerUpdateKey++; // Force CircleLayer rebuild
+          _circleMarkers.clear();
+          if (_showZones) {
+            _circleMarkers.add(
+              fm.CircleMarker(
+                point: _currentZoneCenter,
+                radius: _currentZoneRadius.clamp(_minRadius, _maxRadius),
+                color: Colors.purple.withOpacity(0.2),
+                borderColor: Colors.purple,
+                borderStrokeWidth: 2.0,
+                useRadiusInMeter: true,
+              ),
+            );
+          }
+          _layerUpdateKey++;
+          debugPrint('Zone: Updated zone layer, circleMarkers: ${_circleMarkers.length}');
         });
       }
     });
@@ -129,6 +148,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
   void _fitBounds(List<LatLng> points, {double? radius, EdgeInsets? padding}) {
     if (points.isEmpty) {
       _mapController.animateTo(dest: const LatLng(39.0, -98.0), zoom: 2.0);
+      debugPrint('Zone: No points, reset to default view');
       return;
     }
 
@@ -136,11 +156,9 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
       fm.LatLngBounds bounds;
       if (radius != null && points.length == 1) {
         final center = points.first;
-        const distance = Distance(); // From latlong2
-        // Use a smaller multiplier to prevent overly large bounds
-        final offsetDistance = radius * 1.2; // Adjusted for stability
-        final northEast = distance.offset(center, offsetDistance, 45);
-        final southWest = distance.offset(center, offsetDistance, 225);
+        final offsetDistance = radius * 1.414; // Diagonal for padding
+        final northEast = _offsetPoint(center, offsetDistance, 45);
+        final southWest = _offsetPoint(center, offsetDistance, 225);
         bounds = fm.LatLngBounds(southWest, northEast);
       } else {
         bounds = fm.LatLngBounds.fromPoints(points);
@@ -157,11 +175,35 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
           dest: targetCamera.center,
           zoom: targetCamera.zoom.clamp(2.0, 18.0),
         );
+        debugPrint('Zone: Fitted bounds, center: ${targetCamera.center}, zoom: ${targetCamera.zoom}');
       });
     } catch (e) {
-      debugPrint('Error in _fitBounds: $e');
+      debugPrint('Zone: Error in _fitBounds: $e');
       _mapController.animateTo(dest: points.first, zoom: 12.0);
     }
+  }
+
+  LatLng _offsetPoint(LatLng center, double distanceMeters, double bearingDegrees) {
+    final earthRadius = 6371000.0; // Earth's radius in meters
+    final bearingRad = radians(bearingDegrees);
+    final lat1 = radians(center.latitude);
+    final lon1 = radians(center.longitude);
+    final angularDistance = distanceMeters / earthRadius;
+
+    final lat2 = math.asin(
+      math.sin(lat1) * math.cos(angularDistance) +
+          math.cos(lat1) * math.sin(angularDistance) * math.cos(bearingRad),
+    );
+    final lon2 = lon1 +
+        math.atan2(
+          math.sin(bearingRad) * math.sin(angularDistance) * math.cos(lat1),
+          math.cos(angularDistance) - math.sin(lat1) * math.sin(lat2),
+        );
+
+    return LatLng(
+      degrees(lat2).clamp(-90.0, 90.0),
+      degrees(lon2).clamp(-180.0, 180.0),
+    );
   }
 
   void _handleMapTap(fm.TapPosition tapPosition, LatLng latLng) {
@@ -173,8 +215,33 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
         );
         _updateZoneLayer();
         _fitBounds([_currentZoneCenter], radius: _currentZoneRadius);
+        debugPrint('Zone: Map tapped, new center: $_currentZoneCenter');
       });
     }
+  }
+
+  void _cancelZoneMode() async {
+    if (_currentZoneCenter != const LatLng(39.0, -98.0) || _currentZoneRadius != 500.0) {
+      final confirm = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Cancel Zone Creation'),
+          content: const Text('Discard changes to this zone?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Keep Editing'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Discard'),
+            ),
+          ],
+        ),
+      );
+      if (confirm != true) return;
+    }
+    Navigator.pop(context);
   }
 
   void _showSaveZoneDialog() async {
@@ -208,14 +275,12 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
           TextButton(
             onPressed: () {
               if (nameController.text.trim().isEmpty) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Name cannot be empty.')),
-                  );
-                });
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Name cannot be empty.')),
+                );
                 return;
               }
-              Navigator.of(context).pop(nameController.text.trim());
+              Navigator.pop(context, nameController.text.trim());
             },
             child: const Text('Save'),
           ),
@@ -239,20 +304,16 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
         _zoneBox.put(zone);
 
         if (mounted) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Zone saved successfully.')),
-            );
-          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Zone saved successfully.')),
+          );
           Navigator.pop(context);
         }
       } catch (e) {
         if (mounted) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Error saving Zone: $e')),
-            );
-          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error saving Zone: $e')),
+          );
         }
       }
     }
@@ -263,7 +324,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
       _currentZoneRadius = (_currentZoneRadius + _radiusStep).clamp(_minRadius, _maxRadius);
       _updateZoneLayer();
       _fitBounds([_currentZoneCenter], radius: _currentZoneRadius);
-      debugPrint('Radius increased to: $_currentZoneRadius');
+      debugPrint('Zone: Radius increased to: $_currentZoneRadius');
     });
   }
 
@@ -272,165 +333,9 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
       _currentZoneRadius = (_currentZoneRadius - _radiusStep).clamp(_minRadius, _maxRadius);
       _updateZoneLayer();
       _fitBounds([_currentZoneCenter], radius: _currentZoneRadius);
-      debugPrint('Radius decreased to: $_currentZoneRadius');
+      debugPrint('Zone: Radius decreased to: $_currentZoneRadius');
     });
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('${widget.zone != null ? (widget.isViewMode ? 'View' : 'Edit') : 'Add'} Zone'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.visibility),
-            onPressed: _showHideOptions,
-            tooltip: 'Hide Options',
-          ),
-          if (!widget.isViewMode)
-            IconButton(
-              icon: const Icon(Icons.save),
-              onPressed: _showSaveZoneDialog,
-              tooltip: 'Save Zone',
-            ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          fm.FlutterMap(
-            mapController: _mapController.mapController,
-            options: fm.MapOptions(
-              initialCenter: _currentZoneCenter,
-              initialZoom: 12.0,
-              minZoom: 2.0,
-              maxZoom: 18.0,
-              onTap: _handleMapTap,
-            ),
-            children: [
-              fm.TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                errorTileCallback: (tile, error, stackTrace) {
-                  debugPrint('Tile loading error: $error');
-                },
-              ),
-              if (_showZones)
-                fm.CircleLayer(
-                  key: ValueKey<String>('circle_layer_$_layerUpdateKey'),
-                  circles: _circleMarkers,
-                ),
-              if (!widget.isViewMode)
-                DragMarkers(
-                  markers: [
-                    DragMarker(
-                      point: _currentZoneCenter,
-                      size: const Size(40.0, 40.0),
-                      offset: const Offset(-20.0, -20.0),
-                      builder: (context, point, isDragging) => const Icon(
-                        Icons.location_on,
-                        size: 40,
-                        color: Colors.red,
-                      ),
-                      onDragEnd: (details, point) {
-                        setState(() {
-                          _currentZoneCenter = LatLng(
-                            point.latitude.clamp(-90.0, 90.0),
-                            point.longitude.clamp(-180.0, 180.0),
-                          );
-                          _updateZoneLayer();
-                          _fitBounds([_currentZoneCenter], radius: _currentZoneRadius);
-                          debugPrint('Marker dragged to: $_currentZoneCenter');
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              // Markers for Churches, Contacts, Ministries
-              if (_showChurches || _showContacts || _showMinistries)
-                fm.MarkerLayer(
-                  markers: _markers,
-                ),
-              // Polygons for Areas
-              if (_showAreas)
-                fm.PolygonLayer(
-                  polygons: _polygons,
-                ),
-              // Polylines for Streets
-              if (_showStreets)
-                fm.PolylineLayer(
-                  polylines: _polylines,
-                ),
-              fm.RichAttributionWidget(
-                attributions: [
-                  fm.TextSourceAttribution(
-                    'OpenStreetMap contributors',
-                    onTap: () => debugPrint('Attribution tapped'),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          if (!widget.isViewMode)
-            Positioned(
-              bottom: 16.0,
-              right: 16.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  FloatingActionButton.small(
-                    heroTag: 'zoomInBtn',
-                    onPressed: () {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        _mapController.animateTo(zoom: _mapController.mapController.camera.zoom + 1);
-                      });
-                    },
-                    child: const Icon(Icons.add),
-                  ),
-                  const SizedBox(height: 8.0),
-                  FloatingActionButton.small(
-                    heroTag: 'zoomOutBtn',
-                    onPressed: () {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        _mapController.animateTo(zoom: _mapController.mapController.camera.zoom - 1);
-                      });
-                    },
-                    child: const Icon(Icons.remove),
-                  ),
-                  const SizedBox(height: 16.0),
-                  FloatingActionButton.small(
-                    heroTag: 'increaseRadiusBtn',
-                    onPressed: _increaseRadius,
-                    child: const Icon(Icons.add_circle_outline),
-                  ),
-                  const SizedBox(height: 8.0),
-                  FloatingActionButton.small(
-                    heroTag: 'decreaseRadiusBtn',
-                    onPressed: _decreaseRadius,
-                    child: const Icon(Icons.remove_circle_outline),
-                  ),
-                  const SizedBox(height: 16.0),
-                  FloatingActionButton(
-                    heroTag: 'setCenterBtn',
-                    onPressed: () {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        setState(() {
-                          _currentZoneCenter = _mapController.mapController.camera.center;
-                          _updateZoneLayer();
-                          _fitBounds([_currentZoneCenter], radius: _currentZoneRadius);
-                          debugPrint('Center set to: $_currentZoneCenter');
-                        });
-                      });
-                    },
-                    child: const Icon(Icons.center_focus_strong),
-                  ),
-                ],
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
 
   @override
   void dispose() {
@@ -445,6 +350,8 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
     _ministries = _ministryBox.getAll();
     _areas = _areaBox.getAll();
     _streets = _streetBox.getAll();
+    _zones = _zoneBox.getAll();
+    debugPrint('Zone: Loaded map data, zones: ${_zones.length}');
   }
 
   Future<void> _setupLayers() async {
@@ -454,7 +361,6 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
     _markers.clear();
     _polylines.clear();
     _polygons.clear();
-    _circleMarkers.clear();
 
     if (_showContacts) {
       _markers.addAll(_contacts.where((c) => c.latitude != null && c.longitude != null).map(
@@ -502,21 +408,20 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
           )));
     }
     if (_showZones) {
-      _circleMarkers.add(
-        fm.CircleMarker(
-          point: _currentZoneCenter,
-          radius: _currentZoneRadius.clamp(10.0, 10000.0),
-          color: Colors.blue.withOpacity(0.3),
-          borderColor: Colors.blue,
-          borderStrokeWidth: 2.0,
-          useRadiusInMeter: true,
-        ),
-      );
+      _circleMarkers.addAll(_zones.map((zone) => fm.CircleMarker(
+            point: zone.center,
+            radius: zone.widthInMeters,
+            color: Colors.purple.withOpacity(0.2),
+            borderColor: Colors.purple,
+            borderStrokeWidth: 2.0,
+            useRadiusInMeter: true,
+          )));
     }
 
     if (mounted) {
       setState(() {
         _layerUpdateKey++;
+        debugPrint('Zone: Setup layers, circleMarkers: ${_circleMarkers.length}, markers: ${_markers.length}');
       });
     }
     _fitBounds(allPoints, radius: _currentZoneRadius);
@@ -539,6 +444,9 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
     }
     if (_showStreets) {
       allPoints.addAll(_streets.expand((s) => s.points));
+    }
+    if (_showZones) {
+      allPoints.addAll(_zones.map((z) => z.center));
     }
     return allPoints;
   }
@@ -631,6 +539,154 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
           },
         );
       },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${widget.zone != null ? (widget.isViewMode ? 'View' : 'Edit') : 'Add'} Zone'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.visibility),
+            onPressed: _showHideOptions,
+            tooltip: 'Hide Options',
+          ),
+          if (!widget.isViewMode)
+            IconButton(
+              icon: const Icon(Icons.save),
+              onPressed: _showSaveZoneDialog,
+              tooltip: 'Save Zone',
+            ),
+        ],
+      ),
+      body: Stack(
+        children: [
+          fm.FlutterMap(
+            mapController: _mapController.mapController,
+            options: fm.MapOptions(
+              initialCenter: _currentZoneCenter,
+              initialZoom: widget.zone != null ? 12.0 : 2.0,
+              minZoom: 2.0,
+              maxZoom: 18.0,
+              onTap: _handleMapTap,
+            ),
+            children: [
+              fm.TileLayer(
+                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                errorTileCallback: (tile, error, stackTrace) {
+                  debugPrint('Zone: Tile loading error: $error');
+                },
+              ),
+              if (_showZones && _circleMarkers.isNotEmpty)
+                fm.CircleLayer(
+                  key: ValueKey<String>('circle_layer_$_layerUpdateKey'),
+                  circles: _circleMarkers,
+                ),
+              if (!widget.isViewMode)
+                DragMarkers(
+                  markers: [
+                    DragMarker(
+                      point: _currentZoneCenter,
+                      size: const Size(40.0, 40.0),
+                      offset: const Offset(-20.0, -20.0),
+                      builder: (context, point, isDragging) => const Icon(
+                        Icons.location_on,
+                        size: 40,
+                        color: Colors.red,
+                      ),
+                      onDragEnd: (details, point) {
+                        setState(() {
+                          _currentZoneCenter = LatLng(
+                            point.latitude.clamp(-90.0, 90.0),
+                            point.longitude.clamp(-180.0, 180.0),
+                          );
+                          _updateZoneLayer();
+                          _fitBounds([_currentZoneCenter], radius: _currentZoneRadius);
+                          debugPrint('Zone: Marker dragged to: $_currentZoneCenter');
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              if (_showChurches || _showContacts || _showMinistries)
+                fm.MarkerLayer(
+                  markers: _markers,
+                ),
+              if (_showAreas)
+                fm.PolygonLayer(
+                  polygons: _polygons,
+                ),
+              if (_showStreets)
+                fm.PolylineLayer(
+                  polylines: _polylines,
+                ),
+              fm.RichAttributionWidget(
+                attributions: [
+                  fm.TextSourceAttribution(
+                    'OpenStreetMap contributors',
+                    onTap: () => debugPrint('Zone: Attribution tapped'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Positioned(
+            bottom: 16.0,
+            right: 16.0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                FloatingActionButton.small(
+                  heroTag: 'zoomInBtn',
+                  onPressed: () {
+                    _mapController.animateTo(zoom: _mapController.mapController.camera.zoom + 1);
+                  },
+                  child: const Icon(Icons.add),
+                ),
+                const SizedBox(height: 8.0),
+                FloatingActionButton.small(
+                  heroTag: 'zoomOutBtn',
+                  onPressed: () {
+                    _mapController.animateTo(zoom: _mapController.mapController.camera.zoom - 1);
+                  },
+                  child: const Icon(Icons.remove),
+                ),
+                const SizedBox(height: 16.0),
+                if (!widget.isViewMode)
+                  FloatingActionButton.small(
+                    heroTag: 'increaseRadiusBtn',
+                    onPressed: _increaseRadius,
+                    child: const Icon(Icons.add_circle_outline),
+                  ),
+                const SizedBox(height: 8.0),
+                if (!widget.isViewMode)
+                  FloatingActionButton.small(
+                    heroTag: 'decreaseRadiusBtn',
+                    onPressed: _decreaseRadius,
+                    child: const Icon(Icons.remove_circle_outline),
+                  ),
+                const SizedBox(height: 16.0),
+                if (!widget.isViewMode)
+                  FloatingActionButton(
+                    heroTag: 'setCenterBtn',
+                    onPressed: () {
+                      setState(() {
+                        _currentZoneCenter = _mapController.mapController.camera.center;
+                        _updateZoneLayer();
+                        _fitBounds([_currentZoneCenter], radius: _currentZoneRadius);
+                        debugPrint('Zone: Center set to: $_currentZoneCenter');
+                      });
+                    },
+                    child: const Icon(Icons.center_focus_strong),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

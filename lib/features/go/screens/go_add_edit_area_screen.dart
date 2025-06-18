@@ -4,11 +4,10 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_line_editor/flutter_map_line_editor.dart';
 import 'package:flutter_map_dragmarker/flutter_map_dragmarker.dart';
 import 'package:by_faith/features/go/models/go_route_models.dart';
-import 'package:by_faith/features/go/models/go_model.dart'; // Added import for GoContact, GoChurch, GoMinistry
+import 'package:by_faith/features/go/models/go_model.dart';
 import 'package:by_faith/objectbox.dart';
 import 'package:objectbox/objectbox.dart';
 import 'dart:async';
-import 'dart:math'; // Added import for math functions
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 
 class GoAddEditAreaScreen extends StatefulWidget {
@@ -26,10 +25,11 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
   late Box<GoArea> _areaBox;
   PolyEditor? _polyEditor;
   List<fm.Polygon> _polygons = [];
-  fm.Polygon? _tempPolygon; // Declare _tempPolygon
+  fm.Polygon? _tempPolygon;
   String _areaName = '';
   Timer? _debounceTimer;
   bool _didInitAreaMode = false;
+  bool _didLoadMapData = false;
   int _layerUpdateKey = 0;
   List<fm.Marker> _markers = [];
   List<fm.CircleMarker> _circleMarkers = [];
@@ -58,9 +58,6 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
   bool _showZones = true;
 
   @override
-  bool _didLoadMapData = false;
-
-  @override
   void initState() {
     super.initState();
     _mapController = AnimatedMapController(vsync: this);
@@ -75,16 +72,17 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (!_didInitAreaMode) {
-      if (!_didLoadMapData) {
-        WidgetsBinding.instance.addPostFrameCallback((_) async {
-          await _loadAllMapData();
-          await _setupLayers(); // Call setupLayers after loading data
-          _didLoadMapData = true;
-        });
-      }
-      _startAreaMode();
-      _didInitAreaMode = true;
+    if (!_didLoadMapData) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await _loadAllMapData();
+        if (!_didInitAreaMode) {
+          _startAreaMode();
+          _didInitAreaMode = true;
+        }
+        await _setupLayers();
+        _didLoadMapData = true;
+        debugPrint('Area: didChangeDependencies completed, polygons: ${_polygons.length}');
+      });
     }
   }
 
@@ -106,7 +104,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             setState(() {
               _updateTempAreaLayers();
               _layerUpdateKey++;
-              debugPrint('Area: Updated layers, polygons count: ${_polygons.length}, points: ${_polyEditor!.points.length}');
+              debugPrint('Area: PolyEditor callback, polygons: ${_polygons.length}, points: ${_polyEditor!.points.length}');
             });
           }
         });
@@ -130,6 +128,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
         );
       });
     }
+    debugPrint('Area: Started area mode, polyEditor initialized');
   }
 
   void _loadExistingArea() {
@@ -141,8 +140,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
         _fitBounds(widget.area!.points);
       });
       setState(() {
-        _layerUpdateKey++; // Increment key when points are loaded
-        debugPrint('Area: Loaded existing area, polygons count: ${_polygons.length}');
+        _layerUpdateKey++;
+        debugPrint('Area: Loaded existing area, points: ${_polyEditor!.points.length}, polygons: ${_polygons.length}');
       });
     }
   }
@@ -161,7 +160,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
     );
     final targetCamera = cameraFit.fit(_mapController.mapController.camera);
 
-    debugPrint('Area: Fitting bounds to points: ${points.length}, center: ${targetCamera.center}, zoom: ${targetCamera.zoom}');
+    debugPrint('Area: Fitting bounds, points: ${points.length}, center: ${targetCamera.center}, zoom: ${targetCamera.zoom}');
 
     _mapController.animateTo(
       dest: targetCamera.center,
@@ -170,30 +169,19 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
   }
 
   void _updateTempAreaLayers() {
+    _polygons.clear();
     if (_polyEditor!.points.length >= 3) {
-      // Update the existing polygon or create a new one if it doesn't exist
-      if (_tempPolygon == null) {
-        _tempPolygon = fm.Polygon(
-          points: _polyEditor!.points,
-          color: Colors.blue.withOpacity(0.3),
-          borderColor: Colors.blue,
-          borderStrokeWidth: 2.0,
-        );
-        _polygons = [_tempPolygon!]; // Replace the list with the single polygon
-      } else {
-        _tempPolygon = fm.Polygon( // Create a new polygon with updated points
-          points: _polyEditor!.points,
-          color: Colors.blue.withOpacity(0.3),
-          borderColor: Colors.blue,
-          borderStrokeWidth: 2.0,
-        );
-         _polygons[0] = _tempPolygon!; // Update the polygon in the list
-      }
+      _tempPolygon = fm.Polygon(
+        points: List<LatLng>.from(_polyEditor!.points),
+        color: Colors.blue.withOpacity(0.3),
+        borderColor: Colors.blue,
+        borderStrokeWidth: 2.0,
+      );
+      _polygons.add(_tempPolygon!);
     } else {
-      _polygons.clear(); // Clear the polygon if not enough points
       _tempPolygon = null;
     }
-    debugPrint('Area: Updated temp layers, polygons count: ${_polygons.length}');
+    debugPrint('Area: Updated temp layers, polygons: ${_polygons.length}, points: ${_polyEditor!.points.length}');
   }
 
   void _handleMapTap(fm.TapPosition tapPosition, LatLng latLng) {
@@ -208,8 +196,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
       if (mounted) {
         setState(() {
           _updateTempAreaLayers();
-          _layerUpdateKey++; // Increment key when points are updated
-          debugPrint('Area: Added point, total points: ${_polyEditor!.points.length}, polygons: ${_polygons.length}');
+          _layerUpdateKey++;
+          debugPrint('Area: Added point, points: ${_polyEditor!.points.length}, polygons: ${_polygons.length}');
           if (_polyEditor!.points.length >= 3) {
             _fitBounds(_polyEditor!.points);
           }
@@ -237,7 +225,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
           ],
         ),
       );
-      if (!confirm!) return;
+      if (confirm != true) return;
     }
     Navigator.pop(context);
   }
@@ -285,7 +273,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                 );
                 return;
               }
-              Navigator.of(context).pop(nameController.text.trim());
+              Navigator.pop(context, nameController.text.trim());
             },
             child: const Text('Save'),
           ),
@@ -329,8 +317,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
         if (mounted) {
           setState(() {
             _updateTempAreaLayers();
-            _layerUpdateKey++; // Increment key when points are updated
-            debugPrint('Area: Removed last point, remaining: ${_polyEditor!.points.length}, polygons: ${_polygons.length}');
+            _layerUpdateKey++;
+            debugPrint('Area: Removed point, points: ${_polyEditor!.points.length}, polygons: ${_polygons.length}');
             if (_polyEditor!.points.isNotEmpty) {
               _fitBounds(_polyEditor!.points);
             } else {
@@ -355,6 +343,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
     _ministries = _ministryBox.getAll();
     _streets = _streetBox.getAll();
     _zones = _zoneBox.getAll();
+    _areas = _areaBox.getAll();
+    debugPrint('Area: Loaded map data, areas: ${_areas.length}');
   }
 
   Future<void> _setupLayers() async {
@@ -365,7 +355,6 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
 
     _markers.clear();
     _polylines.clear();
-    _polygons.clear();
     _circleMarkers.clear();
 
     if (_showContacts) {
@@ -405,14 +394,6 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             strokeWidth: 3.0,
           )));
     }
-    if (_showAreas) {
-      _polygons.addAll(_areas.map((area) => fm.Polygon(
-            points: area.points,
-            color: Colors.blue.withOpacity(0.3),
-            borderColor: Colors.blue,
-            borderStrokeWidth: 2.0,
-          )));
-    }
     if (_showZones) {
       _circleMarkers.addAll(_zones.map((zone) => fm.CircleMarker(
             point: zone.center,
@@ -423,13 +404,25 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             useRadiusInMeter: true,
           )));
     }
+    if (_showAreas) {
+      _polygons.addAll(_areas.map((area) => fm.Polygon(
+            points: area.points,
+            color: Colors.blue.withOpacity(0.3),
+            borderColor: Colors.blue,
+            borderStrokeWidth: 2.0,
+          )));
+    }
+    _updateTempAreaLayers();
 
     if (mounted) {
       setState(() {
         _layerUpdateKey++;
+        debugPrint('Area: Setup layers, polygons: ${_polygons.length}, markers: ${_markers.length}');
       });
     }
-    _fitBounds(allPoints);
+    if (allPoints.isNotEmpty) {
+      _fitBounds(allPoints);
+    }
   }
 
   List<LatLng> _getAllMapPoints() {
@@ -582,7 +575,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
               fm.TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
               ),
-              if (_polygons.isNotEmpty && _showAreas)
+              if (_showAreas && _polygons.isNotEmpty)
                 fm.PolygonLayer(
                   key: ValueKey<String>('polygon_layer_$_layerUpdateKey'),
                   polygons: _polygons,
@@ -591,17 +584,14 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                 DragMarkers(
                   markers: _polyEditor!.edit(),
                 ),
-              // Markers for Churches, Contacts, Ministries
               if (_showChurches || _showContacts || _showMinistries)
                 fm.MarkerLayer(
                   markers: _markers,
                 ),
-              // Polylines for Streets
               if (_showStreets)
                 fm.PolylineLayer(
                   polylines: _polylines,
                 ),
-              // Circles for Zones
               if (_showZones)
                 fm.CircleLayer(
                   circles: _circleMarkers,
@@ -625,38 +615,38 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
               children: [
                 FloatingActionButton.small(
                   heroTag: 'zoomInBtn',
+                  onPressed: () {
+                    _mapController.animateTo(zoom: _mapController.mapController.camera.zoom + 1);
+                  },
+                  child: const Icon(Icons.add),
+                ),
+                const SizedBox(height: 8.0),
+                FloatingActionButton.small(
+                  heroTag: 'zoomOutBtn',
+                  onPressed: () {
+                    _mapController.animateTo(zoom: _mapController.mapController.camera.zoom - 1);
+                  },
+                  child: const Icon(Icons.remove),
+                ),
+                const SizedBox(height: 16.0),
+                if (!widget.isViewMode)
+                  FloatingActionButton(
+                    heroTag: 'addPointBtn',
                     onPressed: () {
-                      _mapController.animateTo(zoom: _mapController.mapController.camera.zoom + 1);
+                      _addAreaPoint(_mapController.mapController.camera.center);
                     },
-                    child: const Icon(Icons.add),
+                    child: const Icon(Icons.add_location_alt),
                   ),
-                  const SizedBox(height: 8.0),
-                  FloatingActionButton.small(
-                    heroTag: 'zoomOutBtn',
-                    onPressed: () {
-                      _mapController.animateTo(zoom: _mapController.mapController.camera.zoom - 1);
-                    },
-                    child: const Icon(Icons.remove),
+                const SizedBox(height: 8.0),
+                if (!widget.isViewMode && (_polyEditor?.points.isNotEmpty ?? false))
+                  FloatingActionButton(
+                    heroTag: 'removePointBtn',
+                    onPressed: _removeLastAreaPoint,
+                    child: const Icon(Icons.remove_circle_outline),
                   ),
-                  const SizedBox(height: 16.0),
-                  if (!widget.isViewMode)
-                    FloatingActionButton(
-                      heroTag: 'addPointBtn',
-                      onPressed: () {
-                        _addAreaPoint(_mapController.mapController.camera.center);
-                      },
-                      child: const Icon(Icons.add_location_alt),
-                    ),
-                  const SizedBox(height: 8.0),
-                  if (!widget.isViewMode && (_polyEditor?.points.isNotEmpty ?? false))
-                    FloatingActionButton(
-                      heroTag: 'removePointBtn',
-                      onPressed: _removeLastAreaPoint,
-                      child: const Icon(Icons.remove_circle_outline),
-                    ),
-                ],
-              ),
+              ],
             ),
+          ),
         ],
       ),
     );

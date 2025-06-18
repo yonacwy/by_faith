@@ -4,11 +4,10 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_line_editor/flutter_map_line_editor.dart';
 import 'package:flutter_map_dragmarker/flutter_map_dragmarker.dart';
 import 'package:by_faith/features/go/models/go_route_models.dart';
-import 'package:by_faith/features/go/models/go_model.dart'; // Added import for GoContact, GoChurch, GoMinistry
+import 'package:by_faith/features/go/models/go_model.dart';
 import 'package:by_faith/objectbox.dart';
 import 'package:objectbox/objectbox.dart';
 import 'dart:async';
-import 'dart:math'; // Added import for math functions
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 
 class GoAddEditStreetScreen extends StatefulWidget {
@@ -29,8 +28,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
   late AnimatedMapController _mapController;
   late Box<GoStreet> _streetBox;
   PolyEditor? _polyEditor;
-  fm.Polyline? _tempPolyline; // Use a single polyline object
-  List<fm.Polyline> _polylines = []; // Keep the list for the layer, but manage a single temp polyline
+  fm.Polyline? _tempPolyline;
+  List<fm.Polyline> _polylines = [];
   String _routeName = '';
   Timer? _debounceTimer;
   int _layerUpdateKey = 0;
@@ -38,14 +37,12 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
   List<fm.Polygon> _polygons = [];
   List<fm.CircleMarker> _circleMarkers = [];
 
-  // ObjectBox Boxes for other map elements
   late Box<GoContact> _contactBox;
   late Box<GoChurch> _churchBox;
   late Box<GoMinistry> _ministryBox;
   late Box<GoArea> _areaBox;
   late Box<GoZone> _zoneBox;
 
-  // Lists to hold fetched data
   List<GoContact> _contacts = [];
   List<GoChurch> _churches = [];
   List<GoMinistry> _ministries = [];
@@ -60,8 +57,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
   bool _showStreets = true;
   bool _showZones = true;
 
-  @override
   bool _didLoadMapData = false;
+  bool _didInitRouteMode = false;
 
   @override
   void initState() {
@@ -81,8 +78,24 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
     if (!_didLoadMapData) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await _loadAllMapData();
-        await _setupLayers(); // Call setupLayers after loading data
+        if (!_didInitRouteMode) {
+          _startRouteMode();
+          _didInitRouteMode = true;
+        }
+        await _setupLayers();
         _didLoadMapData = true;
+        if (!widget.isViewMode) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text('Tap on the map to add points for Street.'),
+              action: SnackBarAction(
+                label: 'Cancel',
+                onPressed: _cancelRouteMode,
+              ),
+            ),
+          );
+        }
+        debugPrint('Street: didChangeDependencies completed, polylines: ${_polylines.length}');
       });
     }
   }
@@ -105,7 +118,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
             setState(() {
               _updateTempRouteLayers();
               _layerUpdateKey++;
-              debugPrint('Street: Updated layers, polylines count: ${_polylines.length}, points: ${_polyEditor!.points.length}');
+              debugPrint('Street: Updated layers, polylines: ${_polylines.length}, points: ${_polyEditor!.points.length}');
             });
           }
         });
@@ -115,10 +128,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
     if (widget.street != null) {
       _loadExistingRoute();
     }
-
-    if (!widget.isViewMode) {
-      // Moved snackbar display inside the post frame callback in didChangeDependencies
-    }
+    debugPrint('Street: Started route mode, polyEditor initialized');
   }
 
   void _loadExistingRoute() {
@@ -130,8 +140,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
         _fitBounds(widget.street!.points);
       });
       setState(() {
-        _layerUpdateKey++; // Increment key when points are loaded
-        debugPrint('Street: Loaded existing route, polylines count: ${_polylines.length}');
+        _layerUpdateKey++;
+        debugPrint('Street: Loaded existing route, points: ${_polyEditor!.points.length}, polylines: ${_polylines.length}');
       });
     }
   }
@@ -150,7 +160,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
     );
     final targetCamera = cameraFit.fit(_mapController.mapController.camera);
 
-    debugPrint('Street: Fitting bounds to points: ${points.length}, center: ${targetCamera.center}, zoom: ${targetCamera.zoom}');
+    debugPrint('Street: Fitting bounds, points: ${points.length}, center: ${targetCamera.center}, zoom: ${targetCamera.zoom}');
 
     _mapController.animateTo(
       dest: targetCamera.center,
@@ -159,29 +169,18 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
   }
 
   void _updateTempRouteLayers() {
+    _polylines.clear();
     if (_polyEditor!.points.length >= 2) {
-      // Update the existing polyline or create a new one if it doesn't exist
-      if (_tempPolyline == null) {
-        _tempPolyline = fm.Polyline(
-          points: _polyEditor!.points,
-          color: Colors.red,
-          strokeWidth: 4.0,
-        );
-        _polylines = [_tempPolyline!]; // Replace the list with the single polyline
-      } else {
-        // Create a new polyline with updated points
-        _tempPolyline = fm.Polyline(
-          points: _polyEditor!.points,
-          color: Colors.red,
-          strokeWidth: 4.0,
-        );
-        _polylines = [_tempPolyline!]; // Replace the list with the new polyline
-      }
+      _tempPolyline = fm.Polyline(
+        points: List<LatLng>.from(_polyEditor!.points),
+        color: Colors.red,
+        strokeWidth: 4.0,
+      );
+      _polylines.add(_tempPolyline!);
     } else {
-      _polylines.clear(); // Clear the polyline if not enough points
       _tempPolyline = null;
     }
-    debugPrint('Street: Updated temp layers, polylines count: ${_polylines.length}');
+    debugPrint('Street: Updated temp layers, polylines: ${_polylines.length}, points: ${_polyEditor!.points.length}');
   }
 
   void _handleMapTap(fm.TapPosition tapPosition, LatLng latLng) {
@@ -197,7 +196,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
         setState(() {
           _updateTempRouteLayers();
           _layerUpdateKey++;
-          debugPrint('Street: Added point, total points: ${_polyEditor!.points.length}, polylines: ${_polylines.length}');
+          debugPrint('Street: Added point, points: ${_polyEditor!.points.length}, polylines: ${_polylines.length}');
           if (_polyEditor!.points.length >= 2) {
             _fitBounds(_polyEditor!.points);
           }
@@ -225,7 +224,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           ],
         ),
       );
-      if (!confirm!) return;
+      if (confirm != true) return;
     }
     Navigator.pop(context);
   }
@@ -273,7 +272,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                 );
                 return;
               }
-              Navigator.of(context).pop(nameController.text.trim());
+              Navigator.pop(context, nameController.text.trim());
             },
             child: const Text('Save'),
           ),
@@ -317,8 +316,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
         if (mounted) {
           setState(() {
             _updateTempRouteLayers();
-            _layerUpdateKey++; // Increment key when points are updated
-            debugPrint('Street: Removed last point, remaining: ${_polyEditor!.points.length}, polylines: ${_polylines.length}');
+            _layerUpdateKey++;
+            debugPrint('Street: Removed point, points: ${_polyEditor!.points.length}, polylines: ${_polylines.length}');
             if (_polyEditor!.points.isNotEmpty) {
               _fitBounds(_polyEditor!.points);
             } else {
@@ -337,92 +336,14 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.street != null ? 'Edit Street' : 'Add Street'),
-        actions: [
-          if (!widget.isViewMode)
-            IconButton(
-              icon: const Icon(Icons.save),
-              onPressed: _showSaveRouteDialog,
-            ),
-          IconButton(
-            icon: const Icon(Icons.layers),
-            onPressed: _showHideOptions,
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          fm.FlutterMap(
-            key: ValueKey<int>(_layerUpdateKey), // Use key to force rebuild layers
-            mapController: _mapController.mapController,
-            options: fm.MapOptions(
-              initialCenter: const LatLng(35.580646, -84.222486), // Default center
-              initialZoom: 10.0, // Default zoom
-              onTap: _handleMapTap,
-              interactionOptions: fm.InteractionOptions(
-                flags: widget.isViewMode
-                    ? fm.InteractiveFlag.all
-                    : fm.InteractiveFlag.pinchZoom | fm.InteractiveFlag.drag,
-              ),
-            ),
-            children: [
-              fm.TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.example.app',
-              ),
-              if (_polyEditor != null)
-                fm.PolylineLayer(
-                  polylines: _polylines,
-                ),
-              if (_polyEditor != null && !widget.isViewMode)
-                DragMarkers(
-                  markers: _polyEditor!.edit(),
-                ),
-              fm.MarkerLayer(markers: _markers),
-              fm.PolygonLayer(polygons: _polygons),
-              fm.CircleLayer(circles: _circleMarkers),
-            ],
-          ),
-          if (!widget.isViewMode)
-            Positioned(
-              bottom: 16.0,
-              right: 16.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  FloatingActionButton(
-                    heroTag: 'removePointBtn',
-                    mini: true,
-                    onPressed: _removeLastRoutePoint,
-                    child: const Icon(Icons.remove),
-                  ),
-                  const SizedBox(height: 8),
-                  FloatingActionButton(
-                    heroTag: 'addPointBtn',
-                    mini: true,
-                    onPressed: () {
-                      _addRoutePoint(_mapController.mapController.camera.center);
-                    },
-                    child: const Icon(Icons.add),
-                  ),
-                ],
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
   Future<void> _loadAllMapData() async {
     _contacts = _contactBox.getAll();
     _churches = _churchBox.getAll();
     _ministries = _ministryBox.getAll();
     _areas = _areaBox.getAll();
     _zones = _zoneBox.getAll();
+    _streets = _streetBox.getAll();
+    debugPrint('Street: Loaded map data, streets: ${_streets.length}');
   }
 
   Future<void> _setupLayers() async {
@@ -431,13 +352,12 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
       allPoints.addAll(_polyEditor!.points);
     }
 
-    final List<fm.Marker> newMarkers = [];
-    final List<fm.Polyline> newPolylines = [];
-    final List<fm.Polygon> newPolygons = [];
-    final List<fm.CircleMarker> newCircleMarkers = [];
+    _markers.clear();
+    _polygons.clear();
+    _circleMarkers.clear();
 
     if (_showContacts) {
-      newMarkers.addAll(_contacts.where((c) => c.latitude != null && c.longitude != null).map(
+      _markers.addAll(_contacts.where((c) => c.latitude != null && c.longitude != null).map(
             (contact) => fm.Marker(
               point: LatLng(contact.latitude!, contact.longitude!),
               width: 40.0,
@@ -447,7 +367,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           ));
     }
     if (_showChurches) {
-      newMarkers.addAll(_churches.where((c) => c.latitude != null && c.longitude != null).map(
+      _markers.addAll(_churches.where((c) => c.latitude != null && c.longitude != null).map(
             (church) => fm.Marker(
               point: LatLng(church.latitude!, church.longitude!),
               width: 40.0,
@@ -457,7 +377,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           ));
     }
     if (_showMinistries) {
-      newMarkers.addAll(_ministries.where((m) => m.latitude != null && m.longitude != null).map(
+      _markers.addAll(_ministries.where((m) => m.latitude != null && m.longitude != null).map(
             (ministry) => fm.Marker(
               point: LatLng(ministry.latitude!, ministry.longitude!),
               width: 40.0,
@@ -466,15 +386,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
             ),
           ));
     }
-    if (_showStreets) {
-      newPolylines.addAll(_streets.map((street) => fm.Polyline(
-            points: street.points,
-            color: Colors.red,
-            strokeWidth: 3.0,
-          )));
-    }
     if (_showAreas) {
-      newPolygons.addAll(_areas.map((area) => fm.Polygon(
+      _polygons.addAll(_areas.map((area) => fm.Polygon(
             points: area.points,
             color: Colors.blue.withOpacity(0.3),
             borderColor: Colors.blue,
@@ -482,7 +395,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           )));
     }
     if (_showZones) {
-      newCircleMarkers.addAll(_zones.map((zone) => fm.CircleMarker(
+      _circleMarkers.addAll(_zones.map((zone) => fm.CircleMarker(
             point: zone.center,
             radius: zone.widthInMeters,
             color: Colors.purple.withOpacity(0.2),
@@ -491,17 +404,24 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
             useRadiusInMeter: true,
           )));
     }
+    if (_showStreets) {
+      _polylines.addAll(_streets.map((street) => fm.Polyline(
+            points: street.points,
+            color: Colors.red,
+            strokeWidth: 3.0,
+          )));
+    }
+    _updateTempRouteLayers();
 
     if (mounted) {
       setState(() {
-        _markers = newMarkers;
-        _polylines = newPolylines;
-        _polygons = newPolygons;
-        _circleMarkers = newCircleMarkers;
         _layerUpdateKey++;
+        debugPrint('Street: Setup layers, polylines: ${_polylines.length}, markers: ${_markers.length}');
       });
     }
-    _fitBounds(allPoints);
+    if (allPoints.isNotEmpty) {
+      _fitBounds(allPoints);
+    }
   }
 
   List<LatLng> _getAllMapPoints() {
@@ -615,6 +535,126 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           },
         );
       },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${widget.street != null ? (widget.isViewMode ? 'View' : 'Edit') : 'Add'} Street'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.visibility),
+            onPressed: _showHideOptions,
+            tooltip: 'Hide Options',
+          ),
+          if (!widget.isViewMode)
+            IconButton(
+              icon: const Icon(Icons.save),
+              onPressed: _showSaveRouteDialog,
+              tooltip: 'Save Street',
+            ),
+        ],
+      ),
+      body: Stack(
+        children: [
+          fm.FlutterMap(
+            key: ValueKey<int>(_layerUpdateKey),
+            mapController: _mapController.mapController,
+            options: fm.MapOptions(
+              initialCenter: widget.street != null && widget.street!.points.isNotEmpty
+                  ? widget.street!.points.first
+                  : const LatLng(39.0, -98.0),
+              initialZoom: widget.street != null && widget.street!.points.isNotEmpty ? 12.0 : 2.0,
+              minZoom: 2.0,
+              maxZoom: 18.0,
+              onTap: _handleMapTap,
+              interactionOptions: fm.InteractionOptions(
+                flags: widget.isViewMode
+                    ? fm.InteractiveFlag.all
+                    : fm.InteractiveFlag.pinchZoom | fm.InteractiveFlag.drag,
+              ),
+            ),
+            children: [
+              fm.TileLayer(
+                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                userAgentPackageName: 'com.example.app',
+              ),
+              if (_showStreets && _polylines.isNotEmpty)
+                fm.PolylineLayer(
+                  key: ValueKey<String>('polyline_layer_$_layerUpdateKey'),
+                  polylines: _polylines,
+                ),
+              if (_polyEditor != null && !widget.isViewMode)
+                DragMarkers(
+                  markers: _polyEditor!.edit(),
+                ),
+              if (_showChurches || _showContacts || _showMinistries)
+                fm.MarkerLayer(
+                  markers: _markers,
+                ),
+              if (_showAreas)
+                fm.PolygonLayer(
+                  polygons: _polygons,
+                ),
+              if (_showZones)
+                fm.CircleLayer(
+                  circles: _circleMarkers,
+                ),
+              fm.RichAttributionWidget(
+                attributions: [
+                  fm.TextSourceAttribution(
+                    'OpenStreetMap contributors',
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Positioned(
+            bottom: 16.0,
+            right: 16.0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                FloatingActionButton.small(
+                  heroTag: 'zoomInBtn',
+                  onPressed: () {
+                    _mapController.animateTo(zoom: _mapController.mapController.camera.zoom + 1);
+                  },
+                  child: const Icon(Icons.add),
+                ),
+                const SizedBox(height: 8.0),
+                FloatingActionButton.small(
+                  heroTag: 'zoomOutBtn',
+                  onPressed: () {
+                    _mapController.animateTo(zoom: _mapController.mapController.camera.zoom - 1);
+                  },
+                  child: const Icon(Icons.remove),
+                ),
+                const SizedBox(height: 16.0),
+                if (!widget.isViewMode)
+                  FloatingActionButton(
+                    heroTag: 'addPointBtn',
+                    onPressed: () {
+                      _addRoutePoint(_mapController.mapController.camera.center);
+                    },
+                    child: const Icon(Icons.add_location_alt),
+                  ),
+                const SizedBox(height: 8.0),
+                if (!widget.isViewMode && (_polyEditor?.points.isNotEmpty ?? false))
+                  FloatingActionButton(
+                    heroTag: 'removePointBtn',
+                    onPressed: _removeLastRoutePoint,
+                    child: const Icon(Icons.remove_circle_outline),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
