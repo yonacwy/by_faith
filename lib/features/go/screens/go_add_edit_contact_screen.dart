@@ -52,6 +52,10 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
           ),
           TextButton(
             onPressed: () {
+              // Remove associated notes
+              for (var note in _contact.notes) {
+                goContactNotesBox.remove(note.id);
+              }
               goContactsBox.remove(_contact.id);
               Navigator.pop(context);
               Navigator.pop(context);
@@ -179,7 +183,8 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                 IconButton(
                   icon: const Icon(Icons.delete, size: 20, color: Colors.red),
                   onPressed: () {
-                    _contact.notes.remove(note);
+                    _contact.notes.removeAt(index);
+                    goContactNotesBox.remove(note.id);
                     goContactsBox.put(_contact);
                     setState(() {});
                   },
@@ -385,14 +390,17 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
       if (widget.note != null) {
         widget.note!.content = content;
         widget.note!.updatedAt = DateTime.now();
+        goContactNotesBox.put(widget.note!);
       } else {
         final newNote = GoContactNote(
           content: content,
           createdAt: DateTime.now(),
         );
+        newNote.contact.target = widget.contact;
+        goContactNotesBox.put(newNote);
         widget.contact.notes.add(newNote);
+        goContactsBox.put(widget.contact);
       }
-      goContactsBox.put(widget.contact);
       Navigator.pop(context);
     }
   }

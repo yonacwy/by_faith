@@ -42,6 +42,10 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
           ),
           TextButton(
             onPressed: () {
+              // Remove associated notes
+              for (var note in contact.notes) {
+                goContactNotesBox.remove(note.id);
+              }
               goContactsBox.remove(contact.id);
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
@@ -155,6 +159,7 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                                         icon: const Icon(Icons.delete, size: 20, color: Colors.red),
                                         onPressed: () {
                                           contact.notes.remove(note);
+                                          goContactNotesBox.remove(note.id);
                                           goContactsBox.put(contact);
                                           setState(() {});
                                         },

@@ -18,6 +18,7 @@ late Box<GoChurch> goChurchesBox;
 late Box<GoMinistry> goMinistriesBox;
 late Box<GoMapInfo> goMapInfoBox;
 late Box<UserPreferences> userPreferencesBox;
+late Box<GoContactNote> goContactNotesBox;
 
 /// Initializes the ObjectBox store and FMTC backend.
 /// Returns `true` if successful, `false` otherwise.
@@ -35,6 +36,7 @@ Future<bool> setupObjectBox() async {
     goMinistriesBox = store.box<GoMinistry>();
     goMapInfoBox = store.box<GoMapInfo>();
     userPreferencesBox = store.box<UserPreferences>();
+    goContactNotesBox = store.box<GoContactNote>();
 
     // Initialize FMTC backend with ObjectBox
     await FMTCObjectBoxBackend().initialise();

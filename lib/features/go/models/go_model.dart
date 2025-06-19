@@ -11,6 +11,8 @@ class GoContactNote {
   @Property(type: PropertyType.date)
   DateTime? updatedAt;
 
+  final contact = ToOne<GoContact>();
+
   GoContactNote({
     this.id = 0,
     required this.content,
@@ -33,6 +35,7 @@ class GoContact {
   String? email;
   bool isVisited;
   String? eternalStatus;
+
   final notes = ToMany<GoContactNote>();
 
   GoContact({
