@@ -136,8 +136,9 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
       _routeName = widget.street!.name;
       _polyEditor!.points.addAll(widget.street!.points);
       _updateTempRouteLayers();
+      // Fit bounds after loading existing street points
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        _fitBounds(widget.street!.points);
+        _fitBounds(_getAllMapPoints());
       });
       setState(() {
         _layerUpdateKey++;
@@ -197,9 +198,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           _updateTempRouteLayers();
           _layerUpdateKey++;
           debugPrint('Street: Added point, points: ${_polyEditor!.points.length}, polylines: ${_polylines.length}');
-          if (_polyEditor!.points.length >= 2) {
-            _fitBounds(_polyEditor!.points);
-          }
+          // Fit bounds after adding a point, considering all visible layers
+          _fitBounds(_getAllMapPoints());
         });
       }
     });
@@ -318,8 +318,9 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
             _updateTempRouteLayers();
             _layerUpdateKey++;
             debugPrint('Street: Removed point, points: ${_polyEditor!.points.length}, polylines: ${_polylines.length}');
+            // Fit bounds after removing a point, considering all visible layers
             if (_polyEditor!.points.isNotEmpty) {
-              _fitBounds(_polyEditor!.points);
+              _fitBounds(_getAllMapPoints());
             } else {
               _mapController.animateTo(dest: const LatLng(39.0, -98.0), zoom: 2.0);
             }
@@ -355,6 +356,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
     _markers.clear();
     _polygons.clear();
     _circleMarkers.clear();
+    _polylines.clear(); // Clear polylines here before adding all layers
 
     if (_showContacts) {
       _markers.addAll(_contacts.where((c) => c.latitude != null && c.longitude != null).map(
@@ -411,7 +413,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
             strokeWidth: 3.0,
           )));
     }
-    _updateTempRouteLayers();
+    // _updateTempRouteLayers() is called within the PolyEditor callback, no need to call here
+    // It's also called in _addRoutePoint and _removeLastRoutePoint
 
     if (mounted) {
       setState(() {
@@ -419,9 +422,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
         debugPrint('Street: Setup layers, polylines: ${_polylines.length}, markers: ${_markers.length}');
       });
     }
-    if (allPoints.isNotEmpty) {
-      _fitBounds(allPoints);
-    }
+    // Fit bounds after all layers are set up
+    _fitBounds(_getAllMapPoints());
   }
 
   List<LatLng> _getAllMapPoints() {

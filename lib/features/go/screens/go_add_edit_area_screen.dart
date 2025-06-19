@@ -136,8 +136,9 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
       _areaName = widget.area!.name;
       _polyEditor!.points.addAll(widget.area!.points);
       _updateTempAreaLayers();
+      // Fit bounds after loading existing area points
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        _fitBounds(widget.area!.points);
+        _fitBounds(_getAllMapPoints());
       });
       setState(() {
         _layerUpdateKey++;
@@ -198,9 +199,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
           _updateTempAreaLayers();
           _layerUpdateKey++;
           debugPrint('Area: Added point, points: ${_polyEditor!.points.length}, polygons: ${_polygons.length}');
-          if (_polyEditor!.points.length >= 3) {
-            _fitBounds(_polyEditor!.points);
-          }
+          // Fit bounds after adding a point, considering all visible layers
+          _fitBounds(_getAllMapPoints());
         });
       }
     });
@@ -319,8 +319,9 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             _updateTempAreaLayers();
             _layerUpdateKey++;
             debugPrint('Area: Removed point, points: ${_polyEditor!.points.length}, polygons: ${_polygons.length}');
+            // Fit bounds after removing a point, considering all visible layers
             if (_polyEditor!.points.isNotEmpty) {
-              _fitBounds(_polyEditor!.points);
+              _fitBounds(_getAllMapPoints());
             } else {
               _mapController.animateTo(dest: const LatLng(39.0, -98.0), zoom: 2.0);
             }
@@ -356,6 +357,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
     _markers.clear();
     _polylines.clear();
     _circleMarkers.clear();
+    _polygons.clear(); // Clear polygons here before adding all layers
 
     if (_showContacts) {
       _markers.addAll(_contacts.where((c) => c.latitude != null && c.longitude != null).map(
@@ -412,7 +414,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             borderStrokeWidth: 2.0,
           )));
     }
-    _updateTempAreaLayers();
+    // _updateTempAreaLayers() is called within the PolyEditor callback, no need to call here
+    // It's also called in _addAreaPoint and _removeLastAreaPoint
 
     if (mounted) {
       setState(() {
@@ -420,9 +423,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
         debugPrint('Area: Setup layers, polygons: ${_polygons.length}, markers: ${_markers.length}');
       });
     }
-    if (allPoints.isNotEmpty) {
-      _fitBounds(allPoints);
-    }
+    // Fit bounds after all layers are set up
+    _fitBounds(_getAllMapPoints());
   }
 
   List<LatLng> _getAllMapPoints() {

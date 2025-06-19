@@ -33,6 +33,7 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
   final _longitudeController = TextEditingController();
   final quill.QuillController _notesController = quill.QuillController.basic();
   bool _isEditing = false;
+  String? _selectedPartnerStatus;
   late ScrollController _scrollController;
 
   @override
@@ -98,6 +99,7 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
         latitude: double.tryParse(_latitudeController.text),
         longitude: double.tryParse(_longitudeController.text),
         notes: jsonEncode(_notesController.document.toDelta().toJson()),
+        partnerStatus: _selectedPartnerStatus,
       );
 
       if (_isEditing) {
@@ -198,6 +200,27 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                   },
                 ),
                 const SizedBox(height: 24),
+                const Text('Partner Status', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 8),
+                DropdownButtonFormField<String>(
+                  value: _selectedPartnerStatus,
+                  decoration: const InputDecoration(
+                    labelText: 'Partner Status',
+                    border: OutlineInputBorder(),
+                  ),
+                  items: ['Confirmed', 'Not-Confirmed', 'Undecided'].map((String status) {
+                    return DropdownMenuItem<String>(
+                      value: status,
+                      child: Text(status),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedPartnerStatus = newValue;
+                    });
+                  },
+                ),
+                const SizedBox(height: 24),
                 const Text('Map Information', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
                 TextFormField(
@@ -242,18 +265,21 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                 const SizedBox(height: 24),
                 const Text('Notes', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
-                quill.QuillSimpleToolbar(
-                  controller: _notesController,
-                  config: quill.QuillSimpleToolbarConfig(
-                    embedButtons: quill_extensions.FlutterQuillEmbeds.toolbarButtons(
-                      imageButtonOptions: quill_extensions.QuillToolbarImageButtonOptions(
-                        imageButtonConfig: quill_extensions.QuillToolbarImageConfig(
-                          onRequestPickImage: _pickImage,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: quill.QuillSimpleToolbar(
+                                    controller: _notesController,
+                                    config: quill.QuillSimpleToolbarConfig(
+                                      embedButtons: quill_extensions.FlutterQuillEmbeds.toolbarButtons(
+                                        imageButtonOptions: quill_extensions.QuillToolbarImageButtonOptions(
+                                          imageButtonConfig: quill_extensions.QuillToolbarImageConfig(
+                                            onRequestPickImage: _pickImage,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                 Container(
                   height: 200,
                   decoration: BoxDecoration(

@@ -32,8 +32,15 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
   final _latitudeController = TextEditingController();
   final _longitudeController = TextEditingController();
   final quill.QuillController _notesController = quill.QuillController.basic();
+  String? _selectedFinancialStatus;
   bool _isEditing = false;
   late ScrollController _scrollController;
+
+  final List<String> _financialStatusOptions = [
+    'Supporting',
+    'Not-Supporting',
+    'Undecided',
+  ];
 
   @override
   void initState() {
@@ -48,6 +55,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
       _emailController.text = widget.church!.email ?? '';
       _latitudeController.text = widget.church!.latitude?.toString() ?? '';
       _longitudeController.text = widget.church!.longitude?.toString() ?? '';
+      _selectedFinancialStatus = widget.church!.financialStatus;
       if (widget.church!.notes != null && widget.church!.notes!.isNotEmpty) {
         try {
           _notesController.document = quill.Document.fromJson(jsonDecode(widget.church!.notes!));
@@ -98,6 +106,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
         latitude: double.tryParse(_latitudeController.text),
         longitude: double.tryParse(_longitudeController.text),
         notes: jsonEncode(_notesController.document.toDelta().toJson()),
+        financialStatus: _selectedFinancialStatus,
       );
 
       if (_isEditing) {
@@ -240,15 +249,39 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                   },
                 ),
                 const SizedBox(height: 24),
+                const Text('Financial Status', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 8),
+                DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Financial Status',
+                  ),
+                  value: _selectedFinancialStatus,
+                  items: _financialStatusOptions.map((String status) {
+                    return DropdownMenuItem<String>(
+                      value: status,
+                      child: Text(status),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedFinancialStatus = newValue;
+                    });
+                  },
+                ),
+                const SizedBox(height: 24),
                 const Text('Notes', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
-                quill.QuillSimpleToolbar(
-                  controller: _notesController,
-                  config: quill.QuillSimpleToolbarConfig(
-                    embedButtons: quill_extensions.FlutterQuillEmbeds.toolbarButtons(
-                      imageButtonOptions: quill_extensions.QuillToolbarImageButtonOptions(
-                        imageButtonConfig: quill_extensions.QuillToolbarImageConfig(
-                          onRequestPickImage: _pickImage,
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: quill.QuillSimpleToolbar(
+                    controller: _notesController,
+                    config: quill.QuillSimpleToolbarConfig(
+                      embedButtons: quill_extensions.FlutterQuillEmbeds.toolbarButtons(
+                        imageButtonOptions: quill_extensions.QuillToolbarImageButtonOptions(
+                          imageButtonConfig: quill_extensions.QuillToolbarImageConfig(
+                            onRequestPickImage: _pickImage,
+                          ),
                         ),
                       ),
                     ),

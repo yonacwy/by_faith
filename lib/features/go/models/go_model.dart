@@ -44,6 +44,7 @@ class GoChurch {
   double? latitude;
   double? longitude;
   String? notes;
+  String? financialStatus;
 
   GoChurch({
     this.id = 0,
@@ -55,6 +56,7 @@ class GoChurch {
     this.latitude,
     this.longitude,
     this.notes,
+    this.financialStatus,
   });
 }
 
@@ -71,6 +73,7 @@ class GoMinistry {
   double? latitude;
   double? longitude;
   String? notes;
+  String? partnerStatus; // Added partnerStatus field
 
   GoMinistry({
     this.id = 0,
@@ -82,5 +85,6 @@ class GoMinistry {
     this.latitude,
     this.longitude,
     this.notes,
+    this.partnerStatus, // Added partnerStatus to constructor
   });
 }
