@@ -124,8 +124,6 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                             Text('Phone: ${contact.phone}'),
                           if (contact.email != null && contact.email!.isNotEmpty)
                             Text('Email: ${contact.email}'),
-                          if (contact.eternalStatus != null)
-                            Text('Eternal Status: ${contact.eternalStatus}'),
                           if (contact.notes.isNotEmpty) ...[
                             const SizedBox(height: 16),
                             const Text('Notes:', style: TextStyle(fontWeight: FontWeight.bold)),

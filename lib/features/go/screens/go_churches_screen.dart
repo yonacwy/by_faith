@@ -5,6 +5,7 @@ import 'package:by_faith/features/go/screens/go_add_edit_church_screen.dart';
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 import 'dart:convert';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:intl/intl.dart';
 
 class GoChurchesScreen extends StatefulWidget {
   const GoChurchesScreen({super.key});
@@ -41,6 +42,10 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
           ),
           TextButton(
             onPressed: () {
+              // Remove associated notes
+              for (var note in church.notes) {
+                goChurchNotesBox.remove(note.id);
+              }
               goChurchesBox.remove(church.id);
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
@@ -107,6 +112,8 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
                         Text('Email: ${church.email}'),
                       if (church.address != null && church.address!.isNotEmpty)
                         Text('Address: ${church.address}'),
+                      if (church.financialStatus != null && church.financialStatus!.isNotEmpty)
+                        Text('Financial Status: ${church.financialStatus}'),
                     ],
                   ),
                   children: [
@@ -119,16 +126,47 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
                             Text('Phone: ${church.phone}'),
                           if (church.email != null && church.email!.isNotEmpty)
                             Text('Email: ${church.email}'),
-                          if (church.notes != null && church.notes!.isNotEmpty) ...[
+                          if (church.notes.isNotEmpty) ...[
                             const SizedBox(height: 16),
                             const Text('Notes:', style: TextStyle(fontWeight: FontWeight.bold)),
-                            quill.QuillEditor.basic(
-                              controller: quill.QuillController(
-                                document: quill.Document.fromJson(jsonDecode(church.notes!)),
-                                selection: const TextSelection.collapsed(offset: 0),
-                                readOnly: true,
-                              ),
-                            ),
+                            ...church.notes.map((note) => ListTile(
+                                  title: quill.QuillEditor.basic(
+                                    controller: quill.QuillController(
+                                      document: quill.Document.fromJson(jsonDecode(note.content)),
+                                      selection: const TextSelection.collapsed(offset: 0),
+                                      readOnly: true,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    'Created: ${DateFormat.yMMMd().format(note.createdAt)}',
+                                  ),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.edit, size: 20),
+                                        onPressed: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => AddNoteScreen(
+                                              church: church,
+                                              note: note,
+                                            ),
+                                          ),
+                                        ).then((_) => setState(() {})),
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(Icons.delete, size: 20, color: Colors.red),
+                                        onPressed: () {
+                                          church.notes.remove(note);
+                                          goChurchNotesBox.remove(note.id);
+                                          goChurchesBox.put(church);
+                                          setState(() {});
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                )).toList(),
                           ],
                           Align(
                             alignment: Alignment.bottomRight,
