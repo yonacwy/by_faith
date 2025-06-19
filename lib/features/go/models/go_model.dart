@@ -1,7 +1,7 @@
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
-class GoNote {
+class GoContactNote {
   @Id()
   int id = 0;
 
@@ -11,7 +11,7 @@ class GoNote {
   @Property(type: PropertyType.date)
   DateTime? updatedAt;
 
-  GoNote({
+  GoContactNote({
     this.id = 0,
     required this.content,
     required this.createdAt,
@@ -33,7 +33,7 @@ class GoContact {
   String? email;
   bool isVisited;
   String? eternalStatus;
-  final notes = ToMany<GoNote>();
+  final notes = ToMany<GoContactNote>();
 
   GoContact({
     this.id = 0,

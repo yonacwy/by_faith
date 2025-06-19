@@ -345,7 +345,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
 
 class AddNoteScreen extends StatefulWidget {
   final GoContact contact;
-  final GoNote? note;
+  final GoContactNote? note;
 
   const AddNoteScreen({super.key, required this.contact, this.note});
 
@@ -386,7 +386,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
         widget.note!.content = content;
         widget.note!.updatedAt = DateTime.now();
       } else {
-        final newNote = GoNote(
+        final newNote = GoContactNote(
           content: content,
           createdAt: DateTime.now(),
         );
