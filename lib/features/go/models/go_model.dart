@@ -1,6 +1,25 @@
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
+class GoNote {
+  @Id()
+  int id = 0;
+
+  String content;
+  @Property(type: PropertyType.date)
+  DateTime createdAt;
+  @Property(type: PropertyType.date)
+  DateTime? updatedAt;
+
+  GoNote({
+    this.id = 0,
+    required this.content,
+    required this.createdAt,
+    this.updatedAt,
+  });
+}
+
+@Entity()
 class GoContact {
   @Id()
   int id = 0;
@@ -12,9 +31,9 @@ class GoContact {
   String? birthday;
   String? phone;
   String? email;
-  String? notes;
   bool isVisited;
-  String? eternalStatus; // Added eternalStatus field
+  String? eternalStatus;
+  final notes = ToMany<GoNote>();
 
   GoContact({
     this.id = 0,
@@ -25,9 +44,8 @@ class GoContact {
     this.birthday,
     this.phone,
     this.email,
-    this.notes,
     this.isVisited = false,
-    this.eternalStatus, // Added eternalStatus to constructor
+    this.eternalStatus,
   });
 }
 
@@ -73,7 +91,7 @@ class GoMinistry {
   double? latitude;
   double? longitude;
   String? notes;
-  String? partnerStatus; // Added partnerStatus field
+  String? partnerStatus;
 
   GoMinistry({
     this.id = 0,
@@ -85,6 +103,6 @@ class GoMinistry {
     this.latitude,
     this.longitude,
     this.notes,
-    this.partnerStatus, // Added partnerStatus to constructor
+    this.partnerStatus,
   });
 }

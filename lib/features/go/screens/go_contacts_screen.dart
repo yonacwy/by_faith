@@ -5,6 +5,7 @@ import 'package:by_faith/features/go/screens/go_add_edit_contact_screen.dart';
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 import 'dart:convert';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:intl/intl.dart';
 
 class GoContactsScreen extends StatefulWidget {
   const GoContactsScreen({super.key});
@@ -119,16 +120,48 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                             Text('Phone: ${contact.phone}'),
                           if (contact.email != null && contact.email!.isNotEmpty)
                             Text('Email: ${contact.email}'),
-                          if (contact.notes != null && contact.notes!.isNotEmpty) ...[
+                          if (contact.eternalStatus != null)
+                            Text('Eternal Status: ${contact.eternalStatus}'),
+                          if (contact.notes.isNotEmpty) ...[
                             const SizedBox(height: 16),
                             const Text('Notes:', style: TextStyle(fontWeight: FontWeight.bold)),
-                            quill.QuillEditor.basic(
-                              controller: quill.QuillController(
-                                document: quill.Document.fromJson(jsonDecode(contact.notes!)),
-                                selection: const TextSelection.collapsed(offset: 0),
-                                readOnly: true, // Set readOnly here
-                              ),
-                            ),
+                            ...contact.notes.map((note) => ListTile(
+                                  title: quill.QuillEditor.basic(
+                                    controller: quill.QuillController(
+                                      document: quill.Document.fromJson(jsonDecode(note.content)),
+                                      selection: const TextSelection.collapsed(offset: 0),
+                                      readOnly: true,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    'Created: ${DateFormat.yMMMd().format(note.createdAt)}',
+                                  ),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.edit, size: 20),
+                                        onPressed: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => AddNoteScreen(
+                                              contact: contact,
+                                              note: note,
+                                            ),
+                                          ),
+                                        ).then((_) => setState(() {})),
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(Icons.delete, size: 20, color: Colors.red),
+                                        onPressed: () {
+                                          contact.notes.remove(note);
+                                          goContactsBox.put(contact);
+                                          setState(() {});
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                )).toList(),
                           ],
                           Align(
                             alignment: Alignment.bottomRight,
