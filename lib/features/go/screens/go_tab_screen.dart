@@ -28,6 +28,10 @@ import 'package:flutter_map_dragmarker/flutter_map_dragmarker.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+enum LineType { street, river, path }
 
 class GoTabScreen extends StatefulWidget {
   final GoZone? zoneToEdit;
@@ -77,6 +81,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
   double _zoneRadius = 0.0;
   LatLng? _zoneCenter;
   bool _isEditingZone = false;
+  LineType _lineType = LineType.street;
 
   double _calculateZoneRadiusInMeters(double zoom) {
     const minZoom = 2.0;
@@ -219,9 +224,9 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
           _mapController.mapController.move(_zoneCenter!, _currentZoom);
         });
       }
-        WidgetsBinding.instance.addPostFrameCallback((_) async {
-          await _setupLayers();
-        });
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await _setupLayers();
+      });
       if (mounted) {
         setState(() {
           _isLoadingMaps = false;
@@ -242,7 +247,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     });
   }
 
-void _navigateToMapScreen(String type, {dynamic item, bool isEdit = false, bool isView = false}) {
+  void _navigateToMapScreen(String type, {dynamic item, bool isEdit = false, bool isView = false}) {
     Widget screen;
     LatLng? currentCenter;
     double? currentZoom;
@@ -538,13 +543,19 @@ void _navigateToMapScreen(String type, {dynamic item, bool isEdit = false, bool 
         if (_showStreets) {
           for (final street in _streetBox.getAll()) {
             if (street.points.isNotEmpty) {
-              // Check if any point of the street is within the selected zone
-              bool isInZone = street.points.any((point) => _isPointInZone(point, _selectedZone!));
-              if (isInZone) {
+              if ((street.type ?? 'street') == 'path') {
+                _polylines.addAll(_createDashedPolylines(
+                  street.points,
+                  Colors.green[700]!,
+                  Colors.white,
+                ));
+              } else {
                 _polylines.add(
                   fm.Polyline(
                     points: street.points,
-                    color: Colors.red,
+                    color: _getLineColorForType(street.type),
+                    borderColor: _getBorderColorForType(street.type),
+                    borderStrokeWidth: 2.0,
                     strokeWidth: 4.0,
                   ),
                 );
@@ -574,7 +585,9 @@ void _navigateToMapScreen(String type, {dynamic item, bool isEdit = false, bool 
               _polylines.add(
                 fm.Polyline(
                   points: street.points,
-                  color: Colors.red,
+                  color: _getLineColorForType(street.type),
+                  borderColor: _getBorderColorForType(street.type),
+                  borderStrokeWidth: 2.0,
                   strokeWidth: 4.0,
                 ),
               );
@@ -721,6 +734,41 @@ void _navigateToMapScreen(String type, {dynamic item, bool isEdit = false, bool 
         );
       },
     );
+  }
+
+  Color _getLineColor(LineType type) {
+    switch (type) {
+      case LineType.street:
+        return Colors.red;
+      case LineType.river:
+        return Colors.blue;
+      case LineType.path:
+        return Colors.green;
+    }
+  }
+
+  Color _getLineColorForType(String? type) {
+    switch (type) {
+      case 'river':
+        return Colors.blue[900]!;
+      case 'path':
+        return Colors.brown[800]!;
+      case 'street':
+      default:
+        return Colors.black;
+    }
+  }
+
+  Color _getBorderColorForType(String? type) {
+    switch (type) {
+      case 'river':
+        return Colors.green;
+      case 'path':
+        return Colors.white;
+      case 'street':
+      default:
+        return Colors.white;
+    }
   }
 
   void _startNewRoute(String type) {
@@ -878,7 +926,9 @@ void _navigateToMapScreen(String type, {dynamic item, bool isEdit = false, bool 
       _polylines.add(
         fm.Polyline(
           points: _polyEditor!.points,
-          color: Colors.red,
+          color: _getLineColorForType(_lineType.toString().split('.').last),
+          borderColor: _getBorderColorForType(_lineType.toString().split('.').last),
+          borderStrokeWidth: 2.0,
           strokeWidth: 4.0,
         ),
       );
@@ -914,8 +964,13 @@ void _navigateToMapScreen(String type, {dynamic item, bool isEdit = false, bool 
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(_isAddingRoute ? 'Add/Edit $_routeType' : _currentMapName ?? 'World'),
+        title: Text(_isAddingRoute ? 'Add/Edit \\$_routeType' : _currentMapName ?? 'World'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            tooltip: 'Search Address',
+            onPressed: _showSearchAddressDialog,
+          ),
           if (_isAddingRoute)
             IconButton(
               icon: const Icon(Icons.save),
@@ -1105,37 +1160,37 @@ void _navigateToMapScreen(String type, {dynamic item, bool isEdit = false, bool 
                     ),
                   ],
                 ),
-                Positioned(
-                  right: 10,
-                  bottom: 10,
-                  child: Column(
-                    children: [
-                      FloatingActionButton.small(
-                        heroTag: 'zoomInButton',
-                        onPressed: zoomIn,
-                        child: const Icon(Icons.add),
-                      ),
-                      const SizedBox(height: 8),
-                      FloatingActionButton.small(
-                        heroTag: 'zoomOutButton',
-                        onPressed: zoomOut,
-                        child: const Icon(Icons.remove),
-                      ),
-                      const SizedBox(height: 8),
-                      FloatingActionButton(
-                        heroTag: "add_marker_fab",
-                        onPressed: _startAddingMarker,
-                        child: Icon(_isAddingMarker ? Icons.cancel : Icons.add_location_alt_outlined),
-                      ),
-                      const SizedBox(height: 8),
-                      FloatingActionButton(
-                        heroTag: 'add_route_fab',
-                        onPressed: _isAddingRoute ? _cancelRouteMode : _showAddRouteOptions,
-                        child: Icon(_isAddingRoute ? Icons.cancel : Icons.route),
-                      ),
-                    ],
-                  ),
+          Positioned(
+            right: 10,
+            bottom: 10,
+            child: Column(
+              children: [
+                FloatingActionButton.small(
+                  heroTag: 'zoomInButton',
+                  onPressed: zoomIn,
+                  child: const Icon(Icons.add),
                 ),
+                const SizedBox(height: 8),
+                FloatingActionButton.small(
+                  heroTag: 'zoomOutButton',
+                  onPressed: zoomOut,
+                  child: const Icon(Icons.remove),
+                ),
+                const SizedBox(height: 8),
+                FloatingActionButton(
+                  heroTag: "add_marker_fab",
+                  onPressed: _startAddingMarker,
+                  child: Icon(_isAddingMarker ? Icons.cancel : Icons.add_location_alt_outlined),
+                ),
+                const SizedBox(height: 8),
+                FloatingActionButton(
+                  heroTag: 'add_route_fab',
+                  onPressed: _isAddingRoute ? _cancelRouteMode : _showAddRouteOptions,
+                  child: Icon(_isAddingRoute ? Icons.cancel : Icons.route),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -1463,12 +1518,108 @@ void _navigateToMapScreen(String type, {dynamic item, bool isEdit = false, bool 
     });
   }
 
+  void _showSearchAddressDialog() {
+    final TextEditingController controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Search Address'),
+        content: TextField(
+          controller: controller,
+          decoration: const InputDecoration(hintText: 'Enter address'),
+          autofocus: true,
+          onSubmitted: (_) => _searchAddress(controller.text),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => _searchAddress(controller.text),
+            child: const Text('Search'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _searchAddress(String address) async {
+    if (address.trim().isEmpty) return;
+    Navigator.of(context).pop();
+    final url = Uri.parse('https://nominatim.openstreetmap.org/search?format=json&q=\\${Uri.encodeComponent(address)}');
+    try {
+      final response = await http.get(url, headers: {'User-Agent': 'by_faith_app'});
+      if (response.statusCode == 200) {
+        final List results = json.decode(response.body);
+        if (results.isNotEmpty) {
+          final lat = double.tryParse(results[0]['lat'] ?? '');
+          final lon = double.tryParse(results[0]['lon'] ?? '');
+          if (lat != null && lon != null) {
+            setState(() {
+              _currentCenter = LatLng(lat, lon);
+              _currentZoom = 16.0;
+            });
+            _mapController.animateTo(dest: _currentCenter, zoom: _currentZoom);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Moved to: \\${results[0]['display_name']}')),
+            );
+            return;
+          }
+        }
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Address not found.')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error searching address: \\$e')),
+      );
+    }
+  }
+
   @override
   void dispose() {
     _isDisposed = true;
     _debounceTimer?.cancel();
     _mapController.dispose();
     super.dispose();
+  }
+
+  List<fm.Polyline> _createDashedPolylines(List<LatLng> points, Color color, Color borderColor) {
+    const double dashLength = 0.001; // Approx 100m at zoom level ~12
+    const double gapLength = 0.001; // Approx 100m at zoom level ~12
+    List<fm.Polyline> dashedPolylines = [];
+
+    for (int i = 0; i < points.length - 1; i++) {
+      LatLng start = points[i];
+      LatLng end = points[i + 1];
+      double distance = const Distance().as(LengthUnit.Meter, start, end);
+      int segments = (distance / (dashLength * 111000)).ceil(); // Rough conversion to degrees
+      double latStep = (end.latitude - start.latitude) / segments;
+      double lonStep = (end.longitude - start.longitude) / segments;
+
+      for (int j = 0; j < segments; j += 2) {
+        LatLng dashStart = LatLng(
+          start.latitude + j * latStep,
+          start.longitude + j * lonStep,
+        );
+        LatLng dashEnd = LatLng(
+          start.latitude + (j + 1) * latStep,
+          start.longitude + (j + 1) * lonStep,
+        );
+        if (j + 1 < segments) {
+          dashedPolylines.add(fm.Polyline(
+            points: [dashStart, dashEnd],
+            color: color,
+            strokeWidth: 4.0,
+            borderColor: borderColor,
+            borderStrokeWidth: 2.0,
+          ));
+        }
+      }
+    }
+    return dashedPolylines;
   }
 }
 

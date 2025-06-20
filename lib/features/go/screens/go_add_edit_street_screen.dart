@@ -223,7 +223,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
       if (_selectedLineType == LineType.path) {
         _tempPolylines.addAll(_createDashedPolylines(
           _polyEditor!.points,
-          Colors.brown[800]!,
+          Colors.green[700]!, // Use green for path
           Colors.white,
         ));
       } else {
@@ -237,7 +237,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
       }
     }
     _polylines = List.from(_tempPolylines);
-    debugPrint('Street: Updated temp layers, polylines: ${_polylines.length}, points: ${_polyEditor!.points.length}');
+    debugPrint('Street: Updated temp layers, polylines: \\${_polylines.length}, points: \\${_polyEditor!.points.length}');
   }
 
   Color _getLineColor() {
@@ -247,7 +247,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
       case LineType.river:
         return Colors.blue[900]!;
       case LineType.path:
-        return Colors.brown[800]!;
+        return Colors.green[700]!;
     }
   }
 
@@ -492,7 +492,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
         if (lineType == LineType.path) {
           return _createDashedPolylines(
             street.points,
-            Colors.brown[800]!,
+            Colors.green[700]!, // Use green for path
             Colors.white,
           );
         } else {
