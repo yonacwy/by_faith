@@ -43,6 +43,27 @@ class GoChurchNote {
 }
 
 @Entity()
+class GoMinistryNote {
+  @Id()
+  int id = 0;
+
+  String content;
+  @Property(type: PropertyType.date)
+  DateTime createdAt;
+  @Property(type: PropertyType.date)
+  DateTime? updatedAt;
+
+  final ministry = ToOne<GoMinistry>();
+
+  GoMinistryNote({
+    this.id = 0,
+    required this.content,
+    required this.createdAt,
+    this.updatedAt,
+  });
+}
+
+@Entity()
 class GoContact {
   @Id()
   int id = 0;
@@ -114,8 +135,9 @@ class GoMinistry {
   String? email;
   double? latitude;
   double? longitude;
-  String? notes;
   String? partnerStatus;
+
+  final notes = ToMany<GoMinistryNote>();
 
   GoMinistry({
     this.id = 0,
@@ -126,7 +148,6 @@ class GoMinistry {
     this.email,
     this.latitude,
     this.longitude,
-    this.notes,
     this.partnerStatus,
   });
 }
