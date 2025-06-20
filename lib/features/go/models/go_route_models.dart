@@ -1,4 +1,3 @@
-// lib/features/go/models/go_route_models.dart
 import 'package:objectbox/objectbox.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -7,8 +6,8 @@ class GoArea {
   @Id()
   int id = 0;
   String name;
-  List<double> latitudes; // List of latitudes for polygon points
-  List<double> longitudes; // List of longitudes for polygon points
+  List<double> latitudes;
+  List<double> longitudes;
 
   GoArea({
     this.id = 0,
@@ -28,14 +27,16 @@ class GoStreet {
   @Id()
   int id = 0;
   String name;
-  List<double> latitudes; // List of latitudes for polyline points
-  List<double> longitudes; // List of longitudes for polyline points
+  List<double> latitudes;
+  List<double> longitudes;
+  String? type; // Store line type (street, river, path)
 
   GoStreet({
     this.id = 0,
     required this.name,
     required this.latitudes,
     required this.longitudes,
+    this.type,
   });
 
   List<LatLng> get points => List.generate(
@@ -50,10 +51,10 @@ class GoZone {
   int id = 0;
 
   String name;
-  double latitude; // Center latitude
-  double longitude; // Center longitude
-  double widthInMeters; // Zone width
-  double heightInMeters; // Zone height
+  double latitude;
+  double longitude;
+  double widthInMeters;
+  double heightInMeters;
 
   GoZone({
     required this.name,

@@ -10,6 +10,8 @@ import 'package:objectbox/objectbox.dart';
 import 'dart:async';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 
+enum LineType { street, river, path }
+
 class GoAddEditStreetScreen extends StatefulWidget {
   final GoStreet? street;
   final bool isViewMode;
@@ -28,7 +30,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
   late AnimatedMapController _mapController;
   late Box<GoStreet> _streetBox;
   PolyEditor? _polyEditor;
-  fm.Polyline? _tempPolyline;
+  List<fm.Polyline> _tempPolylines = [];
   List<fm.Polyline> _polylines = [];
   String _routeName = '';
   Timer? _debounceTimer;
@@ -59,6 +61,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
 
   bool _didLoadMapData = false;
   bool _didInitRouteMode = false;
+  LineType _selectedLineType = LineType.street;
 
   @override
   void initState() {
@@ -87,7 +90,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
         if (!widget.isViewMode) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('Tap on the map to add points for Street.'),
+              content: const Text('Tap on the map to add points.'),
               action: SnackBarAction(
                 label: 'Cancel',
                 onPressed: _cancelRouteMode,
@@ -135,8 +138,11 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
     if (widget.street != null) {
       _routeName = widget.street!.name;
       _polyEditor!.points.addAll(widget.street!.points);
+      _selectedLineType = LineType.values.firstWhere(
+        (e) => e.toString().split('.').last == (widget.street!.type ?? 'street'),
+        orElse: () => LineType.street,
+      );
       _updateTempRouteLayers();
-      // Fit bounds after loading existing street points
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _fitBounds(_getAllMapPoints());
       });
@@ -169,19 +175,85 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
     );
   }
 
-  void _updateTempRouteLayers() {
-    _polylines.clear();
-    if (_polyEditor!.points.length >= 2) {
-      _tempPolyline = fm.Polyline(
-        points: List<LatLng>.from(_polyEditor!.points),
-        color: Colors.red,
-        strokeWidth: 4.0,
-      );
-      _polylines.add(_tempPolyline!);
-    } else {
-      _tempPolyline = null;
+  List<fm.Polyline> _createDashedPolylines(List<LatLng> points, Color color, Color borderColor) {
+    const double dashLength = 0.001; // Approx 100m at zoom level ~12
+    const double gapLength = 0.001; // Approx 100m at zoom level ~12
+    List<fm.Polyline> dashedPolylines = [];
+
+    for (int i = 0; i < points.length - 1; i++) {
+      LatLng start = points[i];
+      LatLng end = points[i + 1];
+      double distance = const Distance().as(LengthUnit.Meter, start, end);
+      int segments = (distance / (dashLength * 111000)).ceil(); // Rough conversion to degrees
+      double latStep = (end.latitude - start.latitude) / segments;
+      double lonStep = (end.longitude - start.longitude) / segments;
+
+      for (int j = 0; j < segments; j += 2) {
+        LatLng dashStart = LatLng(
+          start.latitude + j * latStep,
+          start.longitude + j * lonStep,
+        );
+        LatLng dashEnd = LatLng(
+          start.latitude + (j + 1) * latStep,
+          start.longitude + (j + 1) * lonStep,
+        );
+        if (j + 1 < segments) {
+          dashedPolylines.add(fm.Polyline(
+            points: [dashStart, dashEnd],
+            color: color,
+            strokeWidth: 4.0,
+            borderColor: borderColor,
+            borderStrokeWidth: 2.0,
+          ));
+        }
+      }
     }
+    return dashedPolylines;
+  }
+
+  void _updateTempRouteLayers() {
+    _tempPolylines.clear();
+    if (_polyEditor!.points.length >= 2) {
+      if (_selectedLineType == LineType.path) {
+        _tempPolylines.addAll(_createDashedPolylines(
+          _polyEditor!.points,
+          Colors.brown[800]!,
+          Colors.white,
+        ));
+      } else {
+        _tempPolylines.add(fm.Polyline(
+          points: List<LatLng>.from(_polyEditor!.points),
+          color: _getLineColor(),
+          strokeWidth: 4.0,
+          borderColor: _getBorderColor(),
+          borderStrokeWidth: 2.0,
+        ));
+      }
+    }
+    _polylines = List.from(_tempPolylines);
     debugPrint('Street: Updated temp layers, polylines: ${_polylines.length}, points: ${_polyEditor!.points.length}');
+  }
+
+  Color _getLineColor() {
+    switch (_selectedLineType) {
+      case LineType.street:
+        return Colors.black;
+      case LineType.river:
+        return Colors.blue[900]!;
+      case LineType.path:
+        return Colors.brown[800]!;
+    }
+  }
+
+  Color _getBorderColor() {
+    switch (_selectedLineType) {
+      case LineType.street:
+        return Colors.white;
+      case LineType.river:
+        return Colors.green;
+      case LineType.path:
+        return Colors.white;
+    }
   }
 
   void _handleMapTap(fm.TapPosition tapPosition, LatLng latLng) {
@@ -198,7 +270,6 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           _updateTempRouteLayers();
           _layerUpdateKey++;
           debugPrint('Street: Added point, points: ${_polyEditor!.points.length}, polylines: ${_polylines.length}');
-          // Fit bounds after adding a point, considering all visible layers
           _fitBounds(_getAllMapPoints());
         });
       }
@@ -210,8 +281,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
       final confirm = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Cancel Street Creation'),
-          content: const Text('Discard changes to this street?'),
+          title: const Text('Cancel Creation'),
+          content: const Text('Discard changes to this route?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
@@ -237,21 +308,21 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
 
     if (_polyEditor!.points.length < 2) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add at least 2 points to create a street.')),
+        const SnackBar(content: Text('Add at least 2 points to create a route.')),
       );
       return;
     }
 
     TextEditingController nameController = TextEditingController(
       text: _routeName.isEmpty && _polyEditor!.points.isNotEmpty
-          ? 'Street ${_polyEditor!.points[0].latitude.toStringAsFixed(2)},${_polyEditor!.points[0].longitude.toStringAsFixed(2)}'
+          ? '${_selectedLineType.toString().split('.').last[0].toUpperCase()}${_selectedLineType.toString().split('.').last.substring(1)} ${_polyEditor!.points[0].latitude.toStringAsFixed(2)},${_polyEditor!.points[0].longitude.toStringAsFixed(2)}'
           : _routeName,
     );
 
     String? name = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('${widget.street != null ? 'Edit' : 'Save'} Street'),
+        title: Text('${widget.street != null ? 'Edit' : 'Save'} ${_selectedLineType.toString().split('.').last[0].toUpperCase()}${_selectedLineType.toString().split('.').last.substring(1)}'),
         content: TextField(
           controller: nameController,
           decoration: const InputDecoration(
@@ -286,6 +357,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           name: name,
           latitudes: _polyEditor!.points.map((p) => p.latitude).toList(),
           longitudes: _polyEditor!.points.map((p) => p.longitude).toList(),
+          type: _selectedLineType.toString().split('.').last,
         );
         if (widget.street != null) {
           street.id = widget.street!.id;
@@ -295,14 +367,14 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Street saved successfully.')),
+            const SnackBar(content: Text('Route saved successfully.')),
           );
           Navigator.pop(context);
         }
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error saving Street: $e')),
+            SnackBar(content: Text('Error saving route: $e')),
           );
         }
       }
@@ -318,7 +390,6 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
             _updateTempRouteLayers();
             _layerUpdateKey++;
             debugPrint('Street: Removed point, points: ${_polyEditor!.points.length}, polylines: ${_polylines.length}');
-            // Fit bounds after removing a point, considering all visible layers
             if (_polyEditor!.points.isNotEmpty) {
               _fitBounds(_getAllMapPoints());
             } else {
@@ -356,7 +427,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
     _markers.clear();
     _polygons.clear();
     _circleMarkers.clear();
-    _polylines.clear(); // Clear polylines here before adding all layers
+    _polylines.clear();
 
     if (_showContacts) {
       _markers.addAll(_contacts.where((c) => c.latitude != null && c.longitude != null).map(
@@ -407,14 +478,31 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           )));
     }
     if (_showStreets) {
-      _polylines.addAll(_streets.map((street) => fm.Polyline(
-            points: street.points,
-            color: Colors.red,
-            strokeWidth: 3.0,
-          )));
+      _polylines.addAll(_streets.expand((street) {
+        final lineType = LineType.values.firstWhere(
+          (e) => e.toString().split('.').last == (street.type ?? 'street'),
+          orElse: () => LineType.street,
+        );
+        if (lineType == LineType.path) {
+          return _createDashedPolylines(
+            street.points,
+            Colors.brown[800]!,
+            Colors.white,
+          );
+        } else {
+          return [
+            fm.Polyline(
+              points: street.points,
+              color: lineType == LineType.street ? Colors.black : Colors.blue[900]!,
+              strokeWidth: 4.0,
+              borderColor: lineType == LineType.street ? Colors.white : Colors.green,
+              borderStrokeWidth: 2.0,
+            )
+          ];
+        }
+      }));
     }
-    // _updateTempRouteLayers() is called within the PolyEditor callback, no need to call here
-    // It's also called in _addRoutePoint and _removeLastRoutePoint
+    _polylines.addAll(_tempPolylines);
 
     if (mounted) {
       setState(() {
@@ -422,7 +510,6 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
         debugPrint('Street: Setup layers, polylines: ${_polylines.length}, markers: ${_markers.length}');
       });
     }
-    // Fit bounds after all layers are set up
     _fitBounds(_getAllMapPoints());
   }
 
@@ -544,7 +631,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.street != null ? (widget.isViewMode ? 'View' : 'Edit') : 'Add'} Street'),
+        title: Text('${widget.street != null ? (widget.isViewMode ? 'View' : 'Edit') : 'Add'} ${_selectedLineType.toString().split('.').last[0].toUpperCase()}${_selectedLineType.toString().split('.').last.substring(1)}'),
         actions: [
           IconButton(
             icon: const Icon(Icons.visibility),
@@ -555,7 +642,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
             IconButton(
               icon: const Icon(Icons.save),
               onPressed: _showSaveRouteDialog,
-              tooltip: 'Save Street',
+              tooltip: 'Save',
             ),
         ],
       ),
@@ -583,7 +670,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 userAgentPackageName: 'com.example.app',
               ),
-              if (_showStreets && _polylines.isNotEmpty)
+              if (_polylines.isNotEmpty)
                 fm.PolylineLayer(
                   key: ValueKey<String>('polyline_layer_$_layerUpdateKey'),
                   polylines: _polylines,
@@ -655,6 +742,53 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
               ],
             ),
           ),
+          if (!widget.isViewMode)
+            Positioned(
+              bottom: 16.0,
+              left: 16.0,
+              child: Column(
+                children: [
+                  FloatingActionButton.small(
+                    heroTag: 'streetBtn',
+                    backgroundColor: _selectedLineType == LineType.street ? Colors.grey[300] : null,
+                    onPressed: () {
+                      setState(() {
+                        _selectedLineType = LineType.street;
+                        _updateTempRouteLayers();
+                        _layerUpdateKey++;
+                      });
+                    },
+                    child: const Icon(Icons.directions),
+                  ),
+                  const SizedBox(height: 8.0),
+                  FloatingActionButton.small(
+                    heroTag: 'riverBtn',
+                    backgroundColor: _selectedLineType == LineType.river ? Colors.grey[300] : null,
+                    onPressed: () {
+                      setState(() {
+                        _selectedLineType = LineType.river;
+                        _updateTempRouteLayers();
+                        _layerUpdateKey++;
+                      });
+                    },
+                    child: const Icon(Icons.water),
+                  ),
+                  const SizedBox(height: 8.0),
+                  FloatingActionButton.small(
+                    heroTag: 'pathBtn',
+                    backgroundColor: _selectedLineType == LineType.path ? Colors.grey[300] : null,
+                    onPressed: () {
+                      setState(() {
+                        _selectedLineType = LineType.path;
+                        _updateTempRouteLayers();
+                        _layerUpdateKey++;
+                      });
+                    },
+                    child: const Icon(Icons.hiking),
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
     );
