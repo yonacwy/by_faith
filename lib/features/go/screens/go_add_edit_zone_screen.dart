@@ -14,8 +14,10 @@ import 'package:vector_math/vector_math.dart' show radians, degrees;
 class GoAddEditZoneScreen extends StatefulWidget {
   final GoZone? zone;
   final bool isViewMode;
+  final LatLng? initialCenter;
+  final double? initialZoom;
 
-  const GoAddEditZoneScreen({Key? key, this.zone, this.isViewMode = false}) : super(key: key);
+  const GoAddEditZoneScreen({Key? key, this.zone, this.isViewMode = false, this.initialCenter, this.initialZoom}) : super(key: key);
 
   @override
   _GoAddEditZoneScreenState createState() => _GoAddEditZoneScreenState();
@@ -50,7 +52,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
   List<GoZone> _zones = [];
 
   static const double _minRadius = 50.0;
-  static const double _maxRadius = 5000.0;
+  static const double _maxRadius = 100000.0; // Increased to 100 km for larger areas
   static const double _radiusStep = 50.0;
 
   bool _showContacts = true;
@@ -61,6 +63,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
   bool _showZones = true;
 
   bool _didLoadMapData = false;
+  bool _mapReady = false;
 
   @override
   void initState() {
@@ -72,8 +75,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
     _ministryBox = store.box<GoMinistry>();
     _areaBox = store.box<GoArea>();
     _streetBox = store.box<GoStreet>();
-
-    // Initialize _currentZoneCenter and _currentZoneRadius first
+    // Only set initial values, do not update layers here
     if (widget.zone != null) {
       _zoneName = widget.zone!.name;
       _currentZoneCenter = LatLng(
@@ -81,8 +83,10 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
         widget.zone!.longitude.clamp(-180.0, 180.0),
       );
       _currentZoneRadius = widget.zone!.widthInMeters.clamp(_minRadius, _maxRadius);
+    } else if (widget.initialCenter != null) {
+      _currentZoneCenter = widget.initialCenter!;
+      _currentZoneRadius = 500.0;
     } else {
-      // If no existing zone, use a default center initially
       _currentZoneCenter = const LatLng(39.0, -98.0);
       _currentZoneRadius = 500.0;
     }
@@ -95,7 +99,6 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
     if (!_didLoadMapData) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await _loadAllMapData();
-        // If adding a new zone and no existing zone was loaded, try to center on existing saved layers after loading them
         if (widget.zone == null) {
           final allPoints = _getAllMapPoints();
           if (allPoints.isNotEmpty) {
@@ -105,12 +108,15 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
             });
           }
         }
-        await _setupLayers();
-        _updateZoneLayer();
+        if (mounted) {
+          setState(() {
+            _mapReady = true;
+          });
+        }
         _didLoadMapData = true;
-        // Fit bounds after all layers are set up and potentially centered
-        _fitBounds(_getAllMapPoints());
-
+        if (widget.zone != null) {
+          _fitBounds(_getAllMapPoints());
+        }
         if (!widget.isViewMode) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -122,7 +128,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
             ),
           );
         }
-        debugPrint('Zone: didChangeDependencies completed, circleMarkers: ${_circleMarkers.length}');
+        debugPrint('Zone: didChangeDependencies completed, circleMarkers: [0m${_circleMarkers.length}');
       });
     }
   }
@@ -134,6 +140,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
   }
 
   void _updateZoneLayer() {
+    if (!_mapReady || !mounted) return;
     _debounce(() {
       if (mounted) {
         setState(() {
@@ -337,9 +344,8 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
     setState(() {
       _currentZoneRadius = (_currentZoneRadius + _radiusStep).clamp(_minRadius, _maxRadius);
       _updateZoneLayer();
-      // Fit bounds after increasing radius, considering all visible layers
-      _fitBounds(_getAllMapPoints());
-      debugPrint('Zone: Radius increased to: $_currentZoneRadius');
+      // Removed _fitBounds(_getAllMapPoints()) to decouple radius from zoom
+      debugPrint('Zone: Radius increased to: [0m$_currentZoneRadius');
     });
   }
 
@@ -347,9 +353,8 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
     setState(() {
       _currentZoneRadius = (_currentZoneRadius - _radiusStep).clamp(_minRadius, _maxRadius);
       _updateZoneLayer();
-      // Fit bounds after decreasing radius, considering all visible layers
-      _fitBounds(_getAllMapPoints());
-      debugPrint('Zone: Radius decreased to: $_currentZoneRadius');
+      // Removed _fitBounds(_getAllMapPoints()) to decouple radius from zoom
+      debugPrint('Zone: Radius decreased to: [0m$_currentZoneRadius');
     });
   }
 
@@ -371,17 +376,14 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
   }
 
   Future<void> _setupLayers() async {
+    if (!_mapReady || !mounted) return;
     final allPoints = <LatLng>[];
     allPoints.add(_currentZoneCenter);
 
     _markers.clear();
     _polylines.clear();
     _polygons.clear();
-    _circleMarkers.clear(); // Clear circle markers here before adding all layers
-    _circleMarkers.clear(); // Clear circle markers here before adding all layers
-    _circleMarkers.clear(); // Clear circle markers here before adding all layers
-    _circleMarkers.clear(); // Clear circle markers here before adding all layers
-
+    _circleMarkers.clear();
     if (_showContacts) {
       _markers.addAll(_contacts.where((c) => c.latitude != null && c.longitude != null).map(
             (contact) => fm.Marker(
@@ -444,7 +446,6 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
         debugPrint('Zone: Setup layers, circleMarkers: ${_circleMarkers.length}, markers: ${_markers.length}');
       });
     }
-    // Fit bounds after all layers are set up
     _fitBounds(_getAllMapPoints());
   }
 
@@ -588,7 +589,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
             mapController: _mapController.mapController,
             options: fm.MapOptions(
               initialCenter: _currentZoneCenter,
-              initialZoom: widget.zone != null ? 12.0 : 2.0,
+              initialZoom: widget.zone != null ? 12.0 : (widget.initialZoom ?? 2.0),
               minZoom: 2.0,
               maxZoom: 18.0,
               onTap: _handleMapTap,

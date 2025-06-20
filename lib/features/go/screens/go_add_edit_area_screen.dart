@@ -13,8 +13,10 @@ import 'package:flutter_map_animations/flutter_map_animations.dart';
 class GoAddEditAreaScreen extends StatefulWidget {
   final GoArea? area;
   final bool isViewMode;
+  final LatLng? initialCenter;
+  final double? initialZoom;
 
-  const GoAddEditAreaScreen({Key? key, this.area, this.isViewMode = false}) : super(key: key);
+  const GoAddEditAreaScreen({Key? key, this.area, this.isViewMode = false, this.initialCenter, this.initialZoom}) : super(key: key);
 
   @override
   _GoAddEditAreaScreenState createState() => _GoAddEditAreaScreenState();
@@ -149,8 +151,10 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
 
   void _fitBounds(List<LatLng> points, {EdgeInsets? padding}) {
     if (points.isEmpty) {
-      _mapController.animateTo(dest: const LatLng(39.0, -98.0), zoom: 2.0);
-      debugPrint('Area: No points, reset to default view');
+      final center = widget.initialCenter ?? const LatLng(39.0, -98.0);
+      final zoom = widget.initialZoom ?? 2.0;
+      _mapController.animateTo(dest: center, zoom: zoom);
+      debugPrint('Area: No points, reset to initial or default view (center: \\$center, zoom: \\$zoom)');
       return;
     }
 
@@ -565,10 +569,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
           fm.FlutterMap(
             mapController: _mapController.mapController,
             options: fm.MapOptions(
-              initialCenter: widget.area != null && widget.area!.points.isNotEmpty
-                  ? widget.area!.points.first
-                  : const LatLng(39.0, -98.0),
-              initialZoom: widget.area != null && widget.area!.points.isNotEmpty ? 12.0 : 2.0,
+              initialCenter: widget.initialCenter ?? (widget.area != null && widget.area!.points.isNotEmpty ? widget.area!.points.first : const LatLng(39.0, -98.0)),
+              initialZoom: widget.initialZoom ?? (widget.area != null && widget.area!.points.isNotEmpty ? 12.0 : 2.0),
               minZoom: 2.0,
               maxZoom: 18.0,
               onTap: _handleMapTap,

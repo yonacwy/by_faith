@@ -30,6 +30,7 @@ class _GoRoutePlannerScreenState extends State<GoRoutePlannerScreen> {
 
   void _navigateToMapScreen(String type, {dynamic item, bool isEdit = false, bool isView = false}) {
     Widget screen;
+    // For GoRoutePlannerScreen, we do not have a live map, so just open Add Zone without initialCenter/initialZoom
     switch (type) {
       case 'Area':
         screen = GoAddEditAreaScreen(area: isEdit || isView ? item as GoArea : null, isViewMode: isView);
@@ -149,36 +150,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              ListTile(
-                leading: const Icon(Icons.map),
-                title: Text(
-                  'Add Area',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                onTap: () {
-                  _navigateToMapScreen('Area');
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.directions),
-                title: Text(
-                  'Add Street',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                onTap: () {
-                  _navigateToMapScreen('Street');
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.analytics),
-                title: Text(
-                  'Add Zone',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                onTap: () {
-                  _navigateToMapScreen('Zone');
-                },
-              ),
+              // Removed Add Area, Add Street, Add Zone ListTiles to avoid confusion
               ExpansionTile(
                 title: Text(
                   'Areas',

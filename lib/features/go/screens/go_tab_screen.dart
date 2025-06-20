@@ -244,15 +244,35 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
 
 void _navigateToMapScreen(String type, {dynamic item, bool isEdit = false, bool isView = false}) {
     Widget screen;
+    LatLng? currentCenter;
+    double? currentZoom;
+    if (_mapController.mapController.camera.center != null) {
+      currentCenter = _mapController.mapController.camera.center;
+      currentZoom = _mapController.mapController.camera.zoom;
+    }
     switch (type) {
       case 'Area':
-        screen = GoAddEditAreaScreen(area: isEdit || isView ? item as GoArea : null, isViewMode: isView);
+        screen = GoAddEditAreaScreen(
+          area: isEdit || isView ? item as GoArea : null,
+          isViewMode: isView,
+          initialCenter: !isEdit && !isView ? currentCenter : null,
+          initialZoom: !isEdit && !isView ? currentZoom : null,
+        );
         break;
       case 'Street':
-        screen = GoAddEditStreetScreen(street: isEdit || isView ? item as GoStreet : null, isViewMode: isView);
+        screen = GoAddEditStreetScreen(
+          street: isEdit || isView ? item as GoStreet : null,
+          isViewMode: isView,
+          initialCenter: !isEdit && !isView ? currentCenter : null,
+          initialZoom: !isEdit && !isView ? currentZoom : null,
+        );
         break;
       case 'Zone':
-        screen = GoAddEditZoneScreen(zone: isEdit || isView ? item as GoZone : null);
+        screen = GoAddEditZoneScreen(
+          zone: isEdit || isView ? item as GoZone : null,
+          initialCenter: !isEdit && !isView ? currentCenter : null,
+          initialZoom: !isEdit && !isView ? currentZoom : null,
+        );
         break;
       default:
         return; // Should not happen
@@ -1085,37 +1105,37 @@ void _navigateToMapScreen(String type, {dynamic item, bool isEdit = false, bool 
                     ),
                   ],
                 ),
-          Positioned(
-            right: 10,
-            bottom: 10,
-            child: Column(
-              children: [
-                FloatingActionButton.small(
-                  heroTag: 'zoomInButton',
-                  onPressed: zoomIn,
-                  child: const Icon(Icons.add),
+                Positioned(
+                  right: 10,
+                  bottom: 10,
+                  child: Column(
+                    children: [
+                      FloatingActionButton.small(
+                        heroTag: 'zoomInButton',
+                        onPressed: zoomIn,
+                        child: const Icon(Icons.add),
+                      ),
+                      const SizedBox(height: 8),
+                      FloatingActionButton.small(
+                        heroTag: 'zoomOutButton',
+                        onPressed: zoomOut,
+                        child: const Icon(Icons.remove),
+                      ),
+                      const SizedBox(height: 8),
+                      FloatingActionButton(
+                        heroTag: "add_marker_fab",
+                        onPressed: _startAddingMarker,
+                        child: Icon(_isAddingMarker ? Icons.cancel : Icons.add_location_alt_outlined),
+                      ),
+                      const SizedBox(height: 8),
+                      FloatingActionButton(
+                        heroTag: 'add_route_fab',
+                        onPressed: _isAddingRoute ? _cancelRouteMode : _showAddRouteOptions,
+                        child: Icon(_isAddingRoute ? Icons.cancel : Icons.route),
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 8),
-                FloatingActionButton.small(
-                  heroTag: 'zoomOutButton',
-                  onPressed: zoomOut,
-                  child: const Icon(Icons.remove),
-                ),
-                const SizedBox(height: 8),
-                FloatingActionButton(
-                  heroTag: "add_marker_fab",
-                  onPressed: _startAddingMarker,
-                  child: Icon(_isAddingMarker ? Icons.cancel : Icons.add_location_alt_outlined),
-                ),
-                const SizedBox(height: 8),
-                FloatingActionButton(
-                  heroTag: 'add_route_fab',
-                  onPressed: _isAddingRoute ? _cancelRouteMode : _showAddRouteOptions,
-                  child: Icon(_isAddingRoute ? Icons.cancel : Icons.route),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );
