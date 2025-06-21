@@ -41,8 +41,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
       final defaultWorldMap = GoMapInfo(
         id: 0, // Set ID to 0 for ObjectBox to assign a new unique ID
         name: 'World',
-        filePath: null, // Default World map might not have a local file initially
-        downloadUrl: null, // Or a default download URL if available
+        filePath: 'cached', // Set a non-empty filePath for offline map logic
+        downloadUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', // Set a default download URL
         isTemporary: false,
         latitude: 0.0, // Default center of the world
         longitude: 0.0,

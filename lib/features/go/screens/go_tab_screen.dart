@@ -315,7 +315,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       if (worldMapInfo == null) {
         worldMapInfo = GoMapInfo(
           name: 'World',
-          filePath: '',
+          filePath: 'cached', // Set a non-empty filePath for offline map logic
           downloadUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           isTemporary: false,
           latitude: 39.0,
@@ -324,11 +324,20 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
         );
         _goMapInfoBox.put(worldMapInfo);
       } else {
+        // Ensure filePath is set to 'cached' if it was previously empty
+        if (worldMapInfo.filePath == null || worldMapInfo.filePath!.isEmpty) {
+          worldMapInfo.filePath = 'cached';
+        }
         worldMapInfo.latitude = 39.0;
         worldMapInfo.longitude = -98.0;
         worldMapInfo.zoomLevel = 2;
         _goMapInfoBox.put(worldMapInfo);
       }
+
+      // Ensure the FMTC store for 'World' exists and is created
+      final worldStore = fmtc.FMTCStore('World');
+      await worldStore.manage.create(); // Create the store if it doesn't exist
+
     } catch (error) {
       if (mounted) {
         setState(() {
@@ -386,10 +395,11 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     }
   }
 
-  void _setDefaultMap() {
+  Future<void> _setDefaultMap() async { // Made async to await _initTileProvider
     _currentMapName = 'World';
     _currentCenter = const LatLng(39.0, -98.0);
     _currentZoom = 2.0;
+    await _initTileProvider(); // Explicitly initialize network tile provider
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _mapController.mapController.move(_currentCenter, _currentZoom);
     });
@@ -402,21 +412,12 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       final newZoom = (mapInfo.zoomLevel?.toDouble() ?? 2.0).clamp(2.0, 18.0);
 
       if (mapInfo.filePath?.isNotEmpty ?? false) {
-        final store = fmtc.FMTCStore(mapInfo.name);
-        final bool storeReady = await store.manage.ready;
-        if (storeReady) {
-          await _initTileProvider(storeName: mapInfo.name);
-          _tileProviderUrl = mapInfo.downloadUrl ?? 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
-        } else {
-          await _initTileProvider();
-          _tileProviderUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
-          _currentMapName = 'World';
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Offline map "${mapInfo.name}" not found. Loading online map.')),
-          );
-        }
+        // Always attempt to use the cached store's tile provider if filePath is not empty
+        await _initTileProvider(storeName: mapInfo.name);
+        _tileProviderUrl = mapInfo.downloadUrl ?? 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'; // Keep the original URL for the tile layer
       } else {
-        await _initTileProvider();
+        // No filePath, load online map using the provided downloadUrl or default
+        _tileProvider = fm.NetworkTileProvider(); // Explicitly set NetworkTileProvider
         _tileProviderUrl = mapInfo.downloadUrl?.isNotEmpty ?? false
             ? mapInfo.downloadUrl!
             : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
