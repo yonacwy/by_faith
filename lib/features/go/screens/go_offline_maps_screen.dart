@@ -11,7 +11,7 @@ class GoOfflineMapsScreen extends StatefulWidget {
   final String? currentMapName;
   final Function(GoMapInfo) onLoadMap;
   final Box<GoMapInfo> goMapInfoBox; // Changed from mapBox
-  final Function(String, double, double, double, double, int) onDownloadMap;
+  final Function(String, double, double, double, double, int, ScaffoldMessengerState) onDownloadMap;
   final Function(String, String, bool) onUploadMap;
 
   const GoOfflineMapsScreen({
@@ -59,8 +59,15 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => GoSelectMapAreaScreen(
-          onDownloadMap: (name, southWestLat, southWestLng, northEastLat, northEastLng, zoomLevel) {
-            widget.onDownloadMap(name, southWestLat, southWestLng, northEastLat, northEastLng, zoomLevel);
+          onDownloadMap: (name, southWestLat, southWestLng, northEastLat, northEastLng, zoomLevel, scaffoldMessenger) async { // Made async
+            try {
+              final newStore = fmtc.FMTCStore(name);
+              await newStore.manage.create(); // Explicitly create the store
+              widget.onDownloadMap(name, southWestLat, southWestLng, northEastLat, northEastLng, zoomLevel, scaffoldMessenger);
+            } catch (e) {
+              print('Error creating map store: $e');
+              // Optionally show an error message to the user
+            }
           },
         ),
       ),
@@ -68,6 +75,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
   }
 
   Future<void> _deleteMap(String mapName) async {
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
     try {
       final mapInfo = widget.goMapInfoBox.query(GoMapInfo_.name.equals(mapName)).build().findFirst();
       if (mapInfo != null) {
@@ -77,7 +85,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
       if (mounted) setState(() {});
     } catch (error) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
+        scaffoldMessenger.showSnackBar(
           SnackBar(content: Text('Failed to delete map ($mapName): $error')),
         );
       }
@@ -127,6 +135,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
   }
 
   Future<void> _updateMap(GoMapInfo mapInfo) async {
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
     // Re-download the map with the same parameters
     try {
       await widget.onDownloadMap(
@@ -138,15 +147,16 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
         (mapInfo.longitude ?? 0.0) + 0.05,
         // Handle nullable zoomLevel
         mapInfo.zoomLevel ?? 2, // Provide a default zoom level if null
+        scaffoldMessenger,
       );
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
+        scaffoldMessenger.showSnackBar(
           SnackBar(content: Text('Map "${mapInfo.name}" updated successfully')),
         );
       }
     } catch (error) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
+        scaffoldMessenger.showSnackBar(
           SnackBar(content: Text('Failed to update map: $error')),
         );
       }
@@ -198,11 +208,13 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                           trailing: PopupMenuButton<String>(
                             onSelected: (value) async {
                               if (value == 'view') {
-                                widget.onLoadMap(mapInfo);
                                 UserPreferences userPreferences = userPreferencesBox.get(1) ?? UserPreferences();
                                 userPreferences.currentMap = mapInfo.name;
                                 userPreferencesBox.put(userPreferences);
-                                Navigator.pop(context);
+                                if (mounted) {
+                                  Navigator.pop(context);
+                                }
+                                widget.onLoadMap(mapInfo);
                               } else if (value == 'update') {
                                 await _updateMap(mapInfo);
                               } else if (value == 'rename') {
@@ -219,11 +231,13 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                             ],
                           ),
                           onTap: () {
-                            widget.onLoadMap(mapInfo);
                             UserPreferences userPreferences = userPreferencesBox.get(1) ?? UserPreferences();
                             userPreferences.currentMap = mapInfo.name;
                             userPreferencesBox.put(userPreferences);
-                            Navigator.pop(context);
+                            if (mounted) {
+                              Navigator.pop(context);
+                            }
+                            widget.onLoadMap(mapInfo);
                           },
                         );
                       },

@@ -1345,7 +1345,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     );
   }
 
-  Future<void> _downloadMap(String mapName, double southWestLat, double southWestLng, double northEastLat, double northEastLng, int zoomLevel) async {
+  Future<void> _downloadMap(String mapName, double southWestLat, double southWestLng, double northEastLat, double northEastLng, int zoomLevel, ScaffoldMessengerState scaffoldMessenger) async {
     if (_isDisposed || !mounted) return;
     if (!await _checkNetwork()) {
       if (mounted) {
@@ -1384,6 +1384,10 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             url: _tileProviderUrl,
             storeName: mapName,
             downloadStream: broadcastDownloadProgress,
+            onCancel: () {
+              // TODO: Implement correct cancellation logic for foreground download.
+              // The object returned by startForeground does not have a cancel method according to the compiler.
+            },
           );
         },
       );
@@ -1408,7 +1412,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     } catch (error) {
       if (completer.isCompleted) {
         final dialogContext = await completer.future;
-        if (mounted && Navigator.of(dialogContext).canPop()) {
+        if (dialogContext.mounted && Navigator.of(dialogContext).canPop()) {
           Navigator.of(dialogContext).pop();
         }
       }
@@ -1629,12 +1633,14 @@ class _DownloadProgressDialog extends StatefulWidget {
   final String url;
   final String storeName;
   final Stream<fmtc.DownloadProgress> downloadStream;
+  final VoidCallback? onCancel; // Changed to VoidCallback
 
   const _DownloadProgressDialog({
     required this.mapName,
     required this.url,
     required this.storeName,
     required this.downloadStream,
+    this.onCancel, // Changed to VoidCallback
   });
 
   @override
@@ -1685,6 +1691,15 @@ class _DownloadProgressDialogState extends State<_DownloadProgressDialog> {
           Text(_message),
         ],
       ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            widget.onCancel?.call(); // Call the provided cancel callback
+            Navigator.of(context).pop(); // Close the dialog
+          },
+          child: const Text('Cancel'),
+        ),
+      ],
     );
   }
 }

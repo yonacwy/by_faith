@@ -6,7 +6,7 @@ import 'dart:math' as math;
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 
 class GoSelectMapAreaScreen extends StatefulWidget {
-  final Function(String, double, double, double, double, int) onDownloadMap;
+final Function(String, double, double, double, double, int, ScaffoldMessengerState) onDownloadMap;
 
   const GoSelectMapAreaScreen({super.key, required this.onDownloadMap});
 
@@ -137,6 +137,7 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                   _currentCenter.latitude + _overlaySize / 2,
                   _currentCenter.longitude + _overlaySize / 2,
                   _currentZoom.toInt(),
+                  ScaffoldMessenger.of(context),
                 );
                 Navigator.pop(context); // Close download dialog
                 Navigator.pop(context); // Return to OfflineMapsPage
