@@ -110,6 +110,8 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                         Text('Email: ${contact.email}'),
                       if (contact.address != null && contact.address!.isNotEmpty)
                         Text('Address: ${contact.address}'),
+                      if (contact.eternalStatus != null && contact.eternalStatus!.isNotEmpty)
+                        Text('Eternal Status: ${contact.eternalStatus}'),
                     ],
                   ),
                   children: [
