@@ -57,6 +57,7 @@ class GoZone {
   double heightInMeters;
 
   GoZone({
+    this.id = 0,
     required this.name,
     required this.latitude,
     required this.longitude,

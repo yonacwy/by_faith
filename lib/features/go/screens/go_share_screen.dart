@@ -1,4 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:by_faith/objectbox.dart';
+import 'package:by_faith/features/go/models/go_model.dart';
+import 'package:by_faith/features/go/models/go_route_models.dart';
+import 'package:by_faith/objectbox.g.dart'; // Import generated ObjectBox file
 
 class GoShareScreen extends StatefulWidget {
   const GoShareScreen({super.key});
@@ -14,7 +21,156 @@ class _GoShareScreenState extends State<GoShareScreen> {
   bool _shareAreasExpanded = false;
   bool _shareStreetsExpanded = false;
   bool _shareZonesExpanded = false;
-  bool _shareAllExpanded = false;  
+  bool _shareAllExpanded = false;
+
+  // Boxes for GoArea, GoStreet, GoZone
+  late final Box<GoArea> _goAreasBox;
+  late final Box<GoStreet> _goStreetsBox;
+  late final Box<GoZone> _goZonesBox;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize boxes
+    _goAreasBox = store.box<GoArea>();
+    _goStreetsBox = store.box<GoStreet>();
+    _goZonesBox = store.box<GoZone>();
+  }
+
+  // Helper method to format contact data for sharing
+  String _formatContact(GoContact contact) {
+    final notes = goContactNotesBox
+        .query(GoContactNote_.contact.equals(contact.id))
+        .build()
+        .find();
+    return '''
+Contact: ${contact.fullName}
+Address: ${contact.address ?? 'N/A'}
+Phone: ${contact.phone ?? 'N/A'}
+Email: ${contact.email ?? 'N/A'}
+Birthday: ${contact.birthday ?? 'N/A'}
+Visited: ${contact.isVisited ? 'Yes' : 'No'}
+Eternal Status: ${contact.eternalStatus ?? 'N/A'}
+Coordinates: (${contact.latitude ?? 'N/A'}, ${contact.longitude ?? 'N/A'})
+Notes: ${notes.isEmpty ? 'None' : notes.map((note) => note.content).join('\n')}
+''';
+  }
+
+  // Helper method to format church data for sharing
+  String _formatChurch(GoChurch church) {
+    final notes = goChurchNotesBox
+        .query(GoChurchNote_.church.equals(church.id))
+        .build()
+        .find();
+    return '''
+Church: ${church.churchName}
+Pastor: ${church.pastorName ?? 'N/A'}
+Address: ${church.address ?? 'N/A'}
+Phone: ${church.phone ?? 'N/A'}
+Email: ${church.email ?? 'N/A'}
+Financial Status: ${church.financialStatus ?? 'N/A'}
+Coordinates: (${church.latitude ?? 'N/A'}, ${church.longitude ?? 'N/A'})
+Notes: ${notes.isEmpty ? 'None' : notes.map((note) => note.content).join('\n')}
+''';
+  }
+
+  // Helper method to format ministry data for sharing
+  String _formatMinistry(GoMinistry ministry) {
+    final notes = goMinistryNotesBox
+        .query(GoMinistryNote_.ministry.equals(ministry.id))
+        .build()
+        .find();
+    return '''
+Ministry: ${ministry.ministryName}
+Contact: ${ministry.contactName ?? 'N/A'}
+Address: ${ministry.address ?? 'N/A'}
+Phone: ${ministry.phone ?? 'N/A'}
+Email: ${ministry.email ?? 'N/A'}
+Partner Status: ${ministry.partnerStatus ?? 'N/A'}
+Coordinates: (${ministry.latitude ?? 'N/A'}, ${ministry.longitude ?? 'N/A'})
+Notes: ${notes.isEmpty ? 'None' : notes.map((note) => note.content).join('\n')}
+''';
+  }
+
+  // Helper method to format area data for sharing
+  String _formatArea(GoArea area) {
+    return '''
+Area: ${area.name}
+Coordinates: ${area.points.map((p) => '(${p.latitude}, ${p.longitude})').join(', ')}
+''';
+  }
+
+  // Helper method to format street data for sharing
+  String _formatStreet(GoStreet street) {
+    return '''
+Street: ${street.name}
+Type: ${street.type ?? 'N/A'}
+Coordinates: ${street.points.map((p) => '(${p.latitude}, ${p.longitude})').join(', ')}
+''';
+  }
+
+  // Helper method to format zone data for sharing
+  String _formatZone(GoZone zone) {
+    return '''
+Zone: ${zone.name}
+Center: (${zone.latitude}, ${zone.longitude})
+Dimensions: ${zone.widthInMeters}m x ${zone.heightInMeters}m
+''';
+  }
+
+  // Helper method to format all data for sharing
+  String _formatAllData() {
+    final contacts = goContactsBox.getAll();
+    final churches = goChurchesBox.getAll();
+    final ministries = goMinistriesBox.getAll();
+    final areas = _goAreasBox.getAll();
+    final streets = _goStreetsBox.getAll();
+    final zones = _goZonesBox.getAll();
+
+    return '''
+=== Contacts ===
+${contacts.isEmpty ? 'None' : contacts.map(_formatContact).join('\n\n')}
+
+=== Churches ===
+${churches.isEmpty ? 'None' : churches.map(_formatChurch).join('\n\n')}
+
+=== Ministries ===
+${ministries.isEmpty ? 'None' : ministries.map(_formatMinistry).join('\n\n')}
+
+=== Areas ===
+${areas.isEmpty ? 'None' : areas.map(_formatArea).join('\n\n')}
+
+=== Streets ===
+${streets.isEmpty ? 'None' : streets.map(_formatStreet).join('\n\n')}
+
+=== Zones ===
+${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
+''';
+  }
+
+  // Helper method to share content
+  Future<void> _shareContent(String content, String subject) async {
+    if (kIsWeb || defaultTargetPlatform == TargetPlatform.windows || defaultTargetPlatform == TargetPlatform.linux) {
+      final uri = Uri(
+        scheme: 'mailto',
+        queryParameters: {
+          'subject': subject,
+          'body': content,
+        },
+      );
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not launch email client')),
+          );
+        }
+      }
+    } else {
+      await Share.share(content, subject: subject);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +188,15 @@ class _GoShareScreenState extends State<GoShareScreen> {
               });
             },
             initiallyExpanded: _shareChurchesExpanded,
-            children: <Widget>[
-              ListTile(
-                title: const Text('Churches options and actions will go here.'),
-                // Add share Churches functionality widgets here
-              ),
-            ],
+            children: goChurchesBox.getAll().isEmpty
+                ? [const ListTile(title: Text('No churches available'))]
+                : goChurchesBox.getAll().map((church) => ListTile(
+                      title: Text(church.churchName),
+                      onTap: () => _shareContent(
+                        _formatChurch(church),
+                        'Church: ${church.churchName}',
+                      ),
+                    )).toList(),
           ),
           ExpansionTile(
             title: const Text('Contacts'),
@@ -47,12 +206,15 @@ class _GoShareScreenState extends State<GoShareScreen> {
               });
             },
             initiallyExpanded: _shareContactsExpanded,
-            children: <Widget>[
-              ListTile(
-                title: const Text('Contacts options and actions will go here.'),
-                // Add share Contacts functionality widgets here
-              ),
-            ],
+            children: goContactsBox.getAll().isEmpty
+                ? [const ListTile(title: Text('No contacts available'))]
+                : goContactsBox.getAll().map((contact) => ListTile(
+                      title: Text(contact.fullName),
+                      onTap: () => _shareContent(
+                        _formatContact(contact),
+                        'Contact: ${contact.fullName}',
+                      ),
+                    )).toList(),
           ),
           ExpansionTile(
             title: const Text('Ministries'),
@@ -62,12 +224,15 @@ class _GoShareScreenState extends State<GoShareScreen> {
               });
             },
             initiallyExpanded: _shareMinistriesExpanded,
-            children: <Widget>[
-              ListTile(
-                title: const Text('Ministries options and actions will go here.'),
-                // Add share Ministries functionality widgets here
-              ),
-            ],
+            children: goMinistriesBox.getAll().isEmpty
+                ? [const ListTile(title: Text('No ministries available'))]
+                : goMinistriesBox.getAll().map((ministry) => ListTile(
+                      title: Text(ministry.ministryName),
+                      onTap: () => _shareContent(
+                        _formatMinistry(ministry),
+                        'Ministry: ${ministry.ministryName}',
+                      ),
+                    )).toList(),
           ),
           ExpansionTile(
             title: const Text('Areas'),
@@ -77,12 +242,15 @@ class _GoShareScreenState extends State<GoShareScreen> {
               });
             },
             initiallyExpanded: _shareAreasExpanded,
-            children: <Widget>[
-              ListTile(
-                title: const Text('Areas options and actions will go here.'),
-                // Add share Offline Maps functionality widgets here
-              ),
-            ],
+            children: _goAreasBox.getAll().isEmpty
+                ? [const ListTile(title: Text('No areas available'))]
+                : _goAreasBox.getAll().map((area) => ListTile(
+                      title: Text(area.name),
+                      onTap: () => _shareContent(
+                        _formatArea(area),
+                        'Area: ${area.name}',
+                      ),
+                    )).toList(),
           ),
           ExpansionTile(
             title: const Text('Streets'),
@@ -92,12 +260,15 @@ class _GoShareScreenState extends State<GoShareScreen> {
               });
             },
             initiallyExpanded: _shareStreetsExpanded,
-            children: <Widget>[
-              ListTile(
-                title: const Text('Streets options and actions will go here.'),
-                // Add share Routes Planner functionality widgets here
-              ),
-            ],
+            children: _goStreetsBox.getAll().isEmpty
+                ? [const ListTile(title: Text('No streets available'))]
+                : _goStreetsBox.getAll().map((street) => ListTile(
+                      title: Text(street.name),
+                      onTap: () => _shareContent(
+                        _formatStreet(street),
+                        'Street: ${street.name}',
+                      ),
+                    )).toList(),
           ),
           ExpansionTile(
             title: const Text('Zones'),
@@ -107,12 +278,15 @@ class _GoShareScreenState extends State<GoShareScreen> {
               });
             },
             initiallyExpanded: _shareZonesExpanded,
-            children: <Widget>[
-              ListTile(
-                title: const Text('Zones options and actions will go here.'),
-                // Add share Routes Planner functionality widgets here
-              ),
-            ],
+            children: _goZonesBox.getAll().isEmpty
+                ? [const ListTile(title: Text('No zones available'))]
+                : _goZonesBox.getAll().map((zone) => ListTile(
+                      title: Text(zone.name),
+                      onTap: () => _shareContent(
+                        _formatZone(zone),
+                        'Zone: ${zone.name}',
+                      ),
+                    )).toList(),
           ),
           ExpansionTile(
             title: const Text('All'),
@@ -122,10 +296,13 @@ class _GoShareScreenState extends State<GoShareScreen> {
               });
             },
             initiallyExpanded: _shareAllExpanded,
-            children: <Widget>[
+            children: [
               ListTile(
-                title: const Text('All options and actions will go here.'),
-                // Add share Routes Planner functionality widgets here
+                title: const Text('Share All Data'),
+                onTap: () => _shareContent(
+                  _formatAllData(),
+                  'All By Faith Data',
+                ),
               ),
             ],
           ),

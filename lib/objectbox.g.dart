@@ -1311,6 +1311,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectFromFB: (obx.Store store, ByteData fbData) {
         final buffer = fb.BufferContext(fbData);
         final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
         final nameParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 6, '');
@@ -1339,12 +1345,13 @@ obx_int.ModelDefinition getObjectBoxModel() {
           0,
         );
         final object = GoZone(
+          id: idParam,
           name: nameParam,
           latitude: latitudeParam,
           longitude: longitudeParam,
           widthInMeters: widthInMetersParam,
           heightInMeters: heightInMetersParam,
-        )..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+        );
 
         return object;
       },
