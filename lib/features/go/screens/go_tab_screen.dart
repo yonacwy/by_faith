@@ -8,6 +8,9 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart' as fmtc;
 import 'package:by_faith/features/go/screens/go_add_edit_contact_screen.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_church_screen.dart';
+import 'package:by_faith/features/go/screens/go_search_screen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:by_faith/features/go/screens/go_add_edit_ministry_screen.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_zone_screen.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_area_screen.dart';
@@ -28,8 +31,6 @@ import 'package:flutter_map_dragmarker/flutter_map_dragmarker.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'dart:async';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 enum LineType { street, river, path }
 
@@ -970,7 +971,15 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
           IconButton(
             icon: const Icon(Icons.search),
             tooltip: 'Search Address',
-            onPressed: _showSearchAddressDialog,
+            onPressed: () async {
+              final LatLng? resultLocation = await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const GoSearchScreen()),
+              );
+              if (resultLocation != null) {
+                _mapController.animateTo(dest: resultLocation, zoom: 16.0); // Zoom to a reasonable level
+              }
+            },
           ),
           if (_isAddingRoute)
             IconButton(
