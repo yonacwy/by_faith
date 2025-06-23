@@ -33,7 +33,14 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Go Settings'),
+        title: Text(
+          'Go Settings',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize + 2,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
@@ -51,10 +58,12 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
               children: [
                 Text(
                   'Text Settings',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize + 2,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Card(
@@ -71,12 +80,12 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
                       children: [
                         Text(
                           'Font Family',
-                          style:
-                              Theme.of(context).textTheme.titleSmall?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                  ),
+                          style: TextStyle(
+                            fontFamily: context.watch<FontProvider>().fontFamily,
+                            fontSize: context.watch<FontProvider>().fontSize,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         DropdownButton<String>(
@@ -104,13 +113,13 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Font Size: ${context.watch<FontProvider>().fontSize.toStringAsFixed(1)}',
-                          style:
-                              Theme.of(context).textTheme.titleSmall?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                  ),
+                          'Font Size:',
+                          style: TextStyle(
+                            fontFamily: context.watch<FontProvider>().fontFamily,
+                            fontSize: context.watch<FontProvider>().fontSize,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                         Slider(
                           value: context.watch<FontProvider>().fontSize,
@@ -125,12 +134,12 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
                         const SizedBox(height: 16),
                         Text(
                           'Preview:',
-                          style:
-                              Theme.of(context).textTheme.titleSmall?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                  ),
+                          style: TextStyle(
+                            fontFamily: context.watch<FontProvider>().fontFamily,
+                            fontSize: context.watch<FontProvider>().fontSize,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Container(

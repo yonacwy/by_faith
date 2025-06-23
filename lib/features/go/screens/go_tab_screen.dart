@@ -186,7 +186,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                   type,
                   style: TextStyle(
                     fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize * 0.8, // Smaller for subtitle
+                    fontSize: context.watch<FontProvider>().fontSize * 0.8,
                   ),
                 ),
                 onTap: () {
@@ -738,21 +738,39 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             children: [
               ListTile(
                 leading: const Icon(Icons.map),
-                title: const Text('Add Area'),
+                title: Text(
+                  'Add Area',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 onTap: () {
                   _navigateToMapScreen('Area');
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.directions),
-                title: const Text('Add Street'),
+                title: Text(
+                  'Add Street',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 onTap: () {
                   _navigateToMapScreen('Street');
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.analytics),
-                title: const Text('Add Zone'),
+                title: Text(
+                  'Add Zone',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 onTap: () {
                   _navigateToMapScreen('Zone');
                 },
@@ -858,7 +876,13 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ListTile(
-                    title: const Text('Contacts'),
+                    title: Text(
+                      'Contacts',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showContacts,
                       onChanged: (value) {
@@ -870,7 +894,13 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                     ),
                   ),
                   ListTile(
-                    title: const Text('Churches'),
+                    title: Text(
+                      'Churches',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showChurches,
                       onChanged: (value) {
@@ -882,7 +912,13 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                     ),
                   ),
                   ListTile(
-                    title: const Text('Ministries'),
+                    title: Text(
+                      'Ministries',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showMinistries,
                       onChanged: (value) {
@@ -894,7 +930,13 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                     ),
                   ),
                   ListTile(
-                    title: const Text('Areas'),
+                    title: Text(
+                      'Areas',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showAreas,
                       onChanged: (value) {
@@ -906,7 +948,13 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                     ),
                   ),
                   ListTile(
-                    title: const Text('Streets'),
+                    title: Text(
+                      'Streets',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showStreets,
                       onChanged: (value) {
@@ -918,7 +966,13 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                     ),
                   ),
                   ListTile(
-                    title: const Text('Zones'),
+                    title: Text(
+                      'Zones',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showZones,
                       onChanged: (value) {
@@ -1035,13 +1089,14 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               ),
               child: Stack(
                 children: [
-                  const Align(
+                  Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Go Menu',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 24,
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize + 6,
                       ),
                     ),
                   ),
@@ -1094,27 +1149,57 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             ),
             ListTile(
               leading: const Icon(Icons.church),
-              title: const Text('Churches'),
+              title: Text(
+                'Churches',
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+              ),
               onTap: _navigateToChurches,
             ),
             ListTile(
               leading: const Icon(Icons.contacts),
-              title: const Text('Contacts'),
+              title: Text(
+                'Contacts',
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+              ),
               onTap: _navigateToContacts,
             ),
             ListTile(
               leading: const Icon(Icons.people),
-              title: const Text('Ministries'),
+              title: Text(
+                'Ministries',
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+              ),
               onTap: _navigateToMinistries,
             ),
             ListTile(
               leading: const Icon(Icons.map),
-              title: const Text('Offline Maps'),
+              title: Text(
+                'Offline Maps',
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+              ),
               onTap: _showOfflineMaps,
             ),
             ListTile(
               leading: const Icon(Icons.route),
-              title: const Text('Route Planner'),
+              title: Text(
+                'Route Planner',
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -1255,7 +1340,13 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.person),
-                title: const Text('Add Contact'),
+                title: Text(
+                  'Add Contact',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(
@@ -1275,7 +1366,13 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               ),
               ListTile(
                 leading: const Icon(Icons.church),
-                title: const Text('Add Church'),
+                title: Text(
+                  'Add Church',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(
@@ -1295,7 +1392,13 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               ),
               ListTile(
                 leading: const Icon(Icons.people),
-                title: const Text('Add Ministry'),
+                title: Text(
+                  'Add Ministry',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(
