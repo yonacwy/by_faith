@@ -103,15 +103,15 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
           title: Text(
             'Download Limit Exceeded',
             style: TextStyle(
-              fontFamily: context.watch<FontProvider>().fontFamily,
-              fontSize: context.watch<FontProvider>().fontSize,
+              fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+              fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
             ),
           ),
           content: Text(
             'The selected area exceeds the maximum allowed: 12,000 tiles or 155.55 MB. Please select a smaller area.',
             style: TextStyle(
-              fontFamily: context.watch<FontProvider>().fontFamily,
-              fontSize: context.watch<FontProvider>().fontSize,
+              fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+              fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
             ),
           ),
           actions: [
@@ -120,8 +120,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
               child: Text(
                 'OK',
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
                 ),
               ),
             ),
@@ -136,8 +136,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
         title: Text(
           'Download Map',
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
           ),
         ),
         content: _isLoadingSize
@@ -145,8 +145,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
             : Text(
                 'Download map of this area? Estimated tiles: $_estimatedTileCount, approximately $estimatedSizeMB MB.',
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
                 ),
               ),
         actions: [
@@ -155,8 +155,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
             child: Text(
               'Close',
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
               ),
             ),
           ),
@@ -169,8 +169,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                   title: Text(
                     'Name Your Map',
                     style: TextStyle(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
                     ),
                   ),
                   content: TextField(
@@ -178,13 +178,13 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                     decoration: InputDecoration(
                       hintText: 'Enter map name',
                       hintStyle: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                        fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
                       ),
                     ),
                     style: TextStyle(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
                     ),
                   ),
                   actions: [
@@ -193,8 +193,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                       child: Text(
                         'Cancel',
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                          fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
                         ),
                       ),
                     ),
@@ -203,8 +203,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                       child: Text(
                         'Download',
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                          fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
                         ),
                       ),
                     ),
