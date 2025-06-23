@@ -6,6 +6,8 @@ import 'package:by_faith/features/go/models/go_model.dart';
 import 'package:by_faith/objectbox.dart';
 import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart';
 
 class GoAddEditChurchScreen extends StatefulWidget {
   final GoChurch? church;
@@ -43,12 +45,30 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Church'),
-        content: Text('Are you sure you want to delete ${_church.churchName}? This will delete all associated notes.'),
+        title: Text(
+          'Delete Church',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
+        content: Text(
+          'Are you sure you want to delete ${_church.churchName}? This will delete all associated notes.',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
           ),
           TextButton(
             onPressed: () {
@@ -60,10 +80,25 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               Navigator.pop(context);
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Church ${_church.churchName} deleted')),
+                SnackBar(
+                  content: Text(
+                    'Church ${_church.churchName} deleted',
+                    style: TextStyle(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
+                  ),
+                ),
               );
             },
-            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+            child: Text(
+              'Delete',
+              style: TextStyle(
+                color: Colors.red,
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
           ),
         ],
       ),
@@ -74,7 +109,13 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? 'Church Details' : 'Add Church'),
+        title: Text(
+          _isEditing ? 'Church Details' : 'Add Church',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize + 2,
+              ),
+        ),
         actions: _isEditing
             ? [
                 IconButton(
@@ -113,7 +154,14 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
     return ListView(
       padding: const EdgeInsets.all(16.0),
       children: [
-        const Text('Church Information', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(
+          'Church Information',
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontWeight: FontWeight.bold,
+                fontFamily: context.watch<FontProvider>().fontFamily,
+              ),
+        ),
         const SizedBox(height: 8),
         _buildReadOnlyField('Church Name', _church.churchName),
         _buildReadOnlyField('Pastor Name', _church.pastorName),
@@ -121,16 +169,37 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
         _buildReadOnlyField('Phone', _church.phone),
         _buildReadOnlyField('Email', _church.email),
         const SizedBox(height: 24),
-        const Text('Financial Status', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(
+          'Financial Status',
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontWeight: FontWeight.bold,
+                fontFamily: context.watch<FontProvider>().fontFamily,
+              ),
+        ),
         const SizedBox(height: 8),
         _buildReadOnlyField('Status', _church.financialStatus),
         const SizedBox(height: 24),
-        const Text('Map Information', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(
+          'Map Information',
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontWeight: FontWeight.bold,
+                fontFamily: context.watch<FontProvider>().fontFamily,
+              ),
+        ),
         const SizedBox(height: 8),
         _buildReadOnlyField('Latitude', _church.latitude?.toString()),
         _buildReadOnlyField('Longitude', _church.longitude?.toString()),
         const SizedBox(height: 24),
-        const Text('Notes', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(
+          'Notes',
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontWeight: FontWeight.bold,
+                fontFamily: context.watch<FontProvider>().fontFamily,
+              ),
+        ),
         const SizedBox(height: 8),
         _buildNotesList(),
       ],
@@ -143,8 +212,21 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: const TextStyle(color: Colors.grey)),
-          Text(value ?? 'Not specified', style: const TextStyle(fontSize: 16)),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: Colors.grey,
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize - 2,
+                ),
+          ),
+          Text(
+            value ?? 'Not specified',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                ),
+          ),
         ],
       ),
     );
@@ -167,7 +249,13 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                 readOnly: true,
               ),
             ),
-            subtitle: Text('Created: ${DateFormat.yMMMd().format(note.createdAt)}'),
+            subtitle: Text(
+              'Created: ${DateFormat.yMMMd().format(note.createdAt)}',
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize - 2,
+                  ),
+            ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -224,7 +312,15 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
 
         goChurchesBox.put(newChurch);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Church added!')),
+          SnackBar(
+            content: Text(
+              'Church added!',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                    fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                  ),
+            ),
+          ),
         );
         Navigator.pop(context);
       }
@@ -238,63 +334,178 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Church Information', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(
+                'Church Information',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontSize: context.watch<FontProvider>().fontSize + 2,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                    ),
+              ),
               const SizedBox(height: 8),
               TextFormField(
                 controller: churchNameController,
-                decoration: const InputDecoration(labelText: 'Church Name', border: OutlineInputBorder()),
-                validator: (value) => value == null || value.isEmpty ? 'Please enter a church name' : null,
+                decoration: InputDecoration(
+                  labelText: 'Church Name',
+                  border: const OutlineInputBorder(),
+                  labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Please enter a church name'
+                    : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: pastorNameController,
-                decoration: const InputDecoration(labelText: 'Pastor Name (Optional)', border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                  labelText: 'Pastor Name (Optional)',
+                  border: const OutlineInputBorder(),
+                  labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: addressController,
-                decoration: const InputDecoration(labelText: 'Address', border: OutlineInputBorder()),
-                validator: (value) => value == null || value.isEmpty ? 'Please enter an address' : null,
+                decoration: InputDecoration(
+                  labelText: 'Address',
+                  border: const OutlineInputBorder(),
+                  labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Please enter an address'
+                    : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: phoneController,
-                decoration: const InputDecoration(labelText: 'Phone (Optional)', border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                  labelText: 'Phone (Optional)',
+                  border: const OutlineInputBorder(),
+                  labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
                 keyboardType: TextInputType.phone,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: emailController,
-                decoration: const InputDecoration(labelText: 'Email (Optional)', border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                  labelText: 'Email (Optional)',
+                  border: const OutlineInputBorder(),
+                  labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value != null && value.isNotEmpty) {
                     final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
-                    if (!emailRegex.hasMatch(value)) return 'Please enter a valid email';
+                    if (!emailRegex.hasMatch(value)) {
+                      return 'Please enter a valid email';
+                    }
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 24),
-              const Text('Financial Status', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(
+                'Financial Status',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontSize: context.watch<FontProvider>().fontSize + 2,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                    ),
+              ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
                 value: financialStatus,
-                decoration: const InputDecoration(labelText: 'Status', border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                  labelText: 'Status',
+                  border: const OutlineInputBorder(),
+                  labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                ),
                 items: financialStatusOptions.map((String status) {
-                  return DropdownMenuItem<String>(value: status, child: Text(status));
+                  return DropdownMenuItem<String>(
+                    value: status,
+                    child: Text(
+                      status,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontFamily: context.watch<FontProvider>().fontFamily,
+                            fontSize: context.watch<FontProvider>().fontSize,
+                          ),
+                    ),
+                  );
                 }).toList(),
                 onChanged: (String? newValue) => financialStatus = newValue,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
               ),
               const SizedBox(height: 24),
-              const Text('Map Information', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(
+                'Map Information',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontSize: context.watch<FontProvider>().fontSize + 2,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                    ),
+              ),
               const SizedBox(height: 8),
               TextFormField(
                 controller: latitudeController,
-                decoration: const InputDecoration(labelText: 'Latitude', border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                  labelText: 'Latitude',
+                  border: const OutlineInputBorder(),
+                  labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
-                  if (value == null || value.isEmpty) return 'Please enter a latitude';
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a latitude';
+                  }
                   try {
                     double.parse(value);
                     return null;
@@ -306,10 +517,23 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: longitudeController,
-                decoration: const InputDecoration(labelText: 'Longitude', border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                  labelText: 'Longitude',
+                  border: const OutlineInputBorder(),
+                  labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
-                  if (value == null || value.isEmpty) return 'Please enter a longitude';
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a longitude';
+                  }
                   try {
                     double.parse(value);
                     return null;
@@ -322,7 +546,13 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               Center(
                 child: ElevatedButton(
                   onPressed: saveChurch,
-                  child: const Text('Save Church'),
+                  child: Text(
+                    'Save Church',
+                    style: TextStyle(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -394,7 +624,13 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.note != null ? 'Edit Note' : 'Add Note'),
+        title: Text(
+          widget.note != null ? 'Edit Note' : 'Add Note',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.save),

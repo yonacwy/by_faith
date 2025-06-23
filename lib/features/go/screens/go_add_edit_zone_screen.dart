@@ -9,6 +9,8 @@ import 'package:by_faith/objectbox.dart';
 import 'package:objectbox/objectbox.dart';
 import 'dart:async';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
+import 'package:provider/provider.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart';
 import 'package:vector_math/vector_math.dart' show radians, degrees;
 
 class GoAddEditZoneScreen extends StatefulWidget {
@@ -120,7 +122,13 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
         if (!widget.isViewMode) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('Tap on the map to set the zone center.'),
+              content: Text(
+                'Tap on the map to set the zone center.',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
+              ),
               action: SnackBarAction(
                 label: 'Cancel',
                 onPressed: _cancelZoneMode,
@@ -246,16 +254,40 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
       final confirm = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Cancel Zone Creation'),
-          content: const Text('Discard changes to this zone?'),
+          title: Text(
+            'Cancel Zone Creation',
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize + 2,
+                ),
+          ),
+          content: Text(
+            'Discard changes to this zone?',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('Keep Editing'),
+              child: Text(
+                'Keep Editing',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
+              ),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context, true),
-              child: const Text('Discard'),
+              child: Text(
+                'Discard',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
+              ),
             ),
           ],
         ),
@@ -280,30 +312,68 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
     String? name = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('${widget.zone != null ? 'Edit' : 'Save'} Zone'),
+        title: Text(
+          '${widget.zone != null ? 'Edit' : 'Save'} Zone',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize + 2,
+              ),
+        ),
         content: TextField(
           controller: nameController,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             hintText: 'Enter name',
             labelText: 'Name',
+            hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+            labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
           ),
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(
+              'Cancel',
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+            ),
           ),
           TextButton(
             onPressed: () {
               if (nameController.text.trim().isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Name cannot be empty.')),
+                  SnackBar(
+                    content: Text(
+                      'Name cannot be empty.',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontFamily: context.watch<FontProvider>().fontFamily,
+                            fontSize: context.watch<FontProvider>().fontSize,
+                          ),
+                    ),
+                  ),
                 );
                 return;
               }
               Navigator.pop(context, nameController.text.trim());
             },
-            child: const Text('Save'),
+            child: Text(
+              'Save',
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+            ),
           ),
         ],
       ),
@@ -326,7 +396,15 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Zone saved successfully.')),
+            SnackBar(
+              content: Text(
+                'Zone saved successfully.',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
+              ),
+            ),
           );
           Navigator.pop(context);
         }
@@ -484,7 +562,13 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ListTile(
-                    title: const Text('Contacts'),
+                    title: Text(
+                      'Contacts',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showContacts,
                       onChanged: (value) {
@@ -496,7 +580,13 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                     ),
                   ),
                   ListTile(
-                    title: const Text('Churches'),
+                    title: Text(
+                      'Churches',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showChurches,
                       onChanged: (value) {
@@ -508,7 +598,13 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                     ),
                   ),
                   ListTile(
-                    title: const Text('Ministries'),
+                    title: Text(
+                      'Ministries',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showMinistries,
                       onChanged: (value) {
@@ -520,7 +616,13 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                     ),
                   ),
                   ListTile(
-                    title: const Text('Areas'),
+                    title: Text(
+                      'Areas',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showAreas,
                       onChanged: (value) {
@@ -532,7 +634,13 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                     ),
                   ),
                   ListTile(
-                    title: const Text('Streets'),
+                    title: Text(
+                      'Streets',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showStreets,
                       onChanged: (value) {
@@ -544,7 +652,13 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                     ),
                   ),
                   ListTile(
-                    title: const Text('Zones'),
+                    title: Text(
+                      'Zones',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showZones,
                       onChanged: (value) {

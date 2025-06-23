@@ -6,6 +6,10 @@ import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 import 'dart:convert';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart';
 
 class GoMinistriesScreen extends StatefulWidget {
   const GoMinistriesScreen({super.key});
@@ -33,12 +37,30 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Ministry'),
-        content: Text('Are you sure you want to delete ${ministry.ministryName}?'),
+        title: Text(
+          'Delete Ministry',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
+        content: Text(
+          'Are you sure you want to delete ${ministry.ministryName}?',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
           ),
           TextButton(
             onPressed: () {
@@ -49,10 +71,25 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
               goMinistriesBox.remove(ministry.id);
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Ministry ${ministry.ministryName} deleted')),
+                SnackBar(
+                  content: Text(
+                    'Ministry ${ministry.ministryName} deleted',
+                    style: TextStyle(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
+                  ),
+                ),
               );
             },
-            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+            child: Text(
+              'Delete',
+              style: TextStyle(
+                color: Colors.red,
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
           ),
         ],
       ),
@@ -63,7 +100,13 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Go Ministries'),
+        title: Text(
+          'Go Ministries',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -82,7 +125,15 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No ministries added yet.'));
+            return Center(
+              child: Text(
+                'No ministries added yet.',
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+              ),
+            );
           }
 
           final ministries = snapshot.data!;
@@ -99,21 +150,54 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                   ),
                   title: Text(
                     ministry.ministryName,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize + 2,
+                        ),
                   ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (ministry.contactName != null && ministry.contactName!.isNotEmpty)
-                        Text('Contact: ${ministry.contactName}'),
+                        Text(
+                          'Contact: ${ministry.contactName}',
+                          style: TextStyle(
+                            fontFamily: context.watch<FontProvider>().fontFamily,
+                            fontSize: context.watch<FontProvider>().fontSize,
+                          ),
+                        ),
                       if (ministry.phone != null && ministry.phone!.isNotEmpty)
-                        Text('Phone: ${ministry.phone}'),
+                        Text(
+                          'Phone: ${ministry.phone}',
+                          style: TextStyle(
+                            fontFamily: context.watch<FontProvider>().fontFamily,
+                            fontSize: context.watch<FontProvider>().fontSize,
+                          ),
+                        ),
                       if (ministry.email != null && ministry.email!.isNotEmpty)
-                        Text('Email: ${ministry.email}'),
+                        Text(
+                          'Email: ${ministry.email}',
+                          style: TextStyle(
+                            fontFamily: context.watch<FontProvider>().fontFamily,
+                            fontSize: context.watch<FontProvider>().fontSize,
+                          ),
+                        ),
                       if (ministry.address != null && ministry.address!.isNotEmpty)
-                        Text('Address: ${ministry.address}'),
+                        Text(
+                          'Address: ${ministry.address}',
+                          style: TextStyle(
+                            fontFamily: context.watch<FontProvider>().fontFamily,
+                            fontSize: context.watch<FontProvider>().fontSize,
+                          ),
+                        ),
                       if (ministry.partnerStatus != null && ministry.partnerStatus!.isNotEmpty)
-                        Text('Partner Status: ${ministry.partnerStatus}'),
+                        Text(
+                          'Partner Status: ${ministry.partnerStatus}',
+                          style: TextStyle(
+                            fontFamily: context.watch<FontProvider>().fontFamily,
+                            fontSize: context.watch<FontProvider>().fontSize,
+                          ),
+                        ),
                     ],
                   ),
                   children: [
@@ -123,12 +207,31 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (ministry.phone != null && ministry.phone!.isNotEmpty)
-                            Text('Phone: ${ministry.phone}'),
+                            Text(
+                              'Phone: ${ministry.phone}',
+                              style: TextStyle(
+                                fontFamily: context.watch<FontProvider>().fontFamily,
+                                fontSize: context.watch<FontProvider>().fontSize,
+                              ),
+                            ),
                           if (ministry.email != null && ministry.email!.isNotEmpty)
-                            Text('Email: ${ministry.email}'),
+                            Text(
+                              'Email: ${ministry.email}',
+                              style: TextStyle(
+                                fontFamily: context.watch<FontProvider>().fontFamily,
+                                fontSize: context.watch<FontProvider>().fontSize,
+                              ),
+                            ),
                           if (ministry.notes.isNotEmpty) ...[
                             const SizedBox(height: 16),
-                            const Text('Notes:', style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text(
+                              'Notes:',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontFamily: context.watch<FontProvider>().fontFamily,
+                                fontSize: context.watch<FontProvider>().fontSize,
+                              ),
+                            ),
                             ...ministry.notes.map((note) => ListTile(
                                   title: quill.QuillEditor.basic(
                                     controller: quill.QuillController(
@@ -139,6 +242,10 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                                   ),
                                   subtitle: Text(
                                     'Created: ${DateFormat.yMMMd().format(note.createdAt)}',
+                                    style: TextStyle(
+                                      fontFamily: context.watch<FontProvider>().fontFamily,
+                                      fontSize: context.watch<FontProvider>().fontSize - 2,
+                                    ),
                                   ),
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -187,9 +294,9 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                         ],
                       ),
                     ),
-                  ],
-                ),
-              );
+                  ], // Closing for children of ExpansionTile
+                ), // Closing for ExpansionTile
+              ); // Closing for Card
             },
           );
         },

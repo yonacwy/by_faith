@@ -6,6 +6,8 @@ import 'package:by_faith/objectbox.dart';
 import 'package:by_faith/core/models/user_preferences_model.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:by_faith/objectbox.g.dart'; // For GoMapInfo_
+import 'package:provider/provider.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart';
 
 class GoOfflineMapsScreen extends StatefulWidget {
   final String? currentMapName;
@@ -86,7 +88,15 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
     } catch (error) {
       if (mounted) {
         scaffoldMessenger.showSnackBar(
-          SnackBar(content: Text('Failed to delete map ($mapName): $error')),
+          SnackBar(
+            content: Text(
+              'Failed to delete map ($mapName): $error',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
+          ),
         );
       }
     }
@@ -97,19 +107,47 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
     String? newName = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Rename Map'),
+        title: Text(
+          'Rename Map',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
         content: TextField(
           controller: controller,
-          decoration: const InputDecoration(hintText: 'Enter new map name'),
+          decoration: InputDecoration(
+            hintText: 'Enter new map name',
+            hintStyle: TextStyle(
+              fontFamily: context.watch<FontProvider>().fontFamily,
+              fontSize: context.watch<FontProvider>().fontSize,
+            ),
+          ),
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, controller.text.trim()),
-            child: const Text('Save'),
+            child: Text(
+              'Save',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
           ),
         ],
       ),
@@ -127,7 +165,15 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
       } catch (error) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to rename map: $error')),
+            SnackBar(
+              content: Text(
+                'Failed to rename map: $error',
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+              ),
+            ),
           );
         }
       }
@@ -151,13 +197,29 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
       );
       if (mounted) {
         scaffoldMessenger.showSnackBar(
-          SnackBar(content: Text('Map "${mapInfo.name}" updated successfully')),
+          SnackBar(
+            content: Text(
+              'Map "${mapInfo.name}" updated successfully',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
+          ),
         );
       }
     } catch (error) {
       if (mounted) {
         scaffoldMessenger.showSnackBar(
-          SnackBar(content: Text('Failed to update map: $error')),
+          SnackBar(
+            content: Text(
+              'Failed to update map: $error',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
+          ),
         );
       }
     }
@@ -167,7 +229,13 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Offline Maps'),
+        title: Text(
+          'Offline Maps',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -176,14 +244,20 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
               leading: const Icon(Icons.map),
               title: Text(
                 'Select your own map',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
               ),
               onTap: _showMapSelection,
             ),
             ExpansionTile(
               title: Text(
                 'Downloaded Maps',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
               ),
               initiallyExpanded: true,
               children: [
@@ -194,7 +268,15 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                       return const Center(child: CircularProgressIndicator());
                     }
                     if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const Center(child: Text('No maps downloaded yet.'));
+                      return Center(
+                        child: Text(
+                          'No maps downloaded yet.',
+                          style: TextStyle(
+                            fontFamily: context.watch<FontProvider>().fontFamily,
+                            fontSize: context.watch<FontProvider>().fontSize,
+                          ),
+                        ),
+                      );
                     }
                     final maps = snapshot.data!;
                     return ListView.builder(
@@ -204,7 +286,13 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                       itemBuilder: (context, index) {
                         final mapInfo = maps[index];
                         return ListTile(
-                          title: Text(mapInfo.name),
+                          title: Text(
+                            mapInfo.name,
+                            style: TextStyle(
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
+                            ),
+                          ),
                           trailing: PopupMenuButton<String>(
                             onSelected: (value) async {
                               if (value == 'view') {
@@ -224,10 +312,46 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                               }
                             },
                             itemBuilder: (context) => [
-                              const PopupMenuItem(value: 'view', child: Text('View')),
-                              const PopupMenuItem(value: 'update', child: Text('Update')),
-                              const PopupMenuItem(value: 'rename', child: Text('Rename')),
-                              const PopupMenuItem(value: 'delete', child: Text('Delete')),
+                              PopupMenuItem(
+                                value: 'view',
+                                child: Text(
+                                  'View',
+                                  style: TextStyle(
+                                    fontFamily: context.watch<FontProvider>().fontFamily,
+                                    fontSize: context.watch<FontProvider>().fontSize,
+                                  ),
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 'update',
+                                child: Text(
+                                  'Update',
+                                  style: TextStyle(
+                                    fontFamily: context.watch<FontProvider>().fontFamily,
+                                    fontSize: context.watch<FontProvider>().fontSize,
+                                  ),
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 'rename',
+                                child: Text(
+                                  'Rename',
+                                  style: TextStyle(
+                                    fontFamily: context.watch<FontProvider>().fontFamily,
+                                    fontSize: context.watch<FontProvider>().fontSize,
+                                  ),
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 'delete',
+                                child: Text(
+                                  'Delete',
+                                  style: TextStyle(
+                                    fontFamily: context.watch<FontProvider>().fontFamily,
+                                    fontSize: context.watch<FontProvider>().fontSize,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                           onTap: () {

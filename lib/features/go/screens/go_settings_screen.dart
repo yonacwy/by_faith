@@ -1,8 +1,10 @@
 // lib/features/go/screens/go_settings_screen.dart
 import 'package:flutter/material.dart';
 import 'package:objectbox/objectbox.dart';
+import 'package:provider/provider.dart';
 import '../../../core/models/user_preferences_model.dart';
 import '../../../objectbox.dart'; // Assuming you have ObjectBox setup
+import '../providers/font_provider.dart';
 
 class GoSettingsScreen extends StatefulWidget {
   const GoSettingsScreen({super.key});
@@ -12,30 +14,9 @@ class GoSettingsScreen extends StatefulWidget {
 }
 
 class _GoSettingsScreenState extends State<GoSettingsScreen> {
-  late String currentFont;
-  late double currentFontSize;
-  late Box<UserPreferences> userPreferencesBox;
-  late UserPreferences userPreferences;
-
   @override
   void initState() {
     super.initState();
-    userPreferencesBox = store.box<UserPreferences>();
-    
-    // Load existing preferences or create new
-    userPreferences = userPreferencesBox.getAll().isNotEmpty
-        ? userPreferencesBox.getAll().first
-        : UserPreferences();
-        
-    currentFont = userPreferences.fontFamily ?? 'Roboto';
-    currentFontSize = userPreferences.fontSize ?? 16.0;
-  }
-
-  void _savePreferences() {
-    userPreferences
-      ..fontFamily = currentFont
-      ..fontSize = currentFontSize;
-    userPreferencesBox.put(userPreferences);
   }
 
   @override
@@ -99,7 +80,7 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
                         ),
                         const SizedBox(height: 8),
                         DropdownButton<String>(
-                          value: currentFont,
+                          value: context.watch<FontProvider>().fontFamily,
                           isExpanded: true,
                           underline: const SizedBox(),
                           items: fontOptions.map((font) {
@@ -117,14 +98,13 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
                           }).toList(),
                           onChanged: (value) {
                             if (value != null) {
-                              setState(() => currentFont = value);
-                              _savePreferences();
+                              context.read<FontProvider>().setFontFamily(value);
                             }
                           },
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Font Size: ${currentFontSize.toStringAsFixed(1)}',
+                          'Font Size: ${context.watch<FontProvider>().fontSize.toStringAsFixed(1)}',
                           style:
                               Theme.of(context).textTheme.titleSmall?.copyWith(
                                     color: Theme.of(context)
@@ -133,14 +113,13 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
                                   ),
                         ),
                         Slider(
-                          value: currentFontSize,
+                          value: context.watch<FontProvider>().fontSize,
                           min: 10.0,
                           max: 30.0,
                           divisions: 20,
-                          label: currentFontSize.toStringAsFixed(1),
+                          label: context.watch<FontProvider>().fontSize.toStringAsFixed(1),
                           onChanged: (value) {
-                            setState(() => currentFontSize = value);
-                            _savePreferences();
+                            context.read<FontProvider>().setFontSize(value);
                           },
                         ),
                         const SizedBox(height: 16),
@@ -165,8 +144,8 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
                           child: Text(
                             sampleText,
                             style: TextStyle(
-                              fontFamily: currentFont,
-                              fontSize: currentFontSize,
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
                               color: Theme.of(context).colorScheme.onSurface,
                               height: 1.5,
                             ),

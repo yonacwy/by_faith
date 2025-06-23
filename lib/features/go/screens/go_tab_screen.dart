@@ -31,6 +31,8 @@ import 'package:flutter_map_dragmarker/flutter_map_dragmarker.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'dart:async';
+import 'package:provider/provider.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart';
 
 enum LineType { street, river, path }
 
@@ -160,15 +162,33 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Markers in Zone'),
+        title: Text(
+          'Markers in Zone',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: _markersInZone.map((item) {
               String type = item is GoContact ? 'Contact' : item is GoChurch ? 'Church' : 'Ministry';
               return ListTile(
-                title: Text(item is GoContact ? item.fullName : item is GoChurch ? item.churchName : item.ministryName),
-                subtitle: Text(type),
+                title: Text(
+                  item is GoContact ? item.fullName : item is GoChurch ? item.churchName : item.ministryName,
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
+                subtitle: Text(
+                  type,
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize * 0.8, // Smaller for subtitle
+                  ),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   if (item is GoContact) {
@@ -201,7 +221,13 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
+            child: Text(
+              'Close',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
           ),
         ],
       ),

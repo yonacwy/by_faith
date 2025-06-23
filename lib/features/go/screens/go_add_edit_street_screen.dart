@@ -9,6 +9,8 @@ import 'package:by_faith/objectbox.dart';
 import 'package:objectbox/objectbox.dart';
 import 'dart:async';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
+import 'package:provider/provider.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart';
 
 enum LineType { street, river, path }
 
@@ -94,7 +96,13 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
         if (!widget.isViewMode) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('Tap on the map to add points.'),
+              content: Text(
+                'Tap on the map to add points.',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
+              ),
               action: SnackBarAction(
                 label: 'Cancel',
                 onPressed: _cancelRouteMode,
@@ -287,16 +295,40 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
       final confirm = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Cancel Creation'),
-          content: const Text('Discard changes to this route?'),
+          title: Text(
+            'Cancel Creation',
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize + 2,
+                ),
+          ),
+          content: Text(
+            'Discard changes to this route?',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('Keep Editing'),
+              child: Text(
+                'Keep Editing',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
+              ),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context, true),
-              child: const Text('Discard'),
+              child: Text(
+                'Discard',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
+              ),
             ),
           ],
         ),
@@ -314,7 +346,15 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
 
     if (_polyEditor!.points.length < 2) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add at least 2 points to create a route.')),
+        SnackBar(
+          content: Text(
+            'Add at least 2 points to create a route.',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+          ),
+        ),
       );
       return;
     }
@@ -328,30 +368,68 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
     String? name = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('${widget.street != null ? 'Edit' : 'Save'} ${_selectedLineType.toString().split('.').last[0].toUpperCase()}${_selectedLineType.toString().split('.').last.substring(1)}'),
+        title: Text(
+          '${widget.street != null ? 'Edit' : 'Save'} ${_selectedLineType.toString().split('.').last[0].toUpperCase()}${_selectedLineType.toString().split('.').last.substring(1)}',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize + 2,
+              ),
+        ),
         content: TextField(
           controller: nameController,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             hintText: 'Enter name',
             labelText: 'Name',
+            hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+            labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
           ),
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(
+              'Cancel',
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+            ),
           ),
           TextButton(
             onPressed: () {
               if (nameController.text.trim().isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Name cannot be empty.')),
+                  SnackBar(
+                    content: Text(
+                      'Name cannot be empty.',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontFamily: context.watch<FontProvider>().fontFamily,
+                            fontSize: context.watch<FontProvider>().fontSize,
+                          ),
+                    ),
+                  ),
                 );
                 return;
               }
               Navigator.pop(context, nameController.text.trim());
             },
-            child: const Text('Save'),
+            child: Text(
+              'Save',
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+            ),
           ),
         ],
       ),
@@ -373,14 +451,30 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Route saved successfully.')),
+            SnackBar(
+              content: Text(
+                'Route saved successfully.',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
+              ),
+            ),
           );
           Navigator.pop(context);
         }
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error saving route: $e')),
+            SnackBar(
+              content: Text(
+                'Error saving route: $e',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
+              ),
+            ),
           );
         }
       }
@@ -553,7 +647,13 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ListTile(
-                    title: const Text('Contacts'),
+                    title: Text(
+                      'Contacts',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showContacts,
                       onChanged: (value) {
@@ -565,7 +665,13 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                     ),
                   ),
                   ListTile(
-                    title: const Text('Churches'),
+                    title: Text(
+                      'Churches',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showChurches,
                       onChanged: (value) {
@@ -577,7 +683,13 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                     ),
                   ),
                   ListTile(
-                    title: const Text('Ministries'),
+                    title: Text(
+                      'Ministries',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showMinistries,
                       onChanged: (value) {
@@ -589,7 +701,13 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                     ),
                   ),
                   ListTile(
-                    title: const Text('Areas'),
+                    title: Text(
+                      'Areas',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showAreas,
                       onChanged: (value) {
@@ -601,7 +719,13 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                     ),
                   ),
                   ListTile(
-                    title: const Text('Streets'),
+                    title: Text(
+                      'Streets',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showStreets,
                       onChanged: (value) {
@@ -613,7 +737,13 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                     ),
                   ),
                   ListTile(
-                    title: const Text('Zones'),
+                    title: Text(
+                      'Zones',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showZones,
                       onChanged: (value) {
@@ -637,7 +767,13 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.street != null ? (widget.isViewMode ? 'View' : 'Edit') : 'Add'} ${_selectedLineType.toString().split('.').last[0].toUpperCase()}${_selectedLineType.toString().split('.').last.substring(1)}'),
+        title: Text(
+          '${widget.street != null ? (widget.isViewMode ? 'View' : 'Edit') : 'Add'} ${_selectedLineType.toString().split('.').last[0].toUpperCase()}${_selectedLineType.toString().split('.').last.substring(1)}',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.visibility),

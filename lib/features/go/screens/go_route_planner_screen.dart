@@ -6,6 +6,8 @@ import 'package:objectbox/objectbox.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_area_screen.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_street_screen.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_zone_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart';
 
 class GoRoutePlannerScreen extends StatefulWidget {
   const GoRoutePlannerScreen({super.key});
@@ -74,19 +76,47 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
     final result = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Rename $type'),
+        title: Text(
+          'Rename $type',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
         content: TextField(
           controller: controller,
-          decoration: const InputDecoration(hintText: 'Enter new name'),
+          decoration: InputDecoration(
+            hintText: 'Enter new name',
+            hintStyle: TextStyle(
+              fontFamily: context.watch<FontProvider>().fontFamily,
+              fontSize: context.watch<FontProvider>().fontSize,
+            ),
+          ),
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, controller.text),
-            child: const Text('Save'),
+            child: Text(
+              'Save',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
           ),
         ],
       ),
@@ -144,7 +174,13 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Route Planner'),
+        title: Text(
+          'Route Planner',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -154,7 +190,10 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
               ExpansionTile(
                 title: Text(
                   'Areas',
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
                 ),
                 initiallyExpanded: true,
                 children: [
@@ -165,7 +204,15 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                         return const Center(child: CircularProgressIndicator());
                       }
                       if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Center(child: Text('No areas added yet.'));
+                        return Center(
+                          child: Text(
+                            'No areas added yet.',
+                            style: TextStyle(
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
+                            ),
+                          ),
+                        );
                       }
                       return ListView.builder(
                         shrinkWrap: true,
@@ -174,17 +221,61 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                         itemBuilder: (context, index) {
                           final area = snapshot.data![index];
                           return ListTile(
-                            title: Text(area.name),
+                            title: Text(
+                              area.name,
+                              style: TextStyle(
+                                fontFamily: context.watch<FontProvider>().fontFamily,
+                                fontSize: context.watch<FontProvider>().fontSize,
+                              ),
+                            ),
                             subtitle: area.points.isNotEmpty
-                                ? Text('Lat: ${area.points.first.latitude.toStringAsFixed(4)}, Lon: ${area.points.first.longitude.toStringAsFixed(4)}')
-                                : const Text('No coordinates'),
+                                ? Text(
+                                    'Lat: ${area.points.first.latitude.toStringAsFixed(4)}, Lon: ${area.points.first.longitude.toStringAsFixed(4)}',
+                                    style: TextStyle(
+                                      fontFamily: context.watch<FontProvider>().fontFamily,
+                                      fontSize: context.watch<FontProvider>().fontSize * 0.8,
+                                    ),
+                                  )
+                                : Text(
+                                    'No coordinates',
+                                    style: TextStyle(
+                                      fontFamily: context.watch<FontProvider>().fontFamily,
+                                      fontSize: context.watch<FontProvider>().fontSize * 0.8,
+                                    ),
+                                  ),
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Area', area),
                               itemBuilder: (context) => [
-                                
-                                const PopupMenuItem(value: 'edit', child: Text('Edit')),
-                                const PopupMenuItem(value: 'rename', child: Text('Rename')),
-                                const PopupMenuItem(value: 'delete', child: Text('Delete')),
+                                PopupMenuItem(
+                                  value: 'edit',
+                                  child: Text(
+                                    'Edit',
+                                    style: TextStyle(
+                                      fontFamily: context.watch<FontProvider>().fontFamily,
+                                      fontSize: context.watch<FontProvider>().fontSize,
+                                    ),
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  value: 'rename',
+                                  child: Text(
+                                    'Rename',
+                                    style: TextStyle(
+                                      fontFamily: context.watch<FontProvider>().fontFamily,
+                                      fontSize: context.watch<FontProvider>().fontSize,
+                                    ),
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  value: 'delete',
+                                  child: Text(
+                                    'Delete',
+                                    style: TextStyle(
+                                      fontFamily: context.watch<FontProvider>().fontFamily,
+                                      fontSize: context.watch<FontProvider>().fontSize,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           );
@@ -197,7 +288,10 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
               ExpansionTile(
                 title: Text(
                   'Streets',
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
                 ),
                 initiallyExpanded: true,
                 children: [
@@ -208,7 +302,15 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                         return const Center(child: CircularProgressIndicator());
                       }
                       if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Center(child: Text('No streets added yet.'));
+                        return Center(
+                          child: Text(
+                            'No streets added yet.',
+                            style: TextStyle(
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
+                            ),
+                          ),
+                        );
                       }
                       return ListView.builder(
                         shrinkWrap: true,
@@ -217,17 +319,61 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                         itemBuilder: (context, index) {
                           final street = snapshot.data![index];
                           return ListTile(
-                            title: Text(street.name),
+                            title: Text(
+                              street.name,
+                              style: TextStyle(
+                                fontFamily: context.watch<FontProvider>().fontFamily,
+                                fontSize: context.watch<FontProvider>().fontSize,
+                              ),
+                            ),
                             subtitle: street.points.isNotEmpty
-                                ? Text('Lat: ${street.points.first.latitude.toStringAsFixed(4)}, Lon: ${street.points.first.longitude.toStringAsFixed(4)}')
-                                : const Text('No coordinates'),
+                                ? Text(
+                                    'Lat: ${street.points.first.latitude.toStringAsFixed(4)}, Lon: ${street.points.first.longitude.toStringAsFixed(4)}',
+                                    style: TextStyle(
+                                      fontFamily: context.watch<FontProvider>().fontFamily,
+                                      fontSize: context.watch<FontProvider>().fontSize * 0.8,
+                                    ),
+                                  )
+                                : Text(
+                                    'No coordinates',
+                                    style: TextStyle(
+                                      fontFamily: context.watch<FontProvider>().fontFamily,
+                                      fontSize: context.watch<FontProvider>().fontSize * 0.8,
+                                    ),
+                                  ),
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Street', street),
                               itemBuilder: (context) => [
-                                
-                                const PopupMenuItem(value: 'edit', child: Text('Edit')),
-                                const PopupMenuItem(value: 'rename', child: Text('Rename')),
-                                const PopupMenuItem(value: 'delete', child: Text('Delete')),
+                                PopupMenuItem(
+                                  value: 'edit',
+                                  child: Text(
+                                    'Edit',
+                                    style: TextStyle(
+                                      fontFamily: context.watch<FontProvider>().fontFamily,
+                                      fontSize: context.watch<FontProvider>().fontSize,
+                                    ),
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  value: 'rename',
+                                  child: Text(
+                                    'Rename',
+                                    style: TextStyle(
+                                      fontFamily: context.watch<FontProvider>().fontFamily,
+                                      fontSize: context.watch<FontProvider>().fontSize,
+                                    ),
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  value: 'delete',
+                                  child: Text(
+                                    'Delete',
+                                    style: TextStyle(
+                                      fontFamily: context.watch<FontProvider>().fontFamily,
+                                      fontSize: context.watch<FontProvider>().fontSize,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           );
@@ -240,7 +386,10 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
               ExpansionTile(
                 title: Text(
                   'Zones',
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
                 ),
                 initiallyExpanded: true,
                 children: [
@@ -251,7 +400,15 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                         return const Center(child: CircularProgressIndicator());
                       }
                       if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Center(child: Text('No zones added yet.'));
+                        return Center(
+                          child: Text(
+                            'No zones added yet.',
+                            style: TextStyle(
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
+                            ),
+                          ),
+                        );
                       }
                       return ListView.builder(
                         shrinkWrap: true,
@@ -260,15 +417,53 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                         itemBuilder: (context, index) {
                           final zone = snapshot.data![index];
                           return ListTile(
-                            title: Text(zone.name),
-                            subtitle: Text('Lat: ${zone.latitude.toStringAsFixed(4)}, Lon: ${zone.longitude.toStringAsFixed(4)}'),
+                            title: Text(
+                              zone.name,
+                              style: TextStyle(
+                                fontFamily: context.watch<FontProvider>().fontFamily,
+                                fontSize: context.watch<FontProvider>().fontSize,
+                              ),
+                            ),
+                            subtitle: Text(
+                              'Lat: ${zone.latitude.toStringAsFixed(4)}, Lon: ${zone.longitude.toStringAsFixed(4)}',
+                              style: TextStyle(
+                                fontFamily: context.watch<FontProvider>().fontFamily,
+                                fontSize: context.watch<FontProvider>().fontSize * 0.8,
+                              ),
+                            ),
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Zone', zone),
                               itemBuilder: (context) => [
-                                
-                                const PopupMenuItem(value: 'edit', child: Text('Edit')),
-                                const PopupMenuItem(value: 'rename', child: Text('Rename')),
-                                const PopupMenuItem(value: 'delete', child: Text('Delete')),
+                                PopupMenuItem(
+                                  value: 'edit',
+                                  child: Text(
+                                    'Edit',
+                                    style: TextStyle(
+                                      fontFamily: context.watch<FontProvider>().fontFamily,
+                                      fontSize: context.watch<FontProvider>().fontSize,
+                                    ),
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  value: 'rename',
+                                  child: Text(
+                                    'Rename',
+                                    style: TextStyle(
+                                      fontFamily: context.watch<FontProvider>().fontFamily,
+                                      fontSize: context.watch<FontProvider>().fontSize,
+                                    ),
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  value: 'delete',
+                                  child: Text(
+                                    'Delete',
+                                    style: TextStyle(
+                                      fontFamily: context.watch<FontProvider>().fontFamily,
+                                      fontSize: context.watch<FontProvider>().fontSize,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           );

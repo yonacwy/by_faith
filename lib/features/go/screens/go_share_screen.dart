@@ -6,6 +6,8 @@ import 'package:by_faith/objectbox.dart';
 import 'package:by_faith/features/go/models/go_model.dart';
 import 'package:by_faith/features/go/models/go_route_models.dart';
 import 'package:by_faith/objectbox.g.dart'; // Import generated ObjectBox file
+import 'package:provider/provider.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart';
 
 class GoShareScreen extends StatefulWidget {
   const GoShareScreen({super.key});
@@ -176,12 +178,24 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Share'),
+        title: Text(
+          'Share',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
       ),
       body: ListView(
         children: <Widget>[
           ExpansionTile(
-            title: const Text('Churches'),
+            title: Text(
+              'Churches',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
             onExpansionChanged: (bool expanded) {
               setState(() {
                 _shareChurchesExpanded = expanded;
@@ -189,9 +203,25 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
             },
             initiallyExpanded: _shareChurchesExpanded,
             children: goChurchesBox.getAll().isEmpty
-                ? [const ListTile(title: Text('No churches available'))]
+                ? [
+                    ListTile(
+                      title: Text(
+                        'No churches available',
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
+                    )
+                  ]
                 : goChurchesBox.getAll().map((church) => ListTile(
-                      title: Text(church.churchName),
+                      title: Text(
+                        church.churchName,
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
                       onTap: () => _shareContent(
                         _formatChurch(church),
                         'Church: ${church.churchName}',
@@ -199,7 +229,13 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                     )).toList(),
           ),
           ExpansionTile(
-            title: const Text('Contacts'),
+            title: Text(
+              'Contacts',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
             onExpansionChanged: (bool expanded) {
               setState(() {
                 _shareContactsExpanded = expanded;
@@ -207,9 +243,25 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
             },
             initiallyExpanded: _shareContactsExpanded,
             children: goContactsBox.getAll().isEmpty
-                ? [const ListTile(title: Text('No contacts available'))]
+                ? [
+                    ListTile(
+                      title: Text(
+                        'No contacts available',
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
+                    )
+                  ]
                 : goContactsBox.getAll().map((contact) => ListTile(
-                      title: Text(contact.fullName),
+                      title: Text(
+                        contact.fullName,
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
                       onTap: () => _shareContent(
                         _formatContact(contact),
                         'Contact: ${contact.fullName}',
@@ -217,7 +269,13 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                     )).toList(),
           ),
           ExpansionTile(
-            title: const Text('Ministries'),
+            title: Text(
+              'Ministries',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
             onExpansionChanged: (bool expanded) {
               setState(() {
                 _shareMinistriesExpanded = expanded;
@@ -225,9 +283,25 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
             },
             initiallyExpanded: _shareMinistriesExpanded,
             children: goMinistriesBox.getAll().isEmpty
-                ? [const ListTile(title: Text('No ministries available'))]
+                ? [
+                    ListTile(
+                      title: Text(
+                        'No ministries available',
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
+                    )
+                  ]
                 : goMinistriesBox.getAll().map((ministry) => ListTile(
-                      title: Text(ministry.ministryName),
+                      title: Text(
+                        ministry.ministryName,
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
                       onTap: () => _shareContent(
                         _formatMinistry(ministry),
                         'Ministry: ${ministry.ministryName}',
@@ -235,7 +309,13 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                     )).toList(),
           ),
           ExpansionTile(
-            title: const Text('Areas'),
+            title: Text(
+              'Areas',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
             onExpansionChanged: (bool expanded) {
               setState(() {
                 _shareAreasExpanded = expanded;
@@ -243,9 +323,25 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
             },
             initiallyExpanded: _shareAreasExpanded,
             children: _goAreasBox.getAll().isEmpty
-                ? [const ListTile(title: Text('No areas available'))]
+                ? [
+                    ListTile(
+                      title: Text(
+                        'No areas available',
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
+                    )
+                  ]
                 : _goAreasBox.getAll().map((area) => ListTile(
-                      title: Text(area.name),
+                      title: Text(
+                        area.name,
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
                       onTap: () => _shareContent(
                         _formatArea(area),
                         'Area: ${area.name}',
@@ -253,7 +349,13 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                     )).toList(),
           ),
           ExpansionTile(
-            title: const Text('Streets'),
+            title: Text(
+              'Streets',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
             onExpansionChanged: (bool expanded) {
               setState(() {
                 _shareStreetsExpanded = expanded;
@@ -261,9 +363,25 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
             },
             initiallyExpanded: _shareStreetsExpanded,
             children: _goStreetsBox.getAll().isEmpty
-                ? [const ListTile(title: Text('No streets available'))]
+                ? [
+                    ListTile(
+                      title: Text(
+                        'No streets available',
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
+                    )
+                  ]
                 : _goStreetsBox.getAll().map((street) => ListTile(
-                      title: Text(street.name),
+                      title: Text(
+                        street.name,
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
                       onTap: () => _shareContent(
                         _formatStreet(street),
                         'Street: ${street.name}',
@@ -271,7 +389,13 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                     )).toList(),
           ),
           ExpansionTile(
-            title: const Text('Zones'),
+            title: Text(
+              'Zones',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
             onExpansionChanged: (bool expanded) {
               setState(() {
                 _shareZonesExpanded = expanded;
@@ -279,9 +403,25 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
             },
             initiallyExpanded: _shareZonesExpanded,
             children: _goZonesBox.getAll().isEmpty
-                ? [const ListTile(title: Text('No zones available'))]
+                ? [
+                    ListTile(
+                      title: Text(
+                        'No zones available',
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
+                    )
+                  ]
                 : _goZonesBox.getAll().map((zone) => ListTile(
-                      title: Text(zone.name),
+                      title: Text(
+                        zone.name,
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
                       onTap: () => _shareContent(
                         _formatZone(zone),
                         'Zone: ${zone.name}',
@@ -289,7 +429,13 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                     )).toList(),
           ),
           ExpansionTile(
-            title: const Text('All'),
+            title: Text(
+              'All',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
             onExpansionChanged: (bool expanded) {
               setState(() {
                 _shareAllExpanded = expanded;
@@ -298,7 +444,13 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
             initiallyExpanded: _shareAllExpanded,
             children: [
               ListTile(
-                title: const Text('Share All Data'),
+                title: Text(
+                  'Share All Data',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 onTap: () => _shareContent(
                   _formatAllData(),
                   'All By Faith Data',

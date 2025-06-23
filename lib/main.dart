@@ -8,8 +8,10 @@ import 'package:by_faith/features/pray/screens/pray_tab_screen.dart';
 import 'package:by_faith/features/read/screens/read_tab_screen.dart';
 import 'package:by_faith/features/study/screens/study_tab_screen.dart';
 import 'package:by_faith/features/go/screens/go_tab_screen.dart';
+import 'package:provider/provider.dart'; // Import provider package
 
 import 'package:by_faith/objectbox.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart'; // Import FontProvider
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,24 +24,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'By Faith',
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        FlutterQuillLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en'), // English
-        Locale('es'), // Spanish
-      ],
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return ChangeNotifierProvider(
+      create: (_) => FontProvider(),
+      child: MaterialApp(
+        title: 'By Faith',
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          FlutterQuillLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en'), // English
+          Locale('es'), // Spanish
+        ],
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const MainScreen(),
       ),
-      home: const MainScreen(),
     );
   }
 }

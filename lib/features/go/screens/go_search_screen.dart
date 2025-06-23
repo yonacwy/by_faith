@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart';
 
 class GoSearchScreen extends StatefulWidget {
   const GoSearchScreen({super.key});
@@ -65,7 +67,13 @@ class _GoSearchScreenState extends State<GoSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search Address'),
+        title: Text(
+          'Search Address',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -75,12 +83,23 @@ class _GoSearchScreenState extends State<GoSearchScreen> {
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: 'Enter address',
+                hintStyle: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
                 suffixIcon: IconButton(
-                  icon: const Icon(Icons.search),
+                  icon: Icon(
+                    Icons.search,
+                    size: context.watch<FontProvider>().fontSize * 1.2,
+                  ),
                   onPressed: () => _searchAddress(_searchController.text),
                 ),
               ),
               onSubmitted: (_) => _searchAddress(_searchController.text),
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
             ),
             const SizedBox(height: 16),
             if (_searchResult.isNotEmpty)
@@ -91,9 +110,19 @@ class _GoSearchScreenState extends State<GoSearchScreen> {
                     Navigator.pop(context, _foundLocation);
                   }
                 },
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
               ),
             if (_foundLocation != null)
-              Text('Latitude: ${_foundLocation!.latitude}, Longitude: ${_foundLocation!.longitude}'),
+              Text(
+                'Latitude: ${_foundLocation!.latitude}, Longitude: ${_foundLocation!.longitude}',
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+              ),
           ],
         ),
       ),

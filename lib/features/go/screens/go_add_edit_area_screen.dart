@@ -9,6 +9,8 @@ import 'package:by_faith/objectbox.dart';
 import 'package:objectbox/objectbox.dart';
 import 'dart:async';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
+import 'package:provider/provider.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart';
 
 class GoAddEditAreaScreen extends StatefulWidget {
   final GoArea? area;
@@ -215,16 +217,40 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
       final confirm = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Cancel Area Creation'),
-          content: const Text('Discard changes to this area?'),
+          title: Text(
+            'Cancel Area Creation',
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                ),
+          ),
+          content: Text(
+            'Discard changes to this area?',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                ),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('Keep Editing'),
+              child: Text(
+                'Keep Editing',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                    ),
+              ),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context, true),
-              child: const Text('Discard'),
+              child: Text(
+                'Discard',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                    ),
+              ),
             ),
           ],
         ),
@@ -256,30 +282,68 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
     String? name = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('${widget.area != null ? 'Edit' : 'Save'} Area'),
+        title: Text(
+          '${widget.area != null ? 'Edit' : 'Save'} Area',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+              ),
+        ),
         content: TextField(
           controller: nameController,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             hintText: 'Enter name',
             labelText: 'Name',
+            hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                ),
+            labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                ),
           ),
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+              ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(
+              'Cancel',
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                    fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                  ),
+            ),
           ),
           TextButton(
             onPressed: () {
               if (nameController.text.trim().isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Name cannot be empty.')),
+                  SnackBar(
+                    content: Text(
+                      'Name cannot be empty.',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                          ),
+                    ),
+                  ),
                 );
                 return;
               }
               Navigator.pop(context, nameController.text.trim());
             },
-            child: const Text('Save'),
+            child: Text(
+              'Save',
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                    fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                  ),
+            ),
           ),
         ],
       ),
@@ -300,14 +364,30 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Area saved successfully.')),
+            SnackBar(
+              content: Text(
+                'Area saved successfully.',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                    ),
+              ),
+            ),
           );
           Navigator.pop(context);
         }
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error saving Area: $e')),
+            SnackBar(
+              content: Text(
+                'Error saving Area: $e',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                    ),
+              ),
+            ),
           );
         }
       }
@@ -465,7 +545,13 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ListTile(
-                    title: const Text('Contacts'),
+                    title: Text(
+                      'Contacts',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showContacts,
                       onChanged: (value) {
@@ -477,7 +563,13 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                     ),
                   ),
                   ListTile(
-                    title: const Text('Churches'),
+                    title: Text(
+                      'Churches',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showChurches,
                       onChanged: (value) {
@@ -489,7 +581,13 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                     ),
                   ),
                   ListTile(
-                    title: const Text('Ministries'),
+                    title: Text(
+                      'Ministries',
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showMinistries,
                       onChanged: (value) {

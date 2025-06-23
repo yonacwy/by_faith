@@ -6,6 +6,10 @@ import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 import 'dart:convert';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart';
 
 class GoContactsScreen extends StatefulWidget {
   const GoContactsScreen({super.key});
@@ -33,12 +37,30 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Contact'),
-        content: Text('Are you sure you want to delete ${contact.fullName}?'),
+        title: Text(
+          'Delete Contact',
+          style: TextStyle(
+            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+          ),
+        ),
+        content: Text(
+          'Are you sure you want to delete ${contact.fullName}?',
+          style: TextStyle(
+            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+              ),
+            ),
           ),
           TextButton(
             onPressed: () {
@@ -49,10 +71,25 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
               goContactsBox.remove(contact.id);
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Contact ${contact.fullName} deleted')),
+                SnackBar(
+                  content: Text(
+                    'Contact ${contact.fullName} deleted',
+                    style: TextStyle(
+                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                    ),
+                  ),
+                ),
               );
             },
-            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+            child: Text(
+              'Delete',
+              style: TextStyle(
+                color: Colors.red,
+                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+              ),
+            ),
           ),
         ],
       ),
@@ -63,7 +100,13 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Go Contacts'),
+        title: Text(
+          'Go Contacts',
+          style: TextStyle(
+            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+          ),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -82,7 +125,15 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No contacts added yet.'));
+            return Center(
+              child: Text(
+                'No contacts added yet.',
+                style: TextStyle(
+                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                ),
+              ),
+            );
           }
 
           final contacts = snapshot.data!;
@@ -99,19 +150,46 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                   ),
                   title: Text(
                     contact.fullName,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                    ),
                   ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (contact.phone != null && contact.phone!.isNotEmpty)
-                        Text('Phone: ${contact.phone}'),
+                        Text(
+                          'Phone: ${contact.phone}',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                          ),
+                        ),
                       if (contact.email != null && contact.email!.isNotEmpty)
-                        Text('Email: ${contact.email}'),
+                        Text(
+                          'Email: ${contact.email}',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                          ),
+                        ),
                       if (contact.address != null && contact.address!.isNotEmpty)
-                        Text('Address: ${contact.address}'),
+                        Text(
+                          'Address: ${contact.address}',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                          ),
+                        ),
                       if (contact.eternalStatus != null && contact.eternalStatus!.isNotEmpty)
-                        Text('Eternal Status: ${contact.eternalStatus}'),
+                        Text(
+                          'Eternal Status: ${contact.eternalStatus}',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                          ),
+                        ),
                     ],
                   ),
                   children: [
@@ -121,14 +199,39 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (contact.birthday != null && contact.birthday!.isNotEmpty)
-                            Text('Birthday: ${contact.birthday}'),
+                            Text(
+                              'Birthday: ${contact.birthday}',
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                              ),
+                            ),
                           if (contact.phone != null && contact.phone!.isNotEmpty)
-                            Text('Phone: ${contact.phone}'),
+                            Text(
+                              'Phone: ${contact.phone}',
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                              ),
+                            ),
                           if (contact.email != null && contact.email!.isNotEmpty)
-                            Text('Email: ${contact.email}'),
+                            Text(
+                              'Email: ${contact.email}',
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                              ),
+                            ),
                           if (contact.notes.isNotEmpty) ...[
                             const SizedBox(height: 16),
-                            const Text('Notes:', style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text(
+                              'Notes:',
+                              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                              ),
+                            ),
                             ...contact.notes.map((note) => ListTile(
                                   title: quill.QuillEditor.basic(
                                     controller: quill.QuillController(
@@ -139,6 +242,10 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                                   ),
                                   subtitle: Text(
                                     'Created: ${DateFormat.yMMMd().format(note.createdAt)}',
+                                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize - 2,
+                                    ),
                                   ),
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,

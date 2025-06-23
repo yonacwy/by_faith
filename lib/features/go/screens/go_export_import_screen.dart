@@ -7,6 +7,10 @@ import 'package:by_faith/objectbox.dart';
 import 'package:by_faith/features/go/models/go_model.dart';
 import 'package:by_faith/features/go/models/go_route_models.dart';
 import 'package:by_faith/objectbox.g.dart';
+import 'package:provider/provider.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart';
 
 class GoExportImportScreen extends StatefulWidget {
   const GoExportImportScreen({super.key});
@@ -56,7 +60,15 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
         await file.copy(result);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('$type exported successfully')),
+            SnackBar(
+              content: Text(
+                '$type exported successfully',
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+              ),
+            ),
           );
         }
       }
@@ -86,7 +98,15 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
         if (jsonData['type'] != expectedType) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Invalid file: Expected $expectedType data')),
+              SnackBar(
+                content: Text(
+                  'Invalid file: Expected $expectedType data',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
+              ),
             );
           }
           return;
@@ -100,7 +120,15 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('$expectedType imported successfully')),
+            SnackBar(
+              content: Text(
+                '$expectedType imported successfully',
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+              ),
+            ),
           );
         }
         setState(() {}); // Refresh UI
@@ -361,7 +389,15 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
         await file.copy(result);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('All data exported successfully')),
+            SnackBar(
+              content: Text(
+                'All data exported successfully',
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+              ),
+            ),
           );
         }
       }
@@ -391,7 +427,15 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
         if (jsonData['type'] != 'all') {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Invalid file: Expected all data')),
+              SnackBar(
+                content: Text(
+                  'Invalid file: Expected all data',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
+              ),
             );
           }
           return;
@@ -441,7 +485,15 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('All data imported successfully')),
+            SnackBar(
+              content: Text(
+                'All data imported successfully',
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+              ),
+            ),
           );
         }
         setState(() {}); // Refresh UI
@@ -459,25 +511,59 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Export/Import'),
+        title: Text(
+          'Export/Import',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
       ),
       body: ListView(
         children: <Widget>[
           ExpansionTile(
-            title: const Text('Export Data'),
+            title: Text(
+              'Export Data',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
             onExpansionChanged: (bool expanded) {
               setState(() {
                 _isExportExpanded = expanded;
               });
             },
             initiallyExpanded: _isExportExpanded,
-            children: [
+            children: <Widget>[
               ExpansionTile(
-                title: const Text('Churches'),
+                title: Text(
+                  'Churches',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 children: goChurchesBox.getAll().isEmpty
-                    ? [const ListTile(title: Text('No churches available'))]
+                    ? [
+                        ListTile(
+                          title: Text(
+                            'No churches available',
+                            style: TextStyle(
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
+                            ),
+                          ),
+                        )
+                      ]
                     : goChurchesBox.getAll().map((church) => ListTile(
-                          title: Text(church.churchName),
+                          title: Text(
+                            church.churchName,
+                            style: TextStyle(
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
+                            ),
+                          ),
                           onTap: () => _exportData(
                             [church],
                             'churches',
@@ -487,11 +573,33 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                         )).toList(),
               ),
               ExpansionTile(
-                title: const Text('Contacts'),
+                title: Text(
+                  'Contacts',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 children: goContactsBox.getAll().isEmpty
-                    ? [const ListTile(title: Text('No contacts available'))]
+                    ? [
+                        ListTile(
+                          title: Text(
+                            'No contacts available',
+                            style: TextStyle(
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
+                            ),
+                          ),
+                        )
+                      ]
                     : goContactsBox.getAll().map((contact) => ListTile(
-                          title: Text(contact.fullName),
+                          title: Text(
+                            contact.fullName,
+                            style: TextStyle(
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
+                            ),
+                          ),
                           onTap: () => _exportData(
                             [contact],
                             'contacts',
@@ -501,11 +609,33 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                         )).toList(),
               ),
               ExpansionTile(
-                title: const Text('Ministries'),
+                title: Text(
+                  'Ministries',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 children: goMinistriesBox.getAll().isEmpty
-                    ? [const ListTile(title: Text('No ministries available'))]
+                    ? [
+                        ListTile(
+                          title: Text(
+                            'No ministries available',
+                            style: TextStyle(
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
+                            ),
+                          ),
+                        )
+                      ]
                     : goMinistriesBox.getAll().map((ministry) => ListTile(
-                          title: Text(ministry.ministryName),
+                          title: Text(
+                            ministry.ministryName,
+                            style: TextStyle(
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
+                            ),
+                          ),
                           onTap: () => _exportData(
                             [ministry],
                             'ministries',
@@ -515,11 +645,33 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                         )).toList(),
               ),
               ExpansionTile(
-                title: const Text('Areas'),
+                title: Text(
+                  'Areas',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 children: _goAreasBox.getAll().isEmpty
-                    ? [const ListTile(title: Text('No areas available'))]
+                    ? [
+                        ListTile(
+                          title: Text(
+                            'No areas available',
+                            style: TextStyle(
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
+                            ),
+                          ),
+                        )
+                      ]
                     : _goAreasBox.getAll().map((area) => ListTile(
-                          title: Text(area.name),
+                          title: Text(
+                            area.name,
+                            style: TextStyle(
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
+                            ),
+                          ),
                           onTap: () => _exportData(
                             [area],
                             'areas',
@@ -529,11 +681,33 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                         )).toList(),
               ),
               ExpansionTile(
-                title: const Text('Streets'),
+                title: Text(
+                  'Streets',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 children: _goStreetsBox.getAll().isEmpty
-                    ? [const ListTile(title: Text('No streets available'))]
+                    ? [
+                        ListTile(
+                          title: Text(
+                            'No streets available',
+                            style: TextStyle(
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
+                            ),
+                          ),
+                        )
+                      ]
                     : _goStreetsBox.getAll().map((street) => ListTile(
-                          title: Text(street.name),
+                          title: Text(
+                            street.name,
+                            style: TextStyle(
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
+                            ),
+                          ),
                           onTap: () => _exportData(
                             [street],
                             'streets',
@@ -543,11 +717,33 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                         )).toList(),
               ),
               ExpansionTile(
-                title: const Text('Zones'),
+                title: Text(
+                  'Zones',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 children: _goZonesBox.getAll().isEmpty
-                    ? [const ListTile(title: Text('No zones available'))]
+                    ? [
+                        ListTile(
+                          title: Text(
+                            'No zones available',
+                            style: TextStyle(
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
+                            ),
+                          ),
+                        )
+                      ]
                     : _goZonesBox.getAll().map((zone) => ListTile(
-                          title: Text(zone.name),
+                          title: Text(
+                            zone.name,
+                            style: TextStyle(
+                              fontFamily: context.watch<FontProvider>().fontFamily,
+                              fontSize: context.watch<FontProvider>().fontSize,
+                            ),
+                          ),
                           onTap: () => _exportData(
                             [zone],
                             'zones',
@@ -557,46 +753,100 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                         )).toList(),
               ),
               ListTile(
-                title: const Text('All'),
+                title: Text(
+                  'All',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 onTap: _exportAll,
               ),
             ],
           ),
           ExpansionTile(
-            title: const Text('Import Data'),
+            title: Text(
+              'Import Data',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
             onExpansionChanged: (bool expanded) {
               setState(() {
                 _isImportExpanded = expanded;
               });
             },
             initiallyExpanded: _isImportExpanded,
-            children: [
+            children: <Widget>[
               ListTile(
-                title: const Text('Churches'),
+                title: Text(
+                  'Churches',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 onTap: () => _importData('churches', goChurchesBox, _churchFromJson),
               ),
               ListTile(
-                title: const Text('Contacts'),
+                title: Text(
+                  'Contacts',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 onTap: () => _importData('contacts', goContactsBox, _contactFromJson),
               ),
               ListTile(
-                title: const Text('Ministries'),
+                title: Text(
+                  'Ministries',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 onTap: () => _importData('ministries', goMinistriesBox, _ministryFromJson),
               ),
               ListTile(
-                title: const Text('Areas'),
+                title: Text(
+                  'Areas',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 onTap: () => _importData('areas', _goAreasBox, _areaFromJson),
               ),
               ListTile(
-                title: const Text('Streets'),
+                title: Text(
+                  'Streets',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 onTap: () => _importData('streets', _goStreetsBox, _streetFromJson),
               ),
               ListTile(
-                title: const Text('Zones'),
+                title: Text(
+                  'Zones',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 onTap: () => _importData('zones', _goZonesBox, _zoneFromJson),
               ),
               ListTile(
-                title: const Text('All'),
+                title: Text(
+                  'All',
+                  style: TextStyle(
+                    fontFamily: context.watch<FontProvider>().fontFamily,
+                    fontSize: context.watch<FontProvider>().fontSize,
+                  ),
+                ),
                 onTap: _importAll,
               ),
             ],

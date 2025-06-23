@@ -4,6 +4,8 @@ import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart' as fmtc;
 import 'package:latlong2/latlong.dart';
 import 'dart:math' as math;
 import 'package:flutter_map_animations/flutter_map_animations.dart';
+import 'package:provider/provider.dart';
+import 'package:by_faith/features/go/providers/font_provider.dart';
 
 class GoSelectMapAreaScreen extends StatefulWidget {
 final Function(String, double, double, double, double, int, ScaffoldMessengerState) onDownloadMap;
@@ -96,14 +98,32 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Download Map'),
+        title: Text(
+          'Download Map',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
         content: _isLoadingSize
             ? const CircularProgressIndicator()
-            : Text('Download map of this area? Estimated tiles: $_estimatedTileCount, approximately $estimatedSizeMB MB.'),
+            : Text(
+                'Download map of this area? Estimated tiles: $_estimatedTileCount, approximately $estimatedSizeMB MB.',
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+              ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
+            child: Text(
+              'Close',
+              style: TextStyle(
+                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontSize: context.watch<FontProvider>().fontSize,
+              ),
+            ),
           ),
           TextButton(
             onPressed: () async {
@@ -111,19 +131,47 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
               String? mapName = await showDialog<String>(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: const Text('Name Your Map'),
+                  title: Text(
+                    'Name Your Map',
+                    style: TextStyle(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
+                  ),
                   content: TextField(
                     controller: controller,
-                    decoration: const InputDecoration(hintText: 'Enter map name'),
+                    decoration: InputDecoration(
+                      hintText: 'Enter map name',
+                      hintStyle: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
+                    style: TextStyle(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize,
+                    ),
                   ),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('Cancel'),
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
                     ),
                     TextButton(
                       onPressed: () => Navigator.pop(context, controller.text.trim()),
-                      child: const Text('Download'),
+                      child: Text(
+                        'Download',
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -174,7 +222,13 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Select Map Area'),
+        title: Text(
+          'Select Map Area',
+          style: TextStyle(
+            fontFamily: context.watch<FontProvider>().fontFamily,
+            fontSize: context.watch<FontProvider>().fontSize,
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -221,6 +275,10 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                   fm.TextSourceAttribution(
                     'OpenStreetMap contributors',
                     onTap: () => {},
+                    textStyle: TextStyle(
+                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontSize: context.watch<FontProvider>().fontSize * 0.7,
+                    ),
                   ),
                 ],
               ),
@@ -235,20 +293,29 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                   heroTag: "zoom_in_fab",
                   mini: true,
                   onPressed: zoomIn,
-                  child: const Icon(Icons.add),
+                  child: Icon(
+                    Icons.add,
+                    size: context.watch<FontProvider>().fontSize * 1.2,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 FloatingActionButton(
                   heroTag: "zoom_out_fab",
                   mini: true,
                   onPressed: zoomOut,
-                  child: const Icon(Icons.remove),
+                  child: Icon(
+                    Icons.remove,
+                    size: context.watch<FontProvider>().fontSize * 1.2,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 FloatingActionButton(
                   heroTag: "download_fab",
                   onPressed: _showDownloadDialog,
-                  child: const Icon(Icons.download),
+                  child: Icon(
+                    Icons.download,
+                    size: context.watch<FontProvider>().fontSize * 1.2,
+                  ),
                 ),
               ],
             ),
