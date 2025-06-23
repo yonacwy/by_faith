@@ -208,18 +208,18 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
                         children: [
                           if (church.phone != null && church.phone!.isNotEmpty)
                             Text(
-                              'Phone: ${church.phone}',
+                              'Phone: [200b${church.phone}',
                               style: TextStyle(
-                                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
-                                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                                fontSize: context.watch<FontProvider>().fontSize,
+                                fontFamily: context.watch<FontProvider>().fontFamily,
                               ),
                             ),
                           if (church.email != null && church.email!.isNotEmpty)
                             Text(
-                              'Email: ${church.email}',
+                              'Email: [200b${church.email}',
                               style: TextStyle(
-                                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
-                                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                                fontSize: context.watch<FontProvider>().fontSize,
+                                fontFamily: context.watch<FontProvider>().fontFamily,
                               ),
                             ),
                           if (church.notes.isNotEmpty) ...[
@@ -228,8 +228,8 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
                               'Notes:',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
-                                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                                fontSize: context.watch<FontProvider>().fontSize + 2,
+                                fontFamily: context.watch<FontProvider>().fontFamily,
                               ),
                             ),
                             ...church.notes.map((note) => ListTile(
@@ -241,10 +241,10 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
                                 ),
                               ),
                               subtitle: Text(
-                                'Created: {DateFormat.yMMMd().format(note.createdAt)}',
+                                'Created: ${DateFormat.yMMMd().format(note.createdAt)}',
                                 style: TextStyle(
-                                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize - 2,
-                                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                                  fontSize: context.watch<FontProvider>().fontSize - 2,
+                                  fontFamily: context.watch<FontProvider>().fontFamily,
                                 ),
                               ),
                               trailing: Row(

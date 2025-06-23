@@ -79,8 +79,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
         title: Text(
           'Rename $type',
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
           ),
         ),
         content: TextField(
@@ -88,13 +88,13 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
           decoration: InputDecoration(
             hintText: 'Enter new name',
             hintStyle: TextStyle(
-              fontFamily: context.watch<FontProvider>().fontFamily,
-              fontSize: context.watch<FontProvider>().fontSize,
+              fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+              fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
             ),
           ),
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
           ),
         ),
         actions: [
@@ -103,8 +103,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
             child: Text(
               'Cancel',
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
               ),
             ),
           ),
@@ -113,8 +113,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
             child: Text(
               'Save',
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
               ),
             ),
           ),
@@ -245,38 +245,41 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                   ),
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Area', area),
-                              itemBuilder: (context) => [
-                                PopupMenuItem(
-                                  value: 'edit',
-                                  child: Text(
-                                    'Edit',
-                                    style: TextStyle(
-                                      fontFamily: context.watch<FontProvider>().fontFamily,
-                                      fontSize: context.watch<FontProvider>().fontSize,
+                              itemBuilder: (context) {
+                                final fontProvider = Provider.of<FontProvider>(context, listen: false);
+                                return [
+                                  PopupMenuItem(
+                                    value: 'edit',
+                                    child: Text(
+                                      'Edit',
+                                      style: TextStyle(
+                                        fontFamily: fontProvider.fontFamily,
+                                        fontSize: fontProvider.fontSize,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                PopupMenuItem(
-                                  value: 'rename',
-                                  child: Text(
-                                    'Rename',
-                                    style: TextStyle(
-                                      fontFamily: context.watch<FontProvider>().fontFamily,
-                                      fontSize: context.watch<FontProvider>().fontSize,
+                                  PopupMenuItem(
+                                    value: 'rename',
+                                    child: Text(
+                                      'Rename',
+                                      style: TextStyle(
+                                        fontFamily: fontProvider.fontFamily,
+                                        fontSize: fontProvider.fontSize,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                PopupMenuItem(
-                                  value: 'delete',
-                                  child: Text(
-                                    'Delete',
-                                    style: TextStyle(
-                                      fontFamily: context.watch<FontProvider>().fontFamily,
-                                      fontSize: context.watch<FontProvider>().fontSize,
+                                  PopupMenuItem(
+                                    value: 'delete',
+                                    child: Text(
+                                      'Delete',
+                                      style: TextStyle(
+                                        fontFamily: fontProvider.fontFamily,
+                                        fontSize: fontProvider.fontSize,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ];
+                              },
                             ),
                           );
                         },
@@ -343,38 +346,41 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                   ),
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Street', street),
-                              itemBuilder: (context) => [
-                                PopupMenuItem(
-                                  value: 'edit',
-                                  child: Text(
-                                    'Edit',
-                                    style: TextStyle(
-                                      fontFamily: context.watch<FontProvider>().fontFamily,
-                                      fontSize: context.watch<FontProvider>().fontSize,
+                              itemBuilder: (context) {
+                                final fontProvider = Provider.of<FontProvider>(context, listen: false);
+                                return [
+                                  PopupMenuItem(
+                                    value: 'edit',
+                                    child: Text(
+                                      'Edit',
+                                      style: TextStyle(
+                                        fontFamily: fontProvider.fontFamily,
+                                        fontSize: fontProvider.fontSize,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                PopupMenuItem(
-                                  value: 'rename',
-                                  child: Text(
-                                    'Rename',
-                                    style: TextStyle(
-                                      fontFamily: context.watch<FontProvider>().fontFamily,
-                                      fontSize: context.watch<FontProvider>().fontSize,
+                                  PopupMenuItem(
+                                    value: 'rename',
+                                    child: Text(
+                                      'Rename',
+                                      style: TextStyle(
+                                        fontFamily: fontProvider.fontFamily,
+                                        fontSize: fontProvider.fontSize,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                PopupMenuItem(
-                                  value: 'delete',
-                                  child: Text(
-                                    'Delete',
-                                    style: TextStyle(
-                                      fontFamily: context.watch<FontProvider>().fontFamily,
-                                      fontSize: context.watch<FontProvider>().fontSize,
+                                  PopupMenuItem(
+                                    value: 'delete',
+                                    child: Text(
+                                      'Delete',
+                                      style: TextStyle(
+                                        fontFamily: fontProvider.fontFamily,
+                                        fontSize: fontProvider.fontSize,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ];
+                              },
                             ),
                           );
                         },
@@ -433,38 +439,41 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                             ),
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Zone', zone),
-                              itemBuilder: (context) => [
-                                PopupMenuItem(
-                                  value: 'edit',
-                                  child: Text(
-                                    'Edit',
-                                    style: TextStyle(
-                                      fontFamily: context.watch<FontProvider>().fontFamily,
-                                      fontSize: context.watch<FontProvider>().fontSize,
+                              itemBuilder: (context) {
+                                final fontProvider = Provider.of<FontProvider>(context, listen: false);
+                                return [
+                                  PopupMenuItem(
+                                    value: 'edit',
+                                    child: Text(
+                                      'Edit',
+                                      style: TextStyle(
+                                        fontFamily: fontProvider.fontFamily,
+                                        fontSize: fontProvider.fontSize,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                PopupMenuItem(
-                                  value: 'rename',
-                                  child: Text(
-                                    'Rename',
-                                    style: TextStyle(
-                                      fontFamily: context.watch<FontProvider>().fontFamily,
-                                      fontSize: context.watch<FontProvider>().fontSize,
+                                  PopupMenuItem(
+                                    value: 'rename',
+                                    child: Text(
+                                      'Rename',
+                                      style: TextStyle(
+                                        fontFamily: fontProvider.fontFamily,
+                                        fontSize: fontProvider.fontSize,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                PopupMenuItem(
-                                  value: 'delete',
-                                  child: Text(
-                                    'Delete',
-                                    style: TextStyle(
-                                      fontFamily: context.watch<FontProvider>().fontFamily,
-                                      fontSize: context.watch<FontProvider>().fontSize,
+                                  PopupMenuItem(
+                                    value: 'delete',
+                                    child: Text(
+                                      'Delete',
+                                      style: TextStyle(
+                                        fontFamily: fontProvider.fontFamily,
+                                        fontSize: fontProvider.fontSize,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ];
+                              },
                             ),
                           );
                         },

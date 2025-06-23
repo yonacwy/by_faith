@@ -78,6 +78,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
 
   Future<void> _deleteMap(String mapName) async {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final fontProvider = Provider.of<FontProvider>(context, listen: false);
     try {
       final mapInfo = widget.goMapInfoBox.query(GoMapInfo_.name.equals(mapName)).build().findFirst();
       if (mapInfo != null) {
@@ -92,8 +93,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
             content: Text(
               'Failed to delete map ($mapName): $error',
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: fontProvider.fontFamily,
+                fontSize: fontProvider.fontSize,
               ),
             ),
           ),
@@ -103,6 +104,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
   }
 
   Future<void> _renameMap(GoMapInfo mapInfo) async {
+    final fontProvider = Provider.of<FontProvider>(context, listen: false);
     TextEditingController controller = TextEditingController(text: mapInfo.name);
     String? newName = await showDialog<String>(
       context: context,
@@ -110,8 +112,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
         title: Text(
           'Rename Map',
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: fontProvider.fontFamily,
+            fontSize: fontProvider.fontSize,
           ),
         ),
         content: TextField(
@@ -119,13 +121,13 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
           decoration: InputDecoration(
             hintText: 'Enter new map name',
             hintStyle: TextStyle(
-              fontFamily: context.watch<FontProvider>().fontFamily,
-              fontSize: context.watch<FontProvider>().fontSize,
+              fontFamily: fontProvider.fontFamily,
+              fontSize: fontProvider.fontSize,
             ),
           ),
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: fontProvider.fontFamily,
+            fontSize: fontProvider.fontSize,
           ),
         ),
         actions: [
@@ -134,8 +136,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
             child: Text(
               'Cancel',
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: fontProvider.fontFamily,
+                fontSize: fontProvider.fontSize,
               ),
             ),
           ),
@@ -144,8 +146,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
             child: Text(
               'Save',
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: fontProvider.fontFamily,
+                fontSize: fontProvider.fontSize,
               ),
             ),
           ),
@@ -169,8 +171,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
               content: Text(
                 'Failed to rename map: $error',
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: fontProvider.fontFamily,
+                  fontSize: fontProvider.fontSize,
                 ),
               ),
             ),
@@ -182,6 +184,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
 
   Future<void> _updateMap(GoMapInfo mapInfo) async {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final fontProvider = Provider.of<FontProvider>(context, listen: false);
     // Re-download the map with the same parameters
     try {
       await widget.onDownloadMap(
@@ -201,8 +204,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
             content: Text(
               'Map "${mapInfo.name}" updated successfully',
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: fontProvider.fontFamily,
+                fontSize: fontProvider.fontSize,
               ),
             ),
           ),
@@ -215,8 +218,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
             content: Text(
               'Failed to update map: $error',
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: fontProvider.fontFamily,
+                fontSize: fontProvider.fontSize,
               ),
             ),
           ),
@@ -311,48 +314,51 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                                 await _deleteMap(mapInfo.name);
                               }
                             },
-                            itemBuilder: (context) => [
-                              PopupMenuItem(
-                                value: 'view',
-                                child: Text(
-                                  'View',
-                                  style: TextStyle(
-                                    fontFamily: context.watch<FontProvider>().fontFamily,
-                                    fontSize: context.watch<FontProvider>().fontSize,
+                            itemBuilder: (context) {
+                              final fontProvider = Provider.of<FontProvider>(context, listen: false);
+                              return [
+                                PopupMenuItem(
+                                  value: 'view',
+                                  child: Text(
+                                    'View',
+                                    style: TextStyle(
+                                      fontFamily: fontProvider.fontFamily,
+                                      fontSize: fontProvider.fontSize,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              PopupMenuItem(
-                                value: 'update',
-                                child: Text(
-                                  'Update',
-                                  style: TextStyle(
-                                    fontFamily: context.watch<FontProvider>().fontFamily,
-                                    fontSize: context.watch<FontProvider>().fontSize,
+                                PopupMenuItem(
+                                  value: 'update',
+                                  child: Text(
+                                    'Update',
+                                    style: TextStyle(
+                                      fontFamily: fontProvider.fontFamily,
+                                      fontSize: fontProvider.fontSize,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              PopupMenuItem(
-                                value: 'rename',
-                                child: Text(
-                                  'Rename',
-                                  style: TextStyle(
-                                    fontFamily: context.watch<FontProvider>().fontFamily,
-                                    fontSize: context.watch<FontProvider>().fontSize,
+                                PopupMenuItem(
+                                  value: 'rename',
+                                  child: Text(
+                                    'Rename',
+                                    style: TextStyle(
+                                      fontFamily: fontProvider.fontFamily,
+                                      fontSize: fontProvider.fontSize,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              PopupMenuItem(
-                                value: 'delete',
-                                child: Text(
-                                  'Delete',
-                                  style: TextStyle(
-                                    fontFamily: context.watch<FontProvider>().fontFamily,
-                                    fontSize: context.watch<FontProvider>().fontSize,
+                                PopupMenuItem(
+                                  value: 'delete',
+                                  child: Text(
+                                    'Delete',
+                                    style: TextStyle(
+                                      fontFamily: fontProvider.fontFamily,
+                                      fontSize: fontProvider.fontSize,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ];
+                            },
                           ),
                           onTap: () {
                             UserPreferences userPreferences = userPreferencesBox.get(1) ?? UserPreferences();

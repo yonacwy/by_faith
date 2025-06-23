@@ -228,8 +228,8 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                               'Notes:',
                               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                                 fontWeight: FontWeight.bold,
-                                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                                fontFamily: context.watch<FontProvider>().fontFamily,
+                                fontSize: context.watch<FontProvider>().fontSize + 2,
                               ),
                             ),
                             ...contact.notes.map((note) => ListTile(
@@ -243,8 +243,8 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                                   subtitle: Text(
                                     'Created: ${DateFormat.yMMMd().format(note.createdAt)}',
                                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize - 2,
+                                      fontFamily: context.watch<FontProvider>().fontFamily,
+                                      fontSize: context.watch<FontProvider>().fontSize - 2,
                                     ),
                                   ),
                                   trailing: Row(
