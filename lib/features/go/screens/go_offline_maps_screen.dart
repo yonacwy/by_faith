@@ -57,6 +57,23 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
   }
 
   void _showMapSelection() {
+    final fontProvider = Provider.of<FontProvider>(context, listen: false);
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final mapCount = widget.goMapInfoBox.getAll().length;
+    if (mapCount >= 5) {
+      scaffoldMessenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            'You can only have up to 5 maps (including the default World map). Please delete a map before downloading a new one.',
+            style: TextStyle(
+              fontFamily: fontProvider.fontFamily,
+              fontSize: fontProvider.fontSize,
+            ),
+          ),
+        ),
+      );
+      return;
+    }
     Navigator.push(
       context,
       MaterialPageRoute(

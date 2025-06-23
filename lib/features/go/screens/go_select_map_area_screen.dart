@@ -95,6 +95,41 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
 
   void _showDownloadDialog() {
     final estimatedSizeMB = (_estimatedTileCount * 10 / 1024).toStringAsFixed(2); // Assume 10KB per tile
+    final double estimatedSize = _estimatedTileCount * 10 / 1024; // in MB
+    if (_estimatedTileCount > 12000 || estimatedSize > 155.55) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            'Download Limit Exceeded',
+            style: TextStyle(
+              fontFamily: context.watch<FontProvider>().fontFamily,
+              fontSize: context.watch<FontProvider>().fontSize,
+            ),
+          ),
+          content: Text(
+            'The selected area exceeds the maximum allowed: 12,000 tiles or 155.55 MB. Please select a smaller area.',
+            style: TextStyle(
+              fontFamily: context.watch<FontProvider>().fontFamily,
+              fontSize: context.watch<FontProvider>().fontSize,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                'OK',
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -127,7 +162,7 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
           ),
           TextButton(
             onPressed: () async {
-              TextEditingController controller = TextEditingController(text: 'Map ${_currentCenter.latitude.toStringAsFixed(2)},${_currentCenter.longitude.toStringAsFixed(2)}');
+              TextEditingController controller = TextEditingController(text: 'Map _currentCenter.latitude.toStringAsFixed(2)},_currentCenter.longitude.toStringAsFixed(2)}');
               String? mapName = await showDialog<String>(
                 context: context,
                 builder: (context) => AlertDialog(
