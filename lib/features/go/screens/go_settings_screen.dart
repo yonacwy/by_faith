@@ -4,7 +4,7 @@ import 'package:objectbox/objectbox.dart';
 import 'package:provider/provider.dart';
 import '../../../core/models/user_preferences_model.dart';
 import '../../../objectbox.dart'; // Assuming you have ObjectBox setup
-import '../providers/font_provider.dart';
+import '../providers/go_settings_font_provider.dart';
 
 class GoSettingsScreen extends StatefulWidget {
   const GoSettingsScreen({super.key});

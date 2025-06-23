@@ -3,7 +3,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:provider/provider.dart';
-import 'package:by_faith/features/go/providers/font_provider.dart';
+import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
 
 class GoSearchScreen extends StatefulWidget {
   const GoSearchScreen({super.key});

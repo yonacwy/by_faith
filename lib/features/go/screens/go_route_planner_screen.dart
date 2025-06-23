@@ -7,7 +7,7 @@ import 'package:by_faith/features/go/screens/go_add_edit_area_screen.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_street_screen.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_zone_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:by_faith/features/go/providers/font_provider.dart';
+import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
 
 class GoRoutePlannerScreen extends StatefulWidget {
   const GoRoutePlannerScreen({super.key});

@@ -7,7 +7,7 @@ import 'package:by_faith/core/models/user_preferences_model.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:by_faith/objectbox.g.dart'; // For GoMapInfo_
 import 'package:provider/provider.dart';
-import 'package:by_faith/features/go/providers/font_provider.dart';
+import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
 
 class GoOfflineMapsScreen extends StatefulWidget {
   final String? currentMapName;

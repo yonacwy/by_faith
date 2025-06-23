@@ -32,7 +32,7 @@ import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'dart:async';
 import 'package:provider/provider.dart';
-import 'package:by_faith/features/go/providers/font_provider.dart';
+import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
 
 enum LineType { street, river, path }
 

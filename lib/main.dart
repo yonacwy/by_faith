@@ -11,7 +11,7 @@ import 'package:by_faith/features/go/screens/go_tab_screen.dart';
 import 'package:provider/provider.dart'; // Import provider package
 
 import 'package:by_faith/objectbox.dart';
-import 'package:by_faith/features/go/providers/font_provider.dart'; // Import FontProvider
+import 'package:by_faith/features/go/providers/go_settings_font_provider.dart'; // Import FontProvider
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

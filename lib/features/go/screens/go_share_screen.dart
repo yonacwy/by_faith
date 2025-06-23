@@ -7,7 +7,7 @@ import 'package:by_faith/features/go/models/go_model.dart';
 import 'package:by_faith/features/go/models/go_route_models.dart';
 import 'package:by_faith/objectbox.g.dart'; // Import generated ObjectBox file
 import 'package:provider/provider.dart';
-import 'package:by_faith/features/go/providers/font_provider.dart';
+import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
 
 class GoShareScreen extends StatefulWidget {
   const GoShareScreen({super.key});

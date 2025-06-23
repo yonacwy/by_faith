@@ -10,7 +10,7 @@ import 'package:objectbox/objectbox.dart';
 import 'dart:async';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:provider/provider.dart';
-import 'package:by_faith/features/go/providers/font_provider.dart';
+import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
 
 class GoAddEditAreaScreen extends StatefulWidget {
   final GoArea? area;

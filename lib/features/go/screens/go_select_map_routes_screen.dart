@@ -9,7 +9,7 @@ import 'package:flutter_map_polywidget/flutter_map_polywidget.dart';
 import 'package:by_faith/features/go/models/go_route_models.dart';
 import 'dart:async';
 import 'package:provider/provider.dart';
-import 'package:by_faith/features/go/providers/font_provider.dart';
+import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
 
 class GoSelectMapRoutesScreen extends StatefulWidget {
   final String selectionType; // 'Area', 'Street', or 'Tag'

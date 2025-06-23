@@ -7,7 +7,7 @@ import 'package:by_faith/objectbox.dart';
 import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:by_faith/features/go/providers/font_provider.dart';
+import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
 
 class GoAddEditContactScreen extends StatefulWidget {
   final GoContact? contact;
