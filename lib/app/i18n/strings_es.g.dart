@@ -40,6 +40,7 @@ class TranslationsEs implements Translations {
 	@override late final _TranslationsHomeSettingsScreenEs home_settings_screen = _TranslationsHomeSettingsScreenEs._(_root);
 	@override late final _TranslationsGoAddEditAreaScreenEs go_add_edit_area_screen = _TranslationsGoAddEditAreaScreenEs._(_root);
 	@override late final _TranslationsGoSettingsScreenEs go_settings_screen = _TranslationsGoSettingsScreenEs._(_root);
+	@override late final _TranslationsGoAddEditContactScreenEs go_add_edit_contact_screen = _TranslationsGoAddEditContactScreenEs._(_root);
 }
 
 // Path: home_tab_screen
@@ -103,6 +104,9 @@ class _TranslationsGoAddEditAreaScreenEs implements TranslationsGoAddEditAreaScr
 	@override String get name_cannot_be_empty => 'El nombre no puede estar vacío.';
 	@override String get area_saved_successfully => 'Área guardada exitosamente.';
 	@override String get error_saving_area => 'Error al guardar el Área: ';
+	@override String get add_area_title => 'Añadir Área';
+	@override String get edit_area_title => 'Editar Área';
+	@override String get view_area_title => 'Ver Área';
 }
 
 // Path: go_settings_screen
@@ -120,6 +124,48 @@ class _TranslationsGoSettingsScreenEs implements TranslationsGoSettingsScreenEn 
 	@override String get back => 'Atrás';
 	@override String get load => 'Cargar';
 	@override String get sample_text => 'Y les dijo: Id por todo el mundo y predicad el evangelio a toda criatura.';
+}
+
+// Path: go_add_edit_contact_screen
+class _TranslationsGoAddEditContactScreenEs implements TranslationsGoAddEditContactScreenEn {
+	_TranslationsGoAddEditContactScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get delete_contact => 'Eliminar Contacto';
+	@override String get delete_contact_confirmation => '¿Estás seguro de que quieres eliminar a {fullName}? Esto eliminará todas las notas asociadas.';
+	@override String get cancel => 'Cancelar';
+	@override String get delete => 'Eliminar';
+	@override String get contact_deleted => 'Contacto {fullName} eliminado';
+	@override String get contact_details => 'Detalles del Contacto';
+	@override String get add_contact => 'Añadir Contacto';
+	@override String get add_note => 'Añadir Nota';
+	@override String get edit_details => 'Editar Detalles';
+	@override String get personal_information => 'Información Personal';
+	@override String get full_name => 'Nombre Completo';
+	@override String get address => 'Dirección';
+	@override String get birthday => 'Cumpleaños';
+	@override String get phone => 'Teléfono';
+	@override String get email => 'Correo Electrónico';
+	@override String get not_specified => 'No especificado';
+	@override String get eternal_status => 'Estado Eterno';
+	@override String get status => 'Estado';
+	@override String get map_information => 'Información del Mapa';
+	@override String get latitude => 'Latitud';
+	@override String get longitude => 'Longitud';
+	@override String get notes => 'Notas';
+	@override String get created => 'Creado';
+	@override String get please_enter_full_name => 'Por favor, introduce un nombre completo';
+	@override String get please_enter_address => 'Por favor, introduce una dirección';
+	@override String get birthday_optional => 'Cumpleaños (Opcional)';
+	@override String get phone_optional => 'Teléfono (Opcional)';
+	@override String get email_optional => 'Correo Electrónico (Opcional)';
+	@override String get please_enter_valid_email => 'Por favor, introduce un correo electrónico válido';
+	@override String get saved => 'Salvado';
+	@override String get lost => 'Perdido';
+	@override String get seed_planted => 'Semilla Plantada';
+	@override String get contact_added => '¡Contacto añadido!';
 }
 
 /// Flat map(s) containing all translations.
@@ -163,6 +209,9 @@ extension on TranslationsEs {
 			case 'go_add_edit_area_screen.name_cannot_be_empty': return 'El nombre no puede estar vacío.';
 			case 'go_add_edit_area_screen.area_saved_successfully': return 'Área guardada exitosamente.';
 			case 'go_add_edit_area_screen.error_saving_area': return 'Error al guardar el Área: ';
+			case 'go_add_edit_area_screen.add_area_title': return 'Añadir Área';
+			case 'go_add_edit_area_screen.edit_area_title': return 'Editar Área';
+			case 'go_add_edit_area_screen.view_area_title': return 'Ver Área';
 			case 'go_settings_screen.title': return 'Ajustes';
 			case 'go_settings_screen.text_settings': return 'Ajustes de Texto';
 			case 'go_settings_screen.font_family': return 'Familia de Fuente';
@@ -171,6 +220,39 @@ extension on TranslationsEs {
 			case 'go_settings_screen.back': return 'Atrás';
 			case 'go_settings_screen.load': return 'Cargar';
 			case 'go_settings_screen.sample_text': return 'Y les dijo: Id por todo el mundo y predicad el evangelio a toda criatura.';
+			case 'go_add_edit_contact_screen.delete_contact': return 'Eliminar Contacto';
+			case 'go_add_edit_contact_screen.delete_contact_confirmation': return '¿Estás seguro de que quieres eliminar a {fullName}? Esto eliminará todas las notas asociadas.';
+			case 'go_add_edit_contact_screen.cancel': return 'Cancelar';
+			case 'go_add_edit_contact_screen.delete': return 'Eliminar';
+			case 'go_add_edit_contact_screen.contact_deleted': return 'Contacto {fullName} eliminado';
+			case 'go_add_edit_contact_screen.contact_details': return 'Detalles del Contacto';
+			case 'go_add_edit_contact_screen.add_contact': return 'Añadir Contacto';
+			case 'go_add_edit_contact_screen.add_note': return 'Añadir Nota';
+			case 'go_add_edit_contact_screen.edit_details': return 'Editar Detalles';
+			case 'go_add_edit_contact_screen.personal_information': return 'Información Personal';
+			case 'go_add_edit_contact_screen.full_name': return 'Nombre Completo';
+			case 'go_add_edit_contact_screen.address': return 'Dirección';
+			case 'go_add_edit_contact_screen.birthday': return 'Cumpleaños';
+			case 'go_add_edit_contact_screen.phone': return 'Teléfono';
+			case 'go_add_edit_contact_screen.email': return 'Correo Electrónico';
+			case 'go_add_edit_contact_screen.not_specified': return 'No especificado';
+			case 'go_add_edit_contact_screen.eternal_status': return 'Estado Eterno';
+			case 'go_add_edit_contact_screen.status': return 'Estado';
+			case 'go_add_edit_contact_screen.map_information': return 'Información del Mapa';
+			case 'go_add_edit_contact_screen.latitude': return 'Latitud';
+			case 'go_add_edit_contact_screen.longitude': return 'Longitud';
+			case 'go_add_edit_contact_screen.notes': return 'Notas';
+			case 'go_add_edit_contact_screen.created': return 'Creado';
+			case 'go_add_edit_contact_screen.please_enter_full_name': return 'Por favor, introduce un nombre completo';
+			case 'go_add_edit_contact_screen.please_enter_address': return 'Por favor, introduce una dirección';
+			case 'go_add_edit_contact_screen.birthday_optional': return 'Cumpleaños (Opcional)';
+			case 'go_add_edit_contact_screen.phone_optional': return 'Teléfono (Opcional)';
+			case 'go_add_edit_contact_screen.email_optional': return 'Correo Electrónico (Opcional)';
+			case 'go_add_edit_contact_screen.please_enter_valid_email': return 'Por favor, introduce un correo electrónico válido';
+			case 'go_add_edit_contact_screen.saved': return 'Salvado';
+			case 'go_add_edit_contact_screen.lost': return 'Perdido';
+			case 'go_add_edit_contact_screen.seed_planted': return 'Semilla Plantada';
+			case 'go_add_edit_contact_screen.contact_added': return '¡Contacto añadido!';
 			default: return null;
 		}
 	}

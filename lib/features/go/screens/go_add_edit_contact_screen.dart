@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
+import 'package:by_faith/app/i18n/strings.g.dart';
 
 class GoAddEditContactScreen extends StatefulWidget {
   final GoContact? contact;
@@ -46,14 +47,14 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          'Delete Contact',
+          t.go_add_edit_contact_screen.delete_contact,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize + 2,
               ),
         ),
         content: Text(
-          'Are you sure you want to delete ${_contact.fullName}? This will delete all associated notes.',
+          t.go_add_edit_contact_screen.delete_contact_confirmation.replaceAll('{fullName}', _contact.fullName),
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize,
@@ -63,7 +64,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Cancel',
+              t.go_add_edit_contact_screen.cancel,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,
@@ -82,7 +83,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    'Contact ${_contact.fullName} deleted',
+                    t.go_add_edit_contact_screen.contact_deleted.replaceAll('{fullName}', _contact.fullName),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontFamily: context.watch<FontProvider>().fontFamily,
                           fontSize: context.watch<FontProvider>().fontSize,
@@ -92,7 +93,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               );
             },
             child: Text(
-              'Delete',
+              t.go_add_edit_contact_screen.delete,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     color: Colors.red,
                     fontFamily: context.watch<FontProvider>().fontFamily,
@@ -110,7 +111,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _isEditing ? 'Contact Details' : 'Add Contact',
+          _isEditing ? t.go_add_edit_contact_screen.contact_details : t.go_add_edit_contact_screen.add_contact,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize + 2,
@@ -126,7 +127,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                       builder: (context) => AddNoteScreen(contact: _contact),
                     ),
                   ).then((_) => setState(() {})),
-                  tooltip: 'Add Note',
+                  tooltip: t.go_add_edit_contact_screen.add_note,
                 ),
                 IconButton(
                   icon: const Icon(Icons.edit),
@@ -136,12 +137,12 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                       builder: (context) => EditDetailsScreen(contact: _contact),
                     ),
                   ).then((_) => setState(() {})),
-                  tooltip: 'Edit Details',
+                  tooltip: t.go_add_edit_contact_screen.edit_details,
                 ),
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: _deleteContact,
-                  tooltip: 'Delete Contact',
+                  tooltip: t.go_add_edit_contact_screen.delete_contact,
                 ),
               ]
             : [],
@@ -155,7 +156,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
       padding: const EdgeInsets.all(16.0),
       children: [
         Text(
-          'Personal Information',
+          t.go_add_edit_contact_screen.personal_information,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: context.watch<FontProvider>().fontSize + 2,
                 fontWeight: FontWeight.bold,
@@ -163,14 +164,14 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               ),
         ),
         const SizedBox(height: 8),
-        _buildReadOnlyField('Full Name', _contact.fullName),
-        _buildReadOnlyField('Address', _contact.address),
-        _buildReadOnlyField('Birthday', _contact.birthday),
-        _buildReadOnlyField('Phone', _contact.phone),
-        _buildReadOnlyField('Email', _contact.email),
+        _buildReadOnlyField(t.go_add_edit_contact_screen.full_name, _contact.fullName),
+        _buildReadOnlyField(t.go_add_edit_contact_screen.address, _contact.address),
+        _buildReadOnlyField(t.go_add_edit_contact_screen.birthday, _contact.birthday),
+        _buildReadOnlyField(t.go_add_edit_contact_screen.phone, _contact.phone),
+        _buildReadOnlyField(t.go_add_edit_contact_screen.email, _contact.email),
         const SizedBox(height: 24),
         Text(
-          'Eternal Status',
+          t.go_add_edit_contact_screen.eternal_status,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: context.watch<FontProvider>().fontSize + 2,
                 fontWeight: FontWeight.bold,
@@ -178,10 +179,10 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               ),
         ),
         const SizedBox(height: 8),
-        _buildReadOnlyField('Status', _contact.eternalStatus),
+        _buildReadOnlyField(t.go_add_edit_contact_screen.status, _contact.eternalStatus),
         const SizedBox(height: 24),
         Text(
-          'Map Information',
+          t.go_add_edit_contact_screen.map_information,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: context.watch<FontProvider>().fontSize + 2,
                 fontWeight: FontWeight.bold,
@@ -189,11 +190,11 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               ),
         ),
         const SizedBox(height: 8),
-        _buildReadOnlyField('Latitude', _contact.latitude?.toString()),
-        _buildReadOnlyField('Longitude', _contact.longitude?.toString()),
+        _buildReadOnlyField(t.go_add_edit_contact_screen.latitude, _contact.latitude?.toString()),
+        _buildReadOnlyField(t.go_add_edit_contact_screen.longitude, _contact.longitude?.toString()),
         const SizedBox(height: 24),
         Text(
-          'Notes',
+          t.go_add_edit_contact_screen.notes,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: context.watch<FontProvider>().fontSize + 2,
                 fontWeight: FontWeight.bold,
@@ -221,7 +222,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                 ),
           ),
           Text(
-            value ?? 'Not specified',
+            value ?? t.go_add_edit_contact_screen.not_specified,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontSize: context.watch<FontProvider>().fontSize,
                   fontFamily: context.watch<FontProvider>().fontFamily,
@@ -250,7 +251,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               ),
             ),
             subtitle: Text(
-              'Created: ${DateFormat.yMMMd().format(note.createdAt)}',
+              '${t.go_add_edit_contact_screen.created}: ${DateFormat.yMMMd().format(note.createdAt)}',
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize - 2,
@@ -327,7 +328,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Contact added!',
+              t.go_add_edit_contact_screen.contact_added,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                     fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -348,7 +349,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Personal Information',
+                t.go_add_edit_contact_screen.personal_information,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontSize: context.watch<FontProvider>().fontSize + 2,
                       fontWeight: FontWeight.bold,
@@ -359,7 +360,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               TextFormField(
                 controller: fullNameController,
                 decoration: InputDecoration(
-                  labelText: 'Full Name',
+                  labelText: t.go_add_edit_contact_screen.full_name,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: context.watch<FontProvider>().fontFamily,
@@ -371,14 +372,14 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                       fontSize: context.watch<FontProvider>().fontSize,
                     ),
                 validator: (value) => value == null || value.isEmpty
-                    ? 'Please enter a full name'
+                    ? t.go_add_edit_contact_screen.please_enter_full_name
                     : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: addressController,
                 decoration: InputDecoration(
-                  labelText: 'Address',
+                  labelText: t.go_add_edit_contact_screen.address,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: context.watch<FontProvider>().fontFamily,
@@ -390,7 +391,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                       fontSize: context.watch<FontProvider>().fontSize,
                     ),
                 validator: (value) => value == null || value.isEmpty
-                    ? 'Please enter an address'
+                    ? t.go_add_edit_contact_screen.please_enter_address
                     : null,
               ),
               const SizedBox(height: 16),
@@ -399,7 +400,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                 readOnly: true,
                 onTap: pickBirthday,
                 decoration: InputDecoration(
-                  labelText: 'Birthday (Optional)',
+                  labelText: t.go_add_edit_contact_screen.birthday_optional,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: context.watch<FontProvider>().fontFamily,
@@ -415,7 +416,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               TextFormField(
                 controller: phoneController,
                 decoration: InputDecoration(
-                  labelText: 'Phone (Optional)',
+                  labelText: t.go_add_edit_contact_screen.phone_optional,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: context.watch<FontProvider>().fontFamily,
@@ -432,7 +433,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               TextFormField(
                 controller: emailController,
                 decoration: InputDecoration(
-                  labelText: 'Email (Optional)',
+                  labelText: t.go_add_edit_contact_screen.email_optional,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: context.watch<FontProvider>().fontFamily,
@@ -448,7 +449,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                   if (value != null && value.isNotEmpty) {
                     final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
                     if (!emailRegex.hasMatch(value)) {
-                      return 'Please enter a valid email';
+                      return t.go_add_edit_contact_screen.please_enter_valid_email;
                     }
                   }
                   return null;
@@ -456,7 +457,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               ),
               const SizedBox(height: 24),
               Text(
-                'Eternal Status',
+                t.go_add_edit_contact_screen.eternal_status,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontSize: context.watch<FontProvider>().fontSize + 2,
                       fontWeight: FontWeight.bold,
@@ -467,14 +468,18 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               DropdownButtonFormField<String>(
                 value: eternalStatus,
                 decoration: InputDecoration(
-                  labelText: 'Status',
+                  labelText: t.go_add_edit_contact_screen.status,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
                       ),
                 ),
-                items: ['Saved', 'Lost', 'Seed Planted'].map((String status) {
+                items: [
+                  t.go_add_edit_contact_screen.saved,
+                  t.go_add_edit_contact_screen.lost,
+                  t.go_add_edit_contact_screen.seed_planted
+                ].map((String status) {
                   return DropdownMenuItem<String>(
                     value: status,
                     child: Text(
@@ -494,7 +499,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               ),
               const SizedBox(height: 24),
               Text(
-                'Map Information',
+                t.go_add_edit_contact_screen.map_information,
                 style: TextStyle(
                   fontSize: context.watch<FontProvider>().fontSize + 2,
                   fontWeight: FontWeight.bold,

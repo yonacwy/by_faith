@@ -39,7 +39,10 @@
     "name": "Name",
     "name_cannot_be_empty": "Name cannot be empty.",
     "area_saved_successfully": "Area saved successfully.",
-    "error_saving_area": "Error saving Area: "
+    "error_saving_area": "Error saving Area: ",
+    "add_area_title": "Add Area",
+    "edit_area_title": "Edit Area",
+    "view_area_title": "View Area"
   },
     "go_settings_screen": {
     "title": "Settings",
@@ -50,5 +53,40 @@
     "back": "Back",
     "load": "Load",
     "sample_text": "And he said unto them, Go ye into all the world, and preach the gospel to every creature."
+  },
+  "go_add_edit_contact_screen": {
+    "delete_contact": "Delete Contact",
+    "delete_contact_confirmation": "Are you sure you want to delete {fullName}? This will delete all associated notes.",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "contact_deleted": "Contact {fullName} deleted",
+    "contact_details": "Contact Details",
+    "add_contact": "Add Contact",
+    "add_note": "Add Note",
+    "edit_details": "Edit Details",
+    "personal_information": "Personal Information",
+    "full_name": "Full Name",
+    "address": "Address",
+    "birthday": "Birthday",
+    "phone": "Phone",
+    "email": "Email",
+    "not_specified": "Not specified",
+    "eternal_status": "Eternal Status",
+    "status": "Status",
+    "map_information": "Map Information",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "notes": "Notes",
+    "created": "Created",
+    "please_enter_full_name": "Please enter a full name",
+    "please_enter_address": "Please enter an address",
+    "birthday_optional": "Birthday (Optional)",
+    "phone_optional": "Phone (Optional)",
+    "email_optional": "Email (Optional)",
+    "please_enter_valid_email": "Please enter a valid email",
+    "saved": "Saved",
+    "lost": "Lost",
+    "seed_planted": "Seed Planted",
+    "contact_added": "Contact added!"
   }
 }

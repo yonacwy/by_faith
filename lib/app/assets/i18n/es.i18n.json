@@ -39,7 +39,10 @@
     "name": "Nombre",
     "name_cannot_be_empty": "El nombre no puede estar vacío.",
     "area_saved_successfully": "Área guardada exitosamente.",
-    "error_saving_area": "Error al guardar el Área: "
+    "error_saving_area": "Error al guardar el Área: ",
+    "add_area_title": "Añadir Área",
+    "edit_area_title": "Editar Área",
+    "view_area_title": "Ver Área"
   },
   "go_settings_screen": {
     "title": "Ajustes",
@@ -50,5 +53,40 @@
     "back": "Atrás",
     "load": "Cargar",
     "sample_text": "Y les dijo: Id por todo el mundo y predicad el evangelio a toda criatura."
+  },
+  "go_add_edit_contact_screen": {
+    "delete_contact": "Eliminar Contacto",
+    "delete_contact_confirmation": "¿Estás seguro de que quieres eliminar a {fullName}? Esto eliminará todas las notas asociadas.",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "contact_deleted": "Contacto {fullName} eliminado",
+    "contact_details": "Detalles del Contacto",
+    "add_contact": "Añadir Contacto",
+    "add_note": "Añadir Nota",
+    "edit_details": "Editar Detalles",
+    "personal_information": "Información Personal",
+    "full_name": "Nombre Completo",
+    "address": "Dirección",
+    "birthday": "Cumpleaños",
+    "phone": "Teléfono",
+    "email": "Correo Electrónico",
+    "not_specified": "No especificado",
+    "eternal_status": "Estado Eterno",
+    "status": "Estado",
+    "map_information": "Información del Mapa",
+    "latitude": "Latitud",
+    "longitude": "Longitud",
+    "notes": "Notas",
+    "created": "Creado",
+    "please_enter_full_name": "Por favor, introduce un nombre completo",
+    "please_enter_address": "Por favor, introduce una dirección",
+    "birthday_optional": "Cumpleaños (Opcional)",
+    "phone_optional": "Teléfono (Opcional)",
+    "email_optional": "Correo Electrónico (Opcional)",
+    "please_enter_valid_email": "Por favor, introduce un correo electrónico válido",
+    "saved": "Salvado",
+    "lost": "Perdido",
+    "seed_planted": "Semilla Plantada",
+    "contact_added": "¡Contacto añadido!"
   }
 }

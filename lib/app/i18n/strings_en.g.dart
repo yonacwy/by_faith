@@ -43,6 +43,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final TranslationsHomeSettingsScreenEn home_settings_screen = TranslationsHomeSettingsScreenEn._(_root);
 	late final TranslationsGoAddEditAreaScreenEn go_add_edit_area_screen = TranslationsGoAddEditAreaScreenEn._(_root);
 	late final TranslationsGoSettingsScreenEn go_settings_screen = TranslationsGoSettingsScreenEn._(_root);
+	late final TranslationsGoAddEditContactScreenEn go_add_edit_contact_screen = TranslationsGoAddEditContactScreenEn._(_root);
 }
 
 // Path: home_tab_screen
@@ -106,6 +107,9 @@ class TranslationsGoAddEditAreaScreenEn {
 	String get name_cannot_be_empty => 'Name cannot be empty.';
 	String get area_saved_successfully => 'Area saved successfully.';
 	String get error_saving_area => 'Error saving Area: ';
+	String get add_area_title => 'Add Area';
+	String get edit_area_title => 'Edit Area';
+	String get view_area_title => 'View Area';
 }
 
 // Path: go_settings_screen
@@ -123,6 +127,48 @@ class TranslationsGoSettingsScreenEn {
 	String get back => 'Back';
 	String get load => 'Load';
 	String get sample_text => 'And he said unto them, Go ye into all the world, and preach the gospel to every creature.';
+}
+
+// Path: go_add_edit_contact_screen
+class TranslationsGoAddEditContactScreenEn {
+	TranslationsGoAddEditContactScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get delete_contact => 'Delete Contact';
+	String get delete_contact_confirmation => 'Are you sure you want to delete {fullName}? This will delete all associated notes.';
+	String get cancel => 'Cancel';
+	String get delete => 'Delete';
+	String get contact_deleted => 'Contact {fullName} deleted';
+	String get contact_details => 'Contact Details';
+	String get add_contact => 'Add Contact';
+	String get add_note => 'Add Note';
+	String get edit_details => 'Edit Details';
+	String get personal_information => 'Personal Information';
+	String get full_name => 'Full Name';
+	String get address => 'Address';
+	String get birthday => 'Birthday';
+	String get phone => 'Phone';
+	String get email => 'Email';
+	String get not_specified => 'Not specified';
+	String get eternal_status => 'Eternal Status';
+	String get status => 'Status';
+	String get map_information => 'Map Information';
+	String get latitude => 'Latitude';
+	String get longitude => 'Longitude';
+	String get notes => 'Notes';
+	String get created => 'Created';
+	String get please_enter_full_name => 'Please enter a full name';
+	String get please_enter_address => 'Please enter an address';
+	String get birthday_optional => 'Birthday (Optional)';
+	String get phone_optional => 'Phone (Optional)';
+	String get email_optional => 'Email (Optional)';
+	String get please_enter_valid_email => 'Please enter a valid email';
+	String get saved => 'Saved';
+	String get lost => 'Lost';
+	String get seed_planted => 'Seed Planted';
+	String get contact_added => 'Contact added!';
 }
 
 /// Flat map(s) containing all translations.
@@ -166,6 +212,9 @@ extension on Translations {
 			case 'go_add_edit_area_screen.name_cannot_be_empty': return 'Name cannot be empty.';
 			case 'go_add_edit_area_screen.area_saved_successfully': return 'Area saved successfully.';
 			case 'go_add_edit_area_screen.error_saving_area': return 'Error saving Area: ';
+			case 'go_add_edit_area_screen.add_area_title': return 'Add Area';
+			case 'go_add_edit_area_screen.edit_area_title': return 'Edit Area';
+			case 'go_add_edit_area_screen.view_area_title': return 'View Area';
 			case 'go_settings_screen.title': return 'Settings';
 			case 'go_settings_screen.text_settings': return 'Text Settings';
 			case 'go_settings_screen.font_family': return 'Font Family';
@@ -174,6 +223,39 @@ extension on Translations {
 			case 'go_settings_screen.back': return 'Back';
 			case 'go_settings_screen.load': return 'Load';
 			case 'go_settings_screen.sample_text': return 'And he said unto them, Go ye into all the world, and preach the gospel to every creature.';
+			case 'go_add_edit_contact_screen.delete_contact': return 'Delete Contact';
+			case 'go_add_edit_contact_screen.delete_contact_confirmation': return 'Are you sure you want to delete {fullName}? This will delete all associated notes.';
+			case 'go_add_edit_contact_screen.cancel': return 'Cancel';
+			case 'go_add_edit_contact_screen.delete': return 'Delete';
+			case 'go_add_edit_contact_screen.contact_deleted': return 'Contact {fullName} deleted';
+			case 'go_add_edit_contact_screen.contact_details': return 'Contact Details';
+			case 'go_add_edit_contact_screen.add_contact': return 'Add Contact';
+			case 'go_add_edit_contact_screen.add_note': return 'Add Note';
+			case 'go_add_edit_contact_screen.edit_details': return 'Edit Details';
+			case 'go_add_edit_contact_screen.personal_information': return 'Personal Information';
+			case 'go_add_edit_contact_screen.full_name': return 'Full Name';
+			case 'go_add_edit_contact_screen.address': return 'Address';
+			case 'go_add_edit_contact_screen.birthday': return 'Birthday';
+			case 'go_add_edit_contact_screen.phone': return 'Phone';
+			case 'go_add_edit_contact_screen.email': return 'Email';
+			case 'go_add_edit_contact_screen.not_specified': return 'Not specified';
+			case 'go_add_edit_contact_screen.eternal_status': return 'Eternal Status';
+			case 'go_add_edit_contact_screen.status': return 'Status';
+			case 'go_add_edit_contact_screen.map_information': return 'Map Information';
+			case 'go_add_edit_contact_screen.latitude': return 'Latitude';
+			case 'go_add_edit_contact_screen.longitude': return 'Longitude';
+			case 'go_add_edit_contact_screen.notes': return 'Notes';
+			case 'go_add_edit_contact_screen.created': return 'Created';
+			case 'go_add_edit_contact_screen.please_enter_full_name': return 'Please enter a full name';
+			case 'go_add_edit_contact_screen.please_enter_address': return 'Please enter an address';
+			case 'go_add_edit_contact_screen.birthday_optional': return 'Birthday (Optional)';
+			case 'go_add_edit_contact_screen.phone_optional': return 'Phone (Optional)';
+			case 'go_add_edit_contact_screen.email_optional': return 'Email (Optional)';
+			case 'go_add_edit_contact_screen.please_enter_valid_email': return 'Please enter a valid email';
+			case 'go_add_edit_contact_screen.saved': return 'Saved';
+			case 'go_add_edit_contact_screen.lost': return 'Lost';
+			case 'go_add_edit_contact_screen.seed_planted': return 'Seed Planted';
+			case 'go_add_edit_contact_screen.contact_added': return 'Contact added!';
 			default: return null;
 		}
 	}
