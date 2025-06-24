@@ -39,6 +39,7 @@ class TranslationsEs implements Translations {
 	@override late final _TranslationsHomeTabScreenEs home_tab_screen = _TranslationsHomeTabScreenEs._(_root);
 	@override late final _TranslationsHomeSettingsScreenEs home_settings_screen = _TranslationsHomeSettingsScreenEs._(_root);
 	@override late final _TranslationsGoAddEditAreaScreenEs go_add_edit_area_screen = _TranslationsGoAddEditAreaScreenEs._(_root);
+	@override late final _TranslationsGoAddEditChurchScreenEs go_add_edit_church_screen = _TranslationsGoAddEditChurchScreenEs._(_root);
 	@override late final _TranslationsGoSettingsScreenEs go_settings_screen = _TranslationsGoSettingsScreenEs._(_root);
 	@override late final _TranslationsGoAddEditContactScreenEs go_add_edit_contact_screen = _TranslationsGoAddEditContactScreenEs._(_root);
 }
@@ -107,6 +108,51 @@ class _TranslationsGoAddEditAreaScreenEs implements TranslationsGoAddEditAreaScr
 	@override String get add_area_title => 'Añadir Área';
 	@override String get edit_area_title => 'Editar Área';
 	@override String get view_area_title => 'Ver Área';
+}
+
+// Path: go_add_edit_church_screen
+class _TranslationsGoAddEditChurchScreenEs implements TranslationsGoAddEditChurchScreenEn {
+	_TranslationsGoAddEditChurchScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get delete_church => 'Eliminar Iglesia';
+	@override String get delete_church_confirmation => '¿Estás seguro de que quieres eliminar {churchName}? Esto eliminará todas las notas asociadas.';
+	@override String get cancel => 'Cancelar';
+	@override String get delete => 'Eliminar';
+	@override String get church_deleted => 'Iglesia {churchName} eliminada';
+	@override String get church_details => 'Detalles de la Iglesia';
+	@override String get add_church => 'Añadir Iglesia';
+	@override String get add_note => 'Añadir Nota';
+	@override String get edit_details => 'Editar Detalles';
+	@override String get church_information => 'Información de la Iglesia';
+	@override String get church_name => 'Nombre de la Iglesia';
+	@override String get pastor_name => 'Nombre del Pastor';
+	@override String get address => 'Dirección';
+	@override String get phone => 'Teléfono';
+	@override String get email => 'Correo Electrónico';
+	@override String get not_specified => 'No especificado';
+	@override String get financial_status => 'Estado Financiero';
+	@override String get status => 'Estado';
+	@override String get map_information => 'Información del Mapa';
+	@override String get latitude => 'Latitud';
+	@override String get longitude => 'Longitud';
+	@override String get notes => 'Notas';
+	@override String get created => 'Creado';
+	@override String get pastor_name_optional => 'Nombre del Pastor (Opcional)';
+	@override String get please_enter_church_name => 'Por favor, introduce un nombre de iglesia';
+	@override String get please_enter_address => 'Por favor, introduce una dirección';
+	@override String get phone_optional => 'Teléfono (Opcional)';
+	@override String get email_optional => 'Correo Electrónico (Opcional)';
+	@override String get please_enter_valid_email => 'Por favor, introduce un correo electrónico válido';
+	@override String get supporting => 'Apoyando';
+	@override String get not_supporting => 'No Apoyando';
+	@override String get undecided => 'Indeciso';
+	@override String get church_added => '¡Iglesia añadida!';
+	@override String get please_enter_latitude => 'Por favor, introduce una latitud';
+	@override String get please_enter_longitude => 'Por favor, introduce una longitud';
+	@override String get please_enter_valid_number => 'Por favor, introduce un número válido';
 }
 
 // Path: go_settings_screen
@@ -212,6 +258,42 @@ extension on TranslationsEs {
 			case 'go_add_edit_area_screen.add_area_title': return 'Añadir Área';
 			case 'go_add_edit_area_screen.edit_area_title': return 'Editar Área';
 			case 'go_add_edit_area_screen.view_area_title': return 'Ver Área';
+			case 'go_add_edit_church_screen.delete_church': return 'Eliminar Iglesia';
+			case 'go_add_edit_church_screen.delete_church_confirmation': return '¿Estás seguro de que quieres eliminar {churchName}? Esto eliminará todas las notas asociadas.';
+			case 'go_add_edit_church_screen.cancel': return 'Cancelar';
+			case 'go_add_edit_church_screen.delete': return 'Eliminar';
+			case 'go_add_edit_church_screen.church_deleted': return 'Iglesia {churchName} eliminada';
+			case 'go_add_edit_church_screen.church_details': return 'Detalles de la Iglesia';
+			case 'go_add_edit_church_screen.add_church': return 'Añadir Iglesia';
+			case 'go_add_edit_church_screen.add_note': return 'Añadir Nota';
+			case 'go_add_edit_church_screen.edit_details': return 'Editar Detalles';
+			case 'go_add_edit_church_screen.church_information': return 'Información de la Iglesia';
+			case 'go_add_edit_church_screen.church_name': return 'Nombre de la Iglesia';
+			case 'go_add_edit_church_screen.pastor_name': return 'Nombre del Pastor';
+			case 'go_add_edit_church_screen.address': return 'Dirección';
+			case 'go_add_edit_church_screen.phone': return 'Teléfono';
+			case 'go_add_edit_church_screen.email': return 'Correo Electrónico';
+			case 'go_add_edit_church_screen.not_specified': return 'No especificado';
+			case 'go_add_edit_church_screen.financial_status': return 'Estado Financiero';
+			case 'go_add_edit_church_screen.status': return 'Estado';
+			case 'go_add_edit_church_screen.map_information': return 'Información del Mapa';
+			case 'go_add_edit_church_screen.latitude': return 'Latitud';
+			case 'go_add_edit_church_screen.longitude': return 'Longitud';
+			case 'go_add_edit_church_screen.notes': return 'Notas';
+			case 'go_add_edit_church_screen.created': return 'Creado';
+			case 'go_add_edit_church_screen.pastor_name_optional': return 'Nombre del Pastor (Opcional)';
+			case 'go_add_edit_church_screen.please_enter_church_name': return 'Por favor, introduce un nombre de iglesia';
+			case 'go_add_edit_church_screen.please_enter_address': return 'Por favor, introduce una dirección';
+			case 'go_add_edit_church_screen.phone_optional': return 'Teléfono (Opcional)';
+			case 'go_add_edit_church_screen.email_optional': return 'Correo Electrónico (Opcional)';
+			case 'go_add_edit_church_screen.please_enter_valid_email': return 'Por favor, introduce un correo electrónico válido';
+			case 'go_add_edit_church_screen.supporting': return 'Apoyando';
+			case 'go_add_edit_church_screen.not_supporting': return 'No Apoyando';
+			case 'go_add_edit_church_screen.undecided': return 'Indeciso';
+			case 'go_add_edit_church_screen.church_added': return '¡Iglesia añadida!';
+			case 'go_add_edit_church_screen.please_enter_latitude': return 'Por favor, introduce una latitud';
+			case 'go_add_edit_church_screen.please_enter_longitude': return 'Por favor, introduce una longitud';
+			case 'go_add_edit_church_screen.please_enter_valid_number': return 'Por favor, introduce un número válido';
 			case 'go_settings_screen.title': return 'Ajustes';
 			case 'go_settings_screen.text_settings': return 'Ajustes de Texto';
 			case 'go_settings_screen.font_family': return 'Familia de Fuente';

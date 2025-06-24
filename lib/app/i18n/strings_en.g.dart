@@ -42,6 +42,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final TranslationsHomeTabScreenEn home_tab_screen = TranslationsHomeTabScreenEn._(_root);
 	late final TranslationsHomeSettingsScreenEn home_settings_screen = TranslationsHomeSettingsScreenEn._(_root);
 	late final TranslationsGoAddEditAreaScreenEn go_add_edit_area_screen = TranslationsGoAddEditAreaScreenEn._(_root);
+	late final TranslationsGoAddEditChurchScreenEn go_add_edit_church_screen = TranslationsGoAddEditChurchScreenEn._(_root);
 	late final TranslationsGoSettingsScreenEn go_settings_screen = TranslationsGoSettingsScreenEn._(_root);
 	late final TranslationsGoAddEditContactScreenEn go_add_edit_contact_screen = TranslationsGoAddEditContactScreenEn._(_root);
 }
@@ -110,6 +111,51 @@ class TranslationsGoAddEditAreaScreenEn {
 	String get add_area_title => 'Add Area';
 	String get edit_area_title => 'Edit Area';
 	String get view_area_title => 'View Area';
+}
+
+// Path: go_add_edit_church_screen
+class TranslationsGoAddEditChurchScreenEn {
+	TranslationsGoAddEditChurchScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get delete_church => 'Delete Church';
+	String get delete_church_confirmation => 'Are you sure you want to delete {churchName}? This will delete all associated notes.';
+	String get cancel => 'Cancel';
+	String get delete => 'Delete';
+	String get church_deleted => 'Church {churchName} deleted';
+	String get church_details => 'Church Details';
+	String get add_church => 'Add Church';
+	String get add_note => 'Add Note';
+	String get edit_details => 'Edit Details';
+	String get church_information => 'Church Information';
+	String get church_name => 'Church Name';
+	String get pastor_name => 'Pastor Name';
+	String get address => 'Address';
+	String get phone => 'Phone';
+	String get email => 'Email';
+	String get not_specified => 'Not specified';
+	String get financial_status => 'Financial Status';
+	String get status => 'Status';
+	String get map_information => 'Map Information';
+	String get latitude => 'Latitude';
+	String get longitude => 'Longitude';
+	String get notes => 'Notes';
+	String get created => 'Created';
+	String get pastor_name_optional => 'Pastor Name (Optional)';
+	String get please_enter_church_name => 'Please enter a church name';
+	String get please_enter_address => 'Please enter an address';
+	String get phone_optional => 'Phone (Optional)';
+	String get email_optional => 'Email (Optional)';
+	String get please_enter_valid_email => 'Please enter a valid email';
+	String get supporting => 'Supporting';
+	String get not_supporting => 'Not-Supporting';
+	String get undecided => 'Undecided';
+	String get church_added => 'Church added!';
+	String get please_enter_latitude => 'Please enter a latitude';
+	String get please_enter_longitude => 'Please enter a longitude';
+	String get please_enter_valid_number => 'Please enter a valid number';
 }
 
 // Path: go_settings_screen
@@ -215,6 +261,42 @@ extension on Translations {
 			case 'go_add_edit_area_screen.add_area_title': return 'Add Area';
 			case 'go_add_edit_area_screen.edit_area_title': return 'Edit Area';
 			case 'go_add_edit_area_screen.view_area_title': return 'View Area';
+			case 'go_add_edit_church_screen.delete_church': return 'Delete Church';
+			case 'go_add_edit_church_screen.delete_church_confirmation': return 'Are you sure you want to delete {churchName}? This will delete all associated notes.';
+			case 'go_add_edit_church_screen.cancel': return 'Cancel';
+			case 'go_add_edit_church_screen.delete': return 'Delete';
+			case 'go_add_edit_church_screen.church_deleted': return 'Church {churchName} deleted';
+			case 'go_add_edit_church_screen.church_details': return 'Church Details';
+			case 'go_add_edit_church_screen.add_church': return 'Add Church';
+			case 'go_add_edit_church_screen.add_note': return 'Add Note';
+			case 'go_add_edit_church_screen.edit_details': return 'Edit Details';
+			case 'go_add_edit_church_screen.church_information': return 'Church Information';
+			case 'go_add_edit_church_screen.church_name': return 'Church Name';
+			case 'go_add_edit_church_screen.pastor_name': return 'Pastor Name';
+			case 'go_add_edit_church_screen.address': return 'Address';
+			case 'go_add_edit_church_screen.phone': return 'Phone';
+			case 'go_add_edit_church_screen.email': return 'Email';
+			case 'go_add_edit_church_screen.not_specified': return 'Not specified';
+			case 'go_add_edit_church_screen.financial_status': return 'Financial Status';
+			case 'go_add_edit_church_screen.status': return 'Status';
+			case 'go_add_edit_church_screen.map_information': return 'Map Information';
+			case 'go_add_edit_church_screen.latitude': return 'Latitude';
+			case 'go_add_edit_church_screen.longitude': return 'Longitude';
+			case 'go_add_edit_church_screen.notes': return 'Notes';
+			case 'go_add_edit_church_screen.created': return 'Created';
+			case 'go_add_edit_church_screen.pastor_name_optional': return 'Pastor Name (Optional)';
+			case 'go_add_edit_church_screen.please_enter_church_name': return 'Please enter a church name';
+			case 'go_add_edit_church_screen.please_enter_address': return 'Please enter an address';
+			case 'go_add_edit_church_screen.phone_optional': return 'Phone (Optional)';
+			case 'go_add_edit_church_screen.email_optional': return 'Email (Optional)';
+			case 'go_add_edit_church_screen.please_enter_valid_email': return 'Please enter a valid email';
+			case 'go_add_edit_church_screen.supporting': return 'Supporting';
+			case 'go_add_edit_church_screen.not_supporting': return 'Not-Supporting';
+			case 'go_add_edit_church_screen.undecided': return 'Undecided';
+			case 'go_add_edit_church_screen.church_added': return 'Church added!';
+			case 'go_add_edit_church_screen.please_enter_latitude': return 'Please enter a latitude';
+			case 'go_add_edit_church_screen.please_enter_longitude': return 'Please enter a longitude';
+			case 'go_add_edit_church_screen.please_enter_valid_number': return 'Please enter a valid number';
 			case 'go_settings_screen.title': return 'Settings';
 			case 'go_settings_screen.text_settings': return 'Text Settings';
 			case 'go_settings_screen.font_family': return 'Font Family';

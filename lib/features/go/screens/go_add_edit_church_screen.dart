@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
+import 'package:by_faith/app/i18n/strings.g.dart';
 
 class GoAddEditChurchScreen extends StatefulWidget {
   final GoChurch? church;
@@ -46,14 +47,14 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          'Delete Church',
+          t.go_add_edit_church_screen.delete_church,
           style: TextStyle(
             fontFamily: context.watch<FontProvider>().fontFamily,
             fontSize: context.watch<FontProvider>().fontSize,
           ),
         ),
         content: Text(
-          'Are you sure you want to delete ${_church.churchName}? This will delete all associated notes.',
+          t.go_add_edit_church_screen.delete_church_confirmation.replaceAll('{churchName}', _church.churchName),
           style: TextStyle(
             fontFamily: context.watch<FontProvider>().fontFamily,
             fontSize: context.watch<FontProvider>().fontSize,
@@ -63,7 +64,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Cancel',
+              t.go_add_edit_church_screen.cancel,
               style: TextStyle(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize,
@@ -82,7 +83,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    'Church ${_church.churchName} deleted',
+                    t.go_add_edit_church_screen.church_deleted.replaceAll('{churchName}', _church.churchName),
                     style: TextStyle(
                       fontFamily: context.watch<FontProvider>().fontFamily,
                       fontSize: context.watch<FontProvider>().fontSize,
@@ -92,7 +93,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               );
             },
             child: Text(
-              'Delete',
+              t.go_add_edit_church_screen.delete,
               style: TextStyle(
                 color: Colors.red,
                 fontFamily: context.watch<FontProvider>().fontFamily,
@@ -110,7 +111,9 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _isEditing ? 'Church Details' : 'Add Church',
+          _isEditing
+              ? t.go_add_edit_church_screen.church_details
+              : t.go_add_edit_church_screen.add_church,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize + 2,
@@ -126,7 +129,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                       builder: (context) => AddNoteScreen(church: _church),
                     ),
                   ).then((_) => setState(() {})),
-                  tooltip: 'Add Note',
+                  tooltip: t.go_add_edit_church_screen.add_note,
                 ),
                 IconButton(
                   icon: const Icon(Icons.edit),
@@ -136,12 +139,12 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                       builder: (context) => EditDetailsScreen(church: _church),
                     ),
                   ).then((_) => setState(() {})),
-                  tooltip: 'Edit Details',
+                  tooltip: t.go_add_edit_church_screen.edit_details,
                 ),
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: _deleteChurch,
-                  tooltip: 'Delete Church',
+                  tooltip: t.go_add_edit_church_screen.delete_church,
                 ),
               ]
             : [],
@@ -155,7 +158,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
       padding: const EdgeInsets.all(16.0),
       children: [
         Text(
-          'Church Information',
+          t.go_add_edit_church_screen.church_information,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: context.watch<FontProvider>().fontSize + 2,
                 fontWeight: FontWeight.bold,
@@ -163,14 +166,14 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               ),
         ),
         const SizedBox(height: 8),
-        _buildReadOnlyField('Church Name', _church.churchName),
-        _buildReadOnlyField('Pastor Name', _church.pastorName),
-        _buildReadOnlyField('Address', _church.address),
-        _buildReadOnlyField('Phone', _church.phone),
-        _buildReadOnlyField('Email', _church.email),
+        _buildReadOnlyField(t.go_add_edit_church_screen.church_name, _church.churchName),
+        _buildReadOnlyField(t.go_add_edit_church_screen.pastor_name, _church.pastorName),
+        _buildReadOnlyField(t.go_add_edit_church_screen.address, _church.address),
+        _buildReadOnlyField(t.go_add_edit_church_screen.phone, _church.phone),
+        _buildReadOnlyField(t.go_add_edit_church_screen.email, _church.email),
         const SizedBox(height: 24),
         Text(
-          'Financial Status',
+          t.go_add_edit_church_screen.financial_status,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: context.watch<FontProvider>().fontSize + 2,
                 fontWeight: FontWeight.bold,
@@ -178,10 +181,10 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               ),
         ),
         const SizedBox(height: 8),
-        _buildReadOnlyField('Status', _church.financialStatus),
+        _buildReadOnlyField(t.go_add_edit_church_screen.status, _church.financialStatus),
         const SizedBox(height: 24),
         Text(
-          'Map Information',
+          t.go_add_edit_church_screen.map_information,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: context.watch<FontProvider>().fontSize + 2,
                 fontWeight: FontWeight.bold,
@@ -189,11 +192,11 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               ),
         ),
         const SizedBox(height: 8),
-        _buildReadOnlyField('Latitude', _church.latitude?.toString()),
-        _buildReadOnlyField('Longitude', _church.longitude?.toString()),
+        _buildReadOnlyField(t.go_add_edit_church_screen.latitude, _church.latitude?.toString()),
+        _buildReadOnlyField(t.go_add_edit_church_screen.longitude, _church.longitude?.toString()),
         const SizedBox(height: 24),
         Text(
-          'Notes',
+          t.go_add_edit_church_screen.notes,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: context.watch<FontProvider>().fontSize + 2,
                 fontWeight: FontWeight.bold,
@@ -221,7 +224,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                 ),
           ),
           Text(
-            value ?? 'Not specified',
+            value ?? t.go_add_edit_church_screen.not_specified,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontSize: context.watch<FontProvider>().fontSize,
                   fontFamily: context.watch<FontProvider>().fontFamily,
@@ -250,7 +253,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               ),
             ),
             subtitle: Text(
-              'Created: ${DateFormat.yMMMd().format(note.createdAt)}',
+              '${t.go_add_edit_church_screen.created}: \\${DateFormat.yMMMd().format(note.createdAt)}',
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize - 2,
@@ -295,7 +298,11 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
     final latitudeController = TextEditingController(text: _church.latitude?.toString());
     final longitudeController = TextEditingController(text: _church.longitude?.toString());
     String? financialStatus = _church.financialStatus;
-    final financialStatusOptions = ['Supporting', 'Not-Supporting', 'Undecided'];
+    final financialStatusOptions = [
+      t.go_add_edit_church_screen.supporting,
+      t.go_add_edit_church_screen.not_supporting,
+      t.go_add_edit_church_screen.undecided,
+    ];
 
     void saveChurch() {
       if (formKey.currentState!.validate()) {
@@ -314,7 +321,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Church added!',
+              t.go_add_edit_church_screen.church_added,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                     fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -335,7 +342,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Church Information',
+                t.go_add_edit_church_screen.church_information,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontSize: context.watch<FontProvider>().fontSize + 2,
                       fontWeight: FontWeight.bold,
@@ -346,7 +353,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               TextFormField(
                 controller: churchNameController,
                 decoration: InputDecoration(
-                  labelText: 'Church Name',
+                  labelText: t.go_add_edit_church_screen.church_name,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: context.watch<FontProvider>().fontFamily,
@@ -358,14 +365,14 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                       fontSize: context.watch<FontProvider>().fontSize,
                     ),
                 validator: (value) => value == null || value.isEmpty
-                    ? 'Please enter a church name'
+                    ? t.go_add_edit_church_screen.please_enter_church_name
                     : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: pastorNameController,
                 decoration: InputDecoration(
-                  labelText: 'Pastor Name (Optional)',
+                  labelText: t.go_add_edit_church_screen.pastor_name_optional,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: context.watch<FontProvider>().fontFamily,
@@ -381,7 +388,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               TextFormField(
                 controller: addressController,
                 decoration: InputDecoration(
-                  labelText: 'Address',
+                  labelText: t.go_add_edit_church_screen.address,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: context.watch<FontProvider>().fontFamily,
@@ -393,14 +400,14 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                       fontSize: context.watch<FontProvider>().fontSize,
                     ),
                 validator: (value) => value == null || value.isEmpty
-                    ? 'Please enter an address'
+                    ? t.go_add_edit_church_screen.please_enter_address
                     : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: phoneController,
                 decoration: InputDecoration(
-                  labelText: 'Phone (Optional)',
+                  labelText: t.go_add_edit_church_screen.phone_optional,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: context.watch<FontProvider>().fontFamily,
@@ -417,7 +424,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               TextFormField(
                 controller: emailController,
                 decoration: InputDecoration(
-                  labelText: 'Email (Optional)',
+                  labelText: t.go_add_edit_church_screen.email_optional,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: context.watch<FontProvider>().fontFamily,
@@ -433,7 +440,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                   if (value != null && value.isNotEmpty) {
                     final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
                     if (!emailRegex.hasMatch(value)) {
-                      return 'Please enter a valid email';
+                      return t.go_add_edit_church_screen.please_enter_valid_email;
                     }
                   }
                   return null;
@@ -441,7 +448,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               ),
               const SizedBox(height: 24),
               Text(
-                'Financial Status',
+                t.go_add_edit_church_screen.financial_status,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontSize: context.watch<FontProvider>().fontSize + 2,
                       fontWeight: FontWeight.bold,
@@ -452,14 +459,14 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               DropdownButtonFormField<String>(
                 value: financialStatus,
                 decoration: InputDecoration(
-                  labelText: 'Status',
+                  labelText: t.go_add_edit_church_screen.status,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
                       ),
                 ),
-                items: financialStatusOptions.map((String status) {
+                items: financialStatusOptions.map<DropdownMenuItem<String>>((status) {
                   return DropdownMenuItem<String>(
                     value: status,
                     child: Text(
@@ -479,7 +486,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               ),
               const SizedBox(height: 24),
               Text(
-                'Map Information',
+                t.go_add_edit_church_screen.map_information,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontSize: context.watch<FontProvider>().fontSize + 2,
                       fontWeight: FontWeight.bold,
@@ -490,7 +497,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               TextFormField(
                 controller: latitudeController,
                 decoration: InputDecoration(
-                  labelText: 'Latitude',
+                  labelText: t.go_add_edit_church_screen.latitude,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: context.watch<FontProvider>().fontFamily,
@@ -504,13 +511,13 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a latitude';
+                    return t.go_add_edit_church_screen.please_enter_latitude;
                   }
                   try {
                     double.parse(value);
                     return null;
                   } catch (e) {
-                    return 'Please enter a valid number';
+                    return t.go_add_edit_church_screen.please_enter_valid_number;
                   }
                 },
               ),
@@ -518,7 +525,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               TextFormField(
                 controller: longitudeController,
                 decoration: InputDecoration(
-                  labelText: 'Longitude',
+                  labelText: t.go_add_edit_church_screen.longitude,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: context.watch<FontProvider>().fontFamily,
@@ -532,13 +539,13 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a longitude';
+                    return t.go_add_edit_church_screen.please_enter_longitude;
                   }
                   try {
                     double.parse(value);
                     return null;
                   } catch (e) {
-                    return 'Please enter a valid number';
+                    return t.go_add_edit_church_screen.please_enter_valid_number;
                   }
                 },
               ),
@@ -547,7 +554,7 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                 child: ElevatedButton(
                   onPressed: saveChurch,
                   child: Text(
-                    'Save Church',
+                    t.go_add_edit_church_screen.add_church,
                     style: TextStyle(
                       fontFamily: context.watch<FontProvider>().fontFamily,
                       fontSize: context.watch<FontProvider>().fontSize,
