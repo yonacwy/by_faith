@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:provider/provider.dart';
+import 'package:by_faith/app/i18n/strings.g.dart';
 import '../../../core/models/user_preferences_model.dart';
 import '../../../objectbox.dart'; // Assuming you have ObjectBox setup
 import '../providers/go_settings_font_provider.dart';
@@ -28,13 +29,12 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
       'Open Sans',
       'Lora',
     ];
-    const String sampleText =
-        "And he said unto them, Go ye into all the world, and preach the gospel to every creature.";
+    final t = Translations.of(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Go Settings',
+          t.go_settings_screen.title,
           style: TextStyle(
             fontFamily: context.watch<FontProvider>().fontFamily,
             fontSize: context.watch<FontProvider>().fontSize + 2,
@@ -44,7 +44,7 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
-          tooltip: 'Back',
+          tooltip: t.go_settings_screen.back,
         ),
         elevation: 0,
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
@@ -57,7 +57,7 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Text Settings',
+                  t.go_settings_screen.text_settings,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontFamily: context.watch<FontProvider>().fontFamily,
@@ -79,7 +79,7 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Font Family',
+                          t.go_settings_screen.font_family,
                           style: TextStyle(
                             fontFamily: context.watch<FontProvider>().fontFamily,
                             fontSize: context.watch<FontProvider>().fontSize,
@@ -113,7 +113,7 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Font Size:',
+                          t.go_settings_screen.font_size,
                           style: TextStyle(
                             fontFamily: context.watch<FontProvider>().fontFamily,
                             fontSize: context.watch<FontProvider>().fontSize,
@@ -133,7 +133,7 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Preview:',
+                          t.go_settings_screen.preview,
                           style: TextStyle(
                             fontFamily: context.watch<FontProvider>().fontFamily,
                             fontSize: context.watch<FontProvider>().fontSize,
@@ -151,7 +151,7 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
-                            sampleText,
+                            t.go_settings_screen.sample_text,
                             style: TextStyle(
                               fontFamily: context.watch<FontProvider>().fontFamily,
                               fontSize: context.watch<FontProvider>().fontSize,

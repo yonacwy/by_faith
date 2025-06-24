@@ -17,7 +17,6 @@ class PrayTabScreen extends StatelessWidget {
             builder: (context) => IconButton(
               icon: const Icon(Icons.menu),
               onPressed: () => Scaffold.of(context).openEndDrawer(),
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
             ),
           ),
         ],

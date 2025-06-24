@@ -1,0 +1,40 @@
+{
+  "home_tab_screen": {
+    "title": "Home",
+    "menu": "Home Menu",
+    "info": "Info",
+    "support": "Support",
+    "profile": "Profile",
+    "calendar": "Calendar",
+    "settings": "Settings",
+    "content": "Home Tab Content"
+  },
+  "home_settings_screen": {
+    "title": "Settings",
+    "language": "Language",
+    "english": "English",
+    "spanish": "Spanish",
+    "text_settings": "Text Settings",
+    "font_family": "Font Family",
+    "font_size": "Font Size:",
+    "preview": "Preview:",
+    "global_settings": "Global Settings",
+    "language_settings": "Language Settings",
+    "app_language": "App Language",
+    "back": "Back",
+    "load": "Load"
+    },
+  "go_settings_screen": {
+    "title": "Settings",
+    "language": "Language",
+    "english": "English",
+    "spanish": "Spanish",
+    "text_settings": "Text Settings",
+    "font_family": "Font Family",
+    "font_size": "Font Size:",
+    "preview": "Preview:",
+    "back": "Back",
+    "load": "Load",
+    "sample_text": "And he said unto them, Go ye into all the world, and preach the gospel to every creature."
+  }
+}

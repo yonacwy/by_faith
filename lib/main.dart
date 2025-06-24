@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:by_faith/app/l10n/app_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:by_faith/features/home/screens/home_tab_screen.dart';
@@ -9,14 +7,28 @@ import 'package:by_faith/features/read/screens/read_tab_screen.dart';
 import 'package:by_faith/features/study/screens/study_tab_screen.dart';
 import 'package:by_faith/features/go/screens/go_tab_screen.dart';
 import 'package:provider/provider.dart'; // Import provider package
+import 'package:by_faith/app/i18n/strings.g.dart'; // Import translations
+import 'package:flutter_localizations/flutter_localizations.dart'; // Import for localization delegates
 
 import 'package:by_faith/objectbox.dart';
-import 'package:by_faith/features/go/providers/go_settings_font_provider.dart'; // Import FontProvider
+import 'package:by_faith/features/go/providers/go_settings_font_provider.dart'; // Import GoSettingsFontProvider
+import 'package:by_faith/features/home/providers/home_settings_font_provider.dart'; // Import HomeSettingsFontProvider
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupObjectBox();
-  runApp(const MyApp());
+  LocaleSettings.useDeviceLocale(); // Initialize translations
+  runApp(
+    TranslationProvider(
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => FontProvider()),
+          ChangeNotifierProvider(create: (_) => HomeSettingsFontProvider()),
+        ],
+        child: const MyApp(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -24,27 +36,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => FontProvider(),
-      child: MaterialApp(
-        title: 'By Faith',
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          FlutterQuillLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('en'), // English
-          Locale('es'), // Spanish
-        ],
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: const MainScreen(),
+    return MaterialApp(
+      title: 'By Faith',
+      supportedLocales: AppLocale.values.map((e) => e.flutterLocale),
+      locale: TranslationProvider.of(context).flutterLocale,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
+      home: const MainScreen(),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:by_faith/app/i18n/strings.g.dart';
 import 'package:by_faith/features/home/screens/home_info_screen.dart';
 import 'package:by_faith/features/home/screens/home_support_screen.dart';
 import 'package:by_faith/features/home/screens/home_calendar_screen.dart';
@@ -10,15 +11,15 @@ class HomeTabScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context); // Use context-based translations
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: Text(t.home_tab_screen.title),
         actions: [
           Builder(
             builder: (context) => IconButton(
               icon: const Icon(Icons.menu),
               onPressed: () => Scaffold.of(context).openEndDrawer(),
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
             ),
           ),
         ],
@@ -32,7 +33,7 @@ class HomeTabScreen extends StatelessWidget {
                 color: Colors.red[900],
               ),
               child: Text(
-                'Home Menu',
+                t.home_tab_screen.menu,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
@@ -41,7 +42,7 @@ class HomeTabScreen extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.info),
-              title: const Text('Info'),
+              title: Text(t.home_tab_screen.info),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
                 Navigator.push(
@@ -52,7 +53,7 @@ class HomeTabScreen extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.support_agent),
-              title: const Text('Support'),
+              title: Text(t.home_tab_screen.support),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -63,7 +64,7 @@ class HomeTabScreen extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.person),
-              title: const Text('Profile'),
+              title: Text(t.home_tab_screen.profile),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -74,7 +75,7 @@ class HomeTabScreen extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.calendar_today),
-              title: const Text('Calendar'),
+              title: Text(t.home_tab_screen.calendar),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -85,7 +86,7 @@ class HomeTabScreen extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
+              title: Text(t.home_tab_screen.settings),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -97,8 +98,8 @@ class HomeTabScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: const Center(
-        child: Text('Home Tab Content'),
+      body: Center(
+        child: Text(t.home_tab_screen.content),
       ),
     );
   }
