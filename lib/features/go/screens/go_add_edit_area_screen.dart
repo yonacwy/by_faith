@@ -125,10 +125,10 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              context.t.go_add_edit_area_screen.tap_to_add_points,
+              t.go_add_edit_area_screen.tap_to_add_points,
             ),
             action: SnackBarAction(
-              label: context.t.go_add_edit_area_screen.cancel,
+              label: t.go_add_edit_area_screen.cancel,
               onPressed: _cancelAreaMode,
             ),
           ),
@@ -221,14 +221,14 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
         context: context,
         builder: (context) => AlertDialog(
           title: Text(
-            context.t.go_add_edit_area_screen.cancel_area_creation,
+            t.go_add_edit_area_screen.cancel_area_creation,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                   fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
                 ),
           ),
           content: Text(
-            context.t.go_add_edit_area_screen.discard_changes_to_area,
+            t.go_add_edit_area_screen.discard_changes_to_area,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                   fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -238,7 +238,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             TextButton(
               onPressed: () => Navigator.pop(context, false),
               child: Text(
-                context.t.go_add_edit_area_screen.keep_editing,
+                t.go_add_edit_area_screen.keep_editing,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                       fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -248,7 +248,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             TextButton(
               onPressed: () => Navigator.pop(context, true),
               child: Text(
-                context.t.go_add_edit_area_screen.discard,
+                t.go_add_edit_area_screen.discard,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                       fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -273,7 +273,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            context.t.go_add_edit_area_screen.add_at_least_3_points,
+            t.go_add_edit_area_screen.add_at_least_3_points,
           ),
         ),
       );
@@ -291,8 +291,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
       builder: (context) => AlertDialog(
         title: Text(
           widget.area != null
-              ? context.t.go_add_edit_area_screen.edit_area
-              : context.t.go_add_edit_area_screen.save_area,
+              ? t.go_add_edit_area_screen.edit_area
+              : t.go_add_edit_area_screen.save_area,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                   fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
@@ -301,8 +301,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
         content: TextField(
           controller: nameController,
           decoration: InputDecoration(
-            hintText: context.t.go_add_edit_area_screen.enter_name,
-            labelText: context.t.go_add_edit_area_screen.name,
+            hintText: t.go_add_edit_area_screen.enter_name,
+            labelText: t.go_add_edit_area_screen.name,
             hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                   fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -321,7 +321,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              context.t.go_add_edit_area_screen.cancel,
+              t.go_add_edit_area_screen.cancel,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                     fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -334,7 +334,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      context.t.go_add_edit_area_screen.name_cannot_be_empty,
+                      t.go_add_edit_area_screen.name_cannot_be_empty,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                             fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -347,7 +347,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
               Navigator.pop(context, nameController.text.trim());
             },
             child: Text(
-              context.t.go_add_edit_area_screen.save_area,
+              t.go_add_edit_area_screen.save_area,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                     fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -375,7 +375,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                context.t.go_add_edit_area_screen.area_saved_successfully,
+                t.go_add_edit_area_screen.area_saved_successfully,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                       fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -390,7 +390,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                '${context.t.go_add_edit_area_screen.error_saving_area}$e',
+                '${t.go_add_edit_area_screen.error_saving_area}$e',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                       fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
