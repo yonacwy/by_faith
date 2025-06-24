@@ -131,6 +131,10 @@
     "saved": "Saved",
     "lost": "Lost",
     "seed_planted": "Seed Planted",
-    "contact_added": "Contact added!"
+    "contact_added": "Contact added!",
+    "save_contact": "Save Contact",
+    "edit_note": "Edit Note",
+    "contact_updated": "Contact updated!",
+    "edit_contact_details": "Edit Contact Details"
   }
 }

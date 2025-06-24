@@ -131,6 +131,10 @@
     "saved": "Salvado",
     "lost": "Perdido",
     "seed_planted": "Semilla Plantada",
-    "contact_added": "¡Contacto añadido!"
+    "contact_added": "¡Contacto añadido!",
+    "save_contact": "Guardar Contacto",
+    "edit_note": "Editar Nota",
+    "contact_updated": "¡Contacto actualizado!",
+    "edit_contact_details": "Editar Detalles del Contacto"
   }
 }

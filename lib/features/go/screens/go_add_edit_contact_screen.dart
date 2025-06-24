@@ -567,7 +567,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                 child: ElevatedButton(
                   onPressed: saveContact,
                   child: Text(
-                    'Save Contact',
+                    t.go_add_edit_contact_screen.save_contact,
                     style: TextStyle(
                       fontFamily: context.watch<FontProvider>().fontFamily,
                       fontSize: context.watch<FontProvider>().fontSize,
@@ -645,7 +645,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.note != null ? 'Edit Note' : 'Add Note',
+          widget.note != null ? t.go_add_edit_contact_screen.edit_note : t.go_add_edit_contact_screen.add_note,
           style: TextStyle(
             fontFamily: context.watch<FontProvider>().fontFamily,
             fontSize: context.watch<FontProvider>().fontSize,
@@ -777,7 +777,7 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
 
       goContactsBox.put(widget.contact);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Contact updated!')),
+        SnackBar(content: Text(t.go_add_edit_contact_screen.contact_updated)),
       );
       Navigator.pop(context);
     }
@@ -787,7 +787,9 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Contact Details'),
+        title: Text(
+          t.go_add_edit_contact_screen.edit_contact_details,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.save),

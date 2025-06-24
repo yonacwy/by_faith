@@ -218,6 +218,10 @@ class _TranslationsGoAddEditContactScreenEs implements TranslationsGoAddEditCont
 	@override String get lost => 'Perdido';
 	@override String get seed_planted => 'Semilla Plantada';
 	@override String get contact_added => '¡Contacto añadido!';
+	@override String get save_contact => 'Guardar Contacto';
+	@override String get edit_note => 'Editar Nota';
+	@override String get contact_updated => '¡Contacto actualizado!';
+	@override String get edit_contact_details => 'Editar Detalles del Contacto';
 }
 
 /// Flat map(s) containing all translations.
@@ -347,6 +351,10 @@ extension on TranslationsEs {
 			case 'go_add_edit_contact_screen.lost': return 'Perdido';
 			case 'go_add_edit_contact_screen.seed_planted': return 'Semilla Plantada';
 			case 'go_add_edit_contact_screen.contact_added': return '¡Contacto añadido!';
+			case 'go_add_edit_contact_screen.save_contact': return 'Guardar Contacto';
+			case 'go_add_edit_contact_screen.edit_note': return 'Editar Nota';
+			case 'go_add_edit_contact_screen.contact_updated': return '¡Contacto actualizado!';
+			case 'go_add_edit_contact_screen.edit_contact_details': return 'Editar Detalles del Contacto';
 			default: return null;
 		}
 	}

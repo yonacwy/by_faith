@@ -221,6 +221,10 @@ class TranslationsGoAddEditContactScreenEn {
 	String get lost => 'Lost';
 	String get seed_planted => 'Seed Planted';
 	String get contact_added => 'Contact added!';
+	String get save_contact => 'Save Contact';
+	String get edit_note => 'Edit Note';
+	String get contact_updated => 'Contact updated!';
+	String get edit_contact_details => 'Edit Contact Details';
 }
 
 /// Flat map(s) containing all translations.
@@ -350,6 +354,10 @@ extension on Translations {
 			case 'go_add_edit_contact_screen.lost': return 'Lost';
 			case 'go_add_edit_contact_screen.seed_planted': return 'Seed Planted';
 			case 'go_add_edit_contact_screen.contact_added': return 'Contact added!';
+			case 'go_add_edit_contact_screen.save_contact': return 'Save Contact';
+			case 'go_add_edit_contact_screen.edit_note': return 'Edit Note';
+			case 'go_add_edit_contact_screen.contact_updated': return 'Contact updated!';
+			case 'go_add_edit_contact_screen.edit_contact_details': return 'Edit Contact Details';
 			default: return null;
 		}
 	}
