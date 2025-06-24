@@ -23,12 +23,26 @@
     "app_language": "App Language",
     "back": "Back",
     "load": "Load"
-    },
-  "go_settings_screen": {
+  },
+  "go_add_edit_area_screen": {
+    "tap_to_add_points": "Tap on the map to add points for Area.",
+    "cancel": "Cancel",
+    "cancel_area_creation": "Cancel Area Creation",
+    "discard_changes_to_area": "Discard changes to this area?",
+    "keep_editing": "Keep Editing",
+    "discard": "Discard",
+    "add_at_least_3_points": "Add at least 3 points to create an area.",
+    "edit_area": "Edit Area",
+    "save_area": "Save Area",
+    "hide_options": "Hide Options",
+    "enter_name": "Enter name",
+    "name": "Name",
+    "name_cannot_be_empty": "Name cannot be empty.",
+    "area_saved_successfully": "Area saved successfully.",
+    "error_saving_area": "Error saving Area: "
+  },
+    "go_settings_screen": {
     "title": "Settings",
-    "language": "Language",
-    "english": "English",
-    "spanish": "Spanish",
     "text_settings": "Text Settings",
     "font_family": "Font Family",
     "font_size": "Font Size:",

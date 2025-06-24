@@ -11,6 +11,7 @@ import 'dart:async';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
+import 'package:by_faith/app/i18n/strings.g.dart';
 
 class GoAddEditAreaScreen extends StatefulWidget {
   final GoArea? area;
@@ -123,9 +124,11 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Tap on the map to add points for Area.'),
+            content: Text(
+              context.t.go_add_edit_area_screen.tap_to_add_points,
+            ),
             action: SnackBarAction(
-              label: 'Cancel',
+              label: context.t.go_add_edit_area_screen.cancel,
               onPressed: _cancelAreaMode,
             ),
           ),
@@ -218,14 +221,14 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
         context: context,
         builder: (context) => AlertDialog(
           title: Text(
-            'Cancel Area Creation',
+            context.t.go_add_edit_area_screen.cancel_area_creation,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                   fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
                 ),
           ),
           content: Text(
-            'Discard changes to this area?',
+            context.t.go_add_edit_area_screen.discard_changes_to_area,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                   fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -235,7 +238,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             TextButton(
               onPressed: () => Navigator.pop(context, false),
               child: Text(
-                'Keep Editing',
+                context.t.go_add_edit_area_screen.keep_editing,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                       fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -245,7 +248,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             TextButton(
               onPressed: () => Navigator.pop(context, true),
               child: Text(
-                'Discard',
+                context.t.go_add_edit_area_screen.discard,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                       fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -268,7 +271,11 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
 
     if (_polyEditor!.points.length < 3) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add at least 3 points to create an area.')),
+        SnackBar(
+          content: Text(
+            context.t.go_add_edit_area_screen.add_at_least_3_points,
+          ),
+        ),
       );
       return;
     }
@@ -283,17 +290,19 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          '${widget.area != null ? 'Edit' : 'Save'} Area',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
-              ),
+          widget.area != null
+              ? context.t.go_add_edit_area_screen.edit_area
+              : context.t.go_add_edit_area_screen.save_area,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                ),
         ),
         content: TextField(
           controller: nameController,
           decoration: InputDecoration(
-            hintText: 'Enter name',
-            labelText: 'Name',
+            hintText: context.t.go_add_edit_area_screen.enter_name,
+            labelText: context.t.go_add_edit_area_screen.name,
             hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                   fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -312,7 +321,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Cancel',
+              context.t.go_add_edit_area_screen.cancel,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                     fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -325,7 +334,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      'Name cannot be empty.',
+                      context.t.go_add_edit_area_screen.name_cannot_be_empty,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                             fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -338,7 +347,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
               Navigator.pop(context, nameController.text.trim());
             },
             child: Text(
-              'Save',
+              context.t.go_add_edit_area_screen.save_area,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                     fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -366,7 +375,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'Area saved successfully.',
+                context.t.go_add_edit_area_screen.area_saved_successfully,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                       fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -381,7 +390,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'Error saving Area: $e',
+                '${context.t.go_add_edit_area_screen.error_saving_area}$e',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                       fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -652,13 +661,13 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
           IconButton(
             icon: const Icon(Icons.visibility),
             onPressed: _showHideOptions,
-            tooltip: 'Hide Options',
+            tooltip: t.go_add_edit_area_screen.hide_options,
           ),
           if (!widget.isViewMode)
             IconButton(
               icon: const Icon(Icons.save),
               onPressed: _showSaveAreaDialog,
-              tooltip: 'Save Area',
+              tooltip: t.go_add_edit_area_screen.save_area,
             ),
         ],
       ),

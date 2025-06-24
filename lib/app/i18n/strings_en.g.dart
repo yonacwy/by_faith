@@ -41,6 +41,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	// Translations
 	late final TranslationsHomeTabScreenEn home_tab_screen = TranslationsHomeTabScreenEn._(_root);
 	late final TranslationsHomeSettingsScreenEn home_settings_screen = TranslationsHomeSettingsScreenEn._(_root);
+	late final TranslationsGoAddEditAreaScreenEn go_add_edit_area_screen = TranslationsGoAddEditAreaScreenEn._(_root);
 	late final TranslationsGoSettingsScreenEn go_settings_screen = TranslationsGoSettingsScreenEn._(_root);
 }
 
@@ -83,6 +84,30 @@ class TranslationsHomeSettingsScreenEn {
 	String get load => 'Load';
 }
 
+// Path: go_add_edit_area_screen
+class TranslationsGoAddEditAreaScreenEn {
+	TranslationsGoAddEditAreaScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get tap_to_add_points => 'Tap on the map to add points for Area.';
+	String get cancel => 'Cancel';
+	String get cancel_area_creation => 'Cancel Area Creation';
+	String get discard_changes_to_area => 'Discard changes to this area?';
+	String get keep_editing => 'Keep Editing';
+	String get discard => 'Discard';
+	String get add_at_least_3_points => 'Add at least 3 points to create an area.';
+	String get edit_area => 'Edit Area';
+	String get save_area => 'Save Area';
+	String get hide_options => 'Hide Options';
+	String get enter_name => 'Enter name';
+	String get name => 'Name';
+	String get name_cannot_be_empty => 'Name cannot be empty.';
+	String get area_saved_successfully => 'Area saved successfully.';
+	String get error_saving_area => 'Error saving Area: ';
+}
+
 // Path: go_settings_screen
 class TranslationsGoSettingsScreenEn {
 	TranslationsGoSettingsScreenEn._(this._root);
@@ -91,9 +116,6 @@ class TranslationsGoSettingsScreenEn {
 
 	// Translations
 	String get title => 'Settings';
-	String get language => 'Language';
-	String get english => 'English';
-	String get spanish => 'Spanish';
 	String get text_settings => 'Text Settings';
 	String get font_family => 'Font Family';
 	String get font_size => 'Font Size:';
@@ -129,10 +151,22 @@ extension on Translations {
 			case 'home_settings_screen.app_language': return 'App Language';
 			case 'home_settings_screen.back': return 'Back';
 			case 'home_settings_screen.load': return 'Load';
+			case 'go_add_edit_area_screen.tap_to_add_points': return 'Tap on the map to add points for Area.';
+			case 'go_add_edit_area_screen.cancel': return 'Cancel';
+			case 'go_add_edit_area_screen.cancel_area_creation': return 'Cancel Area Creation';
+			case 'go_add_edit_area_screen.discard_changes_to_area': return 'Discard changes to this area?';
+			case 'go_add_edit_area_screen.keep_editing': return 'Keep Editing';
+			case 'go_add_edit_area_screen.discard': return 'Discard';
+			case 'go_add_edit_area_screen.add_at_least_3_points': return 'Add at least 3 points to create an area.';
+			case 'go_add_edit_area_screen.edit_area': return 'Edit Area';
+			case 'go_add_edit_area_screen.save_area': return 'Save Area';
+			case 'go_add_edit_area_screen.hide_options': return 'Hide Options';
+			case 'go_add_edit_area_screen.enter_name': return 'Enter name';
+			case 'go_add_edit_area_screen.name': return 'Name';
+			case 'go_add_edit_area_screen.name_cannot_be_empty': return 'Name cannot be empty.';
+			case 'go_add_edit_area_screen.area_saved_successfully': return 'Area saved successfully.';
+			case 'go_add_edit_area_screen.error_saving_area': return 'Error saving Area: ';
 			case 'go_settings_screen.title': return 'Settings';
-			case 'go_settings_screen.language': return 'Language';
-			case 'go_settings_screen.english': return 'English';
-			case 'go_settings_screen.spanish': return 'Spanish';
 			case 'go_settings_screen.text_settings': return 'Text Settings';
 			case 'go_settings_screen.font_family': return 'Font Family';
 			case 'go_settings_screen.font_size': return 'Font Size:';
