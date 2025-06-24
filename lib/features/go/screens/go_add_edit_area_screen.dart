@@ -555,7 +555,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                 children: [
                   ListTile(
                     title: Text(
-                      'Contacts',
+                      t.go_add_edit_area_screen.contacts,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -573,7 +573,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                   ),
                   ListTile(
                     title: Text(
-                      'Churches',
+                      t.go_add_edit_area_screen.churches,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -591,7 +591,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                   ),
                   ListTile(
                     title: Text(
-                      'Ministries',
+                      t.go_add_edit_area_screen.ministries,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -608,7 +608,13 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                     ),
                   ),
                   ListTile(
-                    title: const Text('Areas'),
+                    title: Text(
+                      t.go_add_edit_area_screen.areas,
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showAreas,
                       onChanged: (value) {
@@ -620,7 +626,13 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                     ),
                   ),
                   ListTile(
-                    title: const Text('Streets'),
+                    title: Text(
+                      t.go_add_edit_area_screen.streets,
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showStreets,
                       onChanged: (value) {
@@ -632,7 +644,13 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                     ),
                   ),
                   ListTile(
-                    title: const Text('Zones'),
+                    title: Text(
+                      t.go_add_edit_area_screen.zones,
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
                     trailing: Switch(
                       value: _showZones,
                       onChanged: (value) {
@@ -656,7 +674,13 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.area != null ? (widget.isViewMode ? 'View' : 'Edit') : 'Add'} Area'),
+        title: Text(
+          widget.area != null
+              ? (widget.isViewMode
+                  ? t.go_add_edit_area_screen.view_area_title
+                  : t.go_add_edit_area_screen.edit_area_title)
+              : t.go_add_edit_area_screen.add_area_title,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.visibility),

@@ -108,6 +108,12 @@ class _TranslationsGoAddEditAreaScreenEs implements TranslationsGoAddEditAreaScr
 	@override String get add_area_title => 'Añadir Área';
 	@override String get edit_area_title => 'Editar Área';
 	@override String get view_area_title => 'Ver Área';
+	@override String get contacts => 'Contactos';
+	@override String get churches => 'Iglesias';
+	@override String get ministries => 'Ministerios';
+	@override String get areas => 'Áreas';
+	@override String get streets => 'Calles';
+	@override String get zones => 'Zonas';
 }
 
 // Path: go_add_edit_church_screen
@@ -258,6 +264,12 @@ extension on TranslationsEs {
 			case 'go_add_edit_area_screen.add_area_title': return 'Añadir Área';
 			case 'go_add_edit_area_screen.edit_area_title': return 'Editar Área';
 			case 'go_add_edit_area_screen.view_area_title': return 'Ver Área';
+			case 'go_add_edit_area_screen.contacts': return 'Contactos';
+			case 'go_add_edit_area_screen.churches': return 'Iglesias';
+			case 'go_add_edit_area_screen.ministries': return 'Ministerios';
+			case 'go_add_edit_area_screen.areas': return 'Áreas';
+			case 'go_add_edit_area_screen.streets': return 'Calles';
+			case 'go_add_edit_area_screen.zones': return 'Zonas';
 			case 'go_add_edit_church_screen.delete_church': return 'Eliminar Iglesia';
 			case 'go_add_edit_church_screen.delete_church_confirmation': return '¿Estás seguro de que quieres eliminar {churchName}? Esto eliminará todas las notas asociadas.';
 			case 'go_add_edit_church_screen.cancel': return 'Cancelar';

@@ -42,7 +42,13 @@
     "error_saving_area": "Error al guardar el Área: ",
     "add_area_title": "Añadir Área",
     "edit_area_title": "Editar Área",
-    "view_area_title": "Ver Área"
+    "view_area_title": "Ver Área",
+    "contacts": "Contactos",
+    "churches": "Iglesias",
+    "ministries": "Ministerios",
+    "areas": "Áreas",
+    "streets": "Calles",
+    "zones": "Zonas"
   },
   "go_add_edit_church_screen": {
     "delete_church": "Eliminar Iglesia",

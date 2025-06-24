@@ -111,6 +111,12 @@ class TranslationsGoAddEditAreaScreenEn {
 	String get add_area_title => 'Add Area';
 	String get edit_area_title => 'Edit Area';
 	String get view_area_title => 'View Area';
+	String get contacts => 'Contacts';
+	String get churches => 'Churches';
+	String get ministries => 'Ministries';
+	String get areas => 'Areas';
+	String get streets => 'Streets';
+	String get zones => 'Zones';
 }
 
 // Path: go_add_edit_church_screen
@@ -261,6 +267,12 @@ extension on Translations {
 			case 'go_add_edit_area_screen.add_area_title': return 'Add Area';
 			case 'go_add_edit_area_screen.edit_area_title': return 'Edit Area';
 			case 'go_add_edit_area_screen.view_area_title': return 'View Area';
+			case 'go_add_edit_area_screen.contacts': return 'Contacts';
+			case 'go_add_edit_area_screen.churches': return 'Churches';
+			case 'go_add_edit_area_screen.ministries': return 'Ministries';
+			case 'go_add_edit_area_screen.areas': return 'Areas';
+			case 'go_add_edit_area_screen.streets': return 'Streets';
+			case 'go_add_edit_area_screen.zones': return 'Zones';
 			case 'go_add_edit_church_screen.delete_church': return 'Delete Church';
 			case 'go_add_edit_church_screen.delete_church_confirmation': return 'Are you sure you want to delete {churchName}? This will delete all associated notes.';
 			case 'go_add_edit_church_screen.cancel': return 'Cancel';

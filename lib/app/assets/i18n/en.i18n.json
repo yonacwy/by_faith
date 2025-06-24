@@ -42,7 +42,13 @@
     "error_saving_area": "Error saving Area: ",
     "add_area_title": "Add Area",
     "edit_area_title": "Edit Area",
-    "view_area_title": "View Area"
+    "view_area_title": "View Area",
+    "contacts": "Contacts",
+    "churches": "Churches",
+    "ministries": "Ministries",
+    "areas": "Areas",
+    "streets": "Streets",
+    "zones": "Zones"
   },
   "go_add_edit_church_screen": {
     "delete_church": "Delete Church",
