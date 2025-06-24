@@ -45,6 +45,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final TranslationsGoAddEditChurchScreenEn go_add_edit_church_screen = TranslationsGoAddEditChurchScreenEn._(_root);
 	late final TranslationsGoSettingsScreenEn go_settings_screen = TranslationsGoSettingsScreenEn._(_root);
 	late final TranslationsGoAddEditContactScreenEn go_add_edit_contact_screen = TranslationsGoAddEditContactScreenEn._(_root);
+	late final TranslationsGoAddEditMinistryScreenEn go_add_edit_ministry_screen = TranslationsGoAddEditMinistryScreenEn._(_root);
 }
 
 // Path: home_tab_screen
@@ -227,6 +228,50 @@ class TranslationsGoAddEditContactScreenEn {
 	String get edit_contact_details => 'Edit Contact Details';
 }
 
+// Path: go_add_edit_ministry_screen
+class TranslationsGoAddEditMinistryScreenEn {
+	TranslationsGoAddEditMinistryScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get delete_ministry => 'Delete Ministry';
+	String get delete_ministry_confirmation => 'Are you sure you want to delete {ministryName}? This will delete all associated notes.';
+	String get cancel => 'Cancel';
+	String get delete => 'Delete';
+	String get ministry_deleted => 'Ministry {ministryName} deleted';
+	String get ministry_details => 'Ministry Details';
+	String get add_ministry => 'Add Ministry';
+	String get add_note => 'Add Note';
+	String get edit_details => 'Edit Details';
+	String get ministry_information => 'Ministry Information';
+	String get ministry_name => 'Ministry Name';
+	String get contact_name => 'Contact Name';
+	String get address => 'Address';
+	String get phone => 'Phone';
+	String get email => 'Email';
+	String get not_specified => 'Not specified';
+	String get partner_status => 'Partner Status';
+	String get status => 'Status';
+	String get map_information => 'Map Information';
+	String get latitude => 'Latitude';
+	String get longitude => 'Longitude';
+	String get notes => 'Notes';
+	String get created => 'Created';
+	String get please_enter_ministry_name => 'Please enter a ministry name';
+	String get please_enter_address => 'Please enter an address';
+	String get phone_optional => 'Phone (Optional)';
+	String get email_optional => 'Email (Optional)';
+	String get please_enter_valid_email => 'Please enter a valid email';
+	String get confirmed => 'Confirmed';
+	String get not_confirmed => 'Not-Confirmed';
+	String get undecided => 'Undecided';
+	String get ministry_added => 'Ministry added!';
+	String get please_enter_latitude => 'Please enter a latitude';
+	String get please_enter_longitude => 'Please enter a longitude';
+	String get please_enter_valid_number => 'Please enter a valid number';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on Translations {
@@ -358,6 +403,41 @@ extension on Translations {
 			case 'go_add_edit_contact_screen.edit_note': return 'Edit Note';
 			case 'go_add_edit_contact_screen.contact_updated': return 'Contact updated!';
 			case 'go_add_edit_contact_screen.edit_contact_details': return 'Edit Contact Details';
+			case 'go_add_edit_ministry_screen.delete_ministry': return 'Delete Ministry';
+			case 'go_add_edit_ministry_screen.delete_ministry_confirmation': return 'Are you sure you want to delete {ministryName}? This will delete all associated notes.';
+			case 'go_add_edit_ministry_screen.cancel': return 'Cancel';
+			case 'go_add_edit_ministry_screen.delete': return 'Delete';
+			case 'go_add_edit_ministry_screen.ministry_deleted': return 'Ministry {ministryName} deleted';
+			case 'go_add_edit_ministry_screen.ministry_details': return 'Ministry Details';
+			case 'go_add_edit_ministry_screen.add_ministry': return 'Add Ministry';
+			case 'go_add_edit_ministry_screen.add_note': return 'Add Note';
+			case 'go_add_edit_ministry_screen.edit_details': return 'Edit Details';
+			case 'go_add_edit_ministry_screen.ministry_information': return 'Ministry Information';
+			case 'go_add_edit_ministry_screen.ministry_name': return 'Ministry Name';
+			case 'go_add_edit_ministry_screen.contact_name': return 'Contact Name';
+			case 'go_add_edit_ministry_screen.address': return 'Address';
+			case 'go_add_edit_ministry_screen.phone': return 'Phone';
+			case 'go_add_edit_ministry_screen.email': return 'Email';
+			case 'go_add_edit_ministry_screen.not_specified': return 'Not specified';
+			case 'go_add_edit_ministry_screen.partner_status': return 'Partner Status';
+			case 'go_add_edit_ministry_screen.status': return 'Status';
+			case 'go_add_edit_ministry_screen.map_information': return 'Map Information';
+			case 'go_add_edit_ministry_screen.latitude': return 'Latitude';
+			case 'go_add_edit_ministry_screen.longitude': return 'Longitude';
+			case 'go_add_edit_ministry_screen.notes': return 'Notes';
+			case 'go_add_edit_ministry_screen.created': return 'Created';
+			case 'go_add_edit_ministry_screen.please_enter_ministry_name': return 'Please enter a ministry name';
+			case 'go_add_edit_ministry_screen.please_enter_address': return 'Please enter an address';
+			case 'go_add_edit_ministry_screen.phone_optional': return 'Phone (Optional)';
+			case 'go_add_edit_ministry_screen.email_optional': return 'Email (Optional)';
+			case 'go_add_edit_ministry_screen.please_enter_valid_email': return 'Please enter a valid email';
+			case 'go_add_edit_ministry_screen.confirmed': return 'Confirmed';
+			case 'go_add_edit_ministry_screen.not_confirmed': return 'Not-Confirmed';
+			case 'go_add_edit_ministry_screen.undecided': return 'Undecided';
+			case 'go_add_edit_ministry_screen.ministry_added': return 'Ministry added!';
+			case 'go_add_edit_ministry_screen.please_enter_latitude': return 'Please enter a latitude';
+			case 'go_add_edit_ministry_screen.please_enter_longitude': return 'Please enter a longitude';
+			case 'go_add_edit_ministry_screen.please_enter_valid_number': return 'Please enter a valid number';
 			default: return null;
 		}
 	}

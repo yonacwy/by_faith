@@ -42,6 +42,7 @@ class TranslationsEs implements Translations {
 	@override late final _TranslationsGoAddEditChurchScreenEs go_add_edit_church_screen = _TranslationsGoAddEditChurchScreenEs._(_root);
 	@override late final _TranslationsGoSettingsScreenEs go_settings_screen = _TranslationsGoSettingsScreenEs._(_root);
 	@override late final _TranslationsGoAddEditContactScreenEs go_add_edit_contact_screen = _TranslationsGoAddEditContactScreenEs._(_root);
+	@override late final _TranslationsGoAddEditMinistryScreenEs go_add_edit_ministry_screen = _TranslationsGoAddEditMinistryScreenEs._(_root);
 }
 
 // Path: home_tab_screen
@@ -224,6 +225,50 @@ class _TranslationsGoAddEditContactScreenEs implements TranslationsGoAddEditCont
 	@override String get edit_contact_details => 'Editar Detalles del Contacto';
 }
 
+// Path: go_add_edit_ministry_screen
+class _TranslationsGoAddEditMinistryScreenEs implements TranslationsGoAddEditMinistryScreenEn {
+	_TranslationsGoAddEditMinistryScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get delete_ministry => 'Eliminar Ministerio';
+	@override String get delete_ministry_confirmation => '¿Estás seguro de que quieres eliminar {ministryName}? Esto eliminará todas las notas asociadas.';
+	@override String get cancel => 'Cancelar';
+	@override String get delete => 'Eliminar';
+	@override String get ministry_deleted => 'Ministerio {ministryName} eliminado';
+	@override String get ministry_details => 'Detalles del Ministerio';
+	@override String get add_ministry => 'Añadir Ministerio';
+	@override String get add_note => 'Añadir Nota';
+	@override String get edit_details => 'Editar Detalles';
+	@override String get ministry_information => 'Información del Ministerio';
+	@override String get ministry_name => 'Nombre del Ministerio';
+	@override String get contact_name => 'Nombre de Contacto';
+	@override String get address => 'Dirección';
+	@override String get phone => 'Teléfono';
+	@override String get email => 'Correo Electrónico';
+	@override String get not_specified => 'No especificado';
+	@override String get partner_status => 'Estado de Colaboración';
+	@override String get status => 'Estado';
+	@override String get map_information => 'Información del Mapa';
+	@override String get latitude => 'Latitud';
+	@override String get longitude => 'Longitud';
+	@override String get notes => 'Notas';
+	@override String get created => 'Creado';
+	@override String get please_enter_ministry_name => 'Por favor, introduce un nombre de ministerio';
+	@override String get please_enter_address => 'Por favor, introduce una dirección';
+	@override String get phone_optional => 'Teléfono (Opcional)';
+	@override String get email_optional => 'Correo Electrónico (Opcional)';
+	@override String get please_enter_valid_email => 'Por favor, introduce un correo electrónico válido';
+	@override String get confirmed => 'Confirmado';
+	@override String get not_confirmed => 'No Confirmado';
+	@override String get undecided => 'Indeciso';
+	@override String get ministry_added => '¡Ministerio añadido!';
+	@override String get please_enter_latitude => 'Por favor, introduce una latitud';
+	@override String get please_enter_longitude => 'Por favor, introduce una longitud';
+	@override String get please_enter_valid_number => 'Por favor, introduce un número válido';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on TranslationsEs {
@@ -355,6 +400,41 @@ extension on TranslationsEs {
 			case 'go_add_edit_contact_screen.edit_note': return 'Editar Nota';
 			case 'go_add_edit_contact_screen.contact_updated': return '¡Contacto actualizado!';
 			case 'go_add_edit_contact_screen.edit_contact_details': return 'Editar Detalles del Contacto';
+			case 'go_add_edit_ministry_screen.delete_ministry': return 'Eliminar Ministerio';
+			case 'go_add_edit_ministry_screen.delete_ministry_confirmation': return '¿Estás seguro de que quieres eliminar {ministryName}? Esto eliminará todas las notas asociadas.';
+			case 'go_add_edit_ministry_screen.cancel': return 'Cancelar';
+			case 'go_add_edit_ministry_screen.delete': return 'Eliminar';
+			case 'go_add_edit_ministry_screen.ministry_deleted': return 'Ministerio {ministryName} eliminado';
+			case 'go_add_edit_ministry_screen.ministry_details': return 'Detalles del Ministerio';
+			case 'go_add_edit_ministry_screen.add_ministry': return 'Añadir Ministerio';
+			case 'go_add_edit_ministry_screen.add_note': return 'Añadir Nota';
+			case 'go_add_edit_ministry_screen.edit_details': return 'Editar Detalles';
+			case 'go_add_edit_ministry_screen.ministry_information': return 'Información del Ministerio';
+			case 'go_add_edit_ministry_screen.ministry_name': return 'Nombre del Ministerio';
+			case 'go_add_edit_ministry_screen.contact_name': return 'Nombre de Contacto';
+			case 'go_add_edit_ministry_screen.address': return 'Dirección';
+			case 'go_add_edit_ministry_screen.phone': return 'Teléfono';
+			case 'go_add_edit_ministry_screen.email': return 'Correo Electrónico';
+			case 'go_add_edit_ministry_screen.not_specified': return 'No especificado';
+			case 'go_add_edit_ministry_screen.partner_status': return 'Estado de Colaboración';
+			case 'go_add_edit_ministry_screen.status': return 'Estado';
+			case 'go_add_edit_ministry_screen.map_information': return 'Información del Mapa';
+			case 'go_add_edit_ministry_screen.latitude': return 'Latitud';
+			case 'go_add_edit_ministry_screen.longitude': return 'Longitud';
+			case 'go_add_edit_ministry_screen.notes': return 'Notas';
+			case 'go_add_edit_ministry_screen.created': return 'Creado';
+			case 'go_add_edit_ministry_screen.please_enter_ministry_name': return 'Por favor, introduce un nombre de ministerio';
+			case 'go_add_edit_ministry_screen.please_enter_address': return 'Por favor, introduce una dirección';
+			case 'go_add_edit_ministry_screen.phone_optional': return 'Teléfono (Opcional)';
+			case 'go_add_edit_ministry_screen.email_optional': return 'Correo Electrónico (Opcional)';
+			case 'go_add_edit_ministry_screen.please_enter_valid_email': return 'Por favor, introduce un correo electrónico válido';
+			case 'go_add_edit_ministry_screen.confirmed': return 'Confirmado';
+			case 'go_add_edit_ministry_screen.not_confirmed': return 'No Confirmado';
+			case 'go_add_edit_ministry_screen.undecided': return 'Indeciso';
+			case 'go_add_edit_ministry_screen.ministry_added': return '¡Ministerio añadido!';
+			case 'go_add_edit_ministry_screen.please_enter_latitude': return 'Por favor, introduce una latitud';
+			case 'go_add_edit_ministry_screen.please_enter_longitude': return 'Por favor, introduce una longitud';
+			case 'go_add_edit_ministry_screen.please_enter_valid_number': return 'Por favor, introduce un número válido';
 			default: return null;
 		}
 	}

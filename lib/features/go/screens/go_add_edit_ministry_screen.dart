@@ -1,3 +1,4 @@
+import 'package:by_faith/app/i18n/strings.g.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart' as quill_extensions;
 import 'dart:convert';
@@ -46,14 +47,14 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          'Delete Ministry',
+          t.go_add_edit_ministry_screen.delete_ministry,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                 fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
               ),
         ),
         content: Text(
-          'Are you sure you want to delete ${_ministry.ministryName}? This will delete all associated notes.',
+          t.go_add_edit_ministry_screen.delete_ministry_confirmation.replaceAll('{ministryName}', _ministry.ministryName),
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                 fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -63,7 +64,7 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Cancel',
+              t.go_add_edit_ministry_screen.cancel,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                     fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -82,7 +83,7 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    'Ministry ${_ministry.ministryName} deleted',
+                    t.go_add_edit_ministry_screen.ministry_deleted.replaceAll('{ministryName}', _ministry.ministryName),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                           fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -92,7 +93,7 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
               );
             },
             child: Text(
-              'Delete',
+              t.go_add_edit_ministry_screen.delete,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     color: Colors.red,
                     fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
@@ -110,7 +111,7 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _isEditing ? 'Ministry Details' : 'Add Ministry',
+          _isEditing ? t.go_add_edit_ministry_screen.ministry_details : t.go_add_edit_ministry_screen.add_ministry,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                 fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
@@ -126,7 +127,7 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                       builder: (context) => AddNoteScreen(ministry: _ministry),
                     ),
                   ).then((_) => setState(() {})),
-                  tooltip: 'Add Note',
+                  tooltip: t.go_add_edit_ministry_screen.add_note,
                 ),
                 IconButton(
                   icon: const Icon(Icons.edit),
@@ -136,12 +137,12 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                       builder: (context) => EditDetailsScreen(ministry: _ministry),
                     ),
                   ).then((_) => setState(() {})),
-                  tooltip: 'Edit Details',
+                  tooltip: t.go_add_edit_ministry_screen.edit_details,
                 ),
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: _deleteMinistry,
-                  tooltip: 'Delete Ministry',
+                  tooltip: t.go_add_edit_ministry_screen.delete_ministry,
                 ),
               ]
             : [],
@@ -155,7 +156,7 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
       padding: const EdgeInsets.all(16.0),
       children: [
         Text(
-          'Ministry Information',
+          t.go_add_edit_ministry_screen.ministry_information,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
                 fontWeight: FontWeight.bold,
@@ -163,14 +164,14 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
               ),
         ),
         const SizedBox(height: 8),
-        _buildReadOnlyField('Ministry Name', _ministry.ministryName),
-        _buildReadOnlyField('Contact Name', _ministry.contactName),
-        _buildReadOnlyField('Address', _ministry.address),
-        _buildReadOnlyField('Phone', _ministry.phone),
-        _buildReadOnlyField('Email', _ministry.email),
+        _buildReadOnlyField(t.go_add_edit_ministry_screen.ministry_name, _ministry.ministryName),
+        _buildReadOnlyField(t.go_add_edit_ministry_screen.contact_name, _ministry.contactName),
+        _buildReadOnlyField(t.go_add_edit_ministry_screen.address, _ministry.address),
+        _buildReadOnlyField(t.go_add_edit_ministry_screen.phone, _ministry.phone),
+        _buildReadOnlyField(t.go_add_edit_ministry_screen.email, _ministry.email),
         const SizedBox(height: 24),
         Text(
-          'Partner Status',
+          t.go_add_edit_ministry_screen.partner_status,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
                 fontWeight: FontWeight.bold,
@@ -178,10 +179,10 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
               ),
         ),
         const SizedBox(height: 8),
-        _buildReadOnlyField('Status', _ministry.partnerStatus),
+        _buildReadOnlyField(t.go_add_edit_ministry_screen.status, _ministry.partnerStatus),
         const SizedBox(height: 24),
         Text(
-          'Map Information',
+          t.go_add_edit_ministry_screen.map_information,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
                 fontWeight: FontWeight.bold,
@@ -189,11 +190,11 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
               ),
         ),
         const SizedBox(height: 8),
-        _buildReadOnlyField('Latitude', _ministry.latitude?.toString()),
-        _buildReadOnlyField('Longitude', _ministry.longitude?.toString()),
+        _buildReadOnlyField(t.go_add_edit_ministry_screen.latitude, _ministry.latitude?.toString()),
+        _buildReadOnlyField(t.go_add_edit_ministry_screen.longitude, _ministry.longitude?.toString()),
         const SizedBox(height: 24),
         Text(
-          'Notes',
+          t.go_add_edit_ministry_screen.notes,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
                 fontWeight: FontWeight.bold,
@@ -221,7 +222,7 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                 ),
           ),
           Text(
-            value ?? 'Not specified',
+            value ?? t.go_add_edit_ministry_screen.not_specified,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
                   fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
@@ -250,7 +251,7 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
               ),
             ),
             subtitle: Text(
-              'Created: ${DateFormat.yMMMd().format(note.createdAt)}',
+              '${t.go_add_edit_ministry_screen.created}: ${DateFormat.yMMMd().format(note.createdAt)}',
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                     fontSize: Provider.of<FontProvider>(context, listen: false).fontSize - 2,
