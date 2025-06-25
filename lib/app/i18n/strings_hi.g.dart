@@ -667,6 +667,9 @@ class _TranslationsGoTabScreenHi implements TranslationsGoTabScreenEn {
 	@override String get streets => 'सड़कें';
 	@override String get zones => 'ज़ोन';
 	@override String get enter_address => 'पता दर्ज करें';
+	@override String get world => 'विश्व';
+	@override String get go_menu => 'गो मेनू';
+	@override String get tap_on_the_map_to_add_a_marker => 'मानचित्र पर मार्कर जोड़ने के लिए टैप करें।';
 }
 
 /// Flat map(s) containing all translations.
@@ -1105,6 +1108,9 @@ extension on TranslationsHi {
 			case 'go_tab_screen.streets': return 'सड़कें';
 			case 'go_tab_screen.zones': return 'ज़ोन';
 			case 'go_tab_screen.enter_address': return 'पता दर्ज करें';
+			case 'go_tab_screen.world': return 'विश्व';
+			case 'go_tab_screen.go_menu': return 'गो मेनू';
+			case 'go_tab_screen.tap_on_the_map_to_add_a_marker': return 'मानचित्र पर मार्कर जोड़ने के लिए टैप करें।';
 			default: return null;
 		}
 	}

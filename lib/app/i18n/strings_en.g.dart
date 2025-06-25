@@ -670,6 +670,8 @@ class TranslationsGoTabScreenEn {
 	String get streets => 'Streets';
 	String get zones => 'Zones';
 	String get enter_address => 'Enter address';
+	String get world => 'World';
+	String get go_menu => 'Go Menu';
 }
 
 /// Flat map(s) containing all translations.
@@ -1108,6 +1110,8 @@ extension on Translations {
 			case 'go_tab_screen.streets': return 'Streets';
 			case 'go_tab_screen.zones': return 'Zones';
 			case 'go_tab_screen.enter_address': return 'Enter address';
+			case 'go_tab_screen.world': return 'World';
+			case 'go_tab_screen.go_menu': return 'Go Menu';
 			default: return null;
 		}
 	}

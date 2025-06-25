@@ -468,6 +468,9 @@
     "areas": "क्षेत्र",
     "streets": "सड़कें",
     "zones": "ज़ोन",
-    "enter_address": "पता दर्ज करें"
+    "enter_address": "पता दर्ज करें",
+    "world": "विश्व",
+    "go_menu": "गो मेनू",
+    "tap_on_the_map_to_add_a_marker": "मानचित्र पर मार्कर जोड़ने के लिए टैप करें।"
   }
 }

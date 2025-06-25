@@ -468,6 +468,8 @@
     "areas": "Areas",
     "streets": "Streets",
     "zones": "Zones",
-    "enter_address": "Enter address"
+    "enter_address": "Enter address",
+    "world": "World",
+    "go_menu": "Go Menu"
   }
 }

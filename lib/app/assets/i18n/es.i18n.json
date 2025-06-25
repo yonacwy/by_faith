@@ -448,7 +448,7 @@
     "save_route": "Guardar Ruta",
     "hide_options": "Ocultar Opciones",
     "open_menu": "Abrir Menú",
-    "tap_to_add_marker": "Toca el mapa para añadir un marcador.",
+    "tap_to_add_marker": "Toca el mapa para agregar un marcador.",
     "route_creation_cancelled": "Creación de ruta cancelada.",
     "add_at_least_3_points": "Añade al menos 3 puntos para crear un área.",
     "add_at_least_2_points": "Añade al menos 2 puntos para crear una calle.",
@@ -468,6 +468,8 @@
     "areas": "Áreas",
     "streets": "Calles",
     "zones": "Zonas",
-    "enter_address": "Introduce una dirección"
+    "enter_address": "Introduce una dirección",
+    "world": "Mundo",
+    "go_menu": "Menú Ir"
   }
 }

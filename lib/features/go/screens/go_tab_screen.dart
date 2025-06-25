@@ -342,7 +342,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       GoMapInfo? worldMapInfo = _goMapInfoBox.query(GoMapInfo_.name.equals('World')).build().findFirst();
       if (worldMapInfo == null) {
         worldMapInfo = GoMapInfo(
-          name: 'World',
+          name: t.go_tab_screen.world,
           filePath: 'cached', // Set a non-empty filePath for offline map logic
           downloadUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           isTemporary: false,
@@ -424,7 +424,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
   }
 
   Future<void> _setDefaultMap() async { // Made async to await _initTileProvider
-    _currentMapName = 'World';
+    _currentMapName = t.go_tab_screen.world;
     _currentCenter = const LatLng(39.0, -98.0);
     _currentZoom = 2.0;
     await _initTileProvider(); // Explicitly initialize network tile provider
@@ -1047,7 +1047,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(_isAddingRoute ? getAddRouteLabel(_routeType) : _currentMapName ?? 'World'),
+        title: Text(_isAddingRoute ? getAddRouteLabel(_routeType) : _currentMapName ?? t.go_tab_screen.world),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -1093,7 +1093,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Go Menu',
+                      t.go_tab_screen.go_menu,
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: context.watch<FontProvider>().fontFamily,
@@ -1326,7 +1326,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     });
     if (_isAddingMarker) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Tap on the map to add a marker.')),
+        SnackBar(content: Text(t.go_tab_screen.tap_to_add_marker)),
       );
     }
   }
@@ -1334,93 +1334,98 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
   void _showAddMarkerOptions(LatLng latLng) {
     showModalBottomSheet(
       context: context,
-      builder: (BuildContext context) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.person),
-                title: Text(
-                  t.go_tab_screen.add_contact,
-                  style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
-                  ),
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.location_on),
+              title: Text(t.go_tab_screen.tap_to_add_marker),
+              onTap: () {
+                // ...existing code...
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: Text(
+                t.go_tab_screen.add_contact,
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => GoAddEditContactScreen(
-                        latitude: latLng.latitude,
-                        longitude: latLng.longitude,
-                      ),
-                    ),
-                  ).then((_) {
-                    setState(() {
-                      _isAddingMarker = false;
-                    });
-                  });
-                },
               ),
-              ListTile(
-                leading: const Icon(Icons.church),
-                title: Text(
-                  t.go_tab_screen.add_church,
-                  style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GoAddEditContactScreen(
+                      latitude: latLng.latitude,
+                      longitude: latLng.longitude,
+                    ),
                   ),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => GoAddEditChurchScreen(
-                        latitude: latLng.latitude,
-                        longitude: latLng.longitude,
-                      ),
-                    ),
-                  ).then((_) {
-                    setState(() {
-                      _isAddingMarker = false;
-                    });
+                ).then((_) {
+                  setState(() {
+                    _isAddingMarker = false;
                   });
-                },
+                });
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.church),
+              title: Text(
+                t.go_tab_screen.add_church,
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
               ),
-              ListTile(
-                leading: const Icon(Icons.people),
-                title: Text(
-                  t.go_tab_screen.add_ministry,
-                  style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GoAddEditChurchScreen(
+                      latitude: latLng.latitude,
+                      longitude: latLng.longitude,
+                    ),
                   ),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => GoAddEditMinistryScreen(
-                        latitude: latLng.latitude,
-                        longitude: latLng.longitude,
-                      ),
-                    ),
-                  ).then((_) {
-                    setState(() {
-                      _isAddingMarker = false;
-                    });
+                ).then((_) {
+                  setState(() {
+                    _isAddingMarker = false;
                   });
-                },
+                });
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.people),
+              title: Text(
+                t.go_tab_screen.add_ministry,
+                style: TextStyle(
+                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<FontProvider>().fontSize,
+                ),
               ),
-            ],
-          ),
-        );
-      },
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GoAddEditMinistryScreen(
+                      latitude: latLng.latitude,
+                      longitude: latLng.longitude,
+                    ),
+                  ),
+                ).then((_) {
+                  setState(() {
+                    _isAddingMarker = false;
+                  });
+                });
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 

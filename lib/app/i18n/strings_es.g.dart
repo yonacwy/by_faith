@@ -646,7 +646,7 @@ class _TranslationsGoTabScreenEs implements TranslationsGoTabScreenEn {
 	@override String get save_route => 'Guardar Ruta';
 	@override String get hide_options => 'Ocultar Opciones';
 	@override String get open_menu => 'Abrir Menú';
-	@override String get tap_to_add_marker => 'Toca el mapa para añadir un marcador.';
+	@override String get tap_to_add_marker => 'Toca el mapa para agregar un marcador.';
 	@override String get route_creation_cancelled => 'Creación de ruta cancelada.';
 	@override String get add_at_least_3_points => 'Añade al menos 3 puntos para crear un área.';
 	@override String get add_at_least_2_points => 'Añade al menos 2 puntos para crear una calle.';
@@ -667,6 +667,8 @@ class _TranslationsGoTabScreenEs implements TranslationsGoTabScreenEn {
 	@override String get streets => 'Calles';
 	@override String get zones => 'Zonas';
 	@override String get enter_address => 'Introduce una dirección';
+	@override String get world => 'Mundo';
+	@override String get go_menu => 'Menú Ir';
 }
 
 /// Flat map(s) containing all translations.
@@ -1084,7 +1086,7 @@ extension on TranslationsEs {
 			case 'go_tab_screen.save_route': return 'Guardar Ruta';
 			case 'go_tab_screen.hide_options': return 'Ocultar Opciones';
 			case 'go_tab_screen.open_menu': return 'Abrir Menú';
-			case 'go_tab_screen.tap_to_add_marker': return 'Toca el mapa para añadir un marcador.';
+			case 'go_tab_screen.tap_to_add_marker': return 'Toca el mapa para agregar un marcador.';
 			case 'go_tab_screen.route_creation_cancelled': return 'Creación de ruta cancelada.';
 			case 'go_tab_screen.add_at_least_3_points': return 'Añade al menos 3 puntos para crear un área.';
 			case 'go_tab_screen.add_at_least_2_points': return 'Añade al menos 2 puntos para crear una calle.';
@@ -1105,6 +1107,8 @@ extension on TranslationsEs {
 			case 'go_tab_screen.streets': return 'Calles';
 			case 'go_tab_screen.zones': return 'Zonas';
 			case 'go_tab_screen.enter_address': return 'Introduce una dirección';
+			case 'go_tab_screen.world': return 'Mundo';
+			case 'go_tab_screen.go_menu': return 'Menú Ir';
 			default: return null;
 		}
 	}
