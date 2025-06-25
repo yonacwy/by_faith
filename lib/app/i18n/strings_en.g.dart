@@ -495,6 +495,7 @@ class TranslationsGoOfflineMapsScreenEn {
 	String get update => 'Update';
 	String get rename => 'Rename';
 	String get delete => 'Delete';
+	String get world => 'World';
 	String get map_updated_successfully => 'Map "{mapName}" updated successfully';
 	String get failed_to_update_map => 'Failed to update map: {error}';
 }
@@ -989,6 +990,7 @@ extension on Translations {
 			case 'go_offline_maps_screen.update': return 'Update';
 			case 'go_offline_maps_screen.rename': return 'Rename';
 			case 'go_offline_maps_screen.delete': return 'Delete';
+			case 'go_offline_maps_screen.world': return 'World';
 			case 'go_offline_maps_screen.map_updated_successfully': return 'Map "{mapName}" updated successfully';
 			case 'go_offline_maps_screen.failed_to_update_map': return 'Failed to update map: {error}';
 			case 'go_route_planner_screen.title': return 'Route Planner';

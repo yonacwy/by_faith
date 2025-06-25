@@ -492,6 +492,7 @@ class _TranslationsGoOfflineMapsScreenHi implements TranslationsGoOfflineMapsScr
 	@override String get update => 'अपडेट करें';
 	@override String get rename => 'नाम बदलें';
 	@override String get delete => 'हटाएँ';
+	@override String get world => 'विश्व';
 	@override String get map_updated_successfully => 'मानचित्र "{mapName}" सफलतापूर्वक अपडेट किया गया';
 	@override String get failed_to_update_map => 'मानचित्र अपडेट करने में विफल: {error}';
 }
@@ -987,6 +988,7 @@ extension on TranslationsHi {
 			case 'go_offline_maps_screen.update': return 'अपडेट करें';
 			case 'go_offline_maps_screen.rename': return 'नाम बदलें';
 			case 'go_offline_maps_screen.delete': return 'हटाएँ';
+			case 'go_offline_maps_screen.world': return 'विश्व';
 			case 'go_offline_maps_screen.map_updated_successfully': return 'मानचित्र "{mapName}" सफलतापूर्वक अपडेट किया गया';
 			case 'go_offline_maps_screen.failed_to_update_map': return 'मानचित्र अपडेट करने में विफल: {error}';
 			case 'go_route_planner_screen.title': return 'रूट प्लानर';

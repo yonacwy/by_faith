@@ -38,12 +38,12 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
     super.initState();
     userPreferencesBox = store.box<UserPreferences>(); // Initialize ObjectBox user preferences box
 
-    // Check if 'World' map exists, if not, add it
-    final worldMap = widget.goMapInfoBox.query(GoMapInfo_.name.equals('World')).build().findFirst();
+    // Check if 'world' map exists, if not, add it
+    final worldMap = widget.goMapInfoBox.query(GoMapInfo_.name.equals('world')).build().findFirst();
     if (worldMap == null) {
       final defaultWorldMap = GoMapInfo(
         id: 0, // Set ID to 0 for ObjectBox to assign a new unique ID
-        name: 'World',
+        name: 'world',
         filePath: 'cached', // Set a non-empty filePath for offline map logic
         downloadUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', // Set a default download URL
         isTemporary: false,
@@ -306,9 +306,10 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                       itemCount: maps.length,
                       itemBuilder: (context, index) {
                         final mapInfo = maps[index];
+                        final isWorldMap = mapInfo.name == 'world';
                         return ListTile(
                           title: Text(
-                            mapInfo.name,
+                            isWorldMap ? t.go_offline_maps_screen.world : mapInfo.name,
                             style: TextStyle(
                               fontFamily: context.watch<FontProvider>().fontFamily,
                               fontSize: context.watch<FontProvider>().fontSize,

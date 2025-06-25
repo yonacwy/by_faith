@@ -336,6 +336,7 @@
     "update": "Actualizar",
     "rename": "Renombrar",
     "delete": "Eliminar",
+    "world": "Mundo",
     "map_updated_successfully": "Mapa \"{mapName}\" actualizado exitosamente",
     "failed_to_update_map": "No se pudo actualizar el mapa: {error}"
   },

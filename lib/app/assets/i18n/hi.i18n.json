@@ -336,6 +336,7 @@
     "update": "अपडेट करें",
     "rename": "नाम बदलें",
     "delete": "हटाएँ",
+    "world": "विश्व",
     "map_updated_successfully": "मानचित्र \"{mapName}\" सफलतापूर्वक अपडेट किया गया",
     "failed_to_update_map": "मानचित्र अपडेट करने में विफल: {error}"
   },

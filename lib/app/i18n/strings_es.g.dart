@@ -492,6 +492,7 @@ class _TranslationsGoOfflineMapsScreenEs implements TranslationsGoOfflineMapsScr
 	@override String get update => 'Actualizar';
 	@override String get rename => 'Renombrar';
 	@override String get delete => 'Eliminar';
+	@override String get world => 'Mundo';
 	@override String get map_updated_successfully => 'Mapa "{mapName}" actualizado exitosamente';
 	@override String get failed_to_update_map => 'No se pudo actualizar el mapa: {error}';
 }
@@ -986,6 +987,7 @@ extension on TranslationsEs {
 			case 'go_offline_maps_screen.update': return 'Actualizar';
 			case 'go_offline_maps_screen.rename': return 'Renombrar';
 			case 'go_offline_maps_screen.delete': return 'Eliminar';
+			case 'go_offline_maps_screen.world': return 'Mundo';
 			case 'go_offline_maps_screen.map_updated_successfully': return 'Mapa "{mapName}" actualizado exitosamente';
 			case 'go_offline_maps_screen.failed_to_update_map': return 'No se pudo actualizar el mapa: {error}';
 			case 'go_route_planner_screen.title': return 'Planificador de Rutas';

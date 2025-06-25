@@ -339,10 +339,28 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       _zoneBox = store.box<GoZone>();
       _areaBox = store.box<GoArea>();
       _streetBox = store.box<GoStreet>();
-      GoMapInfo? worldMapInfo = _goMapInfoBox.query(GoMapInfo_.name.equals('World')).build().findFirst();
+      // Always use a fixed key for the world map in storage
+      const String worldMapKey = 'world';
+      // MIGRATION: Update any legacy map names ("World", localized, etc.) to 'world'
+      final allMaps = _goMapInfoBox.getAll();
+      for (final map in allMaps) {
+        if (map.name != null &&
+            (map.name == 'World' || map.name == t.go_tab_screen.world || map.name.toLowerCase() == 'world')) {
+          map.name = worldMapKey;
+          _goMapInfoBox.put(map);
+        }
+      }
+      // Also update user preferences if needed
+      final userPrefs = userPreferencesBox.get(1);
+      if (userPrefs != null &&
+          (userPrefs.currentMap == 'World' || userPrefs.currentMap == t.go_tab_screen.world || userPrefs.currentMap?.toLowerCase() == 'world')) {
+        userPrefs.currentMap = worldMapKey;
+        userPreferencesBox.put(userPrefs);
+      }
+      GoMapInfo? worldMapInfo = _goMapInfoBox.query(GoMapInfo_.name.equals(worldMapKey)).build().findFirst();
       if (worldMapInfo == null) {
         worldMapInfo = GoMapInfo(
-          name: t.go_tab_screen.world,
+          name: worldMapKey,
           filePath: 'cached', // Set a non-empty filePath for offline map logic
           downloadUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           isTemporary: false,
@@ -361,9 +379,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
         worldMapInfo.zoomLevel = 2;
         _goMapInfoBox.put(worldMapInfo);
       }
-
-      // Ensure the FMTC store for 'World' exists and is created
-      final worldStore = fmtc.FMTCStore('World');
+      // Ensure the FMTC store for the world map exists and is created
+      final worldStore = fmtc.FMTCStore(worldMapKey);
       await worldStore.manage.create(); // Create the store if it doesn't exist
 
     } catch (error) {
@@ -411,6 +428,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
   Future<void> _restoreLastMap() async {
     if (_isDisposed || !mounted) return;
     final String? savedMapName = userPreferencesBox.get(1)?.currentMap;
+    const String worldMapKey = 'world';
     if (savedMapName != null) {
       final mapInfo = _goMapInfoBox.query(GoMapInfo_.name.equals(savedMapName)).build().findFirst();
       if (mapInfo != null) {
@@ -424,7 +442,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
   }
 
   Future<void> _setDefaultMap() async { // Made async to await _initTileProvider
-    _currentMapName = t.go_tab_screen.world;
+    const String worldMapKey = 'world';
+    _currentMapName = worldMapKey;
     _currentCenter = const LatLng(39.0, -98.0);
     _currentZoom = 2.0;
     await _initTileProvider(); // Explicitly initialize network tile provider
@@ -1044,10 +1063,13 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+    // ...existing code...
+    const String worldMapKey = 'world';
+    String displayMapName = _currentMapName == worldMapKey ? t.go_tab_screen.world : _currentMapName ?? t.go_tab_screen.world;
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(_isAddingRoute ? getAddRouteLabel(_routeType) : _currentMapName ?? t.go_tab_screen.world),
+        title: Text(_isAddingRoute ? getAddRouteLabel(_routeType) : displayMapName),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),

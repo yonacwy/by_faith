@@ -336,6 +336,7 @@
     "update": "Update",
     "rename": "Rename",
     "delete": "Delete",
+    "world": "World",
     "map_updated_successfully": "Map \"{mapName}\" updated successfully",
     "failed_to_update_map": "Failed to update map: {error}"
   },
