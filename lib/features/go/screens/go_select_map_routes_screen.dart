@@ -10,6 +10,7 @@ import 'package:by_faith/features/go/models/go_route_models.dart';
 import 'dart:async';
 import 'package:provider/provider.dart';
 import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
+import 'package:by_faith/app/i18n/strings.g.dart';
 
 class GoSelectMapRoutesScreen extends StatefulWidget {
   final String selectionType; // 'Area', 'Street', or 'Tag'
@@ -281,7 +282,8 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          '${widget.isEditMode ? 'Edit' : 'Save'} ${widget.selectionType}',
+          (widget.isEditMode ? t.go_select_map_routes_screen.edit : t.go_select_map_routes_screen.save) +
+            ' ' + t.go_select_map_routes_screen[widget.selectionType.toLowerCase()],
           style: TextStyle(
             fontFamily: context.watch<FontProvider>().fontFamily,
             fontSize: context.watch<FontProvider>().fontSize,
@@ -293,8 +295,8 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
             TextField(
               controller: nameController,
               decoration: InputDecoration(
-                hintText: 'Enter name',
-                labelText: 'Name',
+                hintText: t.go_select_map_routes_screen.enter_name,
+                labelText: t.go_select_map_routes_screen.name,
                 hintStyle: TextStyle(
                   fontFamily: context.watch<FontProvider>().fontFamily,
                   fontSize: context.watch<FontProvider>().fontSize,
@@ -313,8 +315,8 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
               TextField(
                 controller: tagTextController,
                 decoration: InputDecoration(
-                  hintText: 'Enter tag text',
-                  labelText: 'Tag Text',
+                  hintText: t.go_select_map_routes_screen.enter_tag_text,
+                  labelText: t.go_select_map_routes_screen.tag_text,
                   hintStyle: TextStyle(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,
@@ -335,7 +337,7 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Cancel',
+              t.go_select_map_routes_screen.cancel,
               style: TextStyle(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize,
@@ -348,7 +350,7 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      'Name cannot be empty.',
+                      t.go_select_map_routes_screen.name_cannot_be_empty,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -361,7 +363,7 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
               Navigator.pop(context, nameController.text.trim());
             },
             child: Text(
-              'Save',
+              t.go_select_map_routes_screen.save,
               style: TextStyle(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize,
@@ -433,7 +435,12 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${widget.isViewMode ? 'View' : widget.isEditMode ? 'Edit' : 'Select'} ${widget.selectionType}',
+          (widget.isViewMode
+              ? t.go_select_map_routes_screen.view
+              : widget.isEditMode
+                  ? t.go_select_map_routes_screen.edit
+                  : t.go_select_map_routes_screen.select) +
+            ' ' + t.go_select_map_routes_screen[widget.selectionType.toLowerCase()],
           style: TextStyle(
             fontFamily: context.watch<FontProvider>().fontFamily,
             fontSize: context.watch<FontProvider>().fontSize,
@@ -447,7 +454,7 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
                 size: context.watch<FontProvider>().fontSize * 1.2,
               ),
               onPressed: _showSaveDialog,
-              tooltip: 'Save',
+              tooltip: t.go_select_map_routes_screen.save,
             ),
         ],
       ),
@@ -530,7 +537,7 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
               child: FloatingActionButton.extended(
                 onPressed: _showSaveDialog,
                 label: Text(
-                  'Save',
+                  t.go_select_map_routes_screen.save,
                   style: TextStyle(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,

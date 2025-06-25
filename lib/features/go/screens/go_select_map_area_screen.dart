@@ -1,3 +1,4 @@
+import 'package:by_faith/app/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart' as fm;
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart' as fmtc;
@@ -101,14 +102,14 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
         context: context,
         builder: (context) => AlertDialog(
           title: Text(
-            'Download Limit Exceeded',
+            t.go_select_map_area_screen.download_limit_exceeded,
             style: TextStyle(
               fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
               fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
             ),
           ),
           content: Text(
-            'The selected area exceeds the maximum allowed: 12,000 tiles or 155.55 MB. Please select a smaller area.',
+            t.go_select_map_area_screen.download_limit_message,
             style: TextStyle(
               fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
               fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -118,7 +119,7 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: Text(
-                'OK',
+                t.go_select_map_area_screen.ok,
                 style: TextStyle(
                   fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                   fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -134,7 +135,7 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          'Download Map',
+          t.go_select_map_area_screen.download_map,
           style: TextStyle(
             fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
             fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -143,7 +144,7 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
         content: _isLoadingSize
             ? const CircularProgressIndicator()
             : Text(
-                'Download map of this area? Estimated tiles: $_estimatedTileCount, approximately $estimatedSizeMB MB.',
+                t.go_select_map_area_screen.download_map_question.replaceAll('{tiles}', '$_estimatedTileCount').replaceAll('{size}', estimatedSizeMB),
                 style: TextStyle(
                   fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                   fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -153,7 +154,7 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Close',
+              t.go_select_map_area_screen.close,
               style: TextStyle(
                 fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                 fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -167,7 +168,7 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                 context: context,
                 builder: (context) => AlertDialog(
                   title: Text(
-                    'Name Your Map',
+                    t.go_select_map_area_screen.name_your_map,
                     style: TextStyle(
                       fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                       fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -176,7 +177,7 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                   content: TextField(
                     controller: controller,
                     decoration: InputDecoration(
-                      hintText: 'Enter map name',
+                      hintText: t.go_select_map_area_screen.enter_map_name,
                       hintStyle: TextStyle(
                         fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                         fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -191,7 +192,7 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                     TextButton(
                       onPressed: () => Navigator.pop(context),
                       child: Text(
-                        'Cancel',
+                        t.go_select_map_area_screen.cancel,
                         style: TextStyle(
                           fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                           fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -201,7 +202,7 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                     TextButton(
                       onPressed: () => Navigator.pop(context, controller.text.trim()),
                       child: Text(
-                        'Download',
+                        t.go_select_map_area_screen.download,
                         style: TextStyle(
                           fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
                           fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
@@ -258,7 +259,7 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Select Map Area',
+          t.go_select_map_area_screen.title,
           style: TextStyle(
             fontFamily: context.watch<FontProvider>().fontFamily,
             fontSize: context.watch<FontProvider>().fontSize,

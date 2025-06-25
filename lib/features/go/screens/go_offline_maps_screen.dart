@@ -8,6 +8,7 @@ import 'package:objectbox/objectbox.dart';
 import 'package:by_faith/objectbox.g.dart'; // For GoMapInfo_
 import 'package:provider/provider.dart';
 import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
+import 'package:by_faith/app/i18n/strings.g.dart';
 
 class GoOfflineMapsScreen extends StatefulWidget {
   final String? currentMapName;
@@ -64,7 +65,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
       scaffoldMessenger.showSnackBar(
         SnackBar(
           content: Text(
-            'You can only have up to 5 maps (including the default World map). Please delete a map before downloading a new one.',
+            t.go_offline_maps_screen.max_maps_warning,
             style: TextStyle(
               fontFamily: fontProvider.fontFamily,
               fontSize: fontProvider.fontSize,
@@ -108,7 +109,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
         scaffoldMessenger.showSnackBar(
           SnackBar(
             content: Text(
-              'Failed to delete map ($mapName): $error',
+              t.go_offline_maps_screen.failed_to_delete_map.replaceAll('{mapName}', mapName).replaceAll('{error}', error.toString()),
               style: TextStyle(
                 fontFamily: fontProvider.fontFamily,
                 fontSize: fontProvider.fontSize,
@@ -127,7 +128,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          'Rename Map',
+          t.go_offline_maps_screen.rename_map,
           style: TextStyle(
             fontFamily: fontProvider.fontFamily,
             fontSize: fontProvider.fontSize,
@@ -136,7 +137,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
         content: TextField(
           controller: controller,
           decoration: InputDecoration(
-            hintText: 'Enter new map name',
+            hintText: t.go_offline_maps_screen.enter_new_map_name,
             hintStyle: TextStyle(
               fontFamily: fontProvider.fontFamily,
               fontSize: fontProvider.fontSize,
@@ -151,7 +152,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Cancel',
+              t.go_offline_maps_screen.cancel,
               style: TextStyle(
                 fontFamily: fontProvider.fontFamily,
                 fontSize: fontProvider.fontSize,
@@ -161,7 +162,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
           TextButton(
             onPressed: () => Navigator.pop(context, controller.text.trim()),
             child: Text(
-              'Save',
+              t.go_offline_maps_screen.save,
               style: TextStyle(
                 fontFamily: fontProvider.fontFamily,
                 fontSize: fontProvider.fontSize,
@@ -186,7 +187,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'Failed to rename map: $error',
+                t.go_offline_maps_screen.failed_to_rename_map.replaceAll('{error}', error.toString()),
                 style: TextStyle(
                   fontFamily: fontProvider.fontFamily,
                   fontSize: fontProvider.fontSize,
@@ -219,7 +220,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
         scaffoldMessenger.showSnackBar(
           SnackBar(
             content: Text(
-              'Map "${mapInfo.name}" updated successfully',
+              t.go_offline_maps_screen.map_updated_successfully.replaceAll('{mapName}', mapInfo.name),
               style: TextStyle(
                 fontFamily: fontProvider.fontFamily,
                 fontSize: fontProvider.fontSize,
@@ -233,7 +234,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
         scaffoldMessenger.showSnackBar(
           SnackBar(
             content: Text(
-              'Failed to update map: $error',
+              t.go_offline_maps_screen.failed_to_update_map.replaceAll('{error}', error.toString()),
               style: TextStyle(
                 fontFamily: fontProvider.fontFamily,
                 fontSize: fontProvider.fontSize,
@@ -250,7 +251,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Offline Maps',
+          t.go_offline_maps_screen.title,
           style: TextStyle(
             fontFamily: context.watch<FontProvider>().fontFamily,
             fontSize: context.watch<FontProvider>().fontSize,
@@ -263,7 +264,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
             ListTile(
               leading: const Icon(Icons.map),
               title: Text(
-                'Select your own map',
+                t.go_offline_maps_screen.select_your_own_map,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontFamily: context.watch<FontProvider>().fontFamily,
                       fontSize: context.watch<FontProvider>().fontSize,
@@ -273,7 +274,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
             ),
             ExpansionTile(
               title: Text(
-                'Downloaded Maps',
+                t.go_offline_maps_screen.downloaded_maps,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontFamily: context.watch<FontProvider>().fontFamily,
                       fontSize: context.watch<FontProvider>().fontSize,
@@ -290,7 +291,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                     if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return Center(
                         child: Text(
-                          'No maps downloaded yet.',
+                          t.go_offline_maps_screen.no_maps_downloaded,
                           style: TextStyle(
                             fontFamily: context.watch<FontProvider>().fontFamily,
                             fontSize: context.watch<FontProvider>().fontSize,
@@ -337,7 +338,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                                 PopupMenuItem(
                                   value: 'view',
                                   child: Text(
-                                    'View',
+                                    t.go_offline_maps_screen.view,
                                     style: TextStyle(
                                       fontFamily: fontProvider.fontFamily,
                                       fontSize: fontProvider.fontSize,
@@ -347,7 +348,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                                 PopupMenuItem(
                                   value: 'update',
                                   child: Text(
-                                    'Update',
+                                    t.go_offline_maps_screen.update,
                                     style: TextStyle(
                                       fontFamily: fontProvider.fontFamily,
                                       fontSize: fontProvider.fontSize,
@@ -357,7 +358,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                                 PopupMenuItem(
                                   value: 'rename',
                                   child: Text(
-                                    'Rename',
+                                    t.go_offline_maps_screen.rename,
                                     style: TextStyle(
                                       fontFamily: fontProvider.fontFamily,
                                       fontSize: fontProvider.fontSize,
@@ -367,7 +368,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                                 PopupMenuItem(
                                   value: 'delete',
                                   child: Text(
-                                    'Delete',
+                                    t.go_offline_maps_screen.delete,
                                     style: TextStyle(
                                       fontFamily: fontProvider.fontFamily,
                                       fontSize: fontProvider.fontSize,

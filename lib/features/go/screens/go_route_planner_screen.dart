@@ -8,6 +8,7 @@ import 'package:by_faith/features/go/screens/go_add_edit_street_screen.dart';
 import 'package:by_faith/features/go/screens/go_add_edit_zone_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
+import 'package:by_faith/app/i18n/strings.g.dart';
 
 class GoRoutePlannerScreen extends StatefulWidget {
   const GoRoutePlannerScreen({super.key});
@@ -175,7 +176,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Route Planner',
+          t.go_route_planner_screen.title,
           style: TextStyle(
             fontFamily: context.watch<FontProvider>().fontFamily,
             fontSize: context.watch<FontProvider>().fontSize,
@@ -189,7 +190,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
               // Removed Add Area, Add Street, Add Zone ListTiles to avoid confusion
               ExpansionTile(
                 title: Text(
-                  'Areas',
+                  t.go_route_planner_screen.areas,
                   style: TextStyle(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,
@@ -206,7 +207,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                       if (!snapshot.hasData || snapshot.data!.isEmpty) {
                         return Center(
                           child: Text(
-                            'No areas added yet.',
+                            t.go_route_planner_screen.no_areas,
                             style: TextStyle(
                               fontFamily: context.watch<FontProvider>().fontFamily,
                               fontSize: context.watch<FontProvider>().fontSize,
@@ -230,14 +231,14 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                             ),
                             subtitle: area.points.isNotEmpty
                                 ? Text(
-                                    'Lat: ${area.points.first.latitude.toStringAsFixed(4)}, Lon: ${area.points.first.longitude.toStringAsFixed(4)}',
+                                    'Lat: \\${area.points.first.latitude.toStringAsFixed(4)}, Lon: \\${area.points.first.longitude.toStringAsFixed(4)}',
                                     style: TextStyle(
                                       fontFamily: context.watch<FontProvider>().fontFamily,
                                       fontSize: context.watch<FontProvider>().fontSize * 0.8,
                                     ),
                                   )
                                 : Text(
-                                    'No coordinates',
+                                    t.go_route_planner_screen.no_coordinates,
                                     style: TextStyle(
                                       fontFamily: context.watch<FontProvider>().fontFamily,
                                       fontSize: context.watch<FontProvider>().fontSize * 0.8,
@@ -251,7 +252,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                   PopupMenuItem(
                                     value: 'edit',
                                     child: Text(
-                                      'Edit',
+                                      t.go_route_planner_screen.edit,
                                       style: TextStyle(
                                         fontFamily: fontProvider.fontFamily,
                                         fontSize: fontProvider.fontSize,
@@ -261,7 +262,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                   PopupMenuItem(
                                     value: 'rename',
                                     child: Text(
-                                      'Rename',
+                                      t.go_route_planner_screen.rename,
                                       style: TextStyle(
                                         fontFamily: fontProvider.fontFamily,
                                         fontSize: fontProvider.fontSize,
@@ -271,7 +272,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                   PopupMenuItem(
                                     value: 'delete',
                                     child: Text(
-                                      'Delete',
+                                      t.go_route_planner_screen.delete,
                                       style: TextStyle(
                                         fontFamily: fontProvider.fontFamily,
                                         fontSize: fontProvider.fontSize,
@@ -290,7 +291,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
               ),
               ExpansionTile(
                 title: Text(
-                  'Streets',
+                  t.go_route_planner_screen.streets,
                   style: TextStyle(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,
@@ -307,7 +308,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                       if (!snapshot.hasData || snapshot.data!.isEmpty) {
                         return Center(
                           child: Text(
-                            'No streets added yet.',
+                            t.go_route_planner_screen.no_streets,
                             style: TextStyle(
                               fontFamily: context.watch<FontProvider>().fontFamily,
                               fontSize: context.watch<FontProvider>().fontSize,
@@ -331,14 +332,14 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                             ),
                             subtitle: street.points.isNotEmpty
                                 ? Text(
-                                    'Lat: ${street.points.first.latitude.toStringAsFixed(4)}, Lon: ${street.points.first.longitude.toStringAsFixed(4)}',
+                                    'Lat: \\${street.points.first.latitude.toStringAsFixed(4)}, Lon: \\${street.points.first.longitude.toStringAsFixed(4)}',
                                     style: TextStyle(
                                       fontFamily: context.watch<FontProvider>().fontFamily,
                                       fontSize: context.watch<FontProvider>().fontSize * 0.8,
                                     ),
                                   )
                                 : Text(
-                                    'No coordinates',
+                                    t.go_route_planner_screen.no_coordinates,
                                     style: TextStyle(
                                       fontFamily: context.watch<FontProvider>().fontFamily,
                                       fontSize: context.watch<FontProvider>().fontSize * 0.8,
@@ -352,7 +353,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                   PopupMenuItem(
                                     value: 'edit',
                                     child: Text(
-                                      'Edit',
+                                      t.go_route_planner_screen.edit,
                                       style: TextStyle(
                                         fontFamily: fontProvider.fontFamily,
                                         fontSize: fontProvider.fontSize,
@@ -362,7 +363,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                   PopupMenuItem(
                                     value: 'rename',
                                     child: Text(
-                                      'Rename',
+                                      t.go_route_planner_screen.rename,
                                       style: TextStyle(
                                         fontFamily: fontProvider.fontFamily,
                                         fontSize: fontProvider.fontSize,
@@ -372,7 +373,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                   PopupMenuItem(
                                     value: 'delete',
                                     child: Text(
-                                      'Delete',
+                                      t.go_route_planner_screen.delete,
                                       style: TextStyle(
                                         fontFamily: fontProvider.fontFamily,
                                         fontSize: fontProvider.fontSize,
@@ -391,7 +392,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
               ),
               ExpansionTile(
                 title: Text(
-                  'Zones',
+                  t.go_route_planner_screen.zones,
                   style: TextStyle(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,
@@ -408,7 +409,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                       if (!snapshot.hasData || snapshot.data!.isEmpty) {
                         return Center(
                           child: Text(
-                            'No zones added yet.',
+                            t.go_route_planner_screen.no_zones,
                             style: TextStyle(
                               fontFamily: context.watch<FontProvider>().fontFamily,
                               fontSize: context.watch<FontProvider>().fontSize,
@@ -445,7 +446,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                   PopupMenuItem(
                                     value: 'edit',
                                     child: Text(
-                                      'Edit',
+                                      t.go_route_planner_screen.edit,
                                       style: TextStyle(
                                         fontFamily: fontProvider.fontFamily,
                                         fontSize: fontProvider.fontSize,
@@ -455,7 +456,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                   PopupMenuItem(
                                     value: 'rename',
                                     child: Text(
-                                      'Rename',
+                                      t.go_route_planner_screen.rename,
                                       style: TextStyle(
                                         fontFamily: fontProvider.fontFamily,
                                         fontSize: fontProvider.fontSize,
@@ -465,7 +466,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                   PopupMenuItem(
                                     value: 'delete',
                                     child: Text(
-                                      'Delete',
+                                      t.go_route_planner_screen.delete,
                                       style: TextStyle(
                                         fontFamily: fontProvider.fontFamily,
                                         fontSize: fontProvider.fontSize,

@@ -33,6 +33,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'dart:async';
 import 'package:provider/provider.dart';
 import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
+import 'package:by_faith/app/i18n/strings.g.dart';
 
 enum LineType { street, river, path }
 
@@ -163,7 +164,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          'Markers in Zone',
+          t.go_tab_screen.markers_in_zone,
           style: TextStyle(
             fontFamily: context.watch<FontProvider>().fontFamily,
             fontSize: context.watch<FontProvider>().fontSize,
@@ -222,7 +223,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Close',
+              t.go_tab_screen.close,
               style: TextStyle(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize,
@@ -739,7 +740,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               ListTile(
                 leading: const Icon(Icons.map),
                 title: Text(
-                  'Add Area',
+                  t.go_tab_screen.add_area,
                   style: TextStyle(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,
@@ -752,7 +753,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               ListTile(
                 leading: const Icon(Icons.directions),
                 title: Text(
-                  'Add Street',
+                  t.go_tab_screen.add_street,
                   style: TextStyle(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,
@@ -765,7 +766,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               ListTile(
                 leading: const Icon(Icons.analytics),
                 title: Text(
-                  'Add Zone',
+                  t.go_tab_screen.add_zone,
                   style: TextStyle(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,
@@ -841,10 +842,10 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(type == 'Zone'
-            ? 'Tap to place the zone.'
-            : 'Select Area or Street from the Route Planner.'),
+            ? t.go_tab_screen.tap_to_place_the_zone
+            : t.go_tab_screen.select_area_or_street_from_the_route_planner),
         action: SnackBarAction(
-          label: 'Cancel',
+          label: t.go_tab_screen.cancel,
           onPressed: _cancelRouteMode,
         ),
       ),
@@ -877,7 +878,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                 children: [
                   ListTile(
                     title: Text(
-                      'Contacts',
+                      t.go_tab_screen.contacts,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -895,7 +896,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                   ),
                   ListTile(
                     title: Text(
-                      'Churches',
+                      t.go_tab_screen.churches,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -913,7 +914,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                   ),
                   ListTile(
                     title: Text(
-                      'Ministries',
+                      t.go_tab_screen.ministries,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -931,7 +932,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                   ),
                   ListTile(
                     title: Text(
-                      'Areas',
+                      t.go_tab_screen.areas,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -949,7 +950,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                   ),
                   ListTile(
                     title: Text(
-                      'Streets',
+                      t.go_tab_screen.streets,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -967,7 +968,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                   ),
                   ListTile(
                     title: Text(
-                      'Zones',
+                      t.go_tab_screen.zones,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -1046,11 +1047,11 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(_isAddingRoute ? 'Add/Edit \\$_routeType' : _currentMapName ?? 'World'),
+        title: Text(_isAddingRoute ? getAddRouteLabel(_routeType) : _currentMapName ?? 'World'),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            tooltip: 'Search Address',
+            tooltip: t.go_tab_screen.search_address,
             onPressed: () async {
               final LatLng? resultLocation = await Navigator.push(
                 context,
@@ -1065,17 +1066,17 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             IconButton(
               icon: const Icon(Icons.save),
               onPressed: _showSaveRouteDialog,
-              tooltip: 'Save Route',
+              tooltip: t.go_tab_screen.save_route,
             ),
           IconButton(
             icon: const Icon(Icons.visibility),
             onPressed: _showHideOptions,
-            tooltip: 'Hide Options',
+            tooltip: t.go_tab_screen.hide_options,
           ),
           IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
-            tooltip: 'Open Menu',
+            tooltip: t.go_tab_screen.open_menu,
           ),
         ],
       ),
@@ -1150,7 +1151,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             ListTile(
               leading: const Icon(Icons.church),
               title: Text(
-                'Churches',
+                t.go_tab_screen.churches,
                 style: TextStyle(
                   fontFamily: context.watch<FontProvider>().fontFamily,
                   fontSize: context.watch<FontProvider>().fontSize,
@@ -1161,7 +1162,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             ListTile(
               leading: const Icon(Icons.contacts),
               title: Text(
-                'Contacts',
+                t.go_tab_screen.contacts,
                 style: TextStyle(
                   fontFamily: context.watch<FontProvider>().fontFamily,
                   fontSize: context.watch<FontProvider>().fontSize,
@@ -1172,7 +1173,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             ListTile(
               leading: const Icon(Icons.people),
               title: Text(
-                'Ministries',
+                t.go_tab_screen.ministries,
                 style: TextStyle(
                   fontFamily: context.watch<FontProvider>().fontFamily,
                   fontSize: context.watch<FontProvider>().fontSize,
@@ -1183,7 +1184,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             ListTile(
               leading: const Icon(Icons.map),
               title: Text(
-                'Offline Maps',
+                t.go_tab_screen.offline_maps,
                 style: TextStyle(
                   fontFamily: context.watch<FontProvider>().fontFamily,
                   fontSize: context.watch<FontProvider>().fontSize,
@@ -1194,7 +1195,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             ListTile(
               leading: const Icon(Icons.route),
               title: Text(
-                'Route Planner',
+                t.go_tab_screen.route_planner,
                 style: TextStyle(
                   fontFamily: context.watch<FontProvider>().fontFamily,
                   fontSize: context.watch<FontProvider>().fontSize,
@@ -1341,7 +1342,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               ListTile(
                 leading: const Icon(Icons.person),
                 title: Text(
-                  'Add Contact',
+                  t.go_tab_screen.add_contact,
                   style: TextStyle(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,
@@ -1367,7 +1368,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               ListTile(
                 leading: const Icon(Icons.church),
                 title: Text(
-                  'Add Church',
+                  t.go_tab_screen.add_church,
                   style: TextStyle(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,
@@ -1393,7 +1394,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               ListTile(
                 leading: const Icon(Icons.people),
                 title: Text(
-                  'Add Ministry',
+                  t.go_tab_screen.add_ministry,
                   style: TextStyle(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,
@@ -1596,18 +1597,18 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
     showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Save $_routeType'),
+        title: Text(t.go_tab_screen.save_route + ' ' + (_routeType ?? '')),
         content: TextField(
           controller: nameController,
-          decoration: const InputDecoration(
-            hintText: 'Enter name',
-            labelText: 'Name',
+          decoration: InputDecoration(
+            hintText: t.go_tab_screen.enter_name,
+            labelText: t.go_tab_screen.name,
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(t.go_tab_screen.cancel),
           ),
           TextButton(
             onPressed: () {
@@ -1619,7 +1620,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               }
               Navigator.of(context).pop(nameController.text.trim());
             },
-            child: const Text('Save'),
+            child: Text(t.go_tab_screen.save),
           ),
         ],
       ),
@@ -1669,18 +1670,18 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
         title: const Text('Search Address'),
         content: TextField(
           controller: controller,
-          decoration: const InputDecoration(hintText: 'Enter address'),
+          decoration: InputDecoration(hintText: t.go_tab_screen.enter_address),
           autofocus: true,
           onSubmitted: (_) => _searchAddress(controller.text),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(t.go_tab_screen.cancel),
           ),
           TextButton(
             onPressed: () => _searchAddress(controller.text),
-            child: const Text('Search'),
+            child: Text(t.go_tab_screen.search),
           ),
         ],
       ),
@@ -1716,7 +1717,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error searching address: \\$e')),
+        SnackBar(content: Text(t.go_tab_screen.error_searching_address.replaceAll('{error}', e.toString()))),
       );
     }
   }
@@ -1766,6 +1767,20 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
   }
 }
 
+// Helper to get the correct 'add_' translation for route types
+String getAddRouteLabel(String? type) {
+  switch (type?.toLowerCase()) {
+    case 'area':
+      return t.go_tab_screen.add_area;
+    case 'street':
+      return t.go_tab_screen.add_street;
+    case 'zone':
+      return t.go_tab_screen.add_zone;
+    default:
+      return '';
+  }
+}
+
 class _DownloadProgressDialog extends StatefulWidget {
   final String mapName;
   final String url;
@@ -1796,7 +1811,7 @@ class _DownloadProgressDialogState extends State<_DownloadProgressDialog> {
     _subscription = widget.downloadStream.listen((progress) {
       setState(() {
         _progress = progress.percentageProgress / 100;
-        _message = 'Downloaded ${progress.attemptedTilesCount} of ${progress.maxTilesCount} tiles (${(progress.percentageProgress).toStringAsFixed(1)}%)';
+        _message = t.go_tab_screen.downloaded_tiles.replaceAll('{attempted}', progress.attemptedTilesCount.toString()).replaceAll('{max}', progress.maxTilesCount.toString()).replaceAll('{percent}', (progress.percentageProgress).toStringAsFixed(1));
       });
     }, onError: (error) {
       setState(() {
@@ -1820,7 +1835,7 @@ class _DownloadProgressDialogState extends State<_DownloadProgressDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Downloading ${widget.mapName}'),
+      title: Text(t.go_tab_screen.downloading.replaceAll('{mapName}', widget.mapName)),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

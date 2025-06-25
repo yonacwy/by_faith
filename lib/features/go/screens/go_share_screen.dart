@@ -8,6 +8,7 @@ import 'package:by_faith/features/go/models/go_route_models.dart';
 import 'package:by_faith/objectbox.g.dart'; // Import generated ObjectBox file
 import 'package:provider/provider.dart';
 import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
+import 'package:by_faith/app/i18n/strings.g.dart';
 
 class GoShareScreen extends StatefulWidget {
   const GoShareScreen({super.key});
@@ -179,7 +180,7 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Share',
+          t.go_share_screen.title,
           style: TextStyle(
             fontFamily: context.watch<FontProvider>().fontFamily,
             fontSize: context.watch<FontProvider>().fontSize,
@@ -190,7 +191,7 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
         children: <Widget>[
           ExpansionTile(
             title: Text(
-              'Churches',
+              t.go_share_screen.churches,
               style: TextStyle(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize,
@@ -206,7 +207,7 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                 ? [
                     ListTile(
                       title: Text(
-                        'No churches available',
+                        t.go_share_screen.no_churches,
                         style: TextStyle(
                           fontFamily: context.watch<FontProvider>().fontFamily,
                           fontSize: context.watch<FontProvider>().fontSize,
@@ -230,7 +231,7 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
           ),
           ExpansionTile(
             title: Text(
-              'Contacts',
+              t.go_share_screen.contacts,
               style: TextStyle(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize,
@@ -246,7 +247,7 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                 ? [
                     ListTile(
                       title: Text(
-                        'No contacts available',
+                        t.go_share_screen.no_contacts,
                         style: TextStyle(
                           fontFamily: context.watch<FontProvider>().fontFamily,
                           fontSize: context.watch<FontProvider>().fontSize,
@@ -270,7 +271,7 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
           ),
           ExpansionTile(
             title: Text(
-              'Ministries',
+              t.go_share_screen.ministries,
               style: TextStyle(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize,
@@ -286,7 +287,7 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                 ? [
                     ListTile(
                       title: Text(
-                        'No ministries available',
+                        t.go_share_screen.no_ministries,
                         style: TextStyle(
                           fontFamily: context.watch<FontProvider>().fontFamily,
                           fontSize: context.watch<FontProvider>().fontSize,
@@ -310,7 +311,7 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
           ),
           ExpansionTile(
             title: Text(
-              'Areas',
+              t.go_share_screen.areas,
               style: TextStyle(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize,
@@ -326,7 +327,7 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                 ? [
                     ListTile(
                       title: Text(
-                        'No areas available',
+                        t.go_share_screen.no_areas,
                         style: TextStyle(
                           fontFamily: context.watch<FontProvider>().fontFamily,
                           fontSize: context.watch<FontProvider>().fontSize,
@@ -350,7 +351,7 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
           ),
           ExpansionTile(
             title: Text(
-              'Streets',
+              t.go_share_screen.streets,
               style: TextStyle(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize,
@@ -366,7 +367,7 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                 ? [
                     ListTile(
                       title: Text(
-                        'No streets available',
+                        t.go_share_screen.no_streets,
                         style: TextStyle(
                           fontFamily: context.watch<FontProvider>().fontFamily,
                           fontSize: context.watch<FontProvider>().fontSize,
@@ -390,7 +391,7 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
           ),
           ExpansionTile(
             title: Text(
-              'Zones',
+              t.go_share_screen.zones,
               style: TextStyle(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize,
@@ -406,7 +407,7 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                 ? [
                     ListTile(
                       title: Text(
-                        'No zones available',
+                        t.go_share_screen.no_zones,
                         style: TextStyle(
                           fontFamily: context.watch<FontProvider>().fontFamily,
                           fontSize: context.watch<FontProvider>().fontSize,
@@ -430,7 +431,7 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
           ),
           ExpansionTile(
             title: Text(
-              'All',
+              t.go_share_screen.all,
               style: TextStyle(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize,
@@ -445,7 +446,7 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
             children: [
               ListTile(
                 title: Text(
-                  'Share All Data',
+                  t.go_share_screen.share_all_data,
                   style: TextStyle(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,

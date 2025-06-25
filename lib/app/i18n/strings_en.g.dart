@@ -49,6 +49,16 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final TranslationsGoAddEditStreetScreenEn go_add_edit_street_screen = TranslationsGoAddEditStreetScreenEn._(_root);
 	late final TranslationsGoAddEditZoneScreenEn go_add_edit_zone_screen = TranslationsGoAddEditZoneScreenEn._(_root);
 	late final TranslationsGoChurchesScreenEn go_churches_screen = TranslationsGoChurchesScreenEn._(_root);
+	late final TranslationsGoContactsScreenEn go_contacts_screen = TranslationsGoContactsScreenEn._(_root);
+	late final TranslationsGoExportImportScreenEn go_export_import_screen = TranslationsGoExportImportScreenEn._(_root);
+	late final TranslationsGoMinistriesScreenEn go_ministries_screen = TranslationsGoMinistriesScreenEn._(_root);
+	late final TranslationsGoOfflineMapsScreenEn go_offline_maps_screen = TranslationsGoOfflineMapsScreenEn._(_root);
+	late final TranslationsGoRoutePlannerScreenEn go_route_planner_screen = TranslationsGoRoutePlannerScreenEn._(_root);
+	late final TranslationsGoSearchScreenEn go_search_screen = TranslationsGoSearchScreenEn._(_root);
+	late final TranslationsGoSelectMapAreaScreenEn go_select_map_area_screen = TranslationsGoSelectMapAreaScreenEn._(_root);
+	late final TranslationsGoSelectMapRoutesScreenEn go_select_map_routes_screen = TranslationsGoSelectMapRoutesScreenEn._(_root);
+	late final TranslationsGoShareScreenEn go_share_screen = TranslationsGoShareScreenEn._(_root);
+	late final TranslationsGoTabScreenEn go_tab_screen = TranslationsGoTabScreenEn._(_root);
 }
 
 // Path: home_tab_screen
@@ -375,6 +385,292 @@ class TranslationsGoChurchesScreenEn {
 	String get edit => 'Edit';
 }
 
+// Path: go_contacts_screen
+class TranslationsGoContactsScreenEn {
+	TranslationsGoContactsScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Go Contacts';
+	String get add_contact => 'Add Contact';
+	String get delete_contact => 'Delete Contact';
+	String get delete_contact_confirmation => 'Are you sure you want to delete {fullName}?';
+	String get cancel => 'Cancel';
+	String get delete => 'Delete';
+	String get contact_deleted => 'Contact {fullName} deleted';
+	String get no_contacts => 'No contacts added yet.';
+	String get full_name => 'Full Name';
+	String get phone => 'Phone: {phone}';
+	String get email => 'Email: {email}';
+	String get address => 'Address: {address}';
+	String get eternal_status => 'Eternal Status: {status}';
+	String get birthday => 'Birthday: {birthday}';
+	String get notes => 'Notes:';
+	String get created => 'Created: {date}';
+	String get edit => 'Edit';
+}
+
+// Path: go_export_import_screen
+class TranslationsGoExportImportScreenEn {
+	TranslationsGoExportImportScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Export/Import';
+	String get export_data => 'Export Data';
+	String get import_data => 'Import Data';
+	String get churches => 'Churches';
+	String get contacts => 'Contacts';
+	String get ministries => 'Ministries';
+	String get areas => 'Areas';
+	String get streets => 'Streets';
+	String get zones => 'Zones';
+	String get all => 'All';
+	String get no_churches => 'No churches available';
+	String get no_contacts => 'No contacts available';
+	String get no_ministries => 'No ministries available';
+	String get no_areas => 'No areas available';
+	String get no_streets => 'No streets available';
+	String get no_zones => 'No zones available';
+	String get save_json => 'Save {type} JSON';
+	String get select_json => 'Select {type} JSON';
+	String get export_success => '{type} exported successfully';
+	String get import_success => '{type} imported successfully';
+	String get error_export => 'Error exporting {type}: {error}';
+	String get error_import => 'Error importing {type}: {error}';
+	String get invalid_file => 'Invalid file: Expected {type} data';
+	String get all_export_success => 'All data exported successfully';
+	String get all_import_success => 'All data imported successfully';
+	String get error_export_all => 'Error exporting all data: {error}';
+	String get error_import_all => 'Error importing all data: {error}';
+}
+
+// Path: go_ministries_screen
+class TranslationsGoMinistriesScreenEn {
+	TranslationsGoMinistriesScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Go Ministries';
+	String get add_ministry => 'Add Ministry';
+	String get delete_ministry => 'Delete Ministry';
+	String get delete_ministry_confirmation => 'Are you sure you want to delete {ministryName}?';
+	String get cancel => 'Cancel';
+	String get delete => 'Delete';
+	String get ministry_deleted => 'Ministry {ministryName} deleted';
+	String get no_ministries => 'No ministries added yet.';
+	String get contact => 'Contact: {contactName}';
+	String get phone => 'Phone: {phone}';
+	String get email => 'Email: {email}';
+	String get address => 'Address: {address}';
+	String get partner_status => 'Partner Status: {status}';
+	String get notes => 'Notes:';
+	String get created => 'Created: {date}';
+	String get edit => 'Edit';
+}
+
+// Path: go_offline_maps_screen
+class TranslationsGoOfflineMapsScreenEn {
+	TranslationsGoOfflineMapsScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Offline Maps';
+	String get select_your_own_map => 'Select your own map';
+	String get downloaded_maps => 'Downloaded Maps';
+	String get no_maps_downloaded => 'No maps downloaded yet.';
+	String get max_maps_warning => 'You can only have up to 5 maps (including the default World map). Please delete a map before downloading a new one.';
+	String get failed_to_delete_map => 'Failed to delete map ({mapName}): {error}';
+	String get rename_map => 'Rename Map';
+	String get enter_new_map_name => 'Enter new map name';
+	String get cancel => 'Cancel';
+	String get save => 'Save';
+	String get failed_to_rename_map => 'Failed to rename map: {error}';
+	String get view => 'View';
+	String get update => 'Update';
+	String get rename => 'Rename';
+	String get delete => 'Delete';
+	String get map_updated_successfully => 'Map "{mapName}" updated successfully';
+	String get failed_to_update_map => 'Failed to update map: {error}';
+}
+
+// Path: go_route_planner_screen
+class TranslationsGoRoutePlannerScreenEn {
+	TranslationsGoRoutePlannerScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Route Planner';
+	String get areas => 'Areas';
+	String get streets => 'Streets';
+	String get zones => 'Zones';
+	String get no_areas => 'No areas added yet.';
+	String get no_streets => 'No streets added yet.';
+	String get no_zones => 'No zones added yet.';
+	String get edit => 'Edit';
+	String get rename => 'Rename';
+	String get delete => 'Delete';
+	String get view => 'View';
+	String get add => 'Add';
+	String get lat => 'Lat: {lat}';
+	String get lon => 'Lon: {lon}';
+	String get no_coordinates => 'No coordinates';
+	String get failed_to_delete => 'Failed to delete {type}: {error}';
+	String get failed_to_rename => 'Failed to rename {type}: {error}';
+	String get rename_type => 'Rename {type}';
+	String get enter_new_name => 'Enter new name';
+	String get cancel => 'Cancel';
+	String get save => 'Save';
+}
+
+// Path: go_search_screen
+class TranslationsGoSearchScreenEn {
+	TranslationsGoSearchScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Search Address';
+	String get enter_address => 'Enter address';
+	String get please_enter_address => 'Please enter an address.';
+	String get address_not_found => 'Address not found.';
+	String get found => 'Found: {displayName}';
+	String get latitude => 'Latitude: {lat}';
+	String get longitude => 'Longitude: {lon}';
+	String get error_searching_address => 'Error searching address: {error}';
+	String get search => 'Search';
+}
+
+// Path: go_select_map_area_screen
+class TranslationsGoSelectMapAreaScreenEn {
+	TranslationsGoSelectMapAreaScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Select Map Area';
+	String get download_limit_exceeded => 'Download Limit Exceeded';
+	String get download_limit_message => 'The selected area exceeds the maximum allowed: 12,000 tiles or 155.55 MB. Please select a smaller area.';
+	String get ok => 'OK';
+	String get download_map => 'Download Map';
+	String get download_map_question => 'Download map of this area? Estimated tiles: {tiles}, approximately {size} MB.';
+	String get close => 'Close';
+	String get name_your_map => 'Name Your Map';
+	String get enter_map_name => 'Enter map name';
+	String get cancel => 'Cancel';
+	String get download => 'Download';
+}
+
+// Path: go_select_map_routes_screen
+class TranslationsGoSelectMapRoutesScreenEn {
+	TranslationsGoSelectMapRoutesScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Select Map Route';
+	String get select => 'Select';
+	String get edit => 'Edit';
+	String get view => 'View';
+	String get area => 'Area';
+	String get street => 'Street';
+	String get tag => 'Tag';
+	String get add_at_least_3_points => 'Add at least 3 points to create an area.';
+	String get add_at_least_2_points => 'Add at least 2 points to create a street.';
+	String get add_a_tag => 'Add a tag to save.';
+	String get enter_name => 'Enter name';
+	String get name => 'Name';
+	String get name_cannot_be_empty => 'Name cannot be empty.';
+	String get save => 'Save';
+	String get cancel => 'Cancel';
+	String get tag_text => 'Tag Text';
+	String get enter_tag_text => 'Enter tag text';
+	String get error_loading_item => 'Error loading item: {error}';
+	String get error_adding_point => 'Error adding point: {error}';
+	String get error_saving_item => 'Error saving item: {error}';
+	String get zoom_in => 'Zoom In';
+	String get zoom_out => 'Zoom Out';
+}
+
+// Path: go_share_screen
+class TranslationsGoShareScreenEn {
+	TranslationsGoShareScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Share';
+	String get churches => 'Churches';
+	String get contacts => 'Contacts';
+	String get ministries => 'Ministries';
+	String get areas => 'Areas';
+	String get streets => 'Streets';
+	String get zones => 'Zones';
+	String get all => 'All';
+	String get no_churches => 'No churches available';
+	String get no_contacts => 'No contacts available';
+	String get no_ministries => 'No ministries available';
+	String get no_areas => 'No areas available';
+	String get no_streets => 'No streets available';
+	String get no_zones => 'No zones available';
+	String get share_all_data => 'Share All Data';
+	String get all_by_faith_data => 'All By Faith Data';
+	String get could_not_launch_email => 'Could not launch email client';
+}
+
+// Path: go_tab_screen
+class TranslationsGoTabScreenEn {
+	TranslationsGoTabScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get markers_in_zone => 'Markers in Zone';
+	String get close => 'Close';
+	String get add_area => 'Add Area';
+	String get add_street => 'Add Street';
+	String get add_zone => 'Add Zone';
+	String get add_contact => 'Add Contact';
+	String get add_church => 'Add Church';
+	String get add_ministry => 'Add Ministry';
+	String get offline_maps => 'Offline Maps';
+	String get route_planner => 'Route Planner';
+	String get churches => 'Churches';
+	String get contacts => 'Contacts';
+	String get ministries => 'Ministries';
+	String get menu => 'Go Menu';
+	String get search_address => 'Search Address';
+	String get save_route => 'Save Route';
+	String get hide_options => 'Hide Options';
+	String get open_menu => 'Open Menu';
+	String get tap_to_add_marker => 'Tap on the map to add a marker.';
+	String get route_creation_cancelled => 'Route creation cancelled.';
+	String get add_at_least_3_points => 'Add at least 3 points to create an area.';
+	String get add_at_least_2_points => 'Add at least 2 points to create a street.';
+	String get enter_name => 'Enter name';
+	String get name => 'Name';
+	String get cancel => 'Cancel';
+	String get save => 'Save';
+	String get search => 'Search';
+	String get address_not_found => 'Address not found.';
+	String get error_searching_address => 'Error searching address: {error}';
+	String get downloading => 'Downloading {mapName}';
+	String get starting_download => 'Starting download...';
+	String get downloaded_tiles => 'Downloaded {attempted} of {max} tiles ({percent}%)';
+	String get failed_to_download_map => 'Failed to download map ({mapName}): {error}';
+	String get tap_to_place_the_zone => 'Tap to place the zone.';
+	String get select_area_or_street_from_the_route_planner => 'Select area or street from the route planner.';
+	String get areas => 'Areas';
+	String get streets => 'Streets';
+	String get zones => 'Zones';
+	String get enter_address => 'Enter address';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on Translations {
@@ -614,6 +910,202 @@ extension on Translations {
 			case 'go_churches_screen.notes': return 'Notes:';
 			case 'go_churches_screen.created': return 'Created: {date}';
 			case 'go_churches_screen.edit': return 'Edit';
+			case 'go_contacts_screen.title': return 'Go Contacts';
+			case 'go_contacts_screen.add_contact': return 'Add Contact';
+			case 'go_contacts_screen.delete_contact': return 'Delete Contact';
+			case 'go_contacts_screen.delete_contact_confirmation': return 'Are you sure you want to delete {fullName}?';
+			case 'go_contacts_screen.cancel': return 'Cancel';
+			case 'go_contacts_screen.delete': return 'Delete';
+			case 'go_contacts_screen.contact_deleted': return 'Contact {fullName} deleted';
+			case 'go_contacts_screen.no_contacts': return 'No contacts added yet.';
+			case 'go_contacts_screen.full_name': return 'Full Name';
+			case 'go_contacts_screen.phone': return 'Phone: {phone}';
+			case 'go_contacts_screen.email': return 'Email: {email}';
+			case 'go_contacts_screen.address': return 'Address: {address}';
+			case 'go_contacts_screen.eternal_status': return 'Eternal Status: {status}';
+			case 'go_contacts_screen.birthday': return 'Birthday: {birthday}';
+			case 'go_contacts_screen.notes': return 'Notes:';
+			case 'go_contacts_screen.created': return 'Created: {date}';
+			case 'go_contacts_screen.edit': return 'Edit';
+			case 'go_export_import_screen.title': return 'Export/Import';
+			case 'go_export_import_screen.export_data': return 'Export Data';
+			case 'go_export_import_screen.import_data': return 'Import Data';
+			case 'go_export_import_screen.churches': return 'Churches';
+			case 'go_export_import_screen.contacts': return 'Contacts';
+			case 'go_export_import_screen.ministries': return 'Ministries';
+			case 'go_export_import_screen.areas': return 'Areas';
+			case 'go_export_import_screen.streets': return 'Streets';
+			case 'go_export_import_screen.zones': return 'Zones';
+			case 'go_export_import_screen.all': return 'All';
+			case 'go_export_import_screen.no_churches': return 'No churches available';
+			case 'go_export_import_screen.no_contacts': return 'No contacts available';
+			case 'go_export_import_screen.no_ministries': return 'No ministries available';
+			case 'go_export_import_screen.no_areas': return 'No areas available';
+			case 'go_export_import_screen.no_streets': return 'No streets available';
+			case 'go_export_import_screen.no_zones': return 'No zones available';
+			case 'go_export_import_screen.save_json': return 'Save {type} JSON';
+			case 'go_export_import_screen.select_json': return 'Select {type} JSON';
+			case 'go_export_import_screen.export_success': return '{type} exported successfully';
+			case 'go_export_import_screen.import_success': return '{type} imported successfully';
+			case 'go_export_import_screen.error_export': return 'Error exporting {type}: {error}';
+			case 'go_export_import_screen.error_import': return 'Error importing {type}: {error}';
+			case 'go_export_import_screen.invalid_file': return 'Invalid file: Expected {type} data';
+			case 'go_export_import_screen.all_export_success': return 'All data exported successfully';
+			case 'go_export_import_screen.all_import_success': return 'All data imported successfully';
+			case 'go_export_import_screen.error_export_all': return 'Error exporting all data: {error}';
+			case 'go_export_import_screen.error_import_all': return 'Error importing all data: {error}';
+			case 'go_ministries_screen.title': return 'Go Ministries';
+			case 'go_ministries_screen.add_ministry': return 'Add Ministry';
+			case 'go_ministries_screen.delete_ministry': return 'Delete Ministry';
+			case 'go_ministries_screen.delete_ministry_confirmation': return 'Are you sure you want to delete {ministryName}?';
+			case 'go_ministries_screen.cancel': return 'Cancel';
+			case 'go_ministries_screen.delete': return 'Delete';
+			case 'go_ministries_screen.ministry_deleted': return 'Ministry {ministryName} deleted';
+			case 'go_ministries_screen.no_ministries': return 'No ministries added yet.';
+			case 'go_ministries_screen.contact': return 'Contact: {contactName}';
+			case 'go_ministries_screen.phone': return 'Phone: {phone}';
+			case 'go_ministries_screen.email': return 'Email: {email}';
+			case 'go_ministries_screen.address': return 'Address: {address}';
+			case 'go_ministries_screen.partner_status': return 'Partner Status: {status}';
+			case 'go_ministries_screen.notes': return 'Notes:';
+			case 'go_ministries_screen.created': return 'Created: {date}';
+			case 'go_ministries_screen.edit': return 'Edit';
+			case 'go_offline_maps_screen.title': return 'Offline Maps';
+			case 'go_offline_maps_screen.select_your_own_map': return 'Select your own map';
+			case 'go_offline_maps_screen.downloaded_maps': return 'Downloaded Maps';
+			case 'go_offline_maps_screen.no_maps_downloaded': return 'No maps downloaded yet.';
+			case 'go_offline_maps_screen.max_maps_warning': return 'You can only have up to 5 maps (including the default World map). Please delete a map before downloading a new one.';
+			case 'go_offline_maps_screen.failed_to_delete_map': return 'Failed to delete map ({mapName}): {error}';
+			case 'go_offline_maps_screen.rename_map': return 'Rename Map';
+			case 'go_offline_maps_screen.enter_new_map_name': return 'Enter new map name';
+			case 'go_offline_maps_screen.cancel': return 'Cancel';
+			case 'go_offline_maps_screen.save': return 'Save';
+			case 'go_offline_maps_screen.failed_to_rename_map': return 'Failed to rename map: {error}';
+			case 'go_offline_maps_screen.view': return 'View';
+			case 'go_offline_maps_screen.update': return 'Update';
+			case 'go_offline_maps_screen.rename': return 'Rename';
+			case 'go_offline_maps_screen.delete': return 'Delete';
+			case 'go_offline_maps_screen.map_updated_successfully': return 'Map "{mapName}" updated successfully';
+			case 'go_offline_maps_screen.failed_to_update_map': return 'Failed to update map: {error}';
+			case 'go_route_planner_screen.title': return 'Route Planner';
+			case 'go_route_planner_screen.areas': return 'Areas';
+			case 'go_route_planner_screen.streets': return 'Streets';
+			case 'go_route_planner_screen.zones': return 'Zones';
+			case 'go_route_planner_screen.no_areas': return 'No areas added yet.';
+			case 'go_route_planner_screen.no_streets': return 'No streets added yet.';
+			case 'go_route_planner_screen.no_zones': return 'No zones added yet.';
+			case 'go_route_planner_screen.edit': return 'Edit';
+			case 'go_route_planner_screen.rename': return 'Rename';
+			case 'go_route_planner_screen.delete': return 'Delete';
+			case 'go_route_planner_screen.view': return 'View';
+			case 'go_route_planner_screen.add': return 'Add';
+			case 'go_route_planner_screen.lat': return 'Lat: {lat}';
+			case 'go_route_planner_screen.lon': return 'Lon: {lon}';
+			case 'go_route_planner_screen.no_coordinates': return 'No coordinates';
+			case 'go_route_planner_screen.failed_to_delete': return 'Failed to delete {type}: {error}';
+			case 'go_route_planner_screen.failed_to_rename': return 'Failed to rename {type}: {error}';
+			case 'go_route_planner_screen.rename_type': return 'Rename {type}';
+			case 'go_route_planner_screen.enter_new_name': return 'Enter new name';
+			case 'go_route_planner_screen.cancel': return 'Cancel';
+			case 'go_route_planner_screen.save': return 'Save';
+			case 'go_search_screen.title': return 'Search Address';
+			case 'go_search_screen.enter_address': return 'Enter address';
+			case 'go_search_screen.please_enter_address': return 'Please enter an address.';
+			case 'go_search_screen.address_not_found': return 'Address not found.';
+			case 'go_search_screen.found': return 'Found: {displayName}';
+			case 'go_search_screen.latitude': return 'Latitude: {lat}';
+			case 'go_search_screen.longitude': return 'Longitude: {lon}';
+			case 'go_search_screen.error_searching_address': return 'Error searching address: {error}';
+			case 'go_search_screen.search': return 'Search';
+			case 'go_select_map_area_screen.title': return 'Select Map Area';
+			case 'go_select_map_area_screen.download_limit_exceeded': return 'Download Limit Exceeded';
+			case 'go_select_map_area_screen.download_limit_message': return 'The selected area exceeds the maximum allowed: 12,000 tiles or 155.55 MB. Please select a smaller area.';
+			case 'go_select_map_area_screen.ok': return 'OK';
+			case 'go_select_map_area_screen.download_map': return 'Download Map';
+			case 'go_select_map_area_screen.download_map_question': return 'Download map of this area? Estimated tiles: {tiles}, approximately {size} MB.';
+			case 'go_select_map_area_screen.close': return 'Close';
+			case 'go_select_map_area_screen.name_your_map': return 'Name Your Map';
+			case 'go_select_map_area_screen.enter_map_name': return 'Enter map name';
+			case 'go_select_map_area_screen.cancel': return 'Cancel';
+			case 'go_select_map_area_screen.download': return 'Download';
+			case 'go_select_map_routes_screen.title': return 'Select Map Route';
+			case 'go_select_map_routes_screen.select': return 'Select';
+			case 'go_select_map_routes_screen.edit': return 'Edit';
+			case 'go_select_map_routes_screen.view': return 'View';
+			case 'go_select_map_routes_screen.area': return 'Area';
+			case 'go_select_map_routes_screen.street': return 'Street';
+			case 'go_select_map_routes_screen.tag': return 'Tag';
+			case 'go_select_map_routes_screen.add_at_least_3_points': return 'Add at least 3 points to create an area.';
+			case 'go_select_map_routes_screen.add_at_least_2_points': return 'Add at least 2 points to create a street.';
+			case 'go_select_map_routes_screen.add_a_tag': return 'Add a tag to save.';
+			case 'go_select_map_routes_screen.enter_name': return 'Enter name';
+			case 'go_select_map_routes_screen.name': return 'Name';
+			case 'go_select_map_routes_screen.name_cannot_be_empty': return 'Name cannot be empty.';
+			case 'go_select_map_routes_screen.save': return 'Save';
+			case 'go_select_map_routes_screen.cancel': return 'Cancel';
+			case 'go_select_map_routes_screen.tag_text': return 'Tag Text';
+			case 'go_select_map_routes_screen.enter_tag_text': return 'Enter tag text';
+			case 'go_select_map_routes_screen.error_loading_item': return 'Error loading item: {error}';
+			case 'go_select_map_routes_screen.error_adding_point': return 'Error adding point: {error}';
+			case 'go_select_map_routes_screen.error_saving_item': return 'Error saving item: {error}';
+			case 'go_select_map_routes_screen.zoom_in': return 'Zoom In';
+			case 'go_select_map_routes_screen.zoom_out': return 'Zoom Out';
+			case 'go_share_screen.title': return 'Share';
+			case 'go_share_screen.churches': return 'Churches';
+			case 'go_share_screen.contacts': return 'Contacts';
+			case 'go_share_screen.ministries': return 'Ministries';
+			case 'go_share_screen.areas': return 'Areas';
+			case 'go_share_screen.streets': return 'Streets';
+			case 'go_share_screen.zones': return 'Zones';
+			case 'go_share_screen.all': return 'All';
+			case 'go_share_screen.no_churches': return 'No churches available';
+			case 'go_share_screen.no_contacts': return 'No contacts available';
+			case 'go_share_screen.no_ministries': return 'No ministries available';
+			case 'go_share_screen.no_areas': return 'No areas available';
+			case 'go_share_screen.no_streets': return 'No streets available';
+			case 'go_share_screen.no_zones': return 'No zones available';
+			case 'go_share_screen.share_all_data': return 'Share All Data';
+			case 'go_share_screen.all_by_faith_data': return 'All By Faith Data';
+			case 'go_share_screen.could_not_launch_email': return 'Could not launch email client';
+			case 'go_tab_screen.markers_in_zone': return 'Markers in Zone';
+			case 'go_tab_screen.close': return 'Close';
+			case 'go_tab_screen.add_area': return 'Add Area';
+			case 'go_tab_screen.add_street': return 'Add Street';
+			case 'go_tab_screen.add_zone': return 'Add Zone';
+			case 'go_tab_screen.add_contact': return 'Add Contact';
+			case 'go_tab_screen.add_church': return 'Add Church';
+			case 'go_tab_screen.add_ministry': return 'Add Ministry';
+			case 'go_tab_screen.offline_maps': return 'Offline Maps';
+			case 'go_tab_screen.route_planner': return 'Route Planner';
+			case 'go_tab_screen.churches': return 'Churches';
+			case 'go_tab_screen.contacts': return 'Contacts';
+			case 'go_tab_screen.ministries': return 'Ministries';
+			case 'go_tab_screen.menu': return 'Go Menu';
+			case 'go_tab_screen.search_address': return 'Search Address';
+			case 'go_tab_screen.save_route': return 'Save Route';
+			case 'go_tab_screen.hide_options': return 'Hide Options';
+			case 'go_tab_screen.open_menu': return 'Open Menu';
+			case 'go_tab_screen.tap_to_add_marker': return 'Tap on the map to add a marker.';
+			case 'go_tab_screen.route_creation_cancelled': return 'Route creation cancelled.';
+			case 'go_tab_screen.add_at_least_3_points': return 'Add at least 3 points to create an area.';
+			case 'go_tab_screen.add_at_least_2_points': return 'Add at least 2 points to create a street.';
+			case 'go_tab_screen.enter_name': return 'Enter name';
+			case 'go_tab_screen.name': return 'Name';
+			case 'go_tab_screen.cancel': return 'Cancel';
+			case 'go_tab_screen.save': return 'Save';
+			case 'go_tab_screen.search': return 'Search';
+			case 'go_tab_screen.address_not_found': return 'Address not found.';
+			case 'go_tab_screen.error_searching_address': return 'Error searching address: {error}';
+			case 'go_tab_screen.downloading': return 'Downloading {mapName}';
+			case 'go_tab_screen.starting_download': return 'Starting download...';
+			case 'go_tab_screen.downloaded_tiles': return 'Downloaded {attempted} of {max} tiles ({percent}%)';
+			case 'go_tab_screen.failed_to_download_map': return 'Failed to download map ({mapName}): {error}';
+			case 'go_tab_screen.tap_to_place_the_zone': return 'Tap to place the zone.';
+			case 'go_tab_screen.select_area_or_street_from_the_route_planner': return 'Select area or street from the route planner.';
+			case 'go_tab_screen.areas': return 'Areas';
+			case 'go_tab_screen.streets': return 'Streets';
+			case 'go_tab_screen.zones': return 'Zones';
+			case 'go_tab_screen.enter_address': return 'Enter address';
 			default: return null;
 		}
 	}

@@ -8,6 +8,7 @@ import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
+import 'package:by_faith/app/i18n/strings.g.dart';
 
 
 class GoMinistriesScreen extends StatefulWidget {
@@ -37,14 +38,14 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          'Delete Ministry',
+          t.go_ministries_screen.delete_ministry,
           style: TextStyle(
             fontFamily: context.watch<FontProvider>().fontFamily,
             fontSize: context.watch<FontProvider>().fontSize,
           ),
         ),
         content: Text(
-          'Are you sure you want to delete ${ministry.ministryName}?',
+          t.go_ministries_screen.delete_ministry_confirmation.replaceAll('{ministryName}', ministry.ministryName),
           style: TextStyle(
             fontFamily: context.watch<FontProvider>().fontFamily,
             fontSize: context.watch<FontProvider>().fontSize,
@@ -54,7 +55,7 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Cancel',
+              t.go_ministries_screen.cancel,
               style: TextStyle(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize,
@@ -72,7 +73,7 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    'Ministry ${ministry.ministryName} deleted',
+                    t.go_ministries_screen.ministry_deleted.replaceAll('{ministryName}', ministry.ministryName),
                     style: TextStyle(
                       fontFamily: context.watch<FontProvider>().fontFamily,
                       fontSize: context.watch<FontProvider>().fontSize,
@@ -82,7 +83,7 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
               );
             },
             child: Text(
-              'Delete',
+              t.go_ministries_screen.delete,
               style: TextStyle(
                 color: Colors.red,
                 fontFamily: context.watch<FontProvider>().fontFamily,
@@ -100,7 +101,7 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Go Ministries',
+          t.go_ministries_screen.title,
           style: TextStyle(
             fontFamily: context.watch<FontProvider>().fontFamily,
             fontSize: context.watch<FontProvider>().fontSize,
@@ -110,7 +111,7 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: _navigateToAddMinistry,
-            tooltip: 'Add Ministry',
+            tooltip: t.go_ministries_screen.add_ministry,
           ),
         ],
       ),
@@ -126,7 +127,7 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(
               child: Text(
-                'No ministries added yet.',
+                t.go_ministries_screen.no_ministries,
                 style: TextStyle(
                   fontFamily: context.watch<FontProvider>().fontFamily,
                   fontSize: context.watch<FontProvider>().fontSize,
@@ -159,7 +160,7 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                     children: [
                       if (ministry.contactName != null && ministry.contactName!.isNotEmpty)
                         Text(
-                          'Contact: ${ministry.contactName}',
+                          t.go_ministries_screen.contact.replaceAll('{contactName}', ministry.contactName!),
                           style: TextStyle(
                             fontFamily: context.watch<FontProvider>().fontFamily,
                             fontSize: context.watch<FontProvider>().fontSize,
@@ -167,7 +168,7 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                         ),
                       if (ministry.phone != null && ministry.phone!.isNotEmpty)
                         Text(
-                          'Phone: ${ministry.phone}',
+                          t.go_ministries_screen.phone.replaceAll('{phone}', ministry.phone!),
                           style: TextStyle(
                             fontFamily: context.watch<FontProvider>().fontFamily,
                             fontSize: context.watch<FontProvider>().fontSize,
@@ -175,7 +176,7 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                         ),
                       if (ministry.email != null && ministry.email!.isNotEmpty)
                         Text(
-                          'Email: ${ministry.email}',
+                          t.go_ministries_screen.email.replaceAll('{email}', ministry.email!),
                           style: TextStyle(
                             fontFamily: context.watch<FontProvider>().fontFamily,
                             fontSize: context.watch<FontProvider>().fontSize,
@@ -183,7 +184,7 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                         ),
                       if (ministry.address != null && ministry.address!.isNotEmpty)
                         Text(
-                          'Address: ${ministry.address}',
+                          t.go_ministries_screen.address.replaceAll('{address}', ministry.address!),
                           style: TextStyle(
                             fontFamily: context.watch<FontProvider>().fontFamily,
                             fontSize: context.watch<FontProvider>().fontSize,
@@ -191,7 +192,7 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                         ),
                       if (ministry.partnerStatus != null && ministry.partnerStatus!.isNotEmpty)
                         Text(
-                          'Partner Status: ${ministry.partnerStatus}',
+                          t.go_ministries_screen.partner_status.replaceAll('{status}', ministry.partnerStatus!),
                           style: TextStyle(
                             fontFamily: context.watch<FontProvider>().fontFamily,
                             fontSize: context.watch<FontProvider>().fontSize,
@@ -224,7 +225,7 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                           if (ministry.notes.isNotEmpty) ...[
                             const SizedBox(height: 16),
                             Text(
-                              'Notes:',
+                              t.go_ministries_screen.notes,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontFamily: context.watch<FontProvider>().fontFamily,
@@ -240,7 +241,7 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                                     ),
                                   ),
                                   subtitle: Text(
-                                    'Created: ${DateFormat.yMMMd().format(note.createdAt)}',
+                                    t.go_ministries_screen.created.replaceAll('{date}', DateFormat.yMMMd().format(note.createdAt)),
                                     style: TextStyle(
                                       fontFamily: context.watch<FontProvider>().fontFamily,
                                       fontSize: context.watch<FontProvider>().fontSize - 2,

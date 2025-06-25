@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
+import 'package:by_faith/app/i18n/strings.g.dart';
 
 class GoSearchScreen extends StatefulWidget {
   const GoSearchScreen({super.key});
@@ -68,7 +69,7 @@ class _GoSearchScreenState extends State<GoSearchScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Search Address',
+          t.go_search_screen.title,
           style: TextStyle(
             fontFamily: context.watch<FontProvider>().fontFamily,
             fontSize: context.watch<FontProvider>().fontSize,
@@ -82,7 +83,7 @@ class _GoSearchScreenState extends State<GoSearchScreen> {
             TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: 'Enter address',
+                hintText: t.go_search_screen.enter_address,
                 hintStyle: TextStyle(
                   fontFamily: context.watch<FontProvider>().fontFamily,
                   fontSize: context.watch<FontProvider>().fontSize,
@@ -93,6 +94,7 @@ class _GoSearchScreenState extends State<GoSearchScreen> {
                     size: context.watch<FontProvider>().fontSize * 1.2,
                   ),
                   onPressed: () => _searchAddress(_searchController.text),
+                  tooltip: t.go_search_screen.search,
                 ),
               ),
               onSubmitted: (_) => _searchAddress(_searchController.text),
@@ -117,7 +119,8 @@ class _GoSearchScreenState extends State<GoSearchScreen> {
               ),
             if (_foundLocation != null)
               Text(
-                'Latitude: ${_foundLocation!.latitude}, Longitude: ${_foundLocation!.longitude}',
+                t.go_search_screen.latitude.replaceAll('{lat}', _foundLocation!.latitude.toString()) + ', ' +
+                t.go_search_screen.longitude.replaceAll('{lon}', _foundLocation!.longitude.toString()),
                 style: TextStyle(
                   fontFamily: context.watch<FontProvider>().fontFamily,
                   fontSize: context.watch<FontProvider>().fontSize,
