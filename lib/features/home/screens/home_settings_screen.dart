@@ -279,6 +279,38 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
                                 ),
                               ],
                             ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  t.home_settings_screen.hindi,
+                                  style: TextStyle(
+                                    fontFamily: context.watch<HomeSettingsFontProvider>().fontFamily,
+                                    fontSize: context.watch<HomeSettingsFontProvider>().fontSize,
+                                    color: Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _selectedLanguage = AppLocale.hi.flutterLocale;
+                                    });
+                                    LocaleSettings.setLocale(AppLocale.hi);
+                                    Navigator.pop(context); // Pop back to HomeTabScreen to force rebuild
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: _selectedLanguage == AppLocale.hi.flutterLocale
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Theme.of(context).colorScheme.surfaceContainerHighest,
+                                    foregroundColor: _selectedLanguage == AppLocale.hi.flutterLocale
+                                        ? Theme.of(context).colorScheme.onPrimary
+                                        : Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                  child: Text(t.home_settings_screen.load),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ],

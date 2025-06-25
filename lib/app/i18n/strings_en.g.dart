@@ -89,6 +89,7 @@ class TranslationsHomeSettingsScreenEn {
 	String get language => 'Language';
 	String get english => 'English';
 	String get spanish => 'Spanish';
+	String get hindi => 'Hindi';
 	String get text_settings => 'Text Settings';
 	String get font_family => 'Font Family';
 	String get font_size => 'Font Size:';
@@ -688,6 +689,7 @@ extension on Translations {
 			case 'home_settings_screen.language': return 'Language';
 			case 'home_settings_screen.english': return 'English';
 			case 'home_settings_screen.spanish': return 'Spanish';
+			case 'home_settings_screen.hindi': return 'Hindi';
 			case 'home_settings_screen.text_settings': return 'Text Settings';
 			case 'home_settings_screen.font_family': return 'Font Family';
 			case 'home_settings_screen.font_size': return 'Font Size:';

@@ -86,6 +86,7 @@ class _TranslationsHomeSettingsScreenEs implements TranslationsHomeSettingsScree
 	@override String get language => 'Idioma';
 	@override String get english => 'Inglés';
 	@override String get spanish => 'Español';
+	@override String get hindi => 'Hindi';
 	@override String get text_settings => 'Ajustes de Texto';
 	@override String get font_family => 'Familia de Fuente';
 	@override String get font_size => 'Tamaño de Fuente:';
@@ -685,6 +686,7 @@ extension on TranslationsEs {
 			case 'home_settings_screen.language': return 'Idioma';
 			case 'home_settings_screen.english': return 'Inglés';
 			case 'home_settings_screen.spanish': return 'Español';
+			case 'home_settings_screen.hindi': return 'Hindi';
 			case 'home_settings_screen.text_settings': return 'Ajustes de Texto';
 			case 'home_settings_screen.font_family': return 'Familia de Fuente';
 			case 'home_settings_screen.font_size': return 'Tamaño de Fuente:';
