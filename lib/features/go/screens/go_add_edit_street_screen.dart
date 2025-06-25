@@ -1,3 +1,4 @@
+import 'package:by_faith/app/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart' as fm;
 import 'package:latlong2/latlong.dart';
@@ -97,14 +98,14 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'Tap on the map to add points.',
+                t.go_add_edit_street_screen.tap_to_add_points,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontFamily: context.watch<FontProvider>().fontFamily,
                       fontSize: context.watch<FontProvider>().fontSize,
                     ),
               ),
               action: SnackBarAction(
-                label: 'Cancel',
+                label: t.go_add_edit_street_screen.cancel,
                 onPressed: _cancelRouteMode,
               ),
             ),
@@ -296,14 +297,14 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
         context: context,
         builder: (context) => AlertDialog(
           title: Text(
-            'Cancel Creation',
+            t.go_add_edit_street_screen.cancel_creation,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontFamily: context.watch<FontProvider>().fontFamily,
                   fontSize: context.watch<FontProvider>().fontSize + 2,
                 ),
           ),
           content: Text(
-            'Discard changes to this route?',
+            t.go_add_edit_street_screen.discard_changes,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontFamily: context.watch<FontProvider>().fontFamily,
                   fontSize: context.watch<FontProvider>().fontSize,
@@ -313,7 +314,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
             TextButton(
               onPressed: () => Navigator.pop(context, false),
               child: Text(
-                'Keep Editing',
+                t.go_add_edit_street_screen.keep_editing,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       fontFamily: context.watch<FontProvider>().fontFamily,
                       fontSize: context.watch<FontProvider>().fontSize,
@@ -323,7 +324,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
             TextButton(
               onPressed: () => Navigator.pop(context, true),
               child: Text(
-                'Discard',
+                t.go_add_edit_street_screen.discard,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       fontFamily: context.watch<FontProvider>().fontFamily,
                       fontSize: context.watch<FontProvider>().fontSize,
@@ -348,7 +349,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Add at least 2 points to create a route.',
+            t.go_add_edit_street_screen.add_at_least_2_points,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontFamily: context.watch<FontProvider>().fontFamily,
                   fontSize: context.watch<FontProvider>().fontSize,
@@ -369,7 +370,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          '${widget.street != null ? 'Edit' : 'Save'} ${_selectedLineType.toString().split('.').last[0].toUpperCase()}${_selectedLineType.toString().split('.').last.substring(1)}',
+          (widget.street != null ? t.go_add_edit_street_screen.edit : t.go_add_edit_street_screen.save) +
+            ' ' + _getLineTypeLabel(_selectedLineType, t),
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize + 2,
@@ -378,8 +380,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
         content: TextField(
           controller: nameController,
           decoration: InputDecoration(
-            hintText: 'Enter name',
-            labelText: 'Name',
+            hintText: t.go_add_edit_street_screen.enter_name,
+            labelText: t.go_add_edit_street_screen.name,
             hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontFamily: context.watch<FontProvider>().fontFamily,
                   fontSize: context.watch<FontProvider>().fontSize,
@@ -398,7 +400,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Cancel',
+              t.go_add_edit_street_screen.cancel,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,
@@ -411,7 +413,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      'Name cannot be empty.',
+                      t.go_add_edit_street_screen.name_cannot_be_empty,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             fontFamily: context.watch<FontProvider>().fontFamily,
                             fontSize: context.watch<FontProvider>().fontSize,
@@ -424,7 +426,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
               Navigator.pop(context, nameController.text.trim());
             },
             child: Text(
-              'Save',
+              t.go_add_edit_street_screen.save,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,
@@ -453,7 +455,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'Route saved successfully.',
+                t.go_add_edit_street_screen.route_saved_successfully,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontFamily: context.watch<FontProvider>().fontFamily,
                       fontSize: context.watch<FontProvider>().fontSize,
@@ -468,7 +470,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'Error saving route: $e',
+                t.go_add_edit_street_screen.error_saving_route.replaceAll('{error}', e.toString()),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontFamily: context.watch<FontProvider>().fontFamily,
                       fontSize: context.watch<FontProvider>().fontSize,
@@ -648,7 +650,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                 children: [
                   ListTile(
                     title: Text(
-                      'Contacts',
+                      t.go_add_edit_street_screen.contacts,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -666,7 +668,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                   ),
                   ListTile(
                     title: Text(
-                      'Churches',
+                      t.go_add_edit_street_screen.churches,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -684,7 +686,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                   ),
                   ListTile(
                     title: Text(
-                      'Ministries',
+                      t.go_add_edit_street_screen.ministries,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -702,7 +704,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                   ),
                   ListTile(
                     title: Text(
-                      'Areas',
+                      t.go_add_edit_street_screen.areas,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -720,7 +722,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                   ),
                   ListTile(
                     title: Text(
-                      'Streets',
+                      t.go_add_edit_street_screen.streets,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -738,7 +740,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                   ),
                   ListTile(
                     title: Text(
-                      'Zones',
+                      t.go_add_edit_street_screen.zones,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -768,7 +770,12 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${widget.street != null ? (widget.isViewMode ? 'View' : 'Edit') : 'Add'} ${_selectedLineType.toString().split('.').last[0].toUpperCase()}${_selectedLineType.toString().split('.').last.substring(1)}',
+          (widget.street != null
+              ? (widget.isViewMode
+                  ? t.go_add_edit_street_screen.view
+                  : t.go_add_edit_street_screen.edit)
+              : t.go_add_edit_street_screen.add) +
+            ' ' + _getLineTypeLabel(_selectedLineType, t),
           style: TextStyle(
             fontFamily: context.watch<FontProvider>().fontFamily,
             fontSize: context.watch<FontProvider>().fontSize,
@@ -778,13 +785,13 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           IconButton(
             icon: const Icon(Icons.visibility),
             onPressed: _showHideOptions,
-            tooltip: 'Hide Options',
+            tooltip: t.go_add_edit_street_screen.hide_options,
           ),
           if (!widget.isViewMode)
             IconButton(
               icon: const Icon(Icons.save),
               onPressed: _showSaveRouteDialog,
-              tooltip: 'Save',
+              tooltip: t.go_add_edit_street_screen.save,
             ),
         ],
       ),
@@ -856,6 +863,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                     _mapController.animateTo(zoom: _mapController.mapController.camera.zoom + 1);
                   },
                   child: const Icon(Icons.add),
+                  tooltip: t.go_add_edit_street_screen.zoom_in,
                 ),
                 const SizedBox(height: 8.0),
                 FloatingActionButton.small(
@@ -864,6 +872,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                     _mapController.animateTo(zoom: _mapController.mapController.camera.zoom - 1);
                   },
                   child: const Icon(Icons.remove),
+                  tooltip: t.go_add_edit_street_screen.zoom_out,
                 ),
                 const SizedBox(height: 16.0),
                 if (!widget.isViewMode)
@@ -873,6 +882,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                       _addRoutePoint(_mapController.mapController.camera.center);
                     },
                     child: const Icon(Icons.add_location_alt),
+                    tooltip: t.go_add_edit_street_screen.add_point,
                   ),
                 const SizedBox(height: 8.0),
                 if (!widget.isViewMode && (_polyEditor?.points.isNotEmpty ?? false))
@@ -880,6 +890,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                     heroTag: 'removePointBtn',
                     onPressed: _removeLastRoutePoint,
                     child: const Icon(Icons.remove_circle_outline),
+                    tooltip: t.go_add_edit_street_screen.remove_point,
                   ),
               ],
             ),
@@ -901,6 +912,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                       });
                     },
                     child: const Icon(Icons.directions),
+                    tooltip: t.go_add_edit_street_screen.street,
                   ),
                   const SizedBox(height: 8.0),
                   FloatingActionButton.small(
@@ -914,6 +926,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                       });
                     },
                     child: const Icon(Icons.water),
+                    tooltip: t.go_add_edit_street_screen.river,
                   ),
                   const SizedBox(height: 8.0),
                   FloatingActionButton.small(
@@ -927,6 +940,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                       });
                     },
                     child: const Icon(Icons.hiking),
+                    tooltip: t.go_add_edit_street_screen.path,
                   ),
                 ],
               ),
@@ -934,5 +948,17 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
         ],
       ),
     );
+  }
+}
+
+// Add this helper function near the top-level of the file (outside the widget class):
+String _getLineTypeLabel(LineType type, dynamic t) {
+  switch (type) {
+    case LineType.street:
+      return t.go_add_edit_street_screen.street;
+    case LineType.river:
+      return t.go_add_edit_street_screen.river;
+    case LineType.path:
+      return t.go_add_edit_street_screen.path;
   }
 }

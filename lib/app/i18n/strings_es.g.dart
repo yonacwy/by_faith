@@ -43,6 +43,7 @@ class TranslationsEs implements Translations {
 	@override late final _TranslationsGoSettingsScreenEs go_settings_screen = _TranslationsGoSettingsScreenEs._(_root);
 	@override late final _TranslationsGoAddEditContactScreenEs go_add_edit_contact_screen = _TranslationsGoAddEditContactScreenEs._(_root);
 	@override late final _TranslationsGoAddEditMinistryScreenEs go_add_edit_ministry_screen = _TranslationsGoAddEditMinistryScreenEs._(_root);
+	@override late final _TranslationsGoAddEditStreetScreenEs go_add_edit_street_screen = _TranslationsGoAddEditStreetScreenEs._(_root);
 }
 
 // Path: home_tab_screen
@@ -269,6 +270,45 @@ class _TranslationsGoAddEditMinistryScreenEs implements TranslationsGoAddEditMin
 	@override String get please_enter_valid_number => 'Por favor, introduce un número válido';
 }
 
+// Path: go_add_edit_street_screen
+class _TranslationsGoAddEditStreetScreenEs implements TranslationsGoAddEditStreetScreenEn {
+	_TranslationsGoAddEditStreetScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get tap_to_add_points => 'Toca el mapa para añadir puntos.';
+	@override String get cancel => 'Cancelar';
+	@override String get cancel_creation => 'Cancelar Creación';
+	@override String get discard_changes => '¿Descartar los cambios en esta ruta?';
+	@override String get keep_editing => 'Seguir Editando';
+	@override String get discard => 'Descartar';
+	@override String get add_at_least_2_points => 'Añade al menos 2 puntos para crear una ruta.';
+	@override String get enter_name => 'Introduce un nombre';
+	@override String get name => 'Nombre';
+	@override String get name_cannot_be_empty => 'El nombre no puede estar vacío.';
+	@override String get save => 'Guardar';
+	@override String get edit => 'Editar';
+	@override String get route_saved_successfully => 'Ruta guardada exitosamente.';
+	@override String get error_saving_route => 'Error al guardar la ruta: {error}';
+	@override String get contacts => 'Contactos';
+	@override String get churches => 'Iglesias';
+	@override String get ministries => 'Ministerios';
+	@override String get areas => 'Áreas';
+	@override String get streets => 'Calles';
+	@override String get zones => 'Zonas';
+	@override String get view => 'Ver';
+	@override String get add => 'Añadir';
+	@override String get hide_options => 'Ocultar Opciones';
+	@override String get zoom_in => 'Acercar';
+	@override String get zoom_out => 'Alejar';
+	@override String get add_point => 'Añadir Punto';
+	@override String get remove_point => 'Eliminar Punto';
+	@override String get street => 'Calle';
+	@override String get river => 'Río';
+	@override String get path => 'Sendero';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on TranslationsEs {
@@ -435,6 +475,36 @@ extension on TranslationsEs {
 			case 'go_add_edit_ministry_screen.please_enter_latitude': return 'Por favor, introduce una latitud';
 			case 'go_add_edit_ministry_screen.please_enter_longitude': return 'Por favor, introduce una longitud';
 			case 'go_add_edit_ministry_screen.please_enter_valid_number': return 'Por favor, introduce un número válido';
+			case 'go_add_edit_street_screen.tap_to_add_points': return 'Toca el mapa para añadir puntos.';
+			case 'go_add_edit_street_screen.cancel': return 'Cancelar';
+			case 'go_add_edit_street_screen.cancel_creation': return 'Cancelar Creación';
+			case 'go_add_edit_street_screen.discard_changes': return '¿Descartar los cambios en esta ruta?';
+			case 'go_add_edit_street_screen.keep_editing': return 'Seguir Editando';
+			case 'go_add_edit_street_screen.discard': return 'Descartar';
+			case 'go_add_edit_street_screen.add_at_least_2_points': return 'Añade al menos 2 puntos para crear una ruta.';
+			case 'go_add_edit_street_screen.enter_name': return 'Introduce un nombre';
+			case 'go_add_edit_street_screen.name': return 'Nombre';
+			case 'go_add_edit_street_screen.name_cannot_be_empty': return 'El nombre no puede estar vacío.';
+			case 'go_add_edit_street_screen.save': return 'Guardar';
+			case 'go_add_edit_street_screen.edit': return 'Editar';
+			case 'go_add_edit_street_screen.route_saved_successfully': return 'Ruta guardada exitosamente.';
+			case 'go_add_edit_street_screen.error_saving_route': return 'Error al guardar la ruta: {error}';
+			case 'go_add_edit_street_screen.contacts': return 'Contactos';
+			case 'go_add_edit_street_screen.churches': return 'Iglesias';
+			case 'go_add_edit_street_screen.ministries': return 'Ministerios';
+			case 'go_add_edit_street_screen.areas': return 'Áreas';
+			case 'go_add_edit_street_screen.streets': return 'Calles';
+			case 'go_add_edit_street_screen.zones': return 'Zonas';
+			case 'go_add_edit_street_screen.view': return 'Ver';
+			case 'go_add_edit_street_screen.add': return 'Añadir';
+			case 'go_add_edit_street_screen.hide_options': return 'Ocultar Opciones';
+			case 'go_add_edit_street_screen.zoom_in': return 'Acercar';
+			case 'go_add_edit_street_screen.zoom_out': return 'Alejar';
+			case 'go_add_edit_street_screen.add_point': return 'Añadir Punto';
+			case 'go_add_edit_street_screen.remove_point': return 'Eliminar Punto';
+			case 'go_add_edit_street_screen.street': return 'Calle';
+			case 'go_add_edit_street_screen.river': return 'Río';
+			case 'go_add_edit_street_screen.path': return 'Sendero';
 			default: return null;
 		}
 	}

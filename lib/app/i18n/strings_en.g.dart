@@ -46,6 +46,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final TranslationsGoSettingsScreenEn go_settings_screen = TranslationsGoSettingsScreenEn._(_root);
 	late final TranslationsGoAddEditContactScreenEn go_add_edit_contact_screen = TranslationsGoAddEditContactScreenEn._(_root);
 	late final TranslationsGoAddEditMinistryScreenEn go_add_edit_ministry_screen = TranslationsGoAddEditMinistryScreenEn._(_root);
+	late final TranslationsGoAddEditStreetScreenEn go_add_edit_street_screen = TranslationsGoAddEditStreetScreenEn._(_root);
 }
 
 // Path: home_tab_screen
@@ -272,6 +273,45 @@ class TranslationsGoAddEditMinistryScreenEn {
 	String get please_enter_valid_number => 'Please enter a valid number';
 }
 
+// Path: go_add_edit_street_screen
+class TranslationsGoAddEditStreetScreenEn {
+	TranslationsGoAddEditStreetScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get tap_to_add_points => 'Tap on the map to add points.';
+	String get cancel => 'Cancel';
+	String get cancel_creation => 'Cancel Creation';
+	String get discard_changes => 'Discard changes to this route?';
+	String get keep_editing => 'Keep Editing';
+	String get discard => 'Discard';
+	String get add_at_least_2_points => 'Add at least 2 points to create a route.';
+	String get enter_name => 'Enter name';
+	String get name => 'Name';
+	String get name_cannot_be_empty => 'Name cannot be empty.';
+	String get save => 'Save';
+	String get edit => 'Edit';
+	String get route_saved_successfully => 'Route saved successfully.';
+	String get error_saving_route => 'Error saving route: {error}';
+	String get contacts => 'Contacts';
+	String get churches => 'Churches';
+	String get ministries => 'Ministries';
+	String get areas => 'Areas';
+	String get streets => 'Streets';
+	String get zones => 'Zones';
+	String get view => 'View';
+	String get add => 'Add';
+	String get hide_options => 'Hide Options';
+	String get zoom_in => 'Zoom In';
+	String get zoom_out => 'Zoom Out';
+	String get add_point => 'Add Point';
+	String get remove_point => 'Remove Point';
+	String get street => 'Street';
+	String get river => 'River';
+	String get path => 'Path';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on Translations {
@@ -438,6 +478,36 @@ extension on Translations {
 			case 'go_add_edit_ministry_screen.please_enter_latitude': return 'Please enter a latitude';
 			case 'go_add_edit_ministry_screen.please_enter_longitude': return 'Please enter a longitude';
 			case 'go_add_edit_ministry_screen.please_enter_valid_number': return 'Please enter a valid number';
+			case 'go_add_edit_street_screen.tap_to_add_points': return 'Tap on the map to add points.';
+			case 'go_add_edit_street_screen.cancel': return 'Cancel';
+			case 'go_add_edit_street_screen.cancel_creation': return 'Cancel Creation';
+			case 'go_add_edit_street_screen.discard_changes': return 'Discard changes to this route?';
+			case 'go_add_edit_street_screen.keep_editing': return 'Keep Editing';
+			case 'go_add_edit_street_screen.discard': return 'Discard';
+			case 'go_add_edit_street_screen.add_at_least_2_points': return 'Add at least 2 points to create a route.';
+			case 'go_add_edit_street_screen.enter_name': return 'Enter name';
+			case 'go_add_edit_street_screen.name': return 'Name';
+			case 'go_add_edit_street_screen.name_cannot_be_empty': return 'Name cannot be empty.';
+			case 'go_add_edit_street_screen.save': return 'Save';
+			case 'go_add_edit_street_screen.edit': return 'Edit';
+			case 'go_add_edit_street_screen.route_saved_successfully': return 'Route saved successfully.';
+			case 'go_add_edit_street_screen.error_saving_route': return 'Error saving route: {error}';
+			case 'go_add_edit_street_screen.contacts': return 'Contacts';
+			case 'go_add_edit_street_screen.churches': return 'Churches';
+			case 'go_add_edit_street_screen.ministries': return 'Ministries';
+			case 'go_add_edit_street_screen.areas': return 'Areas';
+			case 'go_add_edit_street_screen.streets': return 'Streets';
+			case 'go_add_edit_street_screen.zones': return 'Zones';
+			case 'go_add_edit_street_screen.view': return 'View';
+			case 'go_add_edit_street_screen.add': return 'Add';
+			case 'go_add_edit_street_screen.hide_options': return 'Hide Options';
+			case 'go_add_edit_street_screen.zoom_in': return 'Zoom In';
+			case 'go_add_edit_street_screen.zoom_out': return 'Zoom Out';
+			case 'go_add_edit_street_screen.add_point': return 'Add Point';
+			case 'go_add_edit_street_screen.remove_point': return 'Remove Point';
+			case 'go_add_edit_street_screen.street': return 'Street';
+			case 'go_add_edit_street_screen.river': return 'River';
+			case 'go_add_edit_street_screen.path': return 'Path';
 			default: return null;
 		}
 	}
