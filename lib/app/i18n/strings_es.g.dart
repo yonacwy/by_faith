@@ -45,6 +45,7 @@ class TranslationsEs implements Translations {
 	@override late final _TranslationsGoAddEditMinistryScreenEs go_add_edit_ministry_screen = _TranslationsGoAddEditMinistryScreenEs._(_root);
 	@override late final _TranslationsGoAddEditStreetScreenEs go_add_edit_street_screen = _TranslationsGoAddEditStreetScreenEs._(_root);
 	@override late final _TranslationsGoAddEditZoneScreenEs go_add_edit_zone_screen = _TranslationsGoAddEditZoneScreenEs._(_root);
+	@override late final _TranslationsGoChurchesScreenEs go_churches_screen = _TranslationsGoChurchesScreenEs._(_root);
 }
 
 // Path: home_tab_screen
@@ -346,6 +347,31 @@ class _TranslationsGoAddEditZoneScreenEs implements TranslationsGoAddEditZoneScr
 	@override String get set_center => 'Establecer Centro';
 }
 
+// Path: go_churches_screen
+class _TranslationsGoChurchesScreenEs implements TranslationsGoChurchesScreenEn {
+	_TranslationsGoChurchesScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Iglesias';
+	@override String get add_church => 'Añadir Iglesia';
+	@override String get delete_church => 'Eliminar Iglesia';
+	@override String get delete_church_confirmation => '¿Estás seguro de que quieres eliminar {churchName}?';
+	@override String get cancel => 'Cancelar';
+	@override String get delete => 'Eliminar';
+	@override String get church_deleted => 'Iglesia {churchName} eliminada';
+	@override String get no_churches => 'No hay iglesias añadidas todavía.';
+	@override String get pastor => 'Pastor: {pastorName}';
+	@override String get phone => 'Teléfono: {phone}';
+	@override String get email => 'Correo electrónico: {email}';
+	@override String get address => 'Dirección: {address}';
+	@override String get financial_status => 'Estado financiero: {status}';
+	@override String get notes => 'Notas:';
+	@override String get created => 'Creado: {date}';
+	@override String get edit => 'Editar';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on TranslationsEs {
@@ -569,6 +595,22 @@ extension on TranslationsEs {
 			case 'go_add_edit_zone_screen.increase_radius': return 'Aumentar Radio';
 			case 'go_add_edit_zone_screen.decrease_radius': return 'Disminuir Radio';
 			case 'go_add_edit_zone_screen.set_center': return 'Establecer Centro';
+			case 'go_churches_screen.title': return 'Iglesias';
+			case 'go_churches_screen.add_church': return 'Añadir Iglesia';
+			case 'go_churches_screen.delete_church': return 'Eliminar Iglesia';
+			case 'go_churches_screen.delete_church_confirmation': return '¿Estás seguro de que quieres eliminar {churchName}?';
+			case 'go_churches_screen.cancel': return 'Cancelar';
+			case 'go_churches_screen.delete': return 'Eliminar';
+			case 'go_churches_screen.church_deleted': return 'Iglesia {churchName} eliminada';
+			case 'go_churches_screen.no_churches': return 'No hay iglesias añadidas todavía.';
+			case 'go_churches_screen.pastor': return 'Pastor: {pastorName}';
+			case 'go_churches_screen.phone': return 'Teléfono: {phone}';
+			case 'go_churches_screen.email': return 'Correo electrónico: {email}';
+			case 'go_churches_screen.address': return 'Dirección: {address}';
+			case 'go_churches_screen.financial_status': return 'Estado financiero: {status}';
+			case 'go_churches_screen.notes': return 'Notas:';
+			case 'go_churches_screen.created': return 'Creado: {date}';
+			case 'go_churches_screen.edit': return 'Editar';
 			default: return null;
 		}
 	}

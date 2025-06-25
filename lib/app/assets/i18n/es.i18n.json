@@ -234,5 +234,23 @@
     "increase_radius": "Aumentar Radio",
     "decrease_radius": "Disminuir Radio",
     "set_center": "Establecer Centro"
+  },
+  "go_churches_screen": {
+    "title": "Iglesias",
+    "add_church": "Añadir Iglesia",
+    "delete_church": "Eliminar Iglesia",
+    "delete_church_confirmation": "¿Estás seguro de que quieres eliminar {churchName}?",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "church_deleted": "Iglesia {churchName} eliminada",
+    "no_churches": "No hay iglesias añadidas todavía.",
+    "pastor": "Pastor: {pastorName}",
+    "phone": "Teléfono: {phone}",
+    "email": "Correo electrónico: {email}",
+    "address": "Dirección: {address}",
+    "financial_status": "Estado financiero: {status}",
+    "notes": "Notas:",
+    "created": "Creado: {date}",
+    "edit": "Editar"
   }
 }

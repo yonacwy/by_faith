@@ -48,6 +48,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final TranslationsGoAddEditMinistryScreenEn go_add_edit_ministry_screen = TranslationsGoAddEditMinistryScreenEn._(_root);
 	late final TranslationsGoAddEditStreetScreenEn go_add_edit_street_screen = TranslationsGoAddEditStreetScreenEn._(_root);
 	late final TranslationsGoAddEditZoneScreenEn go_add_edit_zone_screen = TranslationsGoAddEditZoneScreenEn._(_root);
+	late final TranslationsGoChurchesScreenEn go_churches_screen = TranslationsGoChurchesScreenEn._(_root);
 }
 
 // Path: home_tab_screen
@@ -349,6 +350,31 @@ class TranslationsGoAddEditZoneScreenEn {
 	String get set_center => 'Set Center';
 }
 
+// Path: go_churches_screen
+class TranslationsGoChurchesScreenEn {
+	TranslationsGoChurchesScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Go Churches';
+	String get add_church => 'Add Church';
+	String get delete_church => 'Delete Church';
+	String get delete_church_confirmation => 'Are you sure you want to delete {churchName}?';
+	String get cancel => 'Cancel';
+	String get delete => 'Delete';
+	String get church_deleted => 'Church {churchName} deleted';
+	String get no_churches => 'No churches added yet.';
+	String get pastor => 'Pastor: {pastorName}';
+	String get phone => 'Phone: {phone}';
+	String get email => 'Email: {email}';
+	String get address => 'Address: {address}';
+	String get financial_status => 'Financial Status: {status}';
+	String get notes => 'Notes:';
+	String get created => 'Created: {date}';
+	String get edit => 'Edit';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on Translations {
@@ -572,6 +598,22 @@ extension on Translations {
 			case 'go_add_edit_zone_screen.increase_radius': return 'Increase Radius';
 			case 'go_add_edit_zone_screen.decrease_radius': return 'Decrease Radius';
 			case 'go_add_edit_zone_screen.set_center': return 'Set Center';
+			case 'go_churches_screen.title': return 'Go Churches';
+			case 'go_churches_screen.add_church': return 'Add Church';
+			case 'go_churches_screen.delete_church': return 'Delete Church';
+			case 'go_churches_screen.delete_church_confirmation': return 'Are you sure you want to delete {churchName}?';
+			case 'go_churches_screen.cancel': return 'Cancel';
+			case 'go_churches_screen.delete': return 'Delete';
+			case 'go_churches_screen.church_deleted': return 'Church {churchName} deleted';
+			case 'go_churches_screen.no_churches': return 'No churches added yet.';
+			case 'go_churches_screen.pastor': return 'Pastor: {pastorName}';
+			case 'go_churches_screen.phone': return 'Phone: {phone}';
+			case 'go_churches_screen.email': return 'Email: {email}';
+			case 'go_churches_screen.address': return 'Address: {address}';
+			case 'go_churches_screen.financial_status': return 'Financial Status: {status}';
+			case 'go_churches_screen.notes': return 'Notes:';
+			case 'go_churches_screen.created': return 'Created: {date}';
+			case 'go_churches_screen.edit': return 'Edit';
 			default: return null;
 		}
 	}

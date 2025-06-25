@@ -234,5 +234,23 @@
     "increase_radius": "Increase Radius",
     "decrease_radius": "Decrease Radius",
     "set_center": "Set Center"
+  },
+  "go_churches_screen": {
+    "title": "Go Churches",
+    "add_church": "Add Church",
+    "delete_church": "Delete Church",
+    "delete_church_confirmation": "Are you sure you want to delete {churchName}?",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "church_deleted": "Church {churchName} deleted",
+    "no_churches": "No churches added yet.",
+    "pastor": "Pastor: {pastorName}",
+    "phone": "Phone: {phone}",
+    "email": "Email: {email}",
+    "address": "Address: {address}",
+    "financial_status": "Financial Status: {status}",
+    "notes": "Notes:",
+    "created": "Created: {date}",
+    "edit": "Edit"
   }
 }
