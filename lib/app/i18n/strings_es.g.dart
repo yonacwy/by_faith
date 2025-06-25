@@ -44,6 +44,7 @@ class TranslationsEs implements Translations {
 	@override late final _TranslationsGoAddEditContactScreenEs go_add_edit_contact_screen = _TranslationsGoAddEditContactScreenEs._(_root);
 	@override late final _TranslationsGoAddEditMinistryScreenEs go_add_edit_ministry_screen = _TranslationsGoAddEditMinistryScreenEs._(_root);
 	@override late final _TranslationsGoAddEditStreetScreenEs go_add_edit_street_screen = _TranslationsGoAddEditStreetScreenEs._(_root);
+	@override late final _TranslationsGoAddEditZoneScreenEs go_add_edit_zone_screen = _TranslationsGoAddEditZoneScreenEs._(_root);
 }
 
 // Path: home_tab_screen
@@ -309,6 +310,42 @@ class _TranslationsGoAddEditStreetScreenEs implements TranslationsGoAddEditStree
 	@override String get path => 'Sendero';
 }
 
+// Path: go_add_edit_zone_screen
+class _TranslationsGoAddEditZoneScreenEs implements TranslationsGoAddEditZoneScreenEn {
+	_TranslationsGoAddEditZoneScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get tap_to_set_center => 'Toca el mapa para establecer el centro de la zona.';
+	@override String get cancel => 'Cancelar';
+	@override String get cancel_zone_creation => 'Cancelar Creación de Zona';
+	@override String get discard_changes => '¿Descartar los cambios en esta zona?';
+	@override String get keep_editing => 'Seguir Editando';
+	@override String get discard => 'Descartar';
+	@override String get enter_name => 'Introduce un nombre';
+	@override String get name => 'Nombre';
+	@override String get name_cannot_be_empty => 'El nombre no puede estar vacío.';
+	@override String get save => 'Guardar';
+	@override String get edit => 'Editar';
+	@override String get zone_saved_successfully => 'Zona guardada exitosamente.';
+	@override String get error_saving_zone => 'Error al guardar la zona: {error}';
+	@override String get contacts => 'Contactos';
+	@override String get churches => 'Iglesias';
+	@override String get ministries => 'Ministerios';
+	@override String get areas => 'Áreas';
+	@override String get streets => 'Calles';
+	@override String get zones => 'Zonas';
+	@override String get view => 'Ver';
+	@override String get add => 'Añadir';
+	@override String get hide_options => 'Ocultar Opciones';
+	@override String get zoom_in => 'Acercar';
+	@override String get zoom_out => 'Alejar';
+	@override String get increase_radius => 'Aumentar Radio';
+	@override String get decrease_radius => 'Disminuir Radio';
+	@override String get set_center => 'Establecer Centro';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on TranslationsEs {
@@ -505,6 +542,33 @@ extension on TranslationsEs {
 			case 'go_add_edit_street_screen.street': return 'Calle';
 			case 'go_add_edit_street_screen.river': return 'Río';
 			case 'go_add_edit_street_screen.path': return 'Sendero';
+			case 'go_add_edit_zone_screen.tap_to_set_center': return 'Toca el mapa para establecer el centro de la zona.';
+			case 'go_add_edit_zone_screen.cancel': return 'Cancelar';
+			case 'go_add_edit_zone_screen.cancel_zone_creation': return 'Cancelar Creación de Zona';
+			case 'go_add_edit_zone_screen.discard_changes': return '¿Descartar los cambios en esta zona?';
+			case 'go_add_edit_zone_screen.keep_editing': return 'Seguir Editando';
+			case 'go_add_edit_zone_screen.discard': return 'Descartar';
+			case 'go_add_edit_zone_screen.enter_name': return 'Introduce un nombre';
+			case 'go_add_edit_zone_screen.name': return 'Nombre';
+			case 'go_add_edit_zone_screen.name_cannot_be_empty': return 'El nombre no puede estar vacío.';
+			case 'go_add_edit_zone_screen.save': return 'Guardar';
+			case 'go_add_edit_zone_screen.edit': return 'Editar';
+			case 'go_add_edit_zone_screen.zone_saved_successfully': return 'Zona guardada exitosamente.';
+			case 'go_add_edit_zone_screen.error_saving_zone': return 'Error al guardar la zona: {error}';
+			case 'go_add_edit_zone_screen.contacts': return 'Contactos';
+			case 'go_add_edit_zone_screen.churches': return 'Iglesias';
+			case 'go_add_edit_zone_screen.ministries': return 'Ministerios';
+			case 'go_add_edit_zone_screen.areas': return 'Áreas';
+			case 'go_add_edit_zone_screen.streets': return 'Calles';
+			case 'go_add_edit_zone_screen.zones': return 'Zonas';
+			case 'go_add_edit_zone_screen.view': return 'Ver';
+			case 'go_add_edit_zone_screen.add': return 'Añadir';
+			case 'go_add_edit_zone_screen.hide_options': return 'Ocultar Opciones';
+			case 'go_add_edit_zone_screen.zoom_in': return 'Acercar';
+			case 'go_add_edit_zone_screen.zoom_out': return 'Alejar';
+			case 'go_add_edit_zone_screen.increase_radius': return 'Aumentar Radio';
+			case 'go_add_edit_zone_screen.decrease_radius': return 'Disminuir Radio';
+			case 'go_add_edit_zone_screen.set_center': return 'Establecer Centro';
 			default: return null;
 		}
 	}

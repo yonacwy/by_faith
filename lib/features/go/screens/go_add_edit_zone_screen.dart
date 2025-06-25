@@ -12,6 +12,7 @@ import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
 import 'package:vector_math/vector_math.dart' show radians, degrees;
+import 'package:by_faith/app/i18n/strings.g.dart';
 
 class GoAddEditZoneScreen extends StatefulWidget {
   final GoZone? zone;
@@ -123,14 +124,14 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'Tap on the map to set the zone center.',
+                t.go_add_edit_zone_screen.tap_to_set_center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontFamily: context.watch<FontProvider>().fontFamily,
                       fontSize: context.watch<FontProvider>().fontSize,
                     ),
               ),
               action: SnackBarAction(
-                label: 'Cancel',
+                label: t.go_add_edit_zone_screen.cancel,
                 onPressed: _cancelZoneMode,
               ),
             ),
@@ -255,14 +256,14 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
         context: context,
         builder: (context) => AlertDialog(
           title: Text(
-            'Cancel Zone Creation',
+            t.go_add_edit_zone_screen.cancel_zone_creation,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontFamily: context.watch<FontProvider>().fontFamily,
                   fontSize: context.watch<FontProvider>().fontSize + 2,
                 ),
           ),
           content: Text(
-            'Discard changes to this zone?',
+            t.go_add_edit_zone_screen.discard_changes,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontFamily: context.watch<FontProvider>().fontFamily,
                   fontSize: context.watch<FontProvider>().fontSize,
@@ -272,7 +273,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
             TextButton(
               onPressed: () => Navigator.pop(context, false),
               child: Text(
-                'Keep Editing',
+                t.go_add_edit_zone_screen.keep_editing,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       fontFamily: context.watch<FontProvider>().fontFamily,
                       fontSize: context.watch<FontProvider>().fontSize,
@@ -282,7 +283,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
             TextButton(
               onPressed: () => Navigator.pop(context, true),
               child: Text(
-                'Discard',
+                t.go_add_edit_zone_screen.discard,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       fontFamily: context.watch<FontProvider>().fontFamily,
                       fontSize: context.watch<FontProvider>().fontSize,
@@ -313,7 +314,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          '${widget.zone != null ? 'Edit' : 'Save'} Zone',
+          (widget.zone != null ? t.go_add_edit_zone_screen.edit : t.go_add_edit_zone_screen.save) + ' Zone',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontFamily: context.watch<FontProvider>().fontFamily,
                 fontSize: context.watch<FontProvider>().fontSize + 2,
@@ -322,8 +323,8 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
         content: TextField(
           controller: nameController,
           decoration: InputDecoration(
-            hintText: 'Enter name',
-            labelText: 'Name',
+            hintText: t.go_add_edit_zone_screen.enter_name,
+            labelText: t.go_add_edit_zone_screen.name,
             hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontFamily: context.watch<FontProvider>().fontFamily,
                   fontSize: context.watch<FontProvider>().fontSize,
@@ -342,7 +343,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Cancel',
+              t.go_add_edit_zone_screen.cancel,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,
@@ -355,7 +356,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      'Name cannot be empty.',
+                      t.go_add_edit_zone_screen.name_cannot_be_empty,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             fontFamily: context.watch<FontProvider>().fontFamily,
                             fontSize: context.watch<FontProvider>().fontSize,
@@ -368,7 +369,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
               Navigator.pop(context, nameController.text.trim());
             },
             child: Text(
-              'Save',
+              t.go_add_edit_zone_screen.save,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize,
@@ -398,7 +399,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'Zone saved successfully.',
+                t.go_add_edit_zone_screen.zone_saved_successfully,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontFamily: context.watch<FontProvider>().fontFamily,
                       fontSize: context.watch<FontProvider>().fontSize,
@@ -411,7 +412,9 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error saving Zone: $e')),
+            SnackBar(content: Text(
+              t.go_add_edit_zone_screen.error_saving_zone.replaceAll('{error}', e.toString()),
+            )),
           );
         }
       }
@@ -563,7 +566,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                 children: [
                   ListTile(
                     title: Text(
-                      'Contacts',
+                      t.go_add_edit_zone_screen.contacts,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -581,7 +584,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                   ),
                   ListTile(
                     title: Text(
-                      'Churches',
+                      t.go_add_edit_zone_screen.churches,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -599,7 +602,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                   ),
                   ListTile(
                     title: Text(
-                      'Ministries',
+                      t.go_add_edit_zone_screen.ministries,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -617,7 +620,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                   ),
                   ListTile(
                     title: Text(
-                      'Areas',
+                      t.go_add_edit_zone_screen.areas,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -635,7 +638,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                   ),
                   ListTile(
                     title: Text(
-                      'Streets',
+                      t.go_add_edit_zone_screen.streets,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -653,7 +656,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                   ),
                   ListTile(
                     title: Text(
-                      'Zones',
+                      t.go_add_edit_zone_screen.zones,
                       style: TextStyle(
                         fontFamily: context.watch<FontProvider>().fontFamily,
                         fontSize: context.watch<FontProvider>().fontSize,
@@ -682,18 +685,24 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.zone != null ? (widget.isViewMode ? 'View' : 'Edit') : 'Add'} Zone'),
+        title: Text(
+          (widget.zone != null
+              ? (widget.isViewMode
+                  ? t.go_add_edit_zone_screen.view
+                  : t.go_add_edit_zone_screen.edit)
+              : t.go_add_edit_zone_screen.add) + ' Zone',
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.visibility),
             onPressed: _showHideOptions,
-            tooltip: 'Hide Options',
+            tooltip: t.go_add_edit_zone_screen.hide_options,
           ),
           if (!widget.isViewMode)
             IconButton(
               icon: const Icon(Icons.save),
               onPressed: _showSaveZoneDialog,
-              tooltip: 'Save Zone',
+              tooltip: t.go_add_edit_zone_screen.save,
             ),
         ],
       ),
@@ -781,6 +790,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                     _mapController.animateTo(zoom: _mapController.mapController.camera.zoom + 1);
                   },
                   child: const Icon(Icons.add),
+                  tooltip: t.go_add_edit_zone_screen.zoom_in,
                 ),
                 const SizedBox(height: 8.0),
                 FloatingActionButton.small(
@@ -789,6 +799,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                     _mapController.animateTo(zoom: _mapController.mapController.camera.zoom - 1);
                   },
                   child: const Icon(Icons.remove),
+                  tooltip: t.go_add_edit_zone_screen.zoom_out,
                 ),
                 const SizedBox(height: 16.0),
                 if (!widget.isViewMode)
@@ -796,6 +807,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                     heroTag: 'increaseRadiusBtn',
                     onPressed: _increaseRadius,
                     child: const Icon(Icons.add_circle_outline),
+                    tooltip: t.go_add_edit_zone_screen.increase_radius,
                   ),
                 const SizedBox(height: 8.0),
                 if (!widget.isViewMode)
@@ -803,6 +815,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                     heroTag: 'decreaseRadiusBtn',
                     onPressed: _decreaseRadius,
                     child: const Icon(Icons.remove_circle_outline),
+                    tooltip: t.go_add_edit_zone_screen.decrease_radius,
                   ),
                 const SizedBox(height: 16.0),
                 if (!widget.isViewMode)
@@ -817,6 +830,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                       });
                     },
                     child: const Icon(Icons.center_focus_strong),
+                    tooltip: t.go_add_edit_zone_screen.set_center,
                   ),
               ],
             ),
