@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data'; // <-- Add this import
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -43,21 +44,23 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
     try {
       final data = items.map(toJson).toList();
       final jsonString = jsonEncode({'type': type, 'data': data});
-
-      final directory = await getTemporaryDirectory();
-      final filePath = '${directory.path}/$fileName.json';
-      final file = File(filePath);
-      await file.writeAsString(jsonString);
+      final jsonBytes = utf8.encode(jsonString);
 
       final result = await FilePicker.platform.saveFile(
         dialogTitle: 'Save $type JSON',
         fileName: '$fileName.json',
         allowedExtensions: ['json'],
         type: FileType.custom,
+        bytes: Uint8List.fromList(jsonBytes), // Pass bytes for Android/iOS
       );
 
       if (result != null) {
-        await file.copy(result);
+        // On Android/iOS, the file is already saved by FilePicker
+        // On desktop, we may need to write the file manually
+        if (!Platform.isAndroid && !Platform.isIOS) {
+          final file = File(result);
+          await file.writeAsBytes(jsonBytes);
+        }
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -373,11 +376,6 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
 
     try {
       final jsonString = jsonEncode(data);
-      final directory = await getTemporaryDirectory();
-      final filePath = '${directory.path}/all_data.json';
-      final file = File(filePath);
-      await file.writeAsString(jsonString);
-
       final result = await FilePicker.platform.saveFile(
         dialogTitle: 'Save All Data JSON',
         fileName: 'all_data.json',
@@ -386,7 +384,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
       );
 
       if (result != null) {
-        await file.copy(result);
+        final file = File(result);
+        await file.writeAsString(jsonString);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
