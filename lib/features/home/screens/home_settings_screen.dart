@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:by_faith/app/i18n/strings.g.dart';
+import 'package:by_faith/objectbox.dart';
+import 'package:by_faith/core/models/user_preferences_model.dart';
 import '../providers/home_settings_font_provider.dart';
 
 class HomeSettingsScreen extends StatefulWidget {
@@ -16,6 +18,9 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
   @override
   void initState() {
     super.initState();
+    // Load language preference from ObjectBox
+    final prefs = getUserPreferences(userPreferencesBox);
+    _selectedLanguage = Locale(prefs.languageCode ?? 'en');
   }
 
   @override
@@ -233,6 +238,7 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
                                       _selectedLanguage = AppLocale.en.flutterLocale;
                                     });
                                     LocaleSettings.setLocale(AppLocale.en);
+                                    setLanguagePreference(userPreferencesBox, 'en');
                                     Navigator.pop(context); // Pop back to HomeTabScreen to force rebuild
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -265,6 +271,7 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
                                       _selectedLanguage = AppLocale.es.flutterLocale;
                                     });
                                     LocaleSettings.setLocale(AppLocale.es);
+                                    setLanguagePreference(userPreferencesBox, 'es');
                                     Navigator.pop(context); // Pop back to HomeTabScreen to force rebuild
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -297,6 +304,7 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
                                       _selectedLanguage = AppLocale.hi.flutterLocale;
                                     });
                                     LocaleSettings.setLocale(AppLocale.hi);
+                                    setLanguagePreference(userPreferencesBox, 'hi');
                                     Navigator.pop(context); // Pop back to HomeTabScreen to force rebuild
                                   },
                                   style: ElevatedButton.styleFrom(

@@ -13,11 +13,28 @@ import 'package:flutter_localizations/flutter_localizations.dart'; // Import for
 import 'package:by_faith/objectbox.dart';
 import 'package:by_faith/features/go/providers/go_settings_font_provider.dart'; // Import GoSettingsFontProvider
 import 'package:by_faith/features/home/providers/home_settings_font_provider.dart'; // Import HomeSettingsFontProvider
+import 'package:by_faith/core/models/user_preferences_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupObjectBox();
-  LocaleSettings.useDeviceLocale(); // Initialize translations
+  // Load language preference from ObjectBox
+  final prefs = getUserPreferences(userPreferencesBox);
+  if (prefs.languageCode != null && prefs.languageCode!.isNotEmpty) {
+    // Set the saved locale
+    switch (prefs.languageCode) {
+      case 'es':
+        LocaleSettings.setLocale(AppLocale.es);
+        break;
+      case 'hi':
+        LocaleSettings.setLocale(AppLocale.hi);
+        break;
+      default:
+        LocaleSettings.setLocale(AppLocale.en);
+    }
+  } else {
+    LocaleSettings.useDeviceLocale();
+  }
   runApp(
     TranslationProvider(
       child: MultiProvider(

@@ -545,7 +545,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(11, 3993733589777755805),
     name: 'UserPreferences',
-    lastPropertyId: const obx_int.IdUid(4, 4944652992825156040),
+    lastPropertyId: const obx_int.IdUid(5, 5476669017858666079),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -570,6 +570,12 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(4, 4944652992825156040),
         name: 'fontSize',
         type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 5476669017858666079),
+        name: 'languageCode',
+        type: 9,
         flags: 0,
       ),
     ],
@@ -1371,11 +1377,15 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final fontFamilyOffset = object.fontFamily == null
             ? null
             : fbb.writeString(object.fontFamily!);
-        fbb.startTable(5);
+        final languageCodeOffset = object.languageCode == null
+            ? null
+            : fbb.writeString(object.languageCode!);
+        fbb.startTable(6);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, currentMapOffset);
         fbb.addOffset(2, fontFamilyOffset);
         fbb.addFloat64(3, object.fontSize);
+        fbb.addOffset(4, languageCodeOffset);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -1399,11 +1409,15 @@ obx_int.ModelDefinition getObjectBoxModel() {
           rootOffset,
           10,
         );
+        final languageCodeParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 12);
         final object = UserPreferences(
           id: idParam,
           currentMap: currentMapParam,
           fontFamily: fontFamilyParam,
           fontSize: fontSizeParam,
+          languageCode: languageCodeParam,
         );
 
         return object;
@@ -1809,5 +1823,10 @@ class UserPreferences_ {
   /// See [UserPreferences.fontSize].
   static final fontSize = obx.QueryDoubleProperty<UserPreferences>(
     _entities[10].properties[3],
+  );
+
+  /// See [UserPreferences.languageCode].
+  static final languageCode = obx.QueryStringProperty<UserPreferences>(
+    _entities[10].properties[4],
   );
 }

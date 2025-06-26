@@ -452,7 +452,7 @@
     },
     {
       "id": "11:3993733589777755805",
-      "lastPropertyId": "4:4944652992825156040",
+      "lastPropertyId": "5:5476669017858666079",
       "name": "UserPreferences",
       "properties": [
         {
@@ -475,6 +475,11 @@
           "id": "4:4944652992825156040",
           "name": "fontSize",
           "type": 8
+        },
+        {
+          "id": "5:5476669017858666079",
+          "name": "languageCode",
+          "type": 9
         }
       ],
       "relations": []
