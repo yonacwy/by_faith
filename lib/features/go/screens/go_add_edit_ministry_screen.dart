@@ -243,11 +243,15 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 4.0),
           child: ListTile(
-            title: quill.QuillEditor.basic(
+            title: quill.QuillEditor(
               controller: quill.QuillController(
                 document: quill.Document.fromJson(jsonDecode(note.content)),
                 selection: const TextSelection.collapsed(offset: 0),
-                readOnly: true,
+              ),
+              focusNode: FocusNode(),
+              scrollController: ScrollController(),
+              config: quill.QuillEditorConfig(
+                embedBuilders: quill_extensions.FlutterQuillEmbeds.editorBuilders(),
               ),
             ),
             subtitle: Text(
@@ -317,9 +321,9 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
             content: Text(
               'Ministry added!',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                    fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
-                  ),
+                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+              ),
             ),
           ),
         );
@@ -522,13 +526,13 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                   labelText: 'Longitude',
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                        fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
                     ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -550,8 +554,8 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                   child: Text(
                     'Save Ministry',
                     style: TextStyle(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
                     ),
                   ),
                 ),
@@ -628,8 +632,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
         title: Text(
           widget.note != null ? 'Edit Note' : 'Add Note',
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
           ),
         ),
         actions: [

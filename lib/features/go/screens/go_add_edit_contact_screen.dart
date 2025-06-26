@@ -273,11 +273,15 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 4.0),
           child: ListTile(
-            title: quill.QuillEditor.basic(
+            title: quill.QuillEditor(
               controller: quill.QuillController(
                 document: quill.Document.fromJson(jsonDecode(note.content)),
                 selection: const TextSelection.collapsed(offset: 0),
-                readOnly: true,
+              ),
+              focusNode: FocusNode(),
+              scrollController: ScrollController(),
+              config: quill.QuillEditorConfig(
+                embedBuilders: quill_extensions.FlutterQuillEmbeds.editorBuilders(),
               ),
             ),
             subtitle: Text(

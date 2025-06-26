@@ -245,15 +245,19 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 4.0),
           child: ListTile(
-            title: quill.QuillEditor.basic(
+            title: quill.QuillEditor(
               controller: quill.QuillController(
                 document: quill.Document.fromJson(jsonDecode(note.content)),
                 selection: const TextSelection.collapsed(offset: 0),
-                readOnly: true,
+              ),
+              focusNode: FocusNode(),
+              scrollController: ScrollController(),
+              config: quill.QuillEditorConfig(
+                embedBuilders: quill_extensions.FlutterQuillEmbeds.editorBuilders(),
               ),
             ),
             subtitle: Text(
-              '${t.go_add_edit_church_screen.created}: \\${DateFormat.yMMMd().format(note.createdAt)}',
+              '${t.go_add_edit_church_screen.created}: ${DateFormat.yMMMd().format(note.createdAt)}',
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     fontFamily: context.watch<FontProvider>().fontFamily,
                     fontSize: context.watch<FontProvider>().fontSize - 2,
