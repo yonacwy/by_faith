@@ -36,11 +36,11 @@ class TranslationsEs implements Translations {
 	TranslationsEs $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => TranslationsEs(meta: meta ?? this.$meta);
 
 	// Translations
+	@override late final _TranslationsMainEs main = _TranslationsMainEs._(_root);
 	@override late final _TranslationsHomeTabScreenEs home_tab_screen = _TranslationsHomeTabScreenEs._(_root);
 	@override late final _TranslationsHomeSettingsScreenEs home_settings_screen = _TranslationsHomeSettingsScreenEs._(_root);
 	@override late final _TranslationsGoAddEditAreaScreenEs go_add_edit_area_screen = _TranslationsGoAddEditAreaScreenEs._(_root);
 	@override late final _TranslationsGoAddEditChurchScreenEs go_add_edit_church_screen = _TranslationsGoAddEditChurchScreenEs._(_root);
-	@override late final _TranslationsGoSettingsScreenEs go_settings_screen = _TranslationsGoSettingsScreenEs._(_root);
 	@override late final _TranslationsGoAddEditContactScreenEs go_add_edit_contact_screen = _TranslationsGoAddEditContactScreenEs._(_root);
 	@override late final _TranslationsGoAddEditMinistryScreenEs go_add_edit_ministry_screen = _TranslationsGoAddEditMinistryScreenEs._(_root);
 	@override late final _TranslationsGoAddEditStreetScreenEs go_add_edit_street_screen = _TranslationsGoAddEditStreetScreenEs._(_root);
@@ -54,8 +54,24 @@ class TranslationsEs implements Translations {
 	@override late final _TranslationsGoSearchScreenEs go_search_screen = _TranslationsGoSearchScreenEs._(_root);
 	@override late final _TranslationsGoSelectMapAreaScreenEs go_select_map_area_screen = _TranslationsGoSelectMapAreaScreenEs._(_root);
 	@override late final _TranslationsGoSelectMapRoutesScreenEs go_select_map_routes_screen = _TranslationsGoSelectMapRoutesScreenEs._(_root);
+	@override late final _TranslationsGoSettingsScreenEs go_settings_screen = _TranslationsGoSettingsScreenEs._(_root);
 	@override late final _TranslationsGoShareScreenEs go_share_screen = _TranslationsGoShareScreenEs._(_root);
 	@override late final _TranslationsGoTabScreenEs go_tab_screen = _TranslationsGoTabScreenEs._(_root);
+}
+
+// Path: main
+class _TranslationsMainEs implements TranslationsMainEn {
+	_TranslationsMainEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Por Fe';
+	@override String get home => 'Casa';
+	@override String get pray => 'Orar';
+	@override String get read => 'Leer';
+	@override String get study => 'Estudiar';
+	@override String get go => 'Ir';
 }
 
 // Path: home_tab_screen
@@ -174,23 +190,6 @@ class _TranslationsGoAddEditChurchScreenEs implements TranslationsGoAddEditChurc
 	@override String get please_enter_latitude => 'Por favor, introduce una latitud';
 	@override String get please_enter_longitude => 'Por favor, introduce una longitud';
 	@override String get please_enter_valid_number => 'Por favor, introduce un número válido';
-}
-
-// Path: go_settings_screen
-class _TranslationsGoSettingsScreenEs implements TranslationsGoSettingsScreenEn {
-	_TranslationsGoSettingsScreenEs._(this._root);
-
-	final TranslationsEs _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'Ajustes';
-	@override String get text_settings => 'Ajustes de Texto';
-	@override String get font_family => 'Familia de Fuente';
-	@override String get font_size => 'Tamaño de Fuente:';
-	@override String get preview => 'Vista Previa:';
-	@override String get back => 'Atrás';
-	@override String get load => 'Cargar';
-	@override String get sample_text => 'Y les dijo: Id por todo el mundo y predicad el evangelio a toda criatura.';
 }
 
 // Path: go_add_edit_contact_screen
@@ -596,6 +595,23 @@ class _TranslationsGoSelectMapRoutesScreenEs implements TranslationsGoSelectMapR
 	@override String get zoom_out => 'Alejar';
 }
 
+// Path: go_settings_screen
+class _TranslationsGoSettingsScreenEs implements TranslationsGoSettingsScreenEn {
+	_TranslationsGoSettingsScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Ajustes';
+	@override String get text_settings => 'Ajustes de Texto';
+	@override String get font_family => 'Familia de Fuente';
+	@override String get font_size => 'Tamaño de Fuente:';
+	@override String get preview => 'Vista Previa:';
+	@override String get back => 'Atrás';
+	@override String get load => 'Cargar';
+	@override String get sample_text => 'Y les dijo: Id por todo el mundo y predicad el evangelio a toda criatura.';
+}
+
 // Path: go_share_screen
 class _TranslationsGoShareScreenEs implements TranslationsGoShareScreenEn {
 	_TranslationsGoShareScreenEs._(this._root);
@@ -677,6 +693,12 @@ class _TranslationsGoTabScreenEs implements TranslationsGoTabScreenEn {
 extension on TranslationsEs {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'main.title': return 'Por Fe';
+			case 'main.home': return 'Casa';
+			case 'main.pray': return 'Orar';
+			case 'main.read': return 'Leer';
+			case 'main.study': return 'Estudiar';
+			case 'main.go': return 'Ir';
 			case 'home_tab_screen.title': return 'Inicio';
 			case 'home_tab_screen.menu': return 'Menú de Inicio';
 			case 'home_tab_screen.info': return 'Información';
@@ -759,14 +781,6 @@ extension on TranslationsEs {
 			case 'go_add_edit_church_screen.please_enter_latitude': return 'Por favor, introduce una latitud';
 			case 'go_add_edit_church_screen.please_enter_longitude': return 'Por favor, introduce una longitud';
 			case 'go_add_edit_church_screen.please_enter_valid_number': return 'Por favor, introduce un número válido';
-			case 'go_settings_screen.title': return 'Ajustes';
-			case 'go_settings_screen.text_settings': return 'Ajustes de Texto';
-			case 'go_settings_screen.font_family': return 'Familia de Fuente';
-			case 'go_settings_screen.font_size': return 'Tamaño de Fuente:';
-			case 'go_settings_screen.preview': return 'Vista Previa:';
-			case 'go_settings_screen.back': return 'Atrás';
-			case 'go_settings_screen.load': return 'Cargar';
-			case 'go_settings_screen.sample_text': return 'Y les dijo: Id por todo el mundo y predicad el evangelio a toda criatura.';
 			case 'go_add_edit_contact_screen.delete_contact': return 'Eliminar Contacto';
 			case 'go_add_edit_contact_screen.delete_contact_confirmation': return '¿Estás seguro de que quieres eliminar a {fullName}? Esto eliminará todas las notas asociadas.';
 			case 'go_add_edit_contact_screen.cancel': return 'Cancelar';
@@ -1053,6 +1067,14 @@ extension on TranslationsEs {
 			case 'go_select_map_routes_screen.error_saving_item': return 'Error al guardar el elemento: {error}';
 			case 'go_select_map_routes_screen.zoom_in': return 'Acercar';
 			case 'go_select_map_routes_screen.zoom_out': return 'Alejar';
+			case 'go_settings_screen.title': return 'Ajustes';
+			case 'go_settings_screen.text_settings': return 'Ajustes de Texto';
+			case 'go_settings_screen.font_family': return 'Familia de Fuente';
+			case 'go_settings_screen.font_size': return 'Tamaño de Fuente:';
+			case 'go_settings_screen.preview': return 'Vista Previa:';
+			case 'go_settings_screen.back': return 'Atrás';
+			case 'go_settings_screen.load': return 'Cargar';
+			case 'go_settings_screen.sample_text': return 'Y les dijo: Id por todo el mundo y predicad el evangelio a toda criatura.';
 			case 'go_share_screen.title': return 'Compartir';
 			case 'go_share_screen.churches': return 'Iglesias';
 			case 'go_share_screen.contacts': return 'Contactos';

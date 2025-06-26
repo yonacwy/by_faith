@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'By Faith',
+      title: t.main.title,
       supportedLocales: AppLocale.values.map((e) => e.flutterLocale),
       locale: TranslationProvider.of(context).flutterLocale,
       localizationsDelegates: const [
@@ -86,26 +86,26 @@ class _MainScreenState extends State<MainScreen> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: const Icon(Icons.home),
+            label: t.main.home,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Symbols.folded_hands), // Pray icon
-            label: 'Pray',
+            icon: const Icon(Symbols.folded_hands), // Pray icon
+            label: t.main.pray,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book), // Read icon
-            label: 'Read',
+            icon: const Icon(Icons.menu_book), // Read icon
+            label: t.main.read,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school), // Study icon
-            label: 'Study',
+            icon: const Icon(Icons.school), // Study icon
+            label: t.main.study,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Symbols.globe), // Go icon
-            label: 'Go',
+            icon: const Icon(Symbols.globe), // Go icon
+            label: t.main.go,
           ),
         ],
         currentIndex: _selectedIndex,

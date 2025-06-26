@@ -1,4 +1,12 @@
 {
+  "main": {
+    "title": "By Faith",
+    "home": "Home",
+    "pray": "Pray",
+    "read": "Read",
+    "study": "Study",
+    "go": "Go"
+  },
   "home_tab_screen": {
     "title": "Home",
     "menu": "Home Menu",
@@ -9,7 +17,7 @@
     "settings": "Settings",
     "content": "Home Tab Content"
   },
-  "home_settings_screen": {
+    "home_settings_screen": {
     "title": "Settings",
     "language": "Language",
     "english": "English",
@@ -88,16 +96,6 @@
     "please_enter_latitude": "Please enter a latitude",
     "please_enter_longitude": "Please enter a longitude",
     "please_enter_valid_number": "Please enter a valid number"
-  },
-  "go_settings_screen": {
-    "title": "Settings",
-    "text_settings": "Text Settings",
-    "font_family": "Font Family",
-    "font_size": "Font Size:",
-    "preview": "Preview:",
-    "back": "Back",
-    "load": "Load",
-    "sample_text": "And he said unto them, Go ye into all the world, and preach the gospel to every creature."
   },
   "go_add_edit_contact_screen": {
     "delete_contact": "Delete Contact",
@@ -410,6 +408,16 @@
     "error_saving_item": "Error saving item: {error}",
     "zoom_in": "Zoom In",
     "zoom_out": "Zoom Out"
+  },
+  "go_settings_screen": {
+    "title": "Settings",
+    "text_settings": "Text Settings",
+    "font_family": "Font Family",
+    "font_size": "Font Size:",
+    "preview": "Preview:",
+    "back": "Back",
+    "load": "Load",
+    "sample_text": "And he said unto them, Go ye into all the world, and preach the gospel to every creature."
   },
   "go_share_screen": {
     "title": "Share",

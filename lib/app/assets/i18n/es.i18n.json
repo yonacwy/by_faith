@@ -1,4 +1,12 @@
 {
+  "main": {
+    "title": "Por Fe",
+    "home": "Casa",
+    "pray": "Orar",
+    "read": "Leer",
+    "study": "Estudiar",
+    "go": "Ir"
+  },
   "home_tab_screen": {
     "title": "Inicio",
     "menu": "Menú de Inicio",
@@ -9,7 +17,7 @@
     "settings": "Ajustes",
     "content": "Contenido de la Pestaña de Inicio"
   },
-  "home_settings_screen": {
+    "home_settings_screen": {
     "title": "Ajustes",
     "language": "Idioma",
     "english": "Inglés",
@@ -88,16 +96,6 @@
     "please_enter_latitude": "Por favor, introduce una latitud",
     "please_enter_longitude": "Por favor, introduce una longitud",
     "please_enter_valid_number": "Por favor, introduce un número válido"
-  },
-  "go_settings_screen": {
-    "title": "Ajustes",
-    "text_settings": "Ajustes de Texto",
-    "font_family": "Familia de Fuente",
-    "font_size": "Tamaño de Fuente:",
-    "preview": "Vista Previa:",
-    "back": "Atrás",
-    "load": "Cargar",
-    "sample_text": "Y les dijo: Id por todo el mundo y predicad el evangelio a toda criatura."
   },
   "go_add_edit_contact_screen": {
     "delete_contact": "Eliminar Contacto",
@@ -410,6 +408,16 @@
     "error_saving_item": "Error al guardar el elemento: {error}",
     "zoom_in": "Acercar",
     "zoom_out": "Alejar"
+  },
+  "go_settings_screen": {
+    "title": "Ajustes",
+    "text_settings": "Ajustes de Texto",
+    "font_family": "Familia de Fuente",
+    "font_size": "Tamaño de Fuente:",
+    "preview": "Vista Previa:",
+    "back": "Atrás",
+    "load": "Cargar",
+    "sample_text": "Y les dijo: Id por todo el mundo y predicad el evangelio a toda criatura."
   },
   "go_share_screen": {
     "title": "Compartir",

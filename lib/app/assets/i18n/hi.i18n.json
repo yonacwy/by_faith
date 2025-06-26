@@ -1,4 +1,12 @@
 {
+  "main": {
+    "title": "मुख्य शीर्षक",
+    "home": "होम",
+    "pray": "प्रार्थना",
+    "read": "पढ़ें",
+    "study": "अध्ययन",
+    "go": "जाओ"
+  },
   "home_tab_screen": {
     "title": "होम",
     "menu": "होम मेनू",
@@ -9,7 +17,7 @@
     "settings": "सेटिंग्स",
     "content": "होम टैब सामग्री"
   },
-  "home_settings_screen": {
+    "home_settings_screen": {
     "title": "सेटिंग्स",
     "language": "भाषा",
     "english": "अंग्रेज़ी",
@@ -88,16 +96,6 @@
     "please_enter_latitude": "कृपया अक्षांश दर्ज करें",
     "please_enter_longitude": "कृपया देशांतर दर्ज करें",
     "please_enter_valid_number": "कृपया मान्य संख्या दर्ज करें"
-  },
-  "go_settings_screen": {
-    "title": "सेटिंग्स",
-    "text_settings": "पाठ सेटिंग्स",
-    "font_family": "फ़ॉन्ट परिवार",
-    "font_size": "फ़ॉन्ट आकार:",
-    "preview": "पूर्वावलोकन:",
-    "back": "वापस",
-    "load": "लोड करें",
-    "sample_text": "और उसने उनसे कहा, सारी दुनिया में जाकर सब प्राणी को सुसमाचार प्रचार करो।"
   },
   "go_add_edit_contact_screen": {
     "delete_contact": "संपर्क हटाएँ",
@@ -410,6 +408,16 @@
     "error_saving_item": "आइटम सहेजने में त्रुटि: {error}",
     "zoom_in": "ज़ूम इन",
     "zoom_out": "ज़ूम आउट"
+  },
+  "go_settings_screen": {
+    "title": "सेटिंग्स",
+    "text_settings": "पाठ सेटिंग्स",
+    "font_family": "फ़ॉन्ट परिवार",
+    "font_size": "फ़ॉन्ट आकार:",
+    "preview": "पूर्वावलोकन:",
+    "back": "वापस",
+    "load": "लोड करें",
+    "sample_text": "और उसने उनसे कहा, सारी दुनिया में जाकर सब प्राणी को सुसमाचार प्रचार करो।"
   },
   "go_share_screen": {
     "title": "साझा करें",

@@ -39,11 +39,11 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => Translations(meta: meta ?? this.$meta);
 
 	// Translations
+	late final TranslationsMainEn main = TranslationsMainEn._(_root);
 	late final TranslationsHomeTabScreenEn home_tab_screen = TranslationsHomeTabScreenEn._(_root);
 	late final TranslationsHomeSettingsScreenEn home_settings_screen = TranslationsHomeSettingsScreenEn._(_root);
 	late final TranslationsGoAddEditAreaScreenEn go_add_edit_area_screen = TranslationsGoAddEditAreaScreenEn._(_root);
 	late final TranslationsGoAddEditChurchScreenEn go_add_edit_church_screen = TranslationsGoAddEditChurchScreenEn._(_root);
-	late final TranslationsGoSettingsScreenEn go_settings_screen = TranslationsGoSettingsScreenEn._(_root);
 	late final TranslationsGoAddEditContactScreenEn go_add_edit_contact_screen = TranslationsGoAddEditContactScreenEn._(_root);
 	late final TranslationsGoAddEditMinistryScreenEn go_add_edit_ministry_screen = TranslationsGoAddEditMinistryScreenEn._(_root);
 	late final TranslationsGoAddEditStreetScreenEn go_add_edit_street_screen = TranslationsGoAddEditStreetScreenEn._(_root);
@@ -57,8 +57,24 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final TranslationsGoSearchScreenEn go_search_screen = TranslationsGoSearchScreenEn._(_root);
 	late final TranslationsGoSelectMapAreaScreenEn go_select_map_area_screen = TranslationsGoSelectMapAreaScreenEn._(_root);
 	late final TranslationsGoSelectMapRoutesScreenEn go_select_map_routes_screen = TranslationsGoSelectMapRoutesScreenEn._(_root);
+	late final TranslationsGoSettingsScreenEn go_settings_screen = TranslationsGoSettingsScreenEn._(_root);
 	late final TranslationsGoShareScreenEn go_share_screen = TranslationsGoShareScreenEn._(_root);
 	late final TranslationsGoTabScreenEn go_tab_screen = TranslationsGoTabScreenEn._(_root);
+}
+
+// Path: main
+class TranslationsMainEn {
+	TranslationsMainEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'By Faith';
+	String get home => 'Home';
+	String get pray => 'Pray';
+	String get read => 'Read';
+	String get study => 'Study';
+	String get go => 'Go';
 }
 
 // Path: home_tab_screen
@@ -177,23 +193,6 @@ class TranslationsGoAddEditChurchScreenEn {
 	String get please_enter_latitude => 'Please enter a latitude';
 	String get please_enter_longitude => 'Please enter a longitude';
 	String get please_enter_valid_number => 'Please enter a valid number';
-}
-
-// Path: go_settings_screen
-class TranslationsGoSettingsScreenEn {
-	TranslationsGoSettingsScreenEn._(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-	String get title => 'Settings';
-	String get text_settings => 'Text Settings';
-	String get font_family => 'Font Family';
-	String get font_size => 'Font Size:';
-	String get preview => 'Preview:';
-	String get back => 'Back';
-	String get load => 'Load';
-	String get sample_text => 'And he said unto them, Go ye into all the world, and preach the gospel to every creature.';
 }
 
 // Path: go_add_edit_contact_screen
@@ -599,6 +598,23 @@ class TranslationsGoSelectMapRoutesScreenEn {
 	String get zoom_out => 'Zoom Out';
 }
 
+// Path: go_settings_screen
+class TranslationsGoSettingsScreenEn {
+	TranslationsGoSettingsScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Settings';
+	String get text_settings => 'Text Settings';
+	String get font_family => 'Font Family';
+	String get font_size => 'Font Size:';
+	String get preview => 'Preview:';
+	String get back => 'Back';
+	String get load => 'Load';
+	String get sample_text => 'And he said unto them, Go ye into all the world, and preach the gospel to every creature.';
+}
+
 // Path: go_share_screen
 class TranslationsGoShareScreenEn {
 	TranslationsGoShareScreenEn._(this._root);
@@ -680,6 +696,12 @@ class TranslationsGoTabScreenEn {
 extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'main.title': return 'By Faith';
+			case 'main.home': return 'Home';
+			case 'main.pray': return 'Pray';
+			case 'main.read': return 'Read';
+			case 'main.study': return 'Study';
+			case 'main.go': return 'Go';
 			case 'home_tab_screen.title': return 'Home';
 			case 'home_tab_screen.menu': return 'Home Menu';
 			case 'home_tab_screen.info': return 'Info';
@@ -762,14 +784,6 @@ extension on Translations {
 			case 'go_add_edit_church_screen.please_enter_latitude': return 'Please enter a latitude';
 			case 'go_add_edit_church_screen.please_enter_longitude': return 'Please enter a longitude';
 			case 'go_add_edit_church_screen.please_enter_valid_number': return 'Please enter a valid number';
-			case 'go_settings_screen.title': return 'Settings';
-			case 'go_settings_screen.text_settings': return 'Text Settings';
-			case 'go_settings_screen.font_family': return 'Font Family';
-			case 'go_settings_screen.font_size': return 'Font Size:';
-			case 'go_settings_screen.preview': return 'Preview:';
-			case 'go_settings_screen.back': return 'Back';
-			case 'go_settings_screen.load': return 'Load';
-			case 'go_settings_screen.sample_text': return 'And he said unto them, Go ye into all the world, and preach the gospel to every creature.';
 			case 'go_add_edit_contact_screen.delete_contact': return 'Delete Contact';
 			case 'go_add_edit_contact_screen.delete_contact_confirmation': return 'Are you sure you want to delete {fullName}? This will delete all associated notes.';
 			case 'go_add_edit_contact_screen.cancel': return 'Cancel';
@@ -1056,6 +1070,14 @@ extension on Translations {
 			case 'go_select_map_routes_screen.error_saving_item': return 'Error saving item: {error}';
 			case 'go_select_map_routes_screen.zoom_in': return 'Zoom In';
 			case 'go_select_map_routes_screen.zoom_out': return 'Zoom Out';
+			case 'go_settings_screen.title': return 'Settings';
+			case 'go_settings_screen.text_settings': return 'Text Settings';
+			case 'go_settings_screen.font_family': return 'Font Family';
+			case 'go_settings_screen.font_size': return 'Font Size:';
+			case 'go_settings_screen.preview': return 'Preview:';
+			case 'go_settings_screen.back': return 'Back';
+			case 'go_settings_screen.load': return 'Load';
+			case 'go_settings_screen.sample_text': return 'And he said unto them, Go ye into all the world, and preach the gospel to every creature.';
 			case 'go_share_screen.title': return 'Share';
 			case 'go_share_screen.churches': return 'Churches';
 			case 'go_share_screen.contacts': return 'Contacts';

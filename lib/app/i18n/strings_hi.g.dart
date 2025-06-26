@@ -36,11 +36,11 @@ class TranslationsHi implements Translations {
 	TranslationsHi $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => TranslationsHi(meta: meta ?? this.$meta);
 
 	// Translations
+	@override late final _TranslationsMainHi main = _TranslationsMainHi._(_root);
 	@override late final _TranslationsHomeTabScreenHi home_tab_screen = _TranslationsHomeTabScreenHi._(_root);
 	@override late final _TranslationsHomeSettingsScreenHi home_settings_screen = _TranslationsHomeSettingsScreenHi._(_root);
 	@override late final _TranslationsGoAddEditAreaScreenHi go_add_edit_area_screen = _TranslationsGoAddEditAreaScreenHi._(_root);
 	@override late final _TranslationsGoAddEditChurchScreenHi go_add_edit_church_screen = _TranslationsGoAddEditChurchScreenHi._(_root);
-	@override late final _TranslationsGoSettingsScreenHi go_settings_screen = _TranslationsGoSettingsScreenHi._(_root);
 	@override late final _TranslationsGoAddEditContactScreenHi go_add_edit_contact_screen = _TranslationsGoAddEditContactScreenHi._(_root);
 	@override late final _TranslationsGoAddEditMinistryScreenHi go_add_edit_ministry_screen = _TranslationsGoAddEditMinistryScreenHi._(_root);
 	@override late final _TranslationsGoAddEditStreetScreenHi go_add_edit_street_screen = _TranslationsGoAddEditStreetScreenHi._(_root);
@@ -54,8 +54,24 @@ class TranslationsHi implements Translations {
 	@override late final _TranslationsGoSearchScreenHi go_search_screen = _TranslationsGoSearchScreenHi._(_root);
 	@override late final _TranslationsGoSelectMapAreaScreenHi go_select_map_area_screen = _TranslationsGoSelectMapAreaScreenHi._(_root);
 	@override late final _TranslationsGoSelectMapRoutesScreenHi go_select_map_routes_screen = _TranslationsGoSelectMapRoutesScreenHi._(_root);
+	@override late final _TranslationsGoSettingsScreenHi go_settings_screen = _TranslationsGoSettingsScreenHi._(_root);
 	@override late final _TranslationsGoShareScreenHi go_share_screen = _TranslationsGoShareScreenHi._(_root);
 	@override late final _TranslationsGoTabScreenHi go_tab_screen = _TranslationsGoTabScreenHi._(_root);
+}
+
+// Path: main
+class _TranslationsMainHi implements TranslationsMainEn {
+	_TranslationsMainHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'मुख्य शीर्षक';
+	@override String get home => 'होम';
+	@override String get pray => 'प्रार्थना';
+	@override String get read => 'पढ़ें';
+	@override String get study => 'अध्ययन';
+	@override String get go => 'जाओ';
 }
 
 // Path: home_tab_screen
@@ -174,23 +190,6 @@ class _TranslationsGoAddEditChurchScreenHi implements TranslationsGoAddEditChurc
 	@override String get please_enter_latitude => 'कृपया अक्षांश दर्ज करें';
 	@override String get please_enter_longitude => 'कृपया देशांतर दर्ज करें';
 	@override String get please_enter_valid_number => 'कृपया मान्य संख्या दर्ज करें';
-}
-
-// Path: go_settings_screen
-class _TranslationsGoSettingsScreenHi implements TranslationsGoSettingsScreenEn {
-	_TranslationsGoSettingsScreenHi._(this._root);
-
-	final TranslationsHi _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'सेटिंग्स';
-	@override String get text_settings => 'पाठ सेटिंग्स';
-	@override String get font_family => 'फ़ॉन्ट परिवार';
-	@override String get font_size => 'फ़ॉन्ट आकार:';
-	@override String get preview => 'पूर्वावलोकन:';
-	@override String get back => 'वापस';
-	@override String get load => 'लोड करें';
-	@override String get sample_text => 'और उसने उनसे कहा, सारी दुनिया में जाकर सब प्राणी को सुसमाचार प्रचार करो।';
 }
 
 // Path: go_add_edit_contact_screen
@@ -596,6 +595,23 @@ class _TranslationsGoSelectMapRoutesScreenHi implements TranslationsGoSelectMapR
 	@override String get zoom_out => 'ज़ूम आउट';
 }
 
+// Path: go_settings_screen
+class _TranslationsGoSettingsScreenHi implements TranslationsGoSettingsScreenEn {
+	_TranslationsGoSettingsScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'सेटिंग्स';
+	@override String get text_settings => 'पाठ सेटिंग्स';
+	@override String get font_family => 'फ़ॉन्ट परिवार';
+	@override String get font_size => 'फ़ॉन्ट आकार:';
+	@override String get preview => 'पूर्वावलोकन:';
+	@override String get back => 'वापस';
+	@override String get load => 'लोड करें';
+	@override String get sample_text => 'और उसने उनसे कहा, सारी दुनिया में जाकर सब प्राणी को सुसमाचार प्रचार करो।';
+}
+
 // Path: go_share_screen
 class _TranslationsGoShareScreenHi implements TranslationsGoShareScreenEn {
 	_TranslationsGoShareScreenHi._(this._root);
@@ -678,6 +694,12 @@ class _TranslationsGoTabScreenHi implements TranslationsGoTabScreenEn {
 extension on TranslationsHi {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'main.title': return 'मुख्य शीर्षक';
+			case 'main.home': return 'होम';
+			case 'main.pray': return 'प्रार्थना';
+			case 'main.read': return 'पढ़ें';
+			case 'main.study': return 'अध्ययन';
+			case 'main.go': return 'जाओ';
 			case 'home_tab_screen.title': return 'होम';
 			case 'home_tab_screen.menu': return 'होम मेनू';
 			case 'home_tab_screen.info': return 'जानकारी';
@@ -760,14 +782,6 @@ extension on TranslationsHi {
 			case 'go_add_edit_church_screen.please_enter_latitude': return 'कृपया अक्षांश दर्ज करें';
 			case 'go_add_edit_church_screen.please_enter_longitude': return 'कृपया देशांतर दर्ज करें';
 			case 'go_add_edit_church_screen.please_enter_valid_number': return 'कृपया मान्य संख्या दर्ज करें';
-			case 'go_settings_screen.title': return 'सेटिंग्स';
-			case 'go_settings_screen.text_settings': return 'पाठ सेटिंग्स';
-			case 'go_settings_screen.font_family': return 'फ़ॉन्ट परिवार';
-			case 'go_settings_screen.font_size': return 'फ़ॉन्ट आकार:';
-			case 'go_settings_screen.preview': return 'पूर्वावलोकन:';
-			case 'go_settings_screen.back': return 'वापस';
-			case 'go_settings_screen.load': return 'लोड करें';
-			case 'go_settings_screen.sample_text': return 'और उसने उनसे कहा, सारी दुनिया में जाकर सब प्राणी को सुसमाचार प्रचार करो।';
 			case 'go_add_edit_contact_screen.delete_contact': return 'संपर्क हटाएँ';
 			case 'go_add_edit_contact_screen.delete_contact_confirmation': return 'क्या आप वाकई {fullName} को हटाना चाहते हैं? इससे सभी संबंधित नोट्स हट जाएंगे।';
 			case 'go_add_edit_contact_screen.cancel': return 'रद्द करें';
@@ -1054,6 +1068,14 @@ extension on TranslationsHi {
 			case 'go_select_map_routes_screen.error_saving_item': return 'आइटम सहेजने में त्रुटि: {error}';
 			case 'go_select_map_routes_screen.zoom_in': return 'ज़ूम इन';
 			case 'go_select_map_routes_screen.zoom_out': return 'ज़ूम आउट';
+			case 'go_settings_screen.title': return 'सेटिंग्स';
+			case 'go_settings_screen.text_settings': return 'पाठ सेटिंग्स';
+			case 'go_settings_screen.font_family': return 'फ़ॉन्ट परिवार';
+			case 'go_settings_screen.font_size': return 'फ़ॉन्ट आकार:';
+			case 'go_settings_screen.preview': return 'पूर्वावलोकन:';
+			case 'go_settings_screen.back': return 'वापस';
+			case 'go_settings_screen.load': return 'लोड करें';
+			case 'go_settings_screen.sample_text': return 'और उसने उनसे कहा, सारी दुनिया में जाकर सब प्राणी को सुसमाचार प्रचार करो।';
 			case 'go_share_screen.title': return 'साझा करें';
 			case 'go_share_screen.churches': return 'चर्च';
 			case 'go_share_screen.contacts': return 'संपर्क';
