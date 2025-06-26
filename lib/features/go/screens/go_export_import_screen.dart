@@ -172,7 +172,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
 
   GoContact _contactFromJson(Map<String, dynamic> json) {
     final contact = GoContact(
-      id: json['id'] ?? 0,
+      id: 0, // Set ID to 0 for new objects during import
       fullName: json['fullName'],
       latitude: json['latitude'],
       longitude: json['longitude'],
@@ -186,7 +186,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
     final notes = (json['notes'] as List<dynamic>? ?? []).cast<Map<String, dynamic>>();
     for (var noteJson in notes) {
       final note = GoContactNote(
-        id: noteJson['id'] ?? 0,
+        id: 0, // Set ID to 0 for new objects during import
         content: noteJson['content'],
         createdAt: DateTime.parse(noteJson['createdAt']),
         updatedAt: noteJson['updatedAt'] != null ? DateTime.parse(noteJson['updatedAt']) : null,
@@ -222,7 +222,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
 
   GoChurch _churchFromJson(Map<String, dynamic> json) {
     final church = GoChurch(
-      id: json['id'] ?? 0,
+      id: 0, // Set ID to 0 for new objects during import
       churchName: json['churchName'],
       pastorName: json['pastorName'],
       address: json['address'],
@@ -235,7 +235,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
     final notes = (json['notes'] as List<dynamic>? ?? []).cast<Map<String, dynamic>>();
     for (var noteJson in notes) {
       final note = GoChurchNote(
-        id: noteJson['id'] ?? 0,
+        id: 0, // Set ID to 0 for new objects during import
         content: noteJson['content'],
         createdAt: DateTime.parse(noteJson['createdAt']),
         updatedAt: noteJson['updatedAt'] != null ? DateTime.parse(noteJson['updatedAt']) : null,
@@ -271,7 +271,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
 
   GoMinistry _ministryFromJson(Map<String, dynamic> json) {
     final ministry = GoMinistry(
-      id: json['id'] ?? 0,
+      id: 0, // Set ID to 0 for new objects during import
       ministryName: json['ministryName'],
       contactName: json['contactName'],
       address: json['address'],
@@ -284,7 +284,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
     final notes = (json['notes'] as List<dynamic>? ?? []).cast<Map<String, dynamic>>();
     for (var noteJson in notes) {
       final note = GoMinistryNote(
-        id: noteJson['id'] ?? 0,
+        id: 0, // Set ID to 0 for new objects during import
         content: noteJson['content'],
         createdAt: DateTime.parse(noteJson['createdAt']),
         updatedAt: noteJson['updatedAt'] != null ? DateTime.parse(noteJson['updatedAt']) : null,
@@ -306,7 +306,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
 
   GoArea _areaFromJson(Map<String, dynamic> json) {
     return GoArea(
-      id: json['id'] ?? 0,
+      id: 0, // Set ID to 0 for new objects during import
       name: json['name'],
       latitudes: (json['latitudes'] as List<dynamic>).cast<double>(),
       longitudes: (json['longitudes'] as List<dynamic>).cast<double>(),
@@ -325,7 +325,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
 
   GoStreet _streetFromJson(Map<String, dynamic> json) {
     return GoStreet(
-      id: json['id'] ?? 0,
+      id: 0, // Set ID to 0 for new objects during import
       name: json['name'],
       latitudes: (json['latitudes'] as List<dynamic>).cast<double>(),
       longitudes: (json['longitudes'] as List<dynamic>).cast<double>(),
@@ -346,7 +346,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
 
   GoZone _zoneFromJson(Map<String, dynamic> json) {
     return GoZone(
-      id: json['id'] ?? 0,
+      id: 0, // Set ID to 0 for new objects during import
       name: json['name'],
       latitude: json['latitude'],
       longitude: json['longitude'],

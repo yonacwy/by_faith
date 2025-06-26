@@ -30,6 +30,16 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
   late bool _isEditing;
   late GoContact _contact;
 
+  // Move controllers to state
+  late TextEditingController _fullNameController;
+  late TextEditingController _addressController;
+  late TextEditingController _birthdayController;
+  late TextEditingController _phoneController;
+  late TextEditingController _emailController;
+  late TextEditingController _latitudeController;
+  late TextEditingController _longitudeController;
+  String? _eternalStatus;
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +50,26 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
           latitude: widget.latitude,
           longitude: widget.longitude,
         );
+    _fullNameController = TextEditingController(text: _contact.fullName);
+    _addressController = TextEditingController(text: _contact.address);
+    _birthdayController = TextEditingController(text: _contact.birthday);
+    _phoneController = TextEditingController(text: _contact.phone);
+    _emailController = TextEditingController(text: _contact.email);
+    _latitudeController = TextEditingController(text: _contact.latitude?.toString());
+    _longitudeController = TextEditingController(text: _contact.longitude?.toString());
+    _eternalStatus = _contact.eternalStatus;
+  }
+
+  @override
+  void dispose() {
+    _fullNameController.dispose();
+    _addressController.dispose();
+    _birthdayController.dispose();
+    _phoneController.dispose();
+    _emailController.dispose();
+    _latitudeController.dispose();
+    _longitudeController.dispose();
+    super.dispose();
   }
 
   void _deleteContact() {
@@ -288,14 +318,6 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
 
   Widget _buildAddContactForm() {
     final formKey = GlobalKey<FormState>();
-    final fullNameController = TextEditingController(text: _contact.fullName);
-    final addressController = TextEditingController(text: _contact.address);
-    final birthdayController = TextEditingController(text: _contact.birthday);
-    final phoneController = TextEditingController(text: _contact.phone);
-    final emailController = TextEditingController(text: _contact.email);
-    final latitudeController = TextEditingController(text: _contact.latitude?.toString());
-    final longitudeController = TextEditingController(text: _contact.longitude?.toString());
-    String? eternalStatus = _contact.eternalStatus;
 
     Future<void> pickBirthday() async {
       DateTime? pickedDate = await showDatePicker(
@@ -306,7 +328,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
       );
       if (pickedDate != null) {
         setState(() {
-          birthdayController.text = DateFormat.yMMMd().format(pickedDate);
+          _birthdayController.text = DateFormat.yMMMd().format(pickedDate);
         });
       }
     }
@@ -314,14 +336,14 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
     void saveContact() {
       if (formKey.currentState!.validate()) {
         final newContact = GoContact(
-          fullName: fullNameController.text,
-          address: addressController.text.isNotEmpty ? addressController.text : null,
-          birthday: birthdayController.text.isNotEmpty ? birthdayController.text : null,
-          phone: phoneController.text.isNotEmpty ? phoneController.text : null,
-          email: emailController.text.isNotEmpty ? emailController.text : null,
-          latitude: double.tryParse(latitudeController.text),
-          longitude: double.tryParse(longitudeController.text),
-          eternalStatus: eternalStatus,
+          fullName: _fullNameController.text,
+          address: _addressController.text.isNotEmpty ? _addressController.text : null,
+          birthday: _birthdayController.text.isNotEmpty ? _birthdayController.text : null,
+          phone: _phoneController.text.isNotEmpty ? _phoneController.text : null,
+          email: _emailController.text.isNotEmpty ? _emailController.text : null,
+          latitude: double.tryParse(_latitudeController.text),
+          longitude: double.tryParse(_longitudeController.text),
+          eternalStatus: _eternalStatus,
         );
 
         goContactsBox.put(newContact);
@@ -358,7 +380,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               ),
               const SizedBox(height: 8),
               TextFormField(
-                controller: fullNameController,
+                controller: _fullNameController,
                 decoration: InputDecoration(
                   labelText: t.go_add_edit_contact_screen.full_name,
                   border: const OutlineInputBorder(),
@@ -377,7 +399,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: addressController,
+                controller: _addressController,
                 decoration: InputDecoration(
                   labelText: t.go_add_edit_contact_screen.address,
                   border: const OutlineInputBorder(),
@@ -396,7 +418,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: birthdayController,
+                controller: _birthdayController,
                 readOnly: true,
                 onTap: pickBirthday,
                 decoration: InputDecoration(
@@ -414,7 +436,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: phoneController,
+                controller: _phoneController,
                 decoration: InputDecoration(
                   labelText: t.go_add_edit_contact_screen.phone_optional,
                   border: const OutlineInputBorder(),
@@ -431,7 +453,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: emailController,
+                controller: _emailController,
                 decoration: InputDecoration(
                   labelText: t.go_add_edit_contact_screen.email_optional,
                   border: const OutlineInputBorder(),
@@ -466,7 +488,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                value: eternalStatus,
+                value: _eternalStatus,
                 decoration: InputDecoration(
                   labelText: t.go_add_edit_contact_screen.status,
                   border: const OutlineInputBorder(),
@@ -491,7 +513,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                     ),
                   );
                 }).toList(),
-                onChanged: (String? newValue) => eternalStatus = newValue,
+                onChanged: (String? newValue) => setState(() => _eternalStatus = newValue),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontFamily: context.watch<FontProvider>().fontFamily,
                       fontSize: context.watch<FontProvider>().fontSize,
@@ -508,7 +530,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               ),
               const SizedBox(height: 8),
               TextFormField(
-                controller: latitudeController,
+                controller: _latitudeController,
                 decoration: InputDecoration(
                   labelText: 'Latitude',
                   border: const OutlineInputBorder(),
@@ -536,7 +558,7 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: longitudeController,
+                controller: _longitudeController,
                 decoration: InputDecoration(
                   labelText: 'Longitude',
                   border: const OutlineInputBorder(),
