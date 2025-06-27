@@ -376,16 +376,22 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
 
     try {
       final jsonString = jsonEncode(data);
+      final jsonBytes = utf8.encode(jsonString);
       final result = await FilePicker.platform.saveFile(
         dialogTitle: 'Save All Data JSON',
         fileName: 'all_data.json',
         allowedExtensions: ['json'],
         type: FileType.custom,
+        bytes: Uint8List.fromList(jsonBytes), // Pass bytes for Android/iOS
       );
 
       if (result != null) {
-        final file = File(result);
-        await file.writeAsString(jsonString);
+        // On Android/iOS, the file is already saved by FilePicker
+        // On desktop, we may need to write the file manually
+        if (!Platform.isAndroid && !Platform.isIOS) {
+          final file = File(result);
+          await file.writeAsBytes(jsonBytes);
+        }
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

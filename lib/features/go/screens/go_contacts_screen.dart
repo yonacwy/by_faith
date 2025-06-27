@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
 import 'package:by_faith/app/i18n/strings.g.dart';
+import 'package:by_faith/objectbox.g.dart';
 
 
 class GoContactsScreen extends StatefulWidget {
@@ -142,6 +143,8 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
             itemCount: contacts.length,
             itemBuilder: (context, index) {
               final contact = contacts[index];
+              // Fetch notes from the database for this contact
+              final notes = goContactNotesBox.query(GoContactNote_.contact.equals(contact.id)).build().find();
               return Card(
                 margin: const EdgeInsets.symmetric(vertical: 8.0),
                 child: ExpansionTile(
@@ -222,7 +225,7 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                                 fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
                               ),
                             ),
-                          if (contact.notes.isNotEmpty) ...[
+                          if (notes.isNotEmpty) ...[
                             const SizedBox(height: 16),
                             Text(
                               t.go_contacts_screen.notes,
@@ -232,7 +235,7 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                                 fontSize: context.watch<FontProvider>().fontSize + 2,
                               ),
                             ),
-                            ...contact.notes.map((note) => ListTile(
+                            ...notes.map((note) => ListTile(
                                   title: quill.QuillEditor.basic(
                                     controller: quill.QuillController(
                                       document: quill.Document.fromJson(jsonDecode(note.content)),
@@ -265,9 +268,7 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                                       IconButton(
                                         icon: const Icon(Icons.delete, size: 20, color: Colors.red),
                                         onPressed: () {
-                                          contact.notes.remove(note);
                                           goContactNotesBox.remove(note.id);
-                                          goContactsBox.put(contact);
                                           setState(() {});
                                         },
                                       ),
