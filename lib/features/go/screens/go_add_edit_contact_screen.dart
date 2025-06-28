@@ -693,13 +693,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               child: quill.QuillSimpleToolbar(
                 controller: _notesController,
                 config: quill.QuillSimpleToolbarConfig(
-                  embedButtons: quill_extensions.FlutterQuillEmbeds.toolbarButtons(
-                    imageButtonOptions: quill_extensions.QuillToolbarImageButtonOptions(
-                      imageButtonConfig: quill_extensions.QuillToolbarImageConfig(
-                        onRequestPickImage: _pickImage,
-                      ),
-                    ),
-                  ),
+                  // Remove embedButtons to hide image/video
+                  // Only show default text formatting buttons
                 ),
               ),
             ),
