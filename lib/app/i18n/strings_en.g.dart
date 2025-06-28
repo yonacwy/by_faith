@@ -322,6 +322,10 @@ class TranslationsGoAddEditStreetScreenEn {
 	String get street => 'Street';
 	String get river => 'River';
 	String get path => 'Path';
+	String get view_street_title => 'View Street';
+	String get edit_street_title => 'Edit Street';
+	String get add_street_title => 'Add Street';
+	String get save_street => 'Save Street';
 }
 
 // Path: go_add_edit_zone_screen
@@ -358,6 +362,10 @@ class TranslationsGoAddEditZoneScreenEn {
 	String get increase_radius => 'Increase Radius';
 	String get decrease_radius => 'Decrease Radius';
 	String get set_center => 'Set Center';
+	String get view_zone_title => 'View Zone';
+	String get edit_zone_title => 'Edit Zone';
+	String get add_zone_title => 'Add Zone';
+	String get save_zone => 'Save Zone';
 }
 
 // Path: go_churches_screen
@@ -886,6 +894,10 @@ extension on Translations {
 			case 'go_add_edit_street_screen.street': return 'Street';
 			case 'go_add_edit_street_screen.river': return 'River';
 			case 'go_add_edit_street_screen.path': return 'Path';
+			case 'go_add_edit_street_screen.view_street_title': return 'View Street';
+			case 'go_add_edit_street_screen.edit_street_title': return 'Edit Street';
+			case 'go_add_edit_street_screen.add_street_title': return 'Add Street';
+			case 'go_add_edit_street_screen.save_street': return 'Save Street';
 			case 'go_add_edit_zone_screen.tap_to_set_center': return 'Tap on the map to set the zone center.';
 			case 'go_add_edit_zone_screen.cancel': return 'Cancel';
 			case 'go_add_edit_zone_screen.cancel_zone_creation': return 'Cancel Zone Creation';
@@ -913,6 +925,10 @@ extension on Translations {
 			case 'go_add_edit_zone_screen.increase_radius': return 'Increase Radius';
 			case 'go_add_edit_zone_screen.decrease_radius': return 'Decrease Radius';
 			case 'go_add_edit_zone_screen.set_center': return 'Set Center';
+			case 'go_add_edit_zone_screen.view_zone_title': return 'View Zone';
+			case 'go_add_edit_zone_screen.edit_zone_title': return 'Edit Zone';
+			case 'go_add_edit_zone_screen.add_zone_title': return 'Add Zone';
+			case 'go_add_edit_zone_screen.save_zone': return 'Save Zone';
 			case 'go_churches_screen.title': return 'Go Churches';
 			case 'go_churches_screen.add_church': return 'Add Church';
 			case 'go_churches_screen.delete_church': return 'Delete Church';

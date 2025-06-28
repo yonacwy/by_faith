@@ -319,6 +319,10 @@ class _TranslationsGoAddEditStreetScreenEs implements TranslationsGoAddEditStree
 	@override String get street => 'Calle';
 	@override String get river => 'Río';
 	@override String get path => 'Sendero';
+	@override String get view_street_title => 'Ver Calle';
+	@override String get edit_street_title => 'Editar Calle';
+	@override String get add_street_title => 'Agregar Calle';
+	@override String get save_street => 'Guardar Calle';
 }
 
 // Path: go_add_edit_zone_screen
@@ -355,6 +359,10 @@ class _TranslationsGoAddEditZoneScreenEs implements TranslationsGoAddEditZoneScr
 	@override String get increase_radius => 'Aumentar Radio';
 	@override String get decrease_radius => 'Disminuir Radio';
 	@override String get set_center => 'Establecer Centro';
+	@override String get view_zone_title => 'Ver Zona';
+	@override String get edit_zone_title => 'Editar Zona';
+	@override String get add_zone_title => 'Agregar Zona';
+	@override String get save_zone => 'Guardar Zona';
 }
 
 // Path: go_churches_screen
@@ -883,6 +891,10 @@ extension on TranslationsEs {
 			case 'go_add_edit_street_screen.street': return 'Calle';
 			case 'go_add_edit_street_screen.river': return 'Río';
 			case 'go_add_edit_street_screen.path': return 'Sendero';
+			case 'go_add_edit_street_screen.view_street_title': return 'Ver Calle';
+			case 'go_add_edit_street_screen.edit_street_title': return 'Editar Calle';
+			case 'go_add_edit_street_screen.add_street_title': return 'Agregar Calle';
+			case 'go_add_edit_street_screen.save_street': return 'Guardar Calle';
 			case 'go_add_edit_zone_screen.tap_to_set_center': return 'Toca el mapa para establecer el centro de la zona.';
 			case 'go_add_edit_zone_screen.cancel': return 'Cancelar';
 			case 'go_add_edit_zone_screen.cancel_zone_creation': return 'Cancelar Creación de Zona';
@@ -910,6 +922,10 @@ extension on TranslationsEs {
 			case 'go_add_edit_zone_screen.increase_radius': return 'Aumentar Radio';
 			case 'go_add_edit_zone_screen.decrease_radius': return 'Disminuir Radio';
 			case 'go_add_edit_zone_screen.set_center': return 'Establecer Centro';
+			case 'go_add_edit_zone_screen.view_zone_title': return 'Ver Zona';
+			case 'go_add_edit_zone_screen.edit_zone_title': return 'Editar Zona';
+			case 'go_add_edit_zone_screen.add_zone_title': return 'Agregar Zona';
+			case 'go_add_edit_zone_screen.save_zone': return 'Guardar Zona';
 			case 'go_churches_screen.title': return 'Iglesias';
 			case 'go_churches_screen.add_church': return 'Añadir Iglesia';
 			case 'go_churches_screen.delete_church': return 'Eliminar Iglesia';

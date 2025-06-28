@@ -319,6 +319,10 @@ class _TranslationsGoAddEditStreetScreenHi implements TranslationsGoAddEditStree
 	@override String get street => 'सड़क';
 	@override String get river => 'नदी';
 	@override String get path => 'पथ';
+	@override String get view_street_title => 'सड़क देखें';
+	@override String get edit_street_title => 'सड़क संपादित करें';
+	@override String get add_street_title => 'सड़क जोड़ें';
+	@override String get save_street => 'सड़क सहेजें';
 }
 
 // Path: go_add_edit_zone_screen
@@ -355,6 +359,10 @@ class _TranslationsGoAddEditZoneScreenHi implements TranslationsGoAddEditZoneScr
 	@override String get increase_radius => 'त्रिज्या बढ़ाएँ';
 	@override String get decrease_radius => 'त्रिज्या घटाएँ';
 	@override String get set_center => 'केंद्र सेट करें';
+	@override String get view_zone_title => 'क्षेत्र देखें';
+	@override String get edit_zone_title => 'क्षेत्र संपादित करें';
+	@override String get add_zone_title => 'क्षेत्र जोड़ें';
+	@override String get save_zone => 'क्षेत्र सहेजें';
 }
 
 // Path: go_churches_screen
@@ -884,6 +892,10 @@ extension on TranslationsHi {
 			case 'go_add_edit_street_screen.street': return 'सड़क';
 			case 'go_add_edit_street_screen.river': return 'नदी';
 			case 'go_add_edit_street_screen.path': return 'पथ';
+			case 'go_add_edit_street_screen.view_street_title': return 'सड़क देखें';
+			case 'go_add_edit_street_screen.edit_street_title': return 'सड़क संपादित करें';
+			case 'go_add_edit_street_screen.add_street_title': return 'सड़क जोड़ें';
+			case 'go_add_edit_street_screen.save_street': return 'सड़क सहेजें';
 			case 'go_add_edit_zone_screen.tap_to_set_center': return 'ज़ोन केंद्र सेट करने के लिए मानचित्र पर टैप करें।';
 			case 'go_add_edit_zone_screen.cancel': return 'रद्द करें';
 			case 'go_add_edit_zone_screen.cancel_zone_creation': return 'ज़ोन निर्माण रद्द करें';
@@ -911,6 +923,10 @@ extension on TranslationsHi {
 			case 'go_add_edit_zone_screen.increase_radius': return 'त्रिज्या बढ़ाएँ';
 			case 'go_add_edit_zone_screen.decrease_radius': return 'त्रिज्या घटाएँ';
 			case 'go_add_edit_zone_screen.set_center': return 'केंद्र सेट करें';
+			case 'go_add_edit_zone_screen.view_zone_title': return 'क्षेत्र देखें';
+			case 'go_add_edit_zone_screen.edit_zone_title': return 'क्षेत्र संपादित करें';
+			case 'go_add_edit_zone_screen.add_zone_title': return 'क्षेत्र जोड़ें';
+			case 'go_add_edit_zone_screen.save_zone': return 'क्षेत्र सहेजें';
 			case 'go_churches_screen.title': return 'गो चर्च';
 			case 'go_churches_screen.add_church': return 'चर्च जोड़ें';
 			case 'go_churches_screen.delete_church': return 'चर्च हटाएँ';

@@ -38,10 +38,184 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
     _goZonesBox = store.box<GoZone>();
   }
 
+  // --- JSON Serialization Helpers --- //
+  Map<String, dynamic> _contactNoteToJson(GoContactNote note) => {
+    'content': note.content,
+    'createdAt': note.createdAt.toIso8601String(),
+    'updatedAt': note.updatedAt?.toIso8601String(),
+  };
+  GoContactNote _contactNoteFromJson(Map<String, dynamic> json) => GoContactNote(
+    content: json['content'],
+    createdAt: DateTime.parse(json['createdAt']),
+    updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
+  );
+
+  Map<String, dynamic> _churchNoteToJson(GoChurchNote note) => {
+    'content': note.content,
+    'createdAt': note.createdAt.toIso8601String(),
+    'updatedAt': note.updatedAt?.toIso8601String(),
+  };
+  GoChurchNote _churchNoteFromJson(Map<String, dynamic> json) => GoChurchNote(
+    content: json['content'],
+    createdAt: DateTime.parse(json['createdAt']),
+    updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
+  );
+
+  Map<String, dynamic> _ministryNoteToJson(GoMinistryNote note) => {
+    'content': note.content,
+    'createdAt': note.createdAt.toIso8601String(),
+    'updatedAt': note.updatedAt?.toIso8601String(),
+  };
+  GoMinistryNote _ministryNoteFromJson(Map<String, dynamic> json) => GoMinistryNote(
+    content: json['content'],
+    createdAt: DateTime.parse(json['createdAt']),
+    updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
+  );
+
+  Map<String, dynamic> _contactToJson(GoContact contact) => {
+    'fullName': contact.fullName,
+    'latitude': contact.latitude,
+    'longitude': contact.longitude,
+    'address': contact.address,
+    'birthday': contact.birthday,
+    'phone': contact.phone,
+    'email': contact.email,
+    'isVisited': contact.isVisited,
+    'eternalStatus': contact.eternalStatus,
+    'notes': contact.notes.map(_contactNoteToJson).toList(),
+  };
+  GoContact _contactFromJson(Map<String, dynamic> json) {
+    final contact = GoContact(
+      fullName: json['fullName'],
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
+      address: json['address'],
+      birthday: json['birthday'],
+      phone: json['phone'],
+      email: json['email'],
+      isVisited: json['isVisited'] ?? false,
+      eternalStatus: json['eternalStatus'],
+    );
+    if (json['notes'] != null) {
+      for (var noteJson in (json['notes'] as List)) {
+        final note = _contactNoteFromJson(noteJson);
+        note.contact.target = contact;
+        contact.notes.add(note);
+      }
+    }
+    return contact;
+  }
+
+  Map<String, dynamic> _churchToJson(GoChurch church) => {
+    'churchName': church.churchName,
+    'pastorName': church.pastorName,
+    'address': church.address,
+    'phone': church.phone,
+    'email': church.email,
+    'latitude': church.latitude,
+    'longitude': church.longitude,
+    'financialStatus': church.financialStatus,
+    'notes': church.notes.map(_churchNoteToJson).toList(),
+  };
+  GoChurch _churchFromJson(Map<String, dynamic> json) {
+    final church = GoChurch(
+      churchName: json['churchName'],
+      pastorName: json['pastorName'],
+      address: json['address'],
+      phone: json['phone'],
+      email: json['email'],
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
+      financialStatus: json['financialStatus'],
+    );
+    if (json['notes'] != null) {
+      for (var noteJson in (json['notes'] as List)) {
+        final note = _churchNoteFromJson(noteJson);
+        note.church.target = church;
+        church.notes.add(note);
+      }
+    }
+    return church;
+  }
+
+  Map<String, dynamic> _ministryToJson(GoMinistry ministry) => {
+    'ministryName': ministry.ministryName,
+    'contactName': ministry.contactName,
+    'address': ministry.address,
+    'phone': ministry.phone,
+    'email': ministry.email,
+    'latitude': ministry.latitude,
+    'longitude': ministry.longitude,
+    'partnerStatus': ministry.partnerStatus,
+    'notes': ministry.notes.map(_ministryNoteToJson).toList(),
+  };
+  GoMinistry _ministryFromJson(Map<String, dynamic> json) {
+    final ministry = GoMinistry(
+      ministryName: json['ministryName'],
+      contactName: json['contactName'],
+      address: json['address'],
+      phone: json['phone'],
+      email: json['email'],
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
+      partnerStatus: json['partnerStatus'],
+    );
+    if (json['notes'] != null) {
+      for (var noteJson in (json['notes'] as List)) {
+        final note = _ministryNoteFromJson(noteJson);
+        note.ministry.target = ministry;
+        ministry.notes.add(note);
+      }
+    }
+    return ministry;
+  }
+
+  Map<String, dynamic> _areaToJson(GoArea area) => {
+    'name': area.name,
+    'latitudes': area.latitudes,
+    'longitudes': area.longitudes,
+  };
+  GoArea _areaFromJson(Map<String, dynamic> json) => GoArea(
+    name: json['name'],
+    latitudes: (json['latitudes'] as List).map((e) => (e as num).toDouble()).toList(),
+    longitudes: (json['longitudes'] as List).map((e) => (e as num).toDouble()).toList(),
+  );
+
+  Map<String, dynamic> _streetToJson(GoStreet street) => {
+    'name': street.name,
+    'latitudes': street.latitudes,
+    'longitudes': street.longitudes,
+    'type': street.type,
+  };
+  GoStreet _streetFromJson(Map<String, dynamic> json) => GoStreet(
+    name: json['name'],
+    latitudes: (json['latitudes'] as List).map((e) => (e as num).toDouble()).toList(),
+    longitudes: (json['longitudes'] as List).map((e) => (e as num).toDouble()).toList(),
+    type: json['type'],
+  );
+
+  Map<String, dynamic> _zoneToJson(GoZone zone) => {
+    'name': zone.name,
+    'latitude': zone.latitude,
+    'longitude': zone.longitude,
+    'widthInMeters': zone.widthInMeters,
+    'heightInMeters': zone.heightInMeters,
+  };
+  GoZone _zoneFromJson(Map<String, dynamic> json) => GoZone(
+    name: json['name'],
+    latitude: (json['latitude'] as num).toDouble(),
+    longitude: (json['longitude'] as num).toDouble(),
+    widthInMeters: (json['widthInMeters'] as num).toDouble(),
+    heightInMeters: (json['heightInMeters'] as num).toDouble(),
+  );
+
   // Helper method to export data as JSON
   Future<void> _exportData<T>(
       List<T> items, String type, String fileName, Map<String, dynamic> Function(T) toJson) async {
     try {
+      // Get FontProvider before the async operation
+      final fontProvider = Provider.of<FontProvider>(context, listen: false);
+
       final data = items.map(toJson).toList();
       final jsonString = jsonEncode({'type': type, 'data': data});
       final jsonBytes = utf8.encode(jsonString);
@@ -67,8 +241,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
               content: Text(
                 '$type exported successfully',
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: fontProvider.fontFamily,
+                  fontSize: fontProvider.fontSize,
                 ),
               ),
             ),
@@ -85,8 +259,18 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
   }
 
   // Helper method to import data from JSON
-  Future<void> _importData<T>(String expectedType, Box<T> box, T Function(Map<String, dynamic>) fromJson) async {
+  Future<void> _importData<T>(String expectedType, Box<T> box, T Function(Map<String, dynamic>) fromJson, {bool Function(T, Map<String, dynamic>)? isDuplicate, void Function(T, Map<String, dynamic>)? updateEntity}) async {
     try {
+      // Get FontProvider and TextStyles before the async operation
+      final fontProvider = Provider.of<FontProvider>(context, listen: false);
+      final successTextStyle = TextStyle(
+        fontFamily: fontProvider.fontFamily,
+        fontSize: fontProvider.fontSize,
+      );
+      final invalidFileTextStyle = TextStyle(
+        fontSize: fontProvider.fontSize,
+      );
+
       final result = await FilePicker.platform.pickFiles(
         dialogTitle: 'Select $expectedType JSON',
         allowedExtensions: ['json'],
@@ -104,10 +288,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
               SnackBar(
                 content: Text(
                   'Invalid file: Expected $expectedType data',
-                  style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
-                  ),
+                  style: invalidFileTextStyle, // Use the prepared style
                 ),
               ),
             );
@@ -117,8 +298,21 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
 
         final data = (jsonData['data'] as List).cast<Map<String, dynamic>>();
         for (var item in data) {
-          final entity = fromJson(item);
-          box.put(entity);
+          bool found = false;
+          if (isDuplicate != null && updateEntity != null) {
+            for (var entity in box.getAll()) {
+              if (isDuplicate(entity, item)) {
+                updateEntity(entity, item);
+                box.put(entity);
+                found = true;
+                break;
+              }
+            }
+          }
+          if (!found) {
+            final entity = fromJson(item);
+            box.put(entity);
+          }
         }
 
         if (mounted) {
@@ -126,10 +320,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
             SnackBar(
               content: Text(
                 '$expectedType imported successfully',
-                style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
-                ),
+                style: successTextStyle, // Use the prepared style
               ),
             ),
           );
@@ -145,214 +336,104 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
     }
   }
 
-  // JSON converters for each entity
-  Map<String, dynamic> _contactToJson(GoContact contact) {
-    final notes = goContactNotesBox.query(GoContactNote_.contact.equals(contact.id)).build().find();
-    return {
-      'id': contact.id,
-      'fullName': contact.fullName,
-      'latitude': contact.latitude,
-      'longitude': contact.longitude,
-      'address': contact.address,
-      'birthday': contact.birthday,
-      'phone': contact.phone,
-      'email': contact.email,
-      'isVisited': contact.isVisited,
-      'eternalStatus': contact.eternalStatus,
-      'notes': notes
-          .map((note) => {
-                'id': note.id,
-                'content': note.content,
-                'createdAt': note.createdAt.toIso8601String(),
-                'updatedAt': note.updatedAt?.toIso8601String(),
-              })
-          .toList(),
-    };
+  // Helper functions to check duplicates and update entities
+  bool _isDuplicateContact(GoContact entity, Map<String, dynamic> json) {
+    return entity.fullName == json['fullName'] && entity.phone == json['phone'];
   }
-
-  GoContact _contactFromJson(Map<String, dynamic> json) {
-    final contact = GoContact(
-      id: 0, // Set ID to 0 for new objects during import
-      fullName: json['fullName'],
-      latitude: json['latitude'],
-      longitude: json['longitude'],
-      address: json['address'],
-      birthday: json['birthday'],
-      phone: json['phone'],
-      email: json['email'],
-      isVisited: json['isVisited'] ?? false,
-      eternalStatus: json['eternalStatus'],
-    );
-    final notes = (json['notes'] as List<dynamic>? ?? []).cast<Map<String, dynamic>>();
-    for (var noteJson in notes) {
-      final note = GoContactNote(
-        id: 0, // Set ID to 0 for new objects during import
-        content: noteJson['content'],
-        createdAt: DateTime.parse(noteJson['createdAt']),
-        updatedAt: noteJson['updatedAt'] != null ? DateTime.parse(noteJson['updatedAt']) : null,
-      );
-      note.contact.target = contact;
-      goContactNotesBox.put(note);
+  void _updateContact(GoContact entity, Map<String, dynamic> json) {
+    entity.latitude = json['latitude'];
+    entity.longitude = json['longitude'];
+    entity.address = json['address'];
+    entity.birthday = json['birthday'];
+    entity.email = json['email'];
+    entity.isVisited = json['isVisited'] ?? false;
+    entity.eternalStatus = json['eternalStatus'];
+    // Merge notes, avoid duplicates by content and createdAt
+    if (json['notes'] != null) {
+      final List<GoContactNote> existingNotes = entity.notes.toList();
+      for (var noteJson in (json['notes'] as List)) {
+        final importedNote = _contactNoteFromJson(noteJson);
+        final duplicate = existingNotes.any((n) => n.content == importedNote.content && n.createdAt == importedNote.createdAt);
+        if (!duplicate) {
+          importedNote.contact.target = entity;
+          entity.notes.add(importedNote);
+        }
+      }
     }
-    return contact;
   }
 
-  Map<String, dynamic> _churchToJson(GoChurch church) {
-    final notes = goChurchNotesBox.query(GoChurchNote_.church.equals(church.id)).build().find();
-    return {
-      'id': church.id,
-      'churchName': church.churchName,
-      'pastorName': church.pastorName,
-      'address': church.address,
-      'phone': church.phone,
-      'email': church.email,
-      'latitude': church.latitude,
-      'longitude': church.longitude,
-      'financialStatus': church.financialStatus,
-      'notes': notes
-          .map((note) => {
-                'id': note.id,
-                'content': note.content,
-                'createdAt': note.createdAt.toIso8601String(),
-                'updatedAt': note.updatedAt?.toIso8601String(),
-              })
-          .toList(),
-    };
+  bool _isDuplicateChurch(GoChurch entity, Map<String, dynamic> json) {
+    return entity.churchName == json['churchName'] && entity.address == json['address'];
   }
-
-  GoChurch _churchFromJson(Map<String, dynamic> json) {
-    final church = GoChurch(
-      id: 0, // Set ID to 0 for new objects during import
-      churchName: json['churchName'],
-      pastorName: json['pastorName'],
-      address: json['address'],
-      phone: json['phone'],
-      email: json['email'],
-      latitude: json['latitude'],
-      longitude: json['longitude'],
-      financialStatus: json['financialStatus'],
-    );
-    final notes = (json['notes'] as List<dynamic>? ?? []).cast<Map<String, dynamic>>();
-    for (var noteJson in notes) {
-      final note = GoChurchNote(
-        id: 0, // Set ID to 0 for new objects during import
-        content: noteJson['content'],
-        createdAt: DateTime.parse(noteJson['createdAt']),
-        updatedAt: noteJson['updatedAt'] != null ? DateTime.parse(noteJson['updatedAt']) : null,
-      );
-      note.church.target = church;
-      goChurchNotesBox.put(note);
+  void _updateChurch(GoChurch entity, Map<String, dynamic> json) {
+    entity.pastorName = json['pastorName'];
+    entity.phone = json['phone'];
+    entity.email = json['email'];
+    entity.latitude = json['latitude'];
+    entity.longitude = json['longitude'];
+    entity.financialStatus = json['financialStatus'];
+    // Merge notes, avoid duplicates by content and createdAt
+    if (json['notes'] != null) {
+      final List<GoChurchNote> existingNotes = entity.notes.toList();
+      for (var noteJson in (json['notes'] as List)) {
+        final importedNote = _churchNoteFromJson(noteJson);
+        final duplicate = existingNotes.any((n) => n.content == importedNote.content && n.createdAt == importedNote.createdAt);
+        if (!duplicate) {
+          importedNote.church.target = entity;
+          entity.notes.add(importedNote);
+        }
+      }
     }
-    return church;
   }
 
-  Map<String, dynamic> _ministryToJson(GoMinistry ministry) {
-    final notes = goMinistryNotesBox.query(GoMinistryNote_.ministry.equals(ministry.id)).build().find();
-    return {
-      'id': ministry.id,
-      'ministryName': ministry.ministryName,
-      'contactName': ministry.contactName,
-      'address': ministry.address,
-      'phone': ministry.phone,
-      'email': ministry.email,
-      'latitude': ministry.latitude,
-      'longitude': ministry.longitude,
-      'partnerStatus': ministry.partnerStatus,
-      'notes': notes
-          .map((note) => {
-                'id': note.id,
-                'content': note.content,
-                'createdAt': note.createdAt.toIso8601String(),
-                'updatedAt': note.updatedAt?.toIso8601String(),
-              })
-          .toList(),
-    };
+  bool _isDuplicateMinistry(GoMinistry entity, Map<String, dynamic> json) {
+    return entity.ministryName == json['ministryName'] && entity.address == json['address'];
   }
-
-  GoMinistry _ministryFromJson(Map<String, dynamic> json) {
-    final ministry = GoMinistry(
-      id: 0, // Set ID to 0 for new objects during import
-      ministryName: json['ministryName'],
-      contactName: json['contactName'],
-      address: json['address'],
-      phone: json['phone'],
-      email: json['email'],
-      latitude: json['latitude'],
-      longitude: json['longitude'],
-      partnerStatus: json['partnerStatus'],
-    );
-    final notes = (json['notes'] as List<dynamic>? ?? []).cast<Map<String, dynamic>>();
-    for (var noteJson in notes) {
-      final note = GoMinistryNote(
-        id: 0, // Set ID to 0 for new objects during import
-        content: noteJson['content'],
-        createdAt: DateTime.parse(noteJson['createdAt']),
-        updatedAt: noteJson['updatedAt'] != null ? DateTime.parse(noteJson['updatedAt']) : null,
-      );
-      note.ministry.target = ministry;
-      goMinistryNotesBox.put(note);
+  void _updateMinistry(GoMinistry entity, Map<String, dynamic> json) {
+    entity.contactName = json['contactName'];
+    entity.phone = json['phone'];
+    entity.email = json['email'];
+    entity.latitude = json['latitude'];
+    entity.longitude = json['longitude'];
+    entity.partnerStatus = json['partnerStatus'];
+    // Merge notes, avoid duplicates by content and createdAt
+    if (json['notes'] != null) {
+      final List<GoMinistryNote> existingNotes = entity.notes.toList();
+      for (var noteJson in (json['notes'] as List)) {
+        final importedNote = _ministryNoteFromJson(noteJson);
+        final duplicate = existingNotes.any((n) => n.content == importedNote.content && n.createdAt == importedNote.createdAt);
+        if (!duplicate) {
+          importedNote.ministry.target = entity;
+          entity.notes.add(importedNote);
+        }
+      }
     }
-    return ministry;
   }
 
-  Map<String, dynamic> _areaToJson(GoArea area) {
-    return {
-      'id': area.id,
-      'name': area.name,
-      'latitudes': area.latitudes,
-      'longitudes': area.longitudes,
-    };
+  bool _isDuplicateArea(GoArea entity, Map<String, dynamic> json) {
+    return entity.name == json['name'];
+  }
+  void _updateArea(GoArea entity, Map<String, dynamic> json) {
+    entity.latitudes = (json['latitudes'] as List<dynamic>).cast<double>();
+    entity.longitudes = (json['longitudes'] as List<dynamic>).cast<double>();
   }
 
-  GoArea _areaFromJson(Map<String, dynamic> json) {
-    return GoArea(
-      id: 0, // Set ID to 0 for new objects during import
-      name: json['name'],
-      latitudes: (json['latitudes'] as List<dynamic>).cast<double>(),
-      longitudes: (json['longitudes'] as List<dynamic>).cast<double>(),
-    );
+  bool _isDuplicateStreet(GoStreet entity, Map<String, dynamic> json) {
+    return entity.name == json['name'] && entity.type == json['type'];
+  }
+  void _updateStreet(GoStreet entity, Map<String, dynamic> json) {
+    entity.latitudes = (json['latitudes'] as List<dynamic>).cast<double>();
+    entity.longitudes = (json['longitudes'] as List<dynamic>).cast<double>();
   }
 
-  Map<String, dynamic> _streetToJson(GoStreet street) {
-    return {
-      'id': street.id,
-      'name': street.name,
-      'latitudes': street.latitudes,
-      'longitudes': street.longitudes,
-      'type': street.type,
-    };
+  bool _isDuplicateZone(GoZone entity, Map<String, dynamic> json) {
+    return entity.name == json['name'];
   }
-
-  GoStreet _streetFromJson(Map<String, dynamic> json) {
-    return GoStreet(
-      id: 0, // Set ID to 0 for new objects during import
-      name: json['name'],
-      latitudes: (json['latitudes'] as List<dynamic>).cast<double>(),
-      longitudes: (json['longitudes'] as List<dynamic>).cast<double>(),
-      type: json['type'],
-    );
-  }
-
-  Map<String, dynamic> _zoneToJson(GoZone zone) {
-    return {
-      'id': zone.id,
-      'name': zone.name,
-      'latitude': zone.latitude,
-      'longitude': zone.longitude,
-      'widthInMeters': zone.widthInMeters,
-      'heightInMeters': zone.heightInMeters,
-    };
-  }
-
-  GoZone _zoneFromJson(Map<String, dynamic> json) {
-    return GoZone(
-      id: 0, // Set ID to 0 for new objects during import
-      name: json['name'],
-      latitude: json['latitude'],
-      longitude: json['longitude'],
-      widthInMeters: json['widthInMeters'],
-      heightInMeters: json['heightInMeters'],
-    );
+  void _updateZone(GoZone entity, Map<String, dynamic> json) {
+    entity.latitude = json['latitude'];
+    entity.longitude = json['longitude'];
+    entity.widthInMeters = json['widthInMeters'];
+    entity.heightInMeters = json['heightInMeters'];
   }
 
   // Export all data
@@ -373,6 +454,9 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
       'streets': streets.map(_streetToJson).toList(),
       'zones': zones.map(_zoneToJson).toList(),
     };
+
+    // Get FontProvider before any await
+    final fontProvider = Provider.of<FontProvider>(context, listen: false);
 
     try {
       final jsonString = jsonEncode(data);
@@ -398,8 +482,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
               content: Text(
                 'All data exported successfully',
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: fontProvider.fontFamily,
+                  fontSize: fontProvider.fontSize,
                 ),
               ),
             ),
@@ -417,6 +501,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
 
   // Import all data
   Future<void> _importAll() async {
+    // Get FontProvider before any await
+    final fontProvider = Provider.of<FontProvider>(context, listen: false);
     try {
       final result = await FilePicker.platform.pickFiles(
         dialogTitle: 'Select All Data JSON',
@@ -432,15 +518,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
         if (jsonData['type'] != 'all') {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  'Invalid file: Expected all data',
-                  style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
-                  ),
-                ),
-              ),
+              SnackBar(content: Text('Invalid file: Expected all data')),
             );
           }
           return;
@@ -449,43 +527,109 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
         // Import contacts
         final contacts = (jsonData['contacts'] as List<dynamic>).cast<Map<String, dynamic>>();
         for (var contactJson in contacts) {
-          final contact = _contactFromJson(contactJson);
-          goContactsBox.put(contact);
+          bool found = false;
+          for (var entity in goContactsBox.getAll()) {
+            if (_isDuplicateContact(entity, contactJson)) {
+              _updateContact(entity, contactJson);
+              goContactsBox.put(entity);
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            final contact = _contactFromJson(contactJson);
+            goContactsBox.put(contact);
+          }
         }
 
         // Import churches
         final churches = (jsonData['churches'] as List<dynamic>).cast<Map<String, dynamic>>();
         for (var churchJson in churches) {
-          final church = _churchFromJson(churchJson);
-          goChurchesBox.put(church);
+          bool found = false;
+          for (var entity in goChurchesBox.getAll()) {
+            if (_isDuplicateChurch(entity, churchJson)) {
+              _updateChurch(entity, churchJson);
+              goChurchesBox.put(entity);
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            final church = _churchFromJson(churchJson);
+            goChurchesBox.put(church);
+          }
         }
 
         // Import ministries
         final ministries = (jsonData['ministries'] as List<dynamic>).cast<Map<String, dynamic>>();
         for (var ministryJson in ministries) {
-          final ministry = _ministryFromJson(ministryJson);
-          goMinistriesBox.put(ministry);
+          bool found = false;
+          for (var entity in goMinistriesBox.getAll()) {
+            if (_isDuplicateMinistry(entity, ministryJson)) {
+              _updateMinistry(entity, ministryJson);
+              goMinistriesBox.put(entity);
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            final ministry = _ministryFromJson(ministryJson);
+            goMinistriesBox.put(ministry);
+          }
         }
 
         // Import areas
         final areas = (jsonData['areas'] as List<dynamic>).cast<Map<String, dynamic>>();
         for (var areaJson in areas) {
-          final area = _areaFromJson(areaJson);
-          _goAreasBox.put(area);
+          bool found = false;
+          for (var entity in _goAreasBox.getAll()) {
+            if (_isDuplicateArea(entity, areaJson)) {
+              _updateArea(entity, areaJson);
+              _goAreasBox.put(entity);
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            final area = _areaFromJson(areaJson);
+            _goAreasBox.put(area);
+          }
         }
 
         // Import streets
         final streets = (jsonData['streets'] as List<dynamic>).cast<Map<String, dynamic>>();
         for (var streetJson in streets) {
-          final street = _streetFromJson(streetJson);
-          _goStreetsBox.put(street);
+          bool found = false;
+          for (var entity in _goStreetsBox.getAll()) {
+            if (_isDuplicateStreet(entity, streetJson)) {
+              _updateStreet(entity, streetJson);
+              _goStreetsBox.put(entity);
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            final street = _streetFromJson(streetJson);
+            _goStreetsBox.put(street);
+          }
         }
 
         // Import zones
         final zones = (jsonData['zones'] as List<dynamic>).cast<Map<String, dynamic>>();
         for (var zoneJson in zones) {
-          final zone = _zoneFromJson(zoneJson);
-          _goZonesBox.put(zone);
+          bool found = false;
+          for (var entity in _goZonesBox.getAll()) {
+            if (_isDuplicateZone(entity, zoneJson)) {
+              _updateZone(entity, zoneJson);
+              _goZonesBox.put(entity);
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            final zone = _zoneFromJson(zoneJson);
+            _goZonesBox.put(zone);
+          }
         }
 
         if (mounted) {
@@ -494,14 +638,14 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
               content: Text(
                 'All data imported successfully',
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: fontProvider.fontFamily,
+                  fontSize: fontProvider.fontSize,
                 ),
               ),
             ),
           );
         }
-        setState(() {}); // Refresh UI
+        setState(() {});
       }
     } catch (e) {
       if (mounted) {
@@ -786,7 +930,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                     fontSize: context.watch<FontProvider>().fontSize,
                   ),
                 ),
-                onTap: () => _importData('churches', goChurchesBox, _churchFromJson),
+                onTap: () => _importData('churches', goChurchesBox, _churchFromJson, isDuplicate: _isDuplicateChurch, updateEntity: _updateChurch),
               ),
               ListTile(
                 title: Text(
@@ -796,7 +940,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                     fontSize: context.watch<FontProvider>().fontSize,
                   ),
                 ),
-                onTap: () => _importData('contacts', goContactsBox, _contactFromJson),
+                onTap: () => _importData('contacts', goContactsBox, _contactFromJson, isDuplicate: _isDuplicateContact, updateEntity: _updateContact),
               ),
               ListTile(
                 title: Text(
@@ -806,7 +950,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                     fontSize: context.watch<FontProvider>().fontSize,
                   ),
                 ),
-                onTap: () => _importData('ministries', goMinistriesBox, _ministryFromJson),
+                onTap: () => _importData('ministries', goMinistriesBox, _ministryFromJson, isDuplicate: _isDuplicateMinistry, updateEntity: _updateMinistry),
               ),
               ListTile(
                 title: Text(
@@ -816,7 +960,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                     fontSize: context.watch<FontProvider>().fontSize,
                   ),
                 ),
-                onTap: () => _importData('areas', _goAreasBox, _areaFromJson),
+                onTap: () => _importData('areas', _goAreasBox, _areaFromJson, isDuplicate: _isDuplicateArea, updateEntity: _updateArea),
               ),
               ListTile(
                 title: Text(
@@ -826,7 +970,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                     fontSize: context.watch<FontProvider>().fontSize,
                   ),
                 ),
-                onTap: () => _importData('streets', _goStreetsBox, _streetFromJson),
+                onTap: () => _importData('streets', _goStreetsBox, _streetFromJson, isDuplicate: _isDuplicateStreet, updateEntity: _updateStreet),
               ),
               ListTile(
                 title: Text(
@@ -836,7 +980,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                     fontSize: context.watch<FontProvider>().fontSize,
                   ),
                 ),
-                onTap: () => _importData('zones', _goZonesBox, _zoneFromJson),
+                onTap: () => _importData('zones', _goZonesBox, _zoneFromJson, isDuplicate: _isDuplicateZone, updateEntity: _updateZone),
               ),
               ListTile(
                 title: Text(

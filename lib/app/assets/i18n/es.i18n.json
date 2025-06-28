@@ -203,7 +203,11 @@
     "remove_point": "Eliminar Punto",
     "street": "Calle",
     "river": "Río",
-    "path": "Sendero"
+    "path": "Sendero",
+    "view_street_title": "Ver Calle",
+    "edit_street_title": "Editar Calle",
+    "add_street_title": "Agregar Calle",
+    "save_street": "Guardar Calle"
   },
   "go_add_edit_zone_screen": {
     "tap_to_set_center": "Toca el mapa para establecer el centro de la zona.",
@@ -232,7 +236,11 @@
     "zoom_out": "Alejar",
     "increase_radius": "Aumentar Radio",
     "decrease_radius": "Disminuir Radio",
-    "set_center": "Establecer Centro"
+    "set_center": "Establecer Centro",
+    "view_zone_title": "Ver Zona",
+    "edit_zone_title": "Editar Zona",
+    "add_zone_title": "Agregar Zona",
+    "save_zone": "Guardar Zona"
   },
   "go_churches_screen": {
     "title": "Iglesias",

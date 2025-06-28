@@ -203,7 +203,11 @@
     "remove_point": "Remove Point",
     "street": "Street",
     "river": "River",
-    "path": "Path"
+    "path": "Path",
+    "view_street_title": "View Street",
+    "edit_street_title": "Edit Street",
+    "add_street_title": "Add Street",
+    "save_street": "Save Street"
   },
   "go_add_edit_zone_screen": {
     "tap_to_set_center": "Tap on the map to set the zone center.",
@@ -232,7 +236,11 @@
     "zoom_out": "Zoom Out",
     "increase_radius": "Increase Radius",
     "decrease_radius": "Decrease Radius",
-    "set_center": "Set Center"
+    "set_center": "Set Center",
+    "view_zone_title": "View Zone",
+    "edit_zone_title": "Edit Zone",
+    "add_zone_title": "Add Zone",
+    "save_zone": "Save Zone"
   },
   "go_churches_screen": {
     "title": "Go Churches",

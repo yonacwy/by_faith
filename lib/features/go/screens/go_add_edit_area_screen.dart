@@ -62,6 +62,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
   bool _showStreets = true;
   bool _showZones = true;
 
+  bool _mapReady = false; // Add map ready flag
+
   @override
   void initState() {
     super.initState();
@@ -74,21 +76,38 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
     _zoneBox = store.box<GoZone>();
   }
 
+  // Method to call when the map is ready
+  void _onMapReady() async {
+    debugPrint('Area: Map ready');
+    await _loadAllMapData();
+    if (!_didInitAreaMode) {
+      _startAreaMode();
+      _didInitAreaMode = true;
+    }
+    await _setupLayers();
+    setState(() {
+      _mapReady = true;
+    });
+    // Fit bounds initially after map is ready and layers are set up
+    _fitBounds(_getAllMapPoints());
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (!_didLoadMapData) {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        await _loadAllMapData();
-        if (!_didInitAreaMode) {
-          _startAreaMode();
-          _didInitAreaMode = true;
-        }
-        await _setupLayers();
-        _didLoadMapData = true;
-        debugPrint('Area: didChangeDependencies completed, polygons: ${_polygons.length}');
-      });
-    }
+    // Remove this block, map initialization will be handled by onMapReady
+    // if (!_didLoadMapData) {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //     await _loadAllMapData();
+    //     if (!_didInitAreaMode) {
+    //       _startAreaMode();
+    //       _didInitAreaMode = true;
+    //     }
+    //     await _setupLayers();
+    //     _didLoadMapData = true;
+    //     debugPrint('Area: didChangeDependencies completed, polygons: ${_polygons.length}');
+    //   });
+    // }
   }
 
   void _debounce(VoidCallback callback) {
@@ -120,8 +139,9 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
       _loadExistingArea();
     }
 
-    if (!widget.isViewMode) {
+    if (!widget.isViewMode && mounted) { // Add mounted check
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return; // Add mounted check
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -139,12 +159,13 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
   }
 
   void _loadExistingArea() {
-    if (widget.area != null) {
+    if (widget.area != null && _polyEditor != null) { // Add null check for _polyEditor
       _areaName = widget.area!.name;
       _polyEditor!.points.addAll(widget.area!.points);
       _updateTempAreaLayers();
       // Fit bounds after loading existing area points
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return; // Add mounted check
         _fitBounds(_getAllMapPoints());
       });
       setState(() {
@@ -155,11 +176,11 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
   }
 
   void _fitBounds(List<LatLng> points, {EdgeInsets? padding}) {
+    if (!_mapReady || !mounted) return; // Only fit bounds if map is ready and widget is mounted
+
     if (points.isEmpty) {
-      final center = widget.initialCenter ?? const LatLng(39.0, -98.0);
-      final zoom = widget.initialZoom ?? 2.0;
-      _mapController.animateTo(dest: center, zoom: zoom);
-      debugPrint('Area: No points, reset to initial or default view (center: \\$center, zoom: \\$zoom)');
+      _mapController.animateTo(dest: const LatLng(39.0, -98.0), zoom: 2.0);
+      debugPrint('Area: No points, reset to initial or default view (center: ${const LatLng(39.0, -98.0)}, zoom: 2.0)');
       return;
     }
 
@@ -180,7 +201,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
 
   void _updateTempAreaLayers() {
     _polygons.clear();
-    if (_polyEditor!.points.length >= 3) {
+    if (_polyEditor != null && _polyEditor!.points.length >= 3) { // Add null check for _polyEditor
       _tempPolygon = fm.Polygon(
         points: List<LatLng>.from(_polyEditor!.points),
         color: Colors.blue.withOpacity(0.3),
@@ -191,32 +212,33 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
     } else {
       _tempPolygon = null;
     }
-    debugPrint('Area: Updated temp layers, polygons: ${_polygons.length}, points: ${_polyEditor!.points.length}');
+    debugPrint('Area: Updated temp layers, polygons: ${_polygons.length}, points: ${_polyEditor?.points.length ?? 0}'); // Add null check for _polyEditor
   }
 
   void _handleMapTap(fm.TapPosition tapPosition, LatLng latLng) {
-    if (!widget.isViewMode) {
+    if (!widget.isViewMode && _mapReady && mounted) { // Only handle tap if map is ready and widget is mounted
       _addAreaPoint(latLng);
     }
   }
 
   void _addAreaPoint(LatLng point) {
-    _polyEditor!.add(_polyEditor!.points, point);
-    _debounce(() {
-      if (mounted) {
-        setState(() {
-          _updateTempAreaLayers();
-          _layerUpdateKey++;
-          debugPrint('Area: Added point, points: ${_polyEditor!.points.length}, polygons: ${_polygons.length}');
-          // Fit bounds after adding a point, considering all visible layers
-          _fitBounds(_getAllMapPoints());
-        });
-      }
-    });
+    if (_polyEditor != null) { // Add null check for _polyEditor
+      _polyEditor!.add(_polyEditor!.points, point);
+      _debounce(() {
+        if (mounted) {
+          setState(() {
+            _updateTempAreaLayers();
+            _layerUpdateKey++;
+            debugPrint('Area: Added point, points: ${_polyEditor!.points.length}, polygons: ${_polygons.length}');
+            // Removed _fitBounds(_getAllMapPoints()) to prevent auto-zoom after each point
+          });
+        }
+      });
+    }
   }
 
   void _cancelAreaMode() async {
-    if (_polyEditor?.points.isNotEmpty ?? false) {
+    if ((_polyEditor?.points.isNotEmpty ?? false) && mounted) { // Add mounted check
       final confirm = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
@@ -260,16 +282,18 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
       );
       if (confirm != true) return;
     }
-    Navigator.pop(context);
+    if (mounted) { // Add mounted check
+      Navigator.pop(context);
+    }
   }
 
   void _showSaveAreaDialog() async {
-    if (widget.isViewMode) {
-      Navigator.pop(context);
+    if (widget.isViewMode || !mounted) { // Add mounted check
+      if (mounted) Navigator.pop(context);
       return;
     }
 
-    if (_polyEditor!.points.length < 3) {
+    if (_polyEditor == null || _polyEditor!.points.length < 3) { // Add null check for _polyEditor
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -404,7 +428,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
   }
 
   void _removeLastAreaPoint() {
-    if (_polyEditor != null && _polyEditor!.points.isNotEmpty) {
+    if (_polyEditor != null && _polyEditor!.points.isNotEmpty && mounted) { // Add mounted check
       _polyEditor!.points.removeLast();
       _debounce(() {
         if (mounted) {
@@ -442,8 +466,10 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
   }
 
   Future<void> _setupLayers() async {
+    if (!_mapReady || !mounted) return; // Add map ready and mounted checks
+
     final allPoints = <LatLng>[];
-    if (_polyEditor != null) {
+    if (_polyEditor != null) { // Add null check for _polyEditor
       allPoints.addAll(_polyEditor!.points);
     }
 
@@ -489,6 +515,14 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             strokeWidth: 3.0,
           )));
     }
+    if (_showAreas) {
+      _polygons.addAll(_areas.map((area) => fm.Polygon(
+            points: area.points,
+            color: Colors.blue.withOpacity(0.3),
+            borderColor: Colors.blue,
+            borderStrokeWidth: 2.0,
+          )));
+    }
     if (_showZones) {
       _circleMarkers.addAll(_zones.map((zone) => fm.CircleMarker(
             point: zone.center,
@@ -497,14 +531,6 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             borderColor: Colors.purple,
             borderStrokeWidth: 2.0,
             useRadiusInMeter: true,
-          )));
-    }
-    if (_showAreas) {
-      _polygons.addAll(_areas.map((area) => fm.Polygon(
-            points: area.points,
-            color: Colors.blue.withOpacity(0.3),
-            borderColor: Colors.blue,
-            borderStrokeWidth: 2.0,
           )));
     }
     // _updateTempAreaLayers() is called within the PolyEditor callback, no need to call here
@@ -522,7 +548,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
 
   List<LatLng> _getAllMapPoints() {
     final allPoints = <LatLng>[];
-    if (_polyEditor != null) {
+    if (_polyEditor != null) { // Add null check for _polyEditor
       allPoints.addAll(_polyEditor!.points);
     }
     if (_showContacts) {
@@ -566,7 +592,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                       onChanged: (value) {
                         modalSetState(() {
                           _showContacts = value;
-                          _setupLayers();
+                          if (_mapReady) _setupLayers(); // Add map ready check
                         });
                       },
                     ),
@@ -584,7 +610,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                       onChanged: (value) {
                         modalSetState(() {
                           _showChurches = value;
-                          _setupLayers();
+                          if (_mapReady) _setupLayers(); // Add map ready check
                         });
                       },
                     ),
@@ -602,7 +628,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                       onChanged: (value) {
                         modalSetState(() {
                           _showMinistries = value;
-                          _setupLayers();
+                          if (_mapReady) _setupLayers(); // Add map ready check
                         });
                       },
                     ),
@@ -620,7 +646,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                       onChanged: (value) {
                         modalSetState(() {
                           _showAreas = value;
-                          _setupLayers();
+                          if (_mapReady) _setupLayers(); // Add map ready check
                         });
                       },
                     ),
@@ -638,7 +664,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                       onChanged: (value) {
                         modalSetState(() {
                           _showStreets = value;
-                          _setupLayers();
+                          if (_mapReady) _setupLayers(); // Add map ready check
                         });
                       },
                     ),
@@ -656,7 +682,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                       onChanged: (value) {
                         modalSetState(() {
                           _showZones = value;
-                          _setupLayers();
+                          if (_mapReady) _setupLayers(); // Add map ready check
                         });
                       },
                     ),
@@ -687,10 +713,15 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             onPressed: _showHideOptions,
             tooltip: t.go_add_edit_area_screen.hide_options,
           ),
+          IconButton(
+            icon: const Icon(Icons.center_focus_strong),
+            onPressed: _mapReady ? () => _fitBounds(_getAllMapPoints()) : null, // Add map ready check
+            tooltip: 'Fit to points',
+          ),
           if (!widget.isViewMode)
             IconButton(
               icon: const Icon(Icons.save),
-              onPressed: _showSaveAreaDialog,
+              onPressed: _mapReady ? _showSaveAreaDialog : null, // Add map ready check
               tooltip: t.go_add_edit_area_screen.save_area,
             ),
         ],
@@ -705,6 +736,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
               minZoom: 2.0,
               maxZoom: 18.0,
               onTap: _handleMapTap,
+              onMapReady: _onMapReady, // Add onMapReady callback
             ),
             children: [
               fm.TileLayer(
@@ -715,19 +747,19 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                   key: ValueKey<String>('polygon_layer_$_layerUpdateKey'),
                   polygons: _polygons,
                 ),
-              if (!widget.isViewMode && _polyEditor != null)
+              if (!widget.isViewMode && _polyEditor != null && _mapReady) // Add map ready check
                 DragMarkers(
                   markers: _polyEditor!.edit(),
                 ),
-              if (_showChurches || _showContacts || _showMinistries)
+              if ((_showChurches || _showContacts || _showMinistries) && _markers.isNotEmpty)
                 fm.MarkerLayer(
                   markers: _markers,
                 ),
-              if (_showStreets)
+              if (_showStreets && _polylines.isNotEmpty)
                 fm.PolylineLayer(
                   polylines: _polylines,
                 ),
-              if (_showZones)
+              if (_showZones && _circleMarkers.isNotEmpty)
                 fm.CircleLayer(
                   circles: _circleMarkers,
                 ),
@@ -750,33 +782,33 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
               children: [
                 FloatingActionButton.small(
                   heroTag: 'zoomInBtn',
-                  onPressed: () {
+                  onPressed: _mapReady ? () { // Add map ready check
                     _mapController.animateTo(zoom: _mapController.mapController.camera.zoom + 1);
-                  },
+                  } : null,
                   child: const Icon(Icons.add),
                 ),
                 const SizedBox(height: 8.0),
                 FloatingActionButton.small(
                   heroTag: 'zoomOutBtn',
-                  onPressed: () {
+                  onPressed: _mapReady ? () { // Add map ready check
                     _mapController.animateTo(zoom: _mapController.mapController.camera.zoom - 1);
-                  },
+                  } : null,
                   child: const Icon(Icons.remove),
                 ),
                 const SizedBox(height: 16.0),
                 if (!widget.isViewMode)
                   FloatingActionButton(
                     heroTag: 'addPointBtn',
-                    onPressed: () {
+                    onPressed: _mapReady ? () { // Add map ready check
                       _addAreaPoint(_mapController.mapController.camera.center);
-                    },
+                    } : null,
                     child: const Icon(Icons.add_location_alt),
                   ),
                 const SizedBox(height: 8.0),
                 if (!widget.isViewMode && (_polyEditor?.points.isNotEmpty ?? false))
                   FloatingActionButton(
                     heroTag: 'removePointBtn',
-                    onPressed: _removeLastAreaPoint,
+                    onPressed: _mapReady ? _removeLastAreaPoint : null, // Add map ready check
                     child: const Icon(Icons.remove_circle_outline),
                   ),
               ],

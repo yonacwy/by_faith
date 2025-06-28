@@ -203,7 +203,11 @@
     "remove_point": "बिंदु हटाएँ",
     "street": "सड़क",
     "river": "नदी",
-    "path": "पथ"
+    "path": "पथ",
+    "view_street_title": "सड़क देखें",
+    "edit_street_title": "सड़क संपादित करें",
+    "add_street_title": "सड़क जोड़ें",
+    "save_street": "सड़क सहेजें"
   },
   "go_add_edit_zone_screen": {
     "tap_to_set_center": "ज़ोन केंद्र सेट करने के लिए मानचित्र पर टैप करें।",
@@ -232,7 +236,11 @@
     "zoom_out": "ज़ूम आउट",
     "increase_radius": "त्रिज्या बढ़ाएँ",
     "decrease_radius": "त्रिज्या घटाएँ",
-    "set_center": "केंद्र सेट करें"
+    "set_center": "केंद्र सेट करें",
+    "view_zone_title": "क्षेत्र देखें",
+    "edit_zone_title": "क्षेत्र संपादित करें",
+    "add_zone_title": "क्षेत्र जोड़ें",
+    "save_zone": "क्षेत्र सहेजें"
   },
   "go_churches_screen": {
     "title": "गो चर्च",

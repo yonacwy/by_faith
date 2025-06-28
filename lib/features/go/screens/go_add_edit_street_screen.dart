@@ -66,9 +66,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
   bool _showStreets = true;
   bool _showZones = true;
 
-  bool _didLoadMapData = false;
-  bool _didInitRouteMode = false;
   LineType _selectedLineType = LineType.street;
+  bool _mapReady = false; // Add map ready flag
 
   @override
   void initState() {
@@ -82,37 +81,34 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
     _zoneBox = store.box<GoZone>();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_didLoadMapData) {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        await _loadAllMapData();
-        if (!_didInitRouteMode) {
-          _startRouteMode();
-          _didInitRouteMode = true;
-        }
-        await _setupLayers();
-        _didLoadMapData = true;
-        if (!widget.isViewMode) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                t.go_add_edit_street_screen.tap_to_add_points,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
-                    ),
-              ),
-              action: SnackBarAction(
-                label: t.go_add_edit_street_screen.cancel,
-                onPressed: _cancelRouteMode,
-              ),
+  // Method to call when the map is ready
+  void _onMapReady() async {
+    debugPrint('Street: Map ready');
+    await _loadAllMapData();
+    _startRouteMode();
+    await _setupLayers();
+    setState(() {
+      _mapReady = true;
+    });
+    // Fit bounds initially after map is ready and layers are set up
+    _fitBounds(_getAllMapPoints());
+
+    if (!widget.isViewMode && mounted) { // Add mounted check
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            t.go_add_edit_street_screen.tap_to_add_points,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+              fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
             ),
-          );
-        }
-        debugPrint('Street: didChangeDependencies completed, polylines: ${_polylines.length}');
-      });
+          ),
+          action: SnackBarAction(
+            label: t.go_add_edit_street_screen.cancel,
+            onPressed: _cancelRouteMode,
+          ),
+        ),
+      );
     }
   }
 
@@ -132,9 +128,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
         _debounce(() {
           if (mounted) {
             setState(() {
-              _updateTempRouteLayers();
-              _layerUpdateKey++;
-              debugPrint('Street: Updated layers, polylines: ${_polylines.length}, points: ${_polyEditor!.points.length}');
+              debugPrint('Street: Updated layers, polylines: ${_polylines.length}, points: ${_polyEditor?.points.length ?? 0}'); // Add null check
             });
           }
         });
@@ -148,7 +142,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
   }
 
   void _loadExistingRoute() {
-    if (widget.street != null) {
+    if (widget.street != null && _polyEditor != null) { // Add null check for _polyEditor
       _routeName = widget.street!.name;
       _polyEditor!.points.addAll(widget.street!.points);
       _selectedLineType = LineType.values.firstWhere(
@@ -157,6 +151,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
       );
       _updateTempRouteLayers();
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return; // Add mounted check
         _fitBounds(_getAllMapPoints());
       });
       setState(() {
@@ -167,11 +162,11 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
   }
 
   void _fitBounds(List<LatLng> points, {EdgeInsets? padding}) {
+    if (!_mapReady || !mounted) return; // Only fit bounds if map is ready and widget is mounted
+
     if (points.isEmpty) {
-      final center = widget.initialCenter ?? const LatLng(39.0, -98.0);
-      final zoom = widget.initialZoom ?? 2.0;
-      _mapController.animateTo(dest: center, zoom: zoom);
-      debugPrint('Street: No points, reset to initial or default view (center: \\$center, zoom: \\$zoom)');
+      _mapController.animateTo(dest: const LatLng(39.0, -98.0), zoom: 2.0);
+      debugPrint('Street: No points, reset to initial or default view (center: ${const LatLng(39.0, -98.0)}, zoom: 2.0)');
       return;
     }
 
@@ -228,7 +223,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
 
   void _updateTempRouteLayers() {
     _tempPolylines.clear();
-    if (_polyEditor!.points.length >= 2) {
+    if (_polyEditor != null && _polyEditor!.points.length >= 2) { // Add null check for _polyEditor
       if (_selectedLineType == LineType.path) {
         _tempPolylines.addAll(_createDashedPolylines(
           _polyEditor!.points,
@@ -246,7 +241,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
       }
     }
     _polylines = List.from(_tempPolylines);
-    debugPrint('Street: Updated temp layers, polylines: \\${_polylines.length}, points: \\${_polyEditor!.points.length}');
+    debugPrint('Street: Updated temp layers, polylines: ${_polylines.length}, points: ${_polyEditor?.points.length ?? 0}'); // Add null check
   }
 
   Color _getLineColor() {
@@ -272,27 +267,29 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
   }
 
   void _handleMapTap(fm.TapPosition tapPosition, LatLng latLng) {
-    if (!widget.isViewMode) {
+    if (!widget.isViewMode && _mapReady && mounted) { // Only handle tap if map is ready and widget is mounted
       _addRoutePoint(latLng);
     }
   }
 
   void _addRoutePoint(LatLng point) {
-    _polyEditor!.add(_polyEditor!.points, point);
-    _debounce(() {
-      if (mounted) {
-        setState(() {
-          _updateTempRouteLayers();
-          _layerUpdateKey++;
-          debugPrint('Street: Added point, points: ${_polyEditor!.points.length}, polylines: ${_polylines.length}');
-          _fitBounds(_getAllMapPoints());
-        });
-      }
-    });
+    if (_polyEditor != null) { // Add null check for _polyEditor
+      _polyEditor!.add(_polyEditor!.points, point);
+      _debounce(() {
+        if (mounted) {
+          setState(() {
+            _updateTempRouteLayers();
+            _layerUpdateKey++;
+            debugPrint('Street: Added point, points: ${_polyEditor!.points.length}, polylines: ${_polylines.length}');
+            // Removed _fitBounds(_getAllMapPoints()) to prevent auto-zoom after each point
+          });
+        }
+      });
+    }
   }
 
   void _cancelRouteMode() async {
-    if (_polyEditor?.points.isNotEmpty ?? false) {
+    if ((_polyEditor?.points.isNotEmpty ?? false) && mounted) { // Add mounted check
       final confirm = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
@@ -336,16 +333,18 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
       );
       if (confirm != true) return;
     }
-    Navigator.pop(context);
+    if (mounted) { // Add mounted check
+      Navigator.pop(context);
+    }
   }
 
   void _showSaveRouteDialog() async {
-    if (widget.isViewMode) {
-      Navigator.pop(context);
+    if (widget.isViewMode || !mounted) { // Add mounted check
+      if (mounted) Navigator.pop(context);
       return;
     }
 
-    if (_polyEditor!.points.length < 2) {
+    if (_polyEditor == null || _polyEditor!.points.length < 2) { // Add null check for _polyEditor
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -484,7 +483,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
   }
 
   void _removeLastRoutePoint() {
-    if (_polyEditor != null && _polyEditor!.points.isNotEmpty) {
+    if (_polyEditor != null && _polyEditor!.points.isNotEmpty && mounted) { // Add mounted check
       _polyEditor!.points.removeLast();
       _debounce(() {
         if (mounted) {
@@ -521,8 +520,10 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
   }
 
   Future<void> _setupLayers() async {
+    if (!_mapReady || !mounted) return; // Add map ready and mounted checks
+
     final allPoints = <LatLng>[];
-    if (_polyEditor != null) {
+    if (_polyEditor != null) { // Add null check for _polyEditor
       allPoints.addAll(_polyEditor!.points);
     }
 
@@ -617,7 +618,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
 
   List<LatLng> _getAllMapPoints() {
     final allPoints = <LatLng>[];
-    if (_polyEditor != null) {
+    if (_polyEditor != null) { // Add null check for _polyEditor
       allPoints.addAll(_polyEditor!.points);
     }
     if (_showContacts) {
@@ -661,7 +662,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                       onChanged: (value) {
                         modalSetState(() {
                           _showContacts = value;
-                          _setupLayers();
+                          if (_mapReady) _setupLayers(); // Add map ready check
                         });
                       },
                     ),
@@ -679,7 +680,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                       onChanged: (value) {
                         modalSetState(() {
                           _showChurches = value;
-                          _setupLayers();
+                          if (_mapReady) _setupLayers(); // Add map ready check
                         });
                       },
                     ),
@@ -697,7 +698,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                       onChanged: (value) {
                         modalSetState(() {
                           _showMinistries = value;
-                          _setupLayers();
+                          if (_mapReady) _setupLayers(); // Add map ready check
                         });
                       },
                     ),
@@ -715,7 +716,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                       onChanged: (value) {
                         modalSetState(() {
                           _showAreas = value;
-                          _setupLayers();
+                          if (_mapReady) _setupLayers(); // Add map ready check
                         });
                       },
                     ),
@@ -733,7 +734,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                       onChanged: (value) {
                         modalSetState(() {
                           _showStreets = value;
-                          _setupLayers();
+                          if (_mapReady) _setupLayers(); // Add map ready check
                         });
                       },
                     ),
@@ -751,7 +752,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                       onChanged: (value) {
                         modalSetState(() {
                           _showZones = value;
-                          _setupLayers();
+                          if (_mapReady) _setupLayers(); // Add map ready check
                         });
                       },
                     ),
@@ -770,16 +771,11 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          (widget.street != null
+          widget.street != null
               ? (widget.isViewMode
-                  ? t.go_add_edit_street_screen.view
-                  : t.go_add_edit_street_screen.edit)
-              : t.go_add_edit_street_screen.add) +
-            ' ' + _getLineTypeLabel(_selectedLineType, t),
-          style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
-          ),
+                  ? t.go_add_edit_street_screen.view_street_title
+                  : t.go_add_edit_street_screen.edit_street_title)
+              : t.go_add_edit_street_screen.add_street_title,
         ),
         actions: [
           IconButton(
@@ -787,44 +783,41 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
             onPressed: _showHideOptions,
             tooltip: t.go_add_edit_street_screen.hide_options,
           ),
+          IconButton(
+            icon: const Icon(Icons.center_focus_strong),
+            onPressed: _mapReady ? () => _fitBounds(_getAllMapPoints()) : null, // Add map ready check
+            tooltip: 'Fit to points',
+          ),
           if (!widget.isViewMode)
             IconButton(
               icon: const Icon(Icons.save),
-              onPressed: _showSaveRouteDialog,
-              tooltip: t.go_add_edit_street_screen.save,
+              onPressed: _mapReady ? _showSaveRouteDialog : null, // Add map ready check
+              tooltip: t.go_add_edit_street_screen.save_street,
             ),
         ],
       ),
       body: Stack(
         children: [
           fm.FlutterMap(
-            key: ValueKey<int>(_layerUpdateKey),
             mapController: _mapController.mapController,
             options: fm.MapOptions(
-              initialCenter: widget.street != null && widget.street!.points.isNotEmpty
-                  ? widget.street!.points.first
-                  : widget.initialCenter ?? const LatLng(39.0, -98.0),
-              initialZoom: widget.street != null && widget.street!.points.isNotEmpty ? 12.0 : widget.initialZoom ?? 2.0,
+              initialCenter: widget.initialCenter ?? (widget.street != null && widget.street!.points.isNotEmpty ? widget.street!.points.first : const LatLng(39.0, -98.0)),
+              initialZoom: widget.initialZoom ?? (widget.street != null && widget.street!.points.isNotEmpty ? 12.0 : 2.0),
               minZoom: 2.0,
               maxZoom: 18.0,
               onTap: _handleMapTap,
-              interactionOptions: fm.InteractionOptions(
-                flags: widget.isViewMode
-                    ? fm.InteractiveFlag.all
-                    : fm.InteractiveFlag.pinchZoom | fm.InteractiveFlag.drag,
-              ),
+              onMapReady: _onMapReady, // Add onMapReady callback
             ),
             children: [
               fm.TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.example.app',
               ),
-              if (_polylines.isNotEmpty)
+              if (_showStreets && _polylines.isNotEmpty)
                 fm.PolylineLayer(
                   key: ValueKey<String>('polyline_layer_$_layerUpdateKey'),
                   polylines: _polylines,
                 ),
-              if (_polyEditor != null && !widget.isViewMode)
+              if (!widget.isViewMode && _polyEditor != null && _mapReady) // Add map ready check
                 DragMarkers(
                   markers: _polyEditor!.edit(),
                 ),
@@ -832,11 +825,11 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                 fm.MarkerLayer(
                   markers: _markers,
                 ),
-              if (_showAreas)
+              if (_showAreas && _polygons.isNotEmpty)
                 fm.PolygonLayer(
                   polygons: _polygons,
                 ),
-              if (_showZones)
+              if (_showZones && _circleMarkers.isNotEmpty)
                 fm.CircleLayer(
                   circles: _circleMarkers,
                 ),
@@ -859,18 +852,18 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
               children: [
                 FloatingActionButton.small(
                   heroTag: 'zoomInBtn',
-                  onPressed: () {
+                  onPressed: _mapReady ? () { // Add map ready check
                     _mapController.animateTo(zoom: _mapController.mapController.camera.zoom + 1);
-                  },
+                  } : null,
                   child: const Icon(Icons.add),
                   tooltip: t.go_add_edit_street_screen.zoom_in,
                 ),
                 const SizedBox(height: 8.0),
                 FloatingActionButton.small(
                   heroTag: 'zoomOutBtn',
-                  onPressed: () {
+                  onPressed: _mapReady ? () { // Add map ready check
                     _mapController.animateTo(zoom: _mapController.mapController.camera.zoom - 1);
-                  },
+                  } : null,
                   child: const Icon(Icons.remove),
                   tooltip: t.go_add_edit_street_screen.zoom_out,
                 ),
@@ -878,9 +871,9 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                 if (!widget.isViewMode)
                   FloatingActionButton(
                     heroTag: 'addPointBtn',
-                    onPressed: () {
+                    onPressed: _mapReady ? () { // Add map ready check
                       _addRoutePoint(_mapController.mapController.camera.center);
-                    },
+                    } : null,
                     child: const Icon(Icons.add_location_alt),
                     tooltip: t.go_add_edit_street_screen.add_point,
                   ),
@@ -888,7 +881,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                 if (!widget.isViewMode && (_polyEditor?.points.isNotEmpty ?? false))
                   FloatingActionButton(
                     heroTag: 'removePointBtn',
-                    onPressed: _removeLastRoutePoint,
+                    onPressed: _mapReady ? _removeLastRoutePoint : null, // Add map ready check
                     child: const Icon(Icons.remove_circle_outline),
                     tooltip: t.go_add_edit_street_screen.remove_point,
                   ),
@@ -904,13 +897,13 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                   FloatingActionButton.small(
                     heroTag: 'streetBtn',
                     backgroundColor: _selectedLineType == LineType.street ? Colors.grey[300] : null,
-                    onPressed: () {
+                    onPressed: _mapReady ? () { // Add map ready check
                       setState(() {
                         _selectedLineType = LineType.street;
                         _updateTempRouteLayers();
                         _layerUpdateKey++;
                       });
-                    },
+                    } : null,
                     child: const Icon(Icons.directions),
                     tooltip: t.go_add_edit_street_screen.street,
                   ),
@@ -918,13 +911,13 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                   FloatingActionButton.small(
                     heroTag: 'riverBtn',
                     backgroundColor: _selectedLineType == LineType.river ? Colors.grey[300] : null,
-                    onPressed: () {
+                    onPressed: _mapReady ? () { // Add map ready check
                       setState(() {
                         _selectedLineType = LineType.river;
                         _updateTempRouteLayers();
                         _layerUpdateKey++;
                       });
-                    },
+                    } : null,
                     child: const Icon(Icons.water),
                     tooltip: t.go_add_edit_street_screen.river,
                   ),
@@ -932,13 +925,13 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                   FloatingActionButton.small(
                     heroTag: 'pathBtn',
                     backgroundColor: _selectedLineType == LineType.path ? Colors.grey[300] : null,
-                    onPressed: () {
+                    onPressed: _mapReady ? () { // Add map ready check
                       setState(() {
                         _selectedLineType = LineType.path;
                         _updateTempRouteLayers();
                         _layerUpdateKey++;
                       });
-                    },
+                    } : null,
                     child: const Icon(Icons.hiking),
                     tooltip: t.go_add_edit_street_screen.path,
                   ),

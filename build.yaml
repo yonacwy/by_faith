@@ -1,0 +1,7 @@
+targets:
+  $default:
+    builders:
+      slang_build_runner:
+        options:
+          config_file: slang.yaml
+          output_directory: lib/app/i18n

@@ -96,119 +96,51 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
     debugPrint('Zone: Initial center: $_currentZoneCenter, radius: $_currentZoneRadius');
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_didLoadMapData) {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        await _loadAllMapData();
-        if (widget.zone == null) {
-          final allPoints = _getAllMapPoints();
-          if (allPoints.isNotEmpty) {
-            final bounds = fm.LatLngBounds.fromPoints(allPoints);
-            setState(() {
-              _currentZoneCenter = bounds.center;
-            });
-          }
-        }
-        if (mounted) {
-          setState(() {
-            _mapReady = true;
-          });
-        }
-        _didLoadMapData = true;
-        if (widget.zone != null) {
-          _fitBounds(_getAllMapPoints());
-        }
-        if (!widget.isViewMode) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                t.go_add_edit_zone_screen.tap_to_set_center,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
-                    ),
-              ),
-              action: SnackBarAction(
-                label: t.go_add_edit_zone_screen.cancel,
-                onPressed: _cancelZoneMode,
-              ),
-            ),
-          );
-        }
-        debugPrint('Zone: didChangeDependencies completed, circleMarkers: [0m${_circleMarkers.length}');
-      });
-    }
-  }
-
-  void _debounce(VoidCallback callback) {
-    const debounceDuration = Duration(milliseconds: 100);
-    _debounceTimer?.cancel();
-    _debounceTimer = Timer(debounceDuration, callback);
-  }
-
-  void _updateZoneLayer() {
-    if (!_mapReady || !mounted) return;
-    _debounce(() {
-      if (mounted) {
-        setState(() {
-          _circleMarkers.clear();
-          if (_showZones) {
-            _circleMarkers.add(
-              fm.CircleMarker(
-                point: _currentZoneCenter,
-                radius: _currentZoneRadius.clamp(_minRadius, _maxRadius),
-                color: Colors.purple.withOpacity(0.2),
-                borderColor: Colors.purple,
-                borderStrokeWidth: 2.0,
-                useRadiusInMeter: true,
-              ),
-            );
-          }
-          _layerUpdateKey++;
-          debugPrint('Zone: Updated zone layer, circleMarkers: ${_circleMarkers.length}');
-        });
-      }
+  // Method to call when the map is ready
+  void _onMapReady() async {
+    debugPrint('Zone: Map ready');
+    await _loadAllMapData();
+    await _setupLayers();
+    setState(() {
+      _mapReady = true;
     });
+    // Fit bounds initially after map is ready and layers are set up
+    _fitBounds(_getAllMapPoints());
   }
 
-  void _fitBounds(List<LatLng> points, {double? radius, EdgeInsets? padding}) {
-    if (points.isEmpty) {
-      _mapController.animateTo(dest: const LatLng(39.0, -98.0), zoom: 2.0);
-      debugPrint('Zone: No points, reset to default view');
-      return;
+  // Place all private methods before didChangeDependencies and other usages
+  Future<void> _loadAllMapData() async {
+    _contacts = _contactBox.getAll();
+    _churches = _churchBox.getAll();
+    _ministries = _ministryBox.getAll();
+    _areas = _areaBox.getAll();
+    _streets = _streetBox.getAll();
+    _zones = _zoneBox.getAll();
+    debugPrint('Zone: Loaded map data, zones: ${_zones.length}');
+  }
+
+  List<LatLng> _getAllMapPoints() {
+    final allPoints = <LatLng>[];
+    allPoints.add(_currentZoneCenter);
+    if (_showContacts) {
+      allPoints.addAll(_contacts.where((c) => c.latitude != null && c.longitude != null).map((c) => LatLng(c.latitude!, c.longitude!)));
     }
-
-    try {
-      fm.LatLngBounds bounds;
-      if (radius != null && points.length == 1) {
-        final center = points.first;
-        final offsetDistance = radius * 1.414; // Diagonal for padding
-        final northEast = _offsetPoint(center, offsetDistance, 45);
-        final southWest = _offsetPoint(center, offsetDistance, 225);
-        bounds = fm.LatLngBounds(southWest, northEast);
-      } else {
-        bounds = fm.LatLngBounds.fromPoints(points);
-      }
-
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        final cameraFit = fm.CameraFit.bounds(
-          bounds: bounds,
-          padding: padding ?? const EdgeInsets.all(20.0),
-        );
-        final targetCamera = cameraFit.fit(_mapController.mapController.camera);
-
-        _mapController.animateTo(
-          dest: targetCamera.center,
-          zoom: targetCamera.zoom.clamp(2.0, 18.0),
-        );
-        debugPrint('Zone: Fitted bounds, center: ${targetCamera.center}, zoom: ${targetCamera.zoom}');
-      });
-    } catch (e) {
-      debugPrint('Zone: Error in _fitBounds: $e');
-      _mapController.animateTo(dest: points.first, zoom: 12.0);
+    if (_showChurches) {
+      allPoints.addAll(_churches.where((c) => c.latitude != null && c.longitude != null).map((c) => LatLng(c.latitude!, c.longitude!)));
     }
+    if (_showMinistries) {
+      allPoints.addAll(_ministries.where((m) => m.latitude != null && m.longitude != null).map((m) => LatLng(m.latitude!, m.longitude!)));
+    }
+    if (_showAreas) {
+      allPoints.addAll(_areas.expand((a) => a.points));
+    }
+    if (_showStreets) {
+      allPoints.addAll(_streets.expand((s) => s.points));
+    }
+    if (_showZones) {
+      allPoints.addAll(_zones.map((z) => z.center));
+    }
+    return allPoints;
   }
 
   LatLng _offsetPoint(LatLng center, double distanceMeters, double bearingDegrees) {
@@ -234,17 +166,91 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
     );
   }
 
+  void _fitBounds(List<LatLng> points, {double? radius, EdgeInsets? padding}) {
+    if (!_mapReady || !mounted) return; // Only fit bounds if map is ready and widget is mounted
+
+    if (points.isEmpty) {
+      _mapController.animateTo(dest: const LatLng(39.0, -98.0), zoom: 2.0);
+      debugPrint('Zone: No points, reset to default view');
+      return;
+    }
+
+    try {
+      fm.LatLngBounds bounds;
+      if (radius != null && points.length == 1) {
+        final center = points.first;
+        final offsetDistance = radius * 1.414; // Diagonal for padding
+        final northEast = _offsetPoint(center, offsetDistance, 45);
+        final southWest = _offsetPoint(center, offsetDistance, 225);
+        bounds = fm.LatLngBounds(southWest, northEast);
+      } else {
+        bounds = fm.LatLngBounds.fromPoints(points);
+      }
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return; // Check if widget is still mounted
+        final cameraFit = fm.CameraFit.bounds(
+          bounds: bounds,
+          padding: padding ?? const EdgeInsets.all(20.0),
+        );
+        final targetCamera = cameraFit.fit(_mapController.mapController.camera);
+
+        _mapController.animateTo(
+          dest: targetCamera.center,
+          zoom: targetCamera.zoom.clamp(2.0, 18.0),
+        );
+        debugPrint('Zone: Fitted bounds, center: ${targetCamera.center}, zoom: ${targetCamera.zoom}');
+      });
+    } catch (e) {
+      debugPrint('Zone: Error in _fitBounds: $e');
+      if (points.isNotEmpty) {
+         _mapController.animateTo(dest: points.first, zoom: 12.0);
+      } else {
+        _mapController.animateTo(dest: const LatLng(39.0, -98.0), zoom: 2.0);
+      }
+    }
+  }
+
+  void _debounce(VoidCallback callback) {
+    const debounceDuration = Duration(milliseconds: 100);
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(debounceDuration, callback);
+  }
+
+  void _updateZoneLayer() {
+    if (!_mapReady || !mounted) return; // Only update if map is ready and widget is mounted
+    _debounce(() {
+      if (mounted) {
+        setState(() {
+          _circleMarkers.clear();
+          if (_showZones) {
+            _circleMarkers.add(
+              fm.CircleMarker(
+                point: _currentZoneCenter,
+                radius: _currentZoneRadius.clamp(_minRadius, _maxRadius),
+                color: Colors.purple.withOpacity(0.2),
+                borderColor: Colors.purple,
+                borderStrokeWidth: 2.0,
+                useRadiusInMeter: true,
+              ),
+            );
+          }
+          _layerUpdateKey++;
+          debugPrint('Zone: Updated zone layer, circleMarkers: ${_circleMarkers.length}');
+        });
+      }
+    });
+  }
+
   void _handleMapTap(fm.TapPosition tapPosition, LatLng latLng) {
-    if (!widget.isViewMode) {
+    if (!widget.isViewMode && _mapReady && mounted) { // Only handle tap if map is ready and widget is mounted
       setState(() {
         _currentZoneCenter = LatLng(
           latLng.latitude.clamp(-90.0, 90.0),
           latLng.longitude.clamp(-180.0, 180.0),
         );
         _updateZoneLayer();
-        // When setting a new zone center, fit bounds to all visible layers including the new center
-        final pointsToFit = _getAllMapPoints();
-        _fitBounds(pointsToFit); // Call _fitBounds without the radius parameter
+        // Removed _fitBounds(_getAllMapPoints()) to prevent auto-zoom after each point
         debugPrint('Zone: Map tapped, new center: $_currentZoneCenter');
       });
     }
@@ -254,44 +260,47 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
     if (_currentZoneCenter != const LatLng(39.0, -98.0) || _currentZoneRadius != 500.0) {
       final confirm = await showDialog<bool>(
         context: context,
-        builder: (context) => AlertDialog(
-          title: Text(
-            t.go_add_edit_zone_screen.cancel_zone_creation,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize + 2,
-                ),
-          ),
-          content: Text(
-            t.go_add_edit_zone_screen.discard_changes,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
-                ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: Text(
-                t.go_add_edit_zone_screen.keep_editing,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
-                    ),
-              ),
+        builder: (context) {
+          final fontProvider = Provider.of<FontProvider>(context, listen: false);
+          return AlertDialog(
+            title: Text(
+              t.go_add_edit_zone_screen.cancel_zone_creation,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontFamily: fontProvider.fontFamily,
+                    fontSize: fontProvider.fontSize + 2,
+                  ),
             ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: Text(
-                t.go_add_edit_zone_screen.discard,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
-                    ),
-              ),
+            content: Text(
+              t.go_add_edit_zone_screen.discard_changes,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontFamily: fontProvider.fontFamily,
+                    fontSize: fontProvider.fontSize,
+                  ),
             ),
-          ],
-        ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(
+                  t.go_add_edit_zone_screen.keep_editing,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontFamily: fontProvider.fontFamily,
+                        fontSize: fontProvider.fontSize,
+                      ),
+                ),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(
+                  t.go_add_edit_zone_screen.discard,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontFamily: fontProvider.fontFamily,
+                        fontSize: fontProvider.fontSize,
+                      ),
+                ),
+              ),
+            ],
+          );
+        },
       );
       if (confirm != true) return;
     }
@@ -316,8 +325,8 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
         title: Text(
           (widget.zone != null ? t.go_add_edit_zone_screen.edit : t.go_add_edit_zone_screen.save) + ' Zone',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily, // Add listen: false
+                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2, // Add listen: false
               ),
         ),
         content: TextField(
@@ -326,17 +335,17 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
             hintText: t.go_add_edit_zone_screen.enter_name,
             labelText: t.go_add_edit_zone_screen.name,
             hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily, // Add listen: false
+                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize, // Add listen: false
                 ),
             labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily, // Add listen: false
+                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize, // Add listen: false
                 ),
           ),
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily, // Add listen: false
+                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize, // Add listen: false
               ),
         ),
         actions: [
@@ -345,8 +354,8 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
             child: Text(
               t.go_add_edit_zone_screen.cancel,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily, // Add listen: false
+                    fontSize: Provider.of<FontProvider>(context, listen: false).fontSize, // Add listen: false
                   ),
             ),
           ),
@@ -358,8 +367,8 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                     content: Text(
                       t.go_add_edit_zone_screen.name_cannot_be_empty,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontFamily: context.watch<FontProvider>().fontFamily,
-                            fontSize: context.watch<FontProvider>().fontSize,
+                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily, // Add listen: false
+                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize, // Add listen: false
                           ),
                     ),
                   ),
@@ -371,8 +380,8 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
             child: Text(
               t.go_add_edit_zone_screen.save,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily, // Add listen: false
+                    fontSize: Provider.of<FontProvider>(context, listen: false).fontSize, // Add listen: false
                   ),
             ),
           ),
@@ -401,8 +410,8 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
               content: Text(
                 t.go_add_edit_zone_screen.zone_saved_successfully,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily, // Add listen: false
+                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize, // Add listen: false
                     ),
               ),
             ),
@@ -426,7 +435,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
       _currentZoneRadius = (_currentZoneRadius + _radiusStep).clamp(_minRadius, _maxRadius);
       _updateZoneLayer();
       // Removed _fitBounds(_getAllMapPoints()) to decouple radius from zoom
-      debugPrint('Zone: Radius increased to: [0m$_currentZoneRadius');
+      debugPrint('Zone: Radius increased to: $_currentZoneRadius');
     });
   }
 
@@ -435,7 +444,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
       _currentZoneRadius = (_currentZoneRadius - _radiusStep).clamp(_minRadius, _maxRadius);
       _updateZoneLayer();
       // Removed _fitBounds(_getAllMapPoints()) to decouple radius from zoom
-      debugPrint('Zone: Radius decreased to: [0m$_currentZoneRadius');
+      debugPrint('Zone: Radius decreased to: $_currentZoneRadius');
     });
   }
 
@@ -446,18 +455,136 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
     super.dispose();
   }
 
-  Future<void> _loadAllMapData() async {
-    _contacts = _contactBox.getAll();
-    _churches = _churchBox.getAll();
-    _ministries = _ministryBox.getAll();
-    _areas = _areaBox.getAll();
-    _streets = _streetBox.getAll();
-    _zones = _zoneBox.getAll();
-    debugPrint('Zone: Loaded map data, zones: ${_zones.length}');
+  void _showHideOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter modalSetState) {
+            return SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    title: Text(
+                      t.go_add_edit_zone_screen.contacts,
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
+                    trailing: Switch(
+                      value: _showContacts,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showContacts = value;
+                          if (_mapReady) _setupLayers(); // Add map ready check
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      t.go_add_edit_zone_screen.churches,
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
+                    trailing: Switch(
+                      value: _showChurches,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showChurches = value;
+                          if (_mapReady) _setupLayers(); // Add map ready check
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      t.go_add_edit_zone_screen.ministries,
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
+                    trailing: Switch(
+                      value: _showMinistries,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showMinistries = value;
+                          if (_mapReady) _setupLayers(); // Add map ready check
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      t.go_add_edit_zone_screen.areas,
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
+                    trailing: Switch(
+                      value: _showAreas,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showAreas = value;
+                          if (_mapReady) _setupLayers(); // Add map ready check
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      t.go_add_edit_zone_screen.streets,
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
+                    trailing: Switch(
+                      value: _showStreets,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showStreets = value;
+                          if (_mapReady) _setupLayers(); // Add map ready check
+                        });
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      t.go_add_edit_zone_screen.zones,
+                      style: TextStyle(
+                        fontFamily: context.watch<FontProvider>().fontFamily,
+                        fontSize: context.watch<FontProvider>().fontSize,
+                      ),
+                    ),
+                    trailing: Switch(
+                      value: _showZones,
+                      onChanged: (value) {
+                        modalSetState(() {
+                          _showZones = value;
+                          if (_mapReady) _setupLayers(); // Add map ready check
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   Future<void> _setupLayers() async {
-    if (!_mapReady || !mounted) return;
+    if (!_mapReady || !mounted) return; // Add map ready and mounted checks
+
     final allPoints = <LatLng>[];
     allPoints.add(_currentZoneCenter);
 
@@ -465,6 +592,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
     _polylines.clear();
     _polygons.clear();
     _circleMarkers.clear();
+
     if (_showContacts) {
       _markers.addAll(_contacts.where((c) => c.latitude != null && c.longitude != null).map(
             (contact) => fm.Marker(
@@ -530,167 +658,16 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
     _fitBounds(_getAllMapPoints());
   }
 
-  List<LatLng> _getAllMapPoints() {
-    final allPoints = <LatLng>[];
-    allPoints.add(_currentZoneCenter);
-    if (_showContacts) {
-      allPoints.addAll(_contacts.where((c) => c.latitude != null && c.longitude != null).map((c) => LatLng(c.latitude!, c.longitude!)));
-    }
-    if (_showChurches) {
-      allPoints.addAll(_churches.where((c) => c.latitude != null && c.longitude != null).map((c) => LatLng(c.latitude!, c.longitude!)));
-    }
-    if (_showMinistries) {
-      allPoints.addAll(_ministries.where((m) => m.latitude != null && m.longitude != null).map((m) => LatLng(m.latitude!, m.longitude!)));
-    }
-    if (_showAreas) {
-      allPoints.addAll(_areas.expand((a) => a.points));
-    }
-    if (_showStreets) {
-      allPoints.addAll(_streets.expand((s) => s.points));
-    }
-    if (_showZones) {
-      allPoints.addAll(_zones.map((z) => z.center));
-    }
-    return allPoints;
-  }
-
-  void _showHideOptions() {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter modalSetState) {
-            return SafeArea(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ListTile(
-                    title: Text(
-                      t.go_add_edit_zone_screen.contacts,
-                      style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
-                      ),
-                    ),
-                    trailing: Switch(
-                      value: _showContacts,
-                      onChanged: (value) {
-                        modalSetState(() {
-                          _showContacts = value;
-                          _setupLayers();
-                        });
-                      },
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      t.go_add_edit_zone_screen.churches,
-                      style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
-                      ),
-                    ),
-                    trailing: Switch(
-                      value: _showChurches,
-                      onChanged: (value) {
-                        modalSetState(() {
-                          _showChurches = value;
-                          _setupLayers();
-                        });
-                      },
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      t.go_add_edit_zone_screen.ministries,
-                      style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
-                      ),
-                    ),
-                    trailing: Switch(
-                      value: _showMinistries,
-                      onChanged: (value) {
-                        modalSetState(() {
-                          _showMinistries = value;
-                          _setupLayers();
-                        });
-                      },
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      t.go_add_edit_zone_screen.areas,
-                      style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
-                      ),
-                    ),
-                    trailing: Switch(
-                      value: _showAreas,
-                      onChanged: (value) {
-                        modalSetState(() {
-                          _showAreas = value;
-                          _setupLayers();
-                        });
-                      },
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      t.go_add_edit_zone_screen.streets,
-                      style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
-                      ),
-                    ),
-                    trailing: Switch(
-                      value: _showStreets,
-                      onChanged: (value) {
-                        modalSetState(() {
-                          _showStreets = value;
-                          _setupLayers();
-                        });
-                      },
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      t.go_add_edit_zone_screen.zones,
-                      style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
-                      ),
-                    ),
-                    trailing: Switch(
-                      value: _showZones,
-                      onChanged: (value) {
-                        modalSetState(() {
-                          _showZones = value;
-                          _setupLayers();
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          (widget.zone != null
+          widget.zone != null
               ? (widget.isViewMode
-                  ? t.go_add_edit_zone_screen.view
-                  : t.go_add_edit_zone_screen.edit)
-              : t.go_add_edit_zone_screen.add) + ' Zone',
+                  ? t.go_add_edit_zone_screen.view_zone_title
+                  : t.go_add_edit_zone_screen.edit_zone_title)
+              : t.go_add_edit_zone_screen.add_zone_title,
         ),
         actions: [
           IconButton(
@@ -698,11 +675,16 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
             onPressed: _showHideOptions,
             tooltip: t.go_add_edit_zone_screen.hide_options,
           ),
+          IconButton(
+            icon: const Icon(Icons.center_focus_strong),
+            onPressed: _mapReady ? () => _fitBounds(_getAllMapPoints()) : null, // Add map ready check
+            tooltip: 'Fit to points',
+          ),
           if (!widget.isViewMode)
             IconButton(
               icon: const Icon(Icons.save),
-              onPressed: _showSaveZoneDialog,
-              tooltip: t.go_add_edit_zone_screen.save,
+              onPressed: _mapReady ? _showSaveZoneDialog : null, // Add map ready check
+              tooltip: t.go_add_edit_zone_screen.save_zone,
             ),
         ],
       ),
@@ -711,67 +693,38 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
           fm.FlutterMap(
             mapController: _mapController.mapController,
             options: fm.MapOptions(
-              initialCenter: _currentZoneCenter,
-              initialZoom: widget.zone != null ? 12.0 : (widget.initialZoom ?? 2.0),
+              initialCenter: widget.initialCenter ?? (widget.zone != null ? LatLng(widget.zone!.latitude, widget.zone!.longitude) : const LatLng(39.0, -98.0)),
+              initialZoom: widget.initialZoom ?? (widget.zone != null ? 12.0 : 2.0),
               minZoom: 2.0,
               maxZoom: 18.0,
               onTap: _handleMapTap,
+              onMapReady: _onMapReady, // Add onMapReady callback
             ),
             children: [
               fm.TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                errorTileCallback: (tile, error, stackTrace) {
-                  debugPrint('Zone: Tile loading error: $error');
-                },
               ),
               if (_showZones && _circleMarkers.isNotEmpty)
                 fm.CircleLayer(
-                  key: ValueKey<String>('circle_layer_$_layerUpdateKey'),
                   circles: _circleMarkers,
                 ),
-              if (!widget.isViewMode)
-                DragMarkers(
-                  markers: [
-                    DragMarker(
-                      point: _currentZoneCenter,
-                      size: const Size(40.0, 40.0),
-                      offset: const Offset(-20.0, -20.0),
-                      builder: (context, point, isDragging) => const Icon(
-                        Icons.location_on,
-                        size: 40,
-                        color: Colors.red,
-                      ),
-                      onDragEnd: (details, point) {
-                        setState(() {
-                          _currentZoneCenter = LatLng(
-                            point.latitude.clamp(-90.0, 90.0),
-                            point.longitude.clamp(-180.0, 180.0),
-                          );
-                          _updateZoneLayer();
-                          _fitBounds([_currentZoneCenter], radius: _currentZoneRadius);
-                          debugPrint('Zone: Marker dragged to: $_currentZoneCenter');
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              if (_showChurches || _showContacts || _showMinistries)
+              if ((_showChurches || _showContacts || _showMinistries) && _markers.isNotEmpty)
                 fm.MarkerLayer(
                   markers: _markers,
                 ),
-              if (_showAreas)
-                fm.PolygonLayer(
-                  polygons: _polygons,
-                ),
-              if (_showStreets)
+              if (_showStreets && _polylines.isNotEmpty)
                 fm.PolylineLayer(
                   polylines: _polylines,
+                ),
+              if (_showAreas && _polygons.isNotEmpty)
+                fm.PolygonLayer(
+                  polygons: _polygons,
                 ),
               fm.RichAttributionWidget(
                 attributions: [
                   fm.TextSourceAttribution(
                     'OpenStreetMap contributors',
-                    onTap: () => debugPrint('Zone: Attribution tapped'),
+                    onTap: () {},
                   ),
                 ],
               ),
@@ -786,18 +739,18 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
               children: [
                 FloatingActionButton.small(
                   heroTag: 'zoomInBtn',
-                  onPressed: () {
+                  onPressed: _mapReady ? () { // Add map ready check
                     _mapController.animateTo(zoom: _mapController.mapController.camera.zoom + 1);
-                  },
+                  } : null,
                   child: const Icon(Icons.add),
                   tooltip: t.go_add_edit_zone_screen.zoom_in,
                 ),
                 const SizedBox(height: 8.0),
                 FloatingActionButton.small(
                   heroTag: 'zoomOutBtn',
-                  onPressed: () {
+                  onPressed: _mapReady ? () { // Add map ready check
                     _mapController.animateTo(zoom: _mapController.mapController.camera.zoom - 1);
-                  },
+                  } : null,
                   child: const Icon(Icons.remove),
                   tooltip: t.go_add_edit_zone_screen.zoom_out,
                 ),
@@ -805,7 +758,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                 if (!widget.isViewMode)
                   FloatingActionButton.small(
                     heroTag: 'increaseRadiusBtn',
-                    onPressed: _increaseRadius,
+                    onPressed: _mapReady ? _increaseRadius : null, // Add map ready check
                     child: const Icon(Icons.add_circle_outline),
                     tooltip: t.go_add_edit_zone_screen.increase_radius,
                   ),
@@ -813,7 +766,7 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                 if (!widget.isViewMode)
                   FloatingActionButton.small(
                     heroTag: 'decreaseRadiusBtn',
-                    onPressed: _decreaseRadius,
+                    onPressed: _mapReady ? _decreaseRadius : null, // Add map ready check
                     child: const Icon(Icons.remove_circle_outline),
                     tooltip: t.go_add_edit_zone_screen.decrease_radius,
                   ),
@@ -821,14 +774,14 @@ class _GoAddEditZoneScreenState extends State<GoAddEditZoneScreen> with TickerPr
                 if (!widget.isViewMode)
                   FloatingActionButton(
                     heroTag: 'setCenterBtn',
-                    onPressed: () {
+                    onPressed: _mapReady ? () { // Add map ready check
                       setState(() {
                         _currentZoneCenter = _mapController.mapController.camera.center;
                         _updateZoneLayer();
                         _fitBounds([_currentZoneCenter], radius: _currentZoneRadius);
                         debugPrint('Zone: Center set to: $_currentZoneCenter');
                       });
-                    },
+                    } : null,
                     child: const Icon(Icons.center_focus_strong),
                     tooltip: t.go_add_edit_zone_screen.set_center,
                   ),
