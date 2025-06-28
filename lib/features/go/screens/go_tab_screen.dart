@@ -892,118 +892,120 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter modalSetState) {
             return SafeArea(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ListTile(
-                    title: Text(
-                      t.go_tab_screen.contacts,
-                      style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      title: Text(
+                        t.go_tab_screen.contacts,
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
+                      trailing: Switch(
+                        value: _showContacts,
+                        onChanged: (value) {
+                          modalSetState(() {
+                            _showContacts = value;
+                            _setupLayers();
+                          });
+                        },
                       ),
                     ),
-                    trailing: Switch(
-                      value: _showContacts,
-                      onChanged: (value) {
-                        modalSetState(() {
-                          _showContacts = value;
-                          _setupLayers();
-                        });
-                      },
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      t.go_tab_screen.churches,
-                      style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                    ListTile(
+                      title: Text(
+                        t.go_tab_screen.churches,
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
+                      trailing: Switch(
+                        value: _showChurches,
+                        onChanged: (value) {
+                          modalSetState(() {
+                            _showChurches = value;
+                            _setupLayers();
+                          });
+                        },
                       ),
                     ),
-                    trailing: Switch(
-                      value: _showChurches,
-                      onChanged: (value) {
-                        modalSetState(() {
-                          _showChurches = value;
-                          _setupLayers();
-                        });
-                      },
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      t.go_tab_screen.ministries,
-                      style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                    ListTile(
+                      title: Text(
+                        t.go_tab_screen.ministries,
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
+                      trailing: Switch(
+                        value: _showMinistries,
+                        onChanged: (value) {
+                          modalSetState(() {
+                            _showMinistries = value;
+                            _setupLayers();
+                          });
+                        },
                       ),
                     ),
-                    trailing: Switch(
-                      value: _showMinistries,
-                      onChanged: (value) {
-                        modalSetState(() {
-                          _showMinistries = value;
-                          _setupLayers();
-                        });
-                      },
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      t.go_tab_screen.areas,
-                      style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                    ListTile(
+                      title: Text(
+                        t.go_tab_screen.areas,
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
+                      trailing: Switch(
+                        value: _showAreas,
+                        onChanged: (value) {
+                          modalSetState(() {
+                            _showAreas = value;
+                            _setupLayers();
+                          });
+                        },
                       ),
                     ),
-                    trailing: Switch(
-                      value: _showAreas,
-                      onChanged: (value) {
-                        modalSetState(() {
-                          _showAreas = value;
-                          _setupLayers();
-                        });
-                      },
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      t.go_tab_screen.streets,
-                      style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                    ListTile(
+                      title: Text(
+                        t.go_tab_screen.streets,
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
+                      trailing: Switch(
+                        value: _showStreets,
+                        onChanged: (value) {
+                          modalSetState(() {
+                            _showStreets = value;
+                            _setupLayers();
+                          });
+                        },
                       ),
                     ),
-                    trailing: Switch(
-                      value: _showStreets,
-                      onChanged: (value) {
-                        modalSetState(() {
-                          _showStreets = value;
-                          _setupLayers();
-                        });
-                      },
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      t.go_tab_screen.zones,
-                      style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                    ListTile(
+                      title: Text(
+                        t.go_tab_screen.zones,
+                        style: TextStyle(
+                          fontFamily: context.watch<FontProvider>().fontFamily,
+                          fontSize: context.watch<FontProvider>().fontSize,
+                        ),
+                      ),
+                      trailing: Switch(
+                        value: _showZones,
+                        onChanged: (value) {
+                          modalSetState(() {
+                            _showZones = value;
+                            _setupLayers();
+                          });
+                        },
                       ),
                     ),
-                    trailing: Switch(
-                      value: _showZones,
-                      onChanged: (value) {
-                        modalSetState(() {
-                          _showZones = value;
-                          _setupLayers();
-                        });
-                      },
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },
