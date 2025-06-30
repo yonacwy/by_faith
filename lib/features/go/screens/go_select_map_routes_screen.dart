@@ -122,8 +122,8 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
               textAlign: TextAlign.center,
             ),
@@ -285,8 +285,8 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
           (widget.isEditMode ? t.go_select_map_routes_screen.edit : t.go_select_map_routes_screen.save) +
             ' ' + t.go_select_map_routes_screen[widget.selectionType.toLowerCase()],
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
           ),
         ),
         content: Column(
@@ -298,17 +298,17 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
                 hintText: t.go_select_map_routes_screen.enter_name,
                 labelText: t.go_select_map_routes_screen.name,
                 hintStyle: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
                 labelStyle: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
               ),
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
             if (widget.selectionType == 'Tag')
@@ -318,17 +318,17 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
                   hintText: t.go_select_map_routes_screen.enter_tag_text,
                   labelText: t.go_select_map_routes_screen.tag_text,
                   hintStyle: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                   labelStyle: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
               ),
           ],
@@ -339,8 +339,8 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
             child: Text(
               t.go_select_map_routes_screen.cancel,
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
           ),
@@ -352,8 +352,8 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
                     content: Text(
                       t.go_select_map_routes_screen.name_cannot_be_empty,
                       style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                     ),
                   ),
@@ -365,8 +365,8 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
             child: Text(
               t.go_select_map_routes_screen.save,
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
           ),
@@ -442,8 +442,8 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
                   : t.go_select_map_routes_screen.select) +
             ' ' + t.go_select_map_routes_screen[widget.selectionType.toLowerCase()],
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
           ),
         ),
         actions: [
@@ -451,7 +451,7 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
             IconButton(
               icon: Icon(
                 Icons.save,
-                size: context.watch<FontProvider>().fontSize * 1.2,
+                size: context.watch<GoSettingsFontProvider>().fontSize * 1.2,
               ),
               onPressed: _showSaveDialog,
               tooltip: t.go_select_map_routes_screen.save,
@@ -514,7 +514,7 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
                   heroTag: 'zoomInBtn',
                   child: Icon(
                     Icons.add,
-                    size: context.watch<FontProvider>().fontSize * 1.2,
+                    size: context.watch<GoSettingsFontProvider>().fontSize * 1.2,
                   ),
                 ),
                 const SizedBox(height: 8.0),
@@ -524,7 +524,7 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
                   heroTag: 'zoomOutBtn',
                   child: Icon(
                     Icons.remove,
-                    size: context.watch<FontProvider>().fontSize * 1.2,
+                    size: context.watch<GoSettingsFontProvider>().fontSize * 1.2,
                   ),
                 ),
               ],
@@ -539,13 +539,13 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
                 label: Text(
                   t.go_select_map_routes_screen.save,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 icon: Icon(
                   Icons.save,
-                  size: context.watch<FontProvider>().fontSize * 1.2,
+                  size: context.watch<GoSettingsFontProvider>().fontSize * 1.2,
                 ),
                 heroTag: 'saveBtn',
               ),

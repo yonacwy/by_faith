@@ -49,15 +49,15 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
         title: Text(
           t.go_add_edit_church_screen.delete_church,
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
           ),
         ),
         content: Text(
           t.go_add_edit_church_screen.delete_church_confirmation.replaceAll('{churchName}', _church.churchName),
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
           ),
         ),
         actions: [
@@ -66,8 +66,8 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
             child: Text(
               t.go_add_edit_church_screen.cancel,
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
           ),
@@ -85,8 +85,8 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                   content: Text(
                     t.go_add_edit_church_screen.church_deleted.replaceAll('{churchName}', _church.churchName),
                     style: TextStyle(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
                   ),
                 ),
@@ -96,8 +96,8 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               t.go_add_edit_church_screen.delete,
               style: TextStyle(
                 color: Colors.red,
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
           ),
@@ -115,8 +115,8 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               ? t.go_add_edit_church_screen.church_details
               : t.go_add_edit_church_screen.add_church,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
               ),
         ),
         actions: _isEditing
@@ -160,9 +160,9 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
         Text(
           t.go_add_edit_church_screen.church_information,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                 fontWeight: FontWeight.bold,
-                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
               ),
         ),
         const SizedBox(height: 8),
@@ -175,9 +175,9 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
         Text(
           t.go_add_edit_church_screen.financial_status,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                 fontWeight: FontWeight.bold,
-                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
               ),
         ),
         const SizedBox(height: 8),
@@ -186,9 +186,9 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
         Text(
           t.go_add_edit_church_screen.map_information,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                 fontWeight: FontWeight.bold,
-                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
               ),
         ),
         const SizedBox(height: 8),
@@ -198,9 +198,9 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
         Text(
           t.go_add_edit_church_screen.notes,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                 fontWeight: FontWeight.bold,
-                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
               ),
         ),
         const SizedBox(height: 8),
@@ -219,15 +219,15 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
             label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: Colors.grey,
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize - 2,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize - 2,
                 ),
           ),
           Text(
             value ?? t.go_add_edit_church_screen.not_specified,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: context.watch<FontProvider>().fontSize,
-                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
                 ),
           ),
         ],
@@ -259,8 +259,8 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
             subtitle: Text(
               '${t.go_add_edit_church_screen.created}: ${DateFormat.yMMMd().format(note.createdAt)}',
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize - 2,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize - 2,
                   ),
             ),
             trailing: Row(
@@ -327,8 +327,8 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
             content: Text(
               t.go_add_edit_church_screen.church_added,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                    fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                    fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                    fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                   ),
             ),
           ),
@@ -348,9 +348,9 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               Text(
                 t.go_add_edit_church_screen.church_information,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontSize: context.watch<FontProvider>().fontSize + 2,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                       fontWeight: FontWeight.bold,
-                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
                     ),
               ),
               const SizedBox(height: 8),
@@ -360,13 +360,13 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                   labelText: t.go_add_edit_church_screen.church_name,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
                 validator: (value) => value == null || value.isEmpty
                     ? t.go_add_edit_church_screen.please_enter_church_name
@@ -379,13 +379,13 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                   labelText: t.go_add_edit_church_screen.pastor_name_optional,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
               ),
               const SizedBox(height: 16),
@@ -395,13 +395,13 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                   labelText: t.go_add_edit_church_screen.address,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
                 validator: (value) => value == null || value.isEmpty
                     ? t.go_add_edit_church_screen.please_enter_address
@@ -414,13 +414,13 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                   labelText: t.go_add_edit_church_screen.phone_optional,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
                 keyboardType: TextInputType.phone,
               ),
@@ -431,13 +431,13 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                   labelText: t.go_add_edit_church_screen.email_optional,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
@@ -454,9 +454,9 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
               Text(
                 t.go_add_edit_church_screen.financial_status,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontSize: context.watch<FontProvider>().fontSize + 2,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                       fontWeight: FontWeight.bold,
-                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
                     ),
               ),
               const SizedBox(height: 8),
@@ -466,8 +466,8 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                   labelText: t.go_add_edit_church_screen.status,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                 ),
                 items: financialStatusOptions.map<DropdownMenuItem<String>>((status) {
@@ -476,25 +476,25 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                     child: Text(
                       status,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontFamily: context.watch<FontProvider>().fontFamily,
-                            fontSize: context.watch<FontProvider>().fontSize,
+                            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                           ),
                     ),
                   );
                 }).toList(),
                 onChanged: (String? newValue) => financialStatus = newValue,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
               ),
               const SizedBox(height: 24),
               Text(
                 t.go_add_edit_church_screen.map_information,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontSize: context.watch<FontProvider>().fontSize + 2,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                       fontWeight: FontWeight.bold,
-                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
                     ),
               ),
               const SizedBox(height: 8),
@@ -504,13 +504,13 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                   labelText: t.go_add_edit_church_screen.latitude,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -532,13 +532,13 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                   labelText: t.go_add_edit_church_screen.longitude,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -560,8 +560,8 @@ class _GoAddEditChurchScreenState extends State<GoAddEditChurchScreen> {
                   child: Text(
                     t.go_add_edit_church_screen.add_church,
                     style: TextStyle(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
                   ),
                 ),
@@ -638,8 +638,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
         title: Text(
           widget.note != null ? 'Edit Note' : 'Add Note',
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
           ),
         ),
         actions: [

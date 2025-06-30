@@ -49,15 +49,15 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
         title: Text(
           t.go_add_edit_ministry_screen.delete_ministry,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize + 2,
               ),
         ),
         content: Text(
           t.go_add_edit_ministry_screen.delete_ministry_confirmation.replaceAll('{ministryName}', _ministry.ministryName),
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
               ),
         ),
         actions: [
@@ -66,8 +66,8 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
             child: Text(
               t.go_add_edit_ministry_screen.cancel,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                    fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                    fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                    fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                   ),
             ),
           ),
@@ -85,8 +85,8 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                   content: Text(
                     t.go_add_edit_ministry_screen.ministry_deleted.replaceAll('{ministryName}', _ministry.ministryName),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                          fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                          fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                          fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                         ),
                   ),
                 ),
@@ -96,8 +96,8 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
               t.go_add_edit_ministry_screen.delete,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     color: Colors.red,
-                    fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                    fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                    fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                    fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                   ),
             ),
           ),
@@ -113,8 +113,8 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
         title: Text(
           _isEditing ? t.go_add_edit_ministry_screen.ministry_details : t.go_add_edit_ministry_screen.add_ministry,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize + 2,
               ),
         ),
         actions: _isEditing
@@ -158,9 +158,9 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
         Text(
           t.go_add_edit_ministry_screen.ministry_information,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize + 2,
                 fontWeight: FontWeight.bold,
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
               ),
         ),
         const SizedBox(height: 8),
@@ -173,9 +173,9 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
         Text(
           t.go_add_edit_ministry_screen.partner_status,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize + 2,
                 fontWeight: FontWeight.bold,
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
               ),
         ),
         const SizedBox(height: 8),
@@ -184,9 +184,9 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
         Text(
           t.go_add_edit_ministry_screen.map_information,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize + 2,
                 fontWeight: FontWeight.bold,
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
               ),
         ),
         const SizedBox(height: 8),
@@ -196,9 +196,9 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
         Text(
           t.go_add_edit_ministry_screen.notes,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize + 2,
                 fontWeight: FontWeight.bold,
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
               ),
         ),
         const SizedBox(height: 8),
@@ -217,15 +217,15 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
             label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: Colors.grey,
-                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize - 2,
+                  fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize - 2,
                 ),
           ),
           Text(
             value ?? t.go_add_edit_ministry_screen.not_specified,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
-                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
+                  fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
                 ),
           ),
         ],
@@ -257,8 +257,8 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
             subtitle: Text(
               '${t.go_add_edit_ministry_screen.created}: ${DateFormat.yMMMd().format(note.createdAt)}',
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                    fontSize: Provider.of<FontProvider>(context, listen: false).fontSize - 2,
+                    fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                    fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize - 2,
                   ),
             ),
             trailing: Row(
@@ -321,8 +321,8 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
             content: Text(
               'Ministry added!',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
               ),
             ),
           ),
@@ -342,9 +342,9 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
               Text(
                 'Ministry Information',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize + 2,
                       fontWeight: FontWeight.bold,
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
                     ),
               ),
               const SizedBox(height: 8),
@@ -354,13 +354,13 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                   labelText: 'Ministry Name',
                   border: const OutlineInputBorder(),
                   labelStyle: TextStyle(
-                    fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                    fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                    fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                    fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                   ),
                 ),
                 style: TextStyle(
-                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                  fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                 ),
                 validator: (value) => value == null || value.isEmpty
                     ? 'Please enter a ministry name'
@@ -373,13 +373,13 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                   labelText: 'Contact Name (Optional)',
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                        fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                        fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                        fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                     ),
               ),
               const SizedBox(height: 16),
@@ -389,13 +389,13 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                   labelText: 'Address',
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                        fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                        fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                        fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                     ),
                 validator: (value) => value == null || value.isEmpty
                     ? 'Please enter an address'
@@ -408,13 +408,13 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                   labelText: 'Phone (Optional)',
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                        fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                        fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                        fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                     ),
                 keyboardType: TextInputType.phone,
               ),
@@ -425,13 +425,13 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                   labelText: 'Email (Optional)',
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                        fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                        fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                        fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                     ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
@@ -448,9 +448,9 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
               Text(
                 'Partner Status',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize + 2,
                       fontWeight: FontWeight.bold,
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
                     ),
               ),
               const SizedBox(height: 8),
@@ -460,8 +460,8 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                   labelText: 'Status',
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                        fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                        fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                        fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                       ),
                 ),
                 items: partnerStatusOptions.map((String status) {
@@ -470,25 +470,25 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                     child: Text(
                       status,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                           ),
                     ),
                   );
                 }).toList(),
                 onChanged: (String? newValue) => partnerStatus = newValue,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                     ),
               ),
               const SizedBox(height: 24),
               Text(
                 'Map Information',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize + 2,
                       fontWeight: FontWeight.bold,
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
                     ),
               ),
               const SizedBox(height: 8),
@@ -498,13 +498,13 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                   labelText: 'Latitude',
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                        fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                        fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                        fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                     ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -526,13 +526,13 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                   labelText: 'Longitude',
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                        fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                        fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                        fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                     ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -554,8 +554,8 @@ class _GoAddEditMinistryScreenState extends State<GoAddEditMinistryScreen> {
                   child: Text(
                     'Save Ministry',
                     style: TextStyle(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                     ),
                   ),
                 ),
@@ -632,8 +632,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
         title: Text(
           widget.note != null ? 'Edit Note' : 'Add Note',
           style: TextStyle(
-            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
           ),
         ),
         actions: [

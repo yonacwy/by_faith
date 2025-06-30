@@ -213,8 +213,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
   Future<void> _exportData<T>(
       List<T> items, String type, String fileName, Map<String, dynamic> Function(T) toJson) async {
     try {
-      // Get FontProvider before the async operation
-      final fontProvider = Provider.of<FontProvider>(context, listen: false);
+      // Get GoSettingsFontProvider before the async operation
+      final goSettingsFontProvider = Provider.of<GoSettingsFontProvider>(context, listen: false);
 
       final data = items.map(toJson).toList();
       final jsonString = jsonEncode({'type': type, 'data': data});
@@ -241,8 +241,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
               content: Text(
                 '$type exported successfully',
                 style: TextStyle(
-                  fontFamily: fontProvider.fontFamily,
-                  fontSize: fontProvider.fontSize,
+                  fontFamily: goSettingsFontProvider.fontFamily,
+                  fontSize: goSettingsFontProvider.fontSize,
                 ),
               ),
             ),
@@ -261,14 +261,14 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
   // Helper method to import data from JSON
   Future<void> _importData<T>(String expectedType, Box<T> box, T Function(Map<String, dynamic>) fromJson, {bool Function(T, Map<String, dynamic>)? isDuplicate, void Function(T, Map<String, dynamic>)? updateEntity}) async {
     try {
-      // Get FontProvider and TextStyles before the async operation
-      final fontProvider = Provider.of<FontProvider>(context, listen: false);
+      // Get GoSettingsFontProvider and TextStyles before the async operation
+      final goSettingsFontProvider = Provider.of<GoSettingsFontProvider>(context, listen: false);
       final successTextStyle = TextStyle(
-        fontFamily: fontProvider.fontFamily,
-        fontSize: fontProvider.fontSize,
+        fontFamily: goSettingsFontProvider.fontFamily,
+        fontSize: goSettingsFontProvider.fontSize,
       );
       final invalidFileTextStyle = TextStyle(
-        fontSize: fontProvider.fontSize,
+        fontSize: goSettingsFontProvider.fontSize,
       );
 
       final result = await FilePicker.platform.pickFiles(
@@ -455,8 +455,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
       'zones': zones.map(_zoneToJson).toList(),
     };
 
-    // Get FontProvider before any await
-    final fontProvider = Provider.of<FontProvider>(context, listen: false);
+    // Get GoSettingsFontProvider before any await
+    final goSettingsFontProvider = Provider.of<GoSettingsFontProvider>(context, listen: false);
 
     try {
       final jsonString = jsonEncode(data);
@@ -482,8 +482,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
               content: Text(
                 'All data exported successfully',
                 style: TextStyle(
-                  fontFamily: fontProvider.fontFamily,
-                  fontSize: fontProvider.fontSize,
+                  fontFamily: goSettingsFontProvider.fontFamily,
+                  fontSize: goSettingsFontProvider.fontSize,
                 ),
               ),
             ),
@@ -501,8 +501,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
 
   // Import all data
   Future<void> _importAll() async {
-    // Get FontProvider before any await
-    final fontProvider = Provider.of<FontProvider>(context, listen: false);
+    // Get GoSettingsFontProvider before any await
+    final goSettingsFontProvider = Provider.of<GoSettingsFontProvider>(context, listen: false);
     try {
       final result = await FilePicker.platform.pickFiles(
         dialogTitle: 'Select All Data JSON',
@@ -638,8 +638,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
               content: Text(
                 'All data imported successfully',
                 style: TextStyle(
-                  fontFamily: fontProvider.fontFamily,
-                  fontSize: fontProvider.fontSize,
+                  fontFamily: goSettingsFontProvider.fontFamily,
+                  fontSize: goSettingsFontProvider.fontSize,
                 ),
               ),
             ),
@@ -663,8 +663,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
         title: Text(
           t.go_export_import_screen.title,
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
           ),
         ),
       ),
@@ -674,8 +674,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
             title: Text(
               t.go_export_import_screen.export_data,
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
             onExpansionChanged: (bool expanded) {
@@ -689,8 +689,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                 title: Text(
                   t.go_export_import_screen.churches,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 children: goChurchesBox.getAll().isEmpty
@@ -699,7 +699,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                           title: Text(
                             t.go_export_import_screen.no_churches,
                             style: TextStyle(
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             ),
                           ),
                         )
@@ -708,8 +708,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                           title: Text(
                             church.churchName,
                             style: TextStyle(
-                              fontFamily: context.watch<FontProvider>().fontFamily,
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             ),
                           ),
                           onTap: () => _exportData(
@@ -724,8 +724,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                 title: Text(
                   t.go_export_import_screen.contacts,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 children: goContactsBox.getAll().isEmpty
@@ -734,7 +734,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                           title: Text(
                             t.go_export_import_screen.no_contacts,
                             style: TextStyle(
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             ),
                           ),
                         )
@@ -743,8 +743,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                           title: Text(
                             contact.fullName,
                             style: TextStyle(
-                              fontFamily: context.watch<FontProvider>().fontFamily,
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             ),
                           ),
                           onTap: () => _exportData(
@@ -759,8 +759,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                 title: Text(
                   t.go_export_import_screen.ministries,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 children: goMinistriesBox.getAll().isEmpty
@@ -769,7 +769,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                           title: Text(
                             t.go_export_import_screen.no_ministries,
                             style: TextStyle(
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             ),
                           ),
                         )
@@ -778,8 +778,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                           title: Text(
                             ministry.ministryName,
                             style: TextStyle(
-                              fontFamily: context.watch<FontProvider>().fontFamily,
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             ),
                           ),
                           onTap: () => _exportData(
@@ -794,8 +794,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                 title: Text(
                   t.go_export_import_screen.areas,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 children: _goAreasBox.getAll().isEmpty
@@ -804,7 +804,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                           title: Text(
                             t.go_export_import_screen.no_areas,
                             style: TextStyle(
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             ),
                           ),
                         )
@@ -813,8 +813,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                           title: Text(
                             area.name,
                             style: TextStyle(
-                              fontFamily: context.watch<FontProvider>().fontFamily,
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             ),
                           ),
                           onTap: () => _exportData(
@@ -829,8 +829,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                 title: Text(
                   t.go_export_import_screen.streets,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 children: _goStreetsBox.getAll().isEmpty
@@ -839,7 +839,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                           title: Text(
                             t.go_export_import_screen.no_streets,
                             style: TextStyle(
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             ),
                           ),
                         )
@@ -848,8 +848,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                           title: Text(
                             street.name,
                             style: TextStyle(
-                              fontFamily: context.watch<FontProvider>().fontFamily,
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             ),
                           ),
                           onTap: () => _exportData(
@@ -864,8 +864,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                 title: Text(
                   t.go_export_import_screen.zones,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 children: _goZonesBox.getAll().isEmpty
@@ -874,7 +874,7 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                           title: Text(
                             t.go_export_import_screen.no_zones,
                             style: TextStyle(
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             ),
                           ),
                         )
@@ -883,8 +883,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                           title: Text(
                             zone.name,
                             style: TextStyle(
-                              fontFamily: context.watch<FontProvider>().fontFamily,
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             ),
                           ),
                           onTap: () => _exportData(
@@ -899,8 +899,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                 title: Text(
                   t.go_export_import_screen.all,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 onTap: _exportAll,
@@ -911,8 +911,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
             title: Text(
               t.go_export_import_screen.import_data,
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
             onExpansionChanged: (bool expanded) {
@@ -926,8 +926,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                 title: Text(
                   t.go_export_import_screen.churches,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 onTap: () => _importData('churches', goChurchesBox, _churchFromJson, isDuplicate: _isDuplicateChurch, updateEntity: _updateChurch),
@@ -936,8 +936,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                 title: Text(
                   t.go_export_import_screen.contacts,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 onTap: () => _importData('contacts', goContactsBox, _contactFromJson, isDuplicate: _isDuplicateContact, updateEntity: _updateContact),
@@ -946,8 +946,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                 title: Text(
                   t.go_export_import_screen.ministries,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 onTap: () => _importData('ministries', goMinistriesBox, _ministryFromJson, isDuplicate: _isDuplicateMinistry, updateEntity: _updateMinistry),
@@ -956,8 +956,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                 title: Text(
                   t.go_export_import_screen.areas,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 onTap: () => _importData('areas', _goAreasBox, _areaFromJson, isDuplicate: _isDuplicateArea, updateEntity: _updateArea),
@@ -966,8 +966,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                 title: Text(
                   t.go_export_import_screen.streets,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 onTap: () => _importData('streets', _goStreetsBox, _streetFromJson, isDuplicate: _isDuplicateStreet, updateEntity: _updateStreet),
@@ -976,8 +976,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                 title: Text(
                   t.go_export_import_screen.zones,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 onTap: () => _importData('zones', _goZonesBox, _zoneFromJson, isDuplicate: _isDuplicateZone, updateEntity: _updateZone),
@@ -986,8 +986,8 @@ class _GoExportImportScreenState extends State<GoExportImportScreen> {
                 title: Text(
                   t.go_export_import_screen.all,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 onTap: _importAll,

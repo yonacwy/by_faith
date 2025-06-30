@@ -79,15 +79,15 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
         title: Text(
           t.go_add_edit_contact_screen.delete_contact,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
               ),
         ),
         content: Text(
           t.go_add_edit_contact_screen.delete_contact_confirmation.replaceAll('{fullName}', _contact.fullName),
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
         ),
         actions: [
@@ -96,8 +96,8 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
             child: Text(
               t.go_add_edit_contact_screen.cancel,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
             ),
           ),
@@ -115,8 +115,8 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                   content: Text(
                     t.go_add_edit_contact_screen.contact_deleted.replaceAll('{fullName}', _contact.fullName),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                   ),
                 ),
@@ -126,8 +126,8 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               t.go_add_edit_contact_screen.delete,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     color: Colors.red,
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
             ),
           ),
@@ -143,8 +143,8 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
         title: Text(
           _isEditing ? t.go_add_edit_contact_screen.contact_details : t.go_add_edit_contact_screen.add_contact,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
               ),
         ),
         actions: _isEditing
@@ -188,9 +188,9 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
         Text(
           t.go_add_edit_contact_screen.personal_information,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                 fontWeight: FontWeight.bold,
-                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
               ),
         ),
         const SizedBox(height: 8),
@@ -203,9 +203,9 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
         Text(
           t.go_add_edit_contact_screen.eternal_status,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                 fontWeight: FontWeight.bold,
-                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
               ),
         ),
         const SizedBox(height: 8),
@@ -214,9 +214,9 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
         Text(
           t.go_add_edit_contact_screen.map_information,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                 fontWeight: FontWeight.bold,
-                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
               ),
         ),
         const SizedBox(height: 8),
@@ -226,9 +226,9 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
         Text(
           t.go_add_edit_contact_screen.notes,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                 fontWeight: FontWeight.bold,
-                fontFamily: context.watch<FontProvider>().fontFamily,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
               ),
         ),
         const SizedBox(height: 8),
@@ -247,15 +247,15 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
             label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: Colors.grey,
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize - 2,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize - 2,
                 ),
           ),
           Text(
             value ?? t.go_add_edit_contact_screen.not_specified,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: context.watch<FontProvider>().fontSize,
-                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
                 ),
           ),
         ],
@@ -287,8 +287,8 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
             subtitle: Text(
               '${t.go_add_edit_contact_screen.created}: ${DateFormat.yMMMd().format(note.createdAt)}',
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize - 2,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize - 2,
                   ),
             ),
             trailing: Row(
@@ -356,8 +356,8 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
             content: Text(
               t.go_add_edit_contact_screen.contact_added,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                    fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                    fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                    fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                   ),
             ),
           ),
@@ -377,9 +377,9 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               Text(
                 t.go_add_edit_contact_screen.personal_information,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontSize: context.watch<FontProvider>().fontSize + 2,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                       fontWeight: FontWeight.bold,
-                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
                     ),
               ),
               const SizedBox(height: 8),
@@ -389,13 +389,13 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                   labelText: t.go_add_edit_contact_screen.full_name,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
                 validator: (value) => value == null || value.isEmpty
                     ? t.go_add_edit_contact_screen.please_enter_full_name
@@ -408,13 +408,13 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                   labelText: t.go_add_edit_contact_screen.address,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
                 validator: (value) => value == null || value.isEmpty
                     ? t.go_add_edit_contact_screen.please_enter_address
@@ -429,13 +429,13 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                   labelText: t.go_add_edit_contact_screen.birthday_optional,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
               ),
               const SizedBox(height: 16),
@@ -445,13 +445,13 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                   labelText: t.go_add_edit_contact_screen.phone_optional,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
                 keyboardType: TextInputType.phone,
               ),
@@ -462,13 +462,13 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                   labelText: t.go_add_edit_contact_screen.email_optional,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
@@ -485,9 +485,9 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
               Text(
                 t.go_add_edit_contact_screen.eternal_status,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontSize: context.watch<FontProvider>().fontSize + 2,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                       fontWeight: FontWeight.bold,
-                      fontFamily: context.watch<FontProvider>().fontFamily,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
                     ),
               ),
               const SizedBox(height: 8),
@@ -497,8 +497,8 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                   labelText: t.go_add_edit_contact_screen.status,
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                 ),
                 items: [
@@ -511,25 +511,25 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                     child: Text(
                       status,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontFamily: context.watch<FontProvider>().fontFamily,
-                            fontSize: context.watch<FontProvider>().fontSize,
+                            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                           ),
                     ),
                   );
                 }).toList(),
                 onChanged: (String? newValue) => setState(() => _eternalStatus = newValue),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
               ),
               const SizedBox(height: 24),
               Text(
                 t.go_add_edit_contact_screen.map_information,
                 style: TextStyle(
-                  fontSize: context.watch<FontProvider>().fontSize + 2,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                   fontWeight: FontWeight.bold,
-                  fontFamily: context.watch<FontProvider>().fontFamily,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
                 ),
               ),
               const SizedBox(height: 8),
@@ -539,13 +539,13 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                   labelText: 'Latitude',
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -567,13 +567,13 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                   labelText: 'Longitude',
                   border: const OutlineInputBorder(),
                   labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -595,8 +595,8 @@ class _GoAddEditContactScreenState extends State<GoAddEditContactScreen> {
                   child: Text(
                     t.go_add_edit_contact_screen.save_contact,
                     style: TextStyle(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
                   ),
                 ),
@@ -673,8 +673,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
         title: Text(
           widget.note != null ? t.go_add_edit_contact_screen.edit_note : t.go_add_edit_contact_screen.add_note,
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
           ),
         ),
         actions: [

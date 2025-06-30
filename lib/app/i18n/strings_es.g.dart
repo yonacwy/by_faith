@@ -57,6 +57,8 @@ class TranslationsEs implements Translations {
 	@override late final _TranslationsGoSettingsScreenEs go_settings_screen = _TranslationsGoSettingsScreenEs._(_root);
 	@override late final _TranslationsGoShareScreenEs go_share_screen = _TranslationsGoShareScreenEs._(_root);
 	@override late final _TranslationsGoTabScreenEs go_tab_screen = _TranslationsGoTabScreenEs._(_root);
+	@override late final _TranslationsStudyTabScreenEs study_tab_screen = _TranslationsStudyTabScreenEs._(_root);
+	@override late final _TranslationsStudySettingsScreenEs study_settings_screen = _TranslationsStudySettingsScreenEs._(_root);
 }
 
 // Path: main
@@ -696,6 +698,34 @@ class _TranslationsGoTabScreenEs implements TranslationsGoTabScreenEn {
 	@override String get go_menu => 'Menú Ir';
 }
 
+// Path: study_tab_screen
+class _TranslationsStudyTabScreenEs implements TranslationsStudyTabScreenEn {
+	_TranslationsStudyTabScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Estudiar';
+	@override String get study_menu => 'Menú Estudiar';
+}
+
+// Path: study_settings_screen
+class _TranslationsStudySettingsScreenEs implements TranslationsStudySettingsScreenEn {
+	_TranslationsStudySettingsScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Configuración';
+	@override String get text_settings => 'Configuración de texto';
+	@override String get font_family => 'Tipo de letra';
+	@override String get font_size => 'Tamaño de letra:';
+	@override String get preview => 'Vista previa:';
+	@override String get back => 'Atrás';
+	@override String get load => 'Cargar';
+	@override String get sample_text => 'Estudia para presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad.';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on TranslationsEs {
@@ -1149,6 +1179,16 @@ extension on TranslationsEs {
 			case 'go_tab_screen.enter_address': return 'Introduce una dirección';
 			case 'go_tab_screen.world': return 'Mundo';
 			case 'go_tab_screen.go_menu': return 'Menú Ir';
+			case 'study_tab_screen.title': return 'Estudiar';
+			case 'study_tab_screen.study_menu': return 'Menú Estudiar';
+			case 'study_settings_screen.title': return 'Configuración';
+			case 'study_settings_screen.text_settings': return 'Configuración de texto';
+			case 'study_settings_screen.font_family': return 'Tipo de letra';
+			case 'study_settings_screen.font_size': return 'Tamaño de letra:';
+			case 'study_settings_screen.preview': return 'Vista previa:';
+			case 'study_settings_screen.back': return 'Atrás';
+			case 'study_settings_screen.load': return 'Cargar';
+			case 'study_settings_screen.sample_text': return 'Estudia para presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad.';
 			default: return null;
 		}
 	}

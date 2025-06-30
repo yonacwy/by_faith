@@ -3,7 +3,7 @@ import 'package:objectbox/objectbox.dart';
 import '../../../core/models/user_preferences_model.dart';
 import '../../../objectbox.dart';
 
-class GoSettingsFontProvider with ChangeNotifier {
+class StudySettingsFontProvider with ChangeNotifier {
   late Box<UserPreferences> _userPreferencesBox;
   late UserPreferences _userPreferences;
 
@@ -13,7 +13,7 @@ class GoSettingsFontProvider with ChangeNotifier {
   String get fontFamily => _fontFamily;
   double get fontSize => _fontSize;
 
-  GoSettingsFontProvider() {
+  StudySettingsFontProvider() {
     _userPreferencesBox = store.box<UserPreferences>();
     _loadPreferences();
   }

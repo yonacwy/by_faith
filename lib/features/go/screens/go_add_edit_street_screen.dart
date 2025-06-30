@@ -99,8 +99,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           content: Text(
             t.go_add_edit_street_screen.tap_to_add_points,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-              fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+              fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+              fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
             ),
           ),
           action: SnackBarAction(
@@ -296,15 +296,15 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           title: Text(
             t.go_add_edit_street_screen.cancel_creation,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize + 2,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                 ),
           ),
           content: Text(
             t.go_add_edit_street_screen.discard_changes,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
           ),
           actions: [
@@ -313,8 +313,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
               child: Text(
                 t.go_add_edit_street_screen.keep_editing,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
               ),
             ),
@@ -323,8 +323,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
               child: Text(
                 t.go_add_edit_street_screen.discard,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
               ),
             ),
@@ -350,8 +350,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           content: Text(
             t.go_add_edit_street_screen.add_at_least_2_points,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
           ),
         ),
@@ -372,8 +372,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
           (widget.street != null ? t.go_add_edit_street_screen.edit : t.go_add_edit_street_screen.save) +
             ' ' + _getLineTypeLabel(_selectedLineType, t),
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize + 2,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
               ),
         ),
         content: TextField(
@@ -382,17 +382,17 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
             hintText: t.go_add_edit_street_screen.enter_name,
             labelText: t.go_add_edit_street_screen.name,
             hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
             labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
           ),
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
         ),
         actions: [
@@ -401,8 +401,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
             child: Text(
               t.go_add_edit_street_screen.cancel,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
             ),
           ),
@@ -414,8 +414,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                     content: Text(
                       t.go_add_edit_street_screen.name_cannot_be_empty,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontFamily: context.watch<FontProvider>().fontFamily,
-                            fontSize: context.watch<FontProvider>().fontSize,
+                            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                           ),
                     ),
                   ),
@@ -427,8 +427,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
             child: Text(
               t.go_add_edit_street_screen.save,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
             ),
           ),
@@ -456,8 +456,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
               content: Text(
                 t.go_add_edit_street_screen.route_saved_successfully,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
               ),
             ),
@@ -471,8 +471,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
               content: Text(
                 t.go_add_edit_street_screen.error_saving_route.replaceAll('{error}', e.toString()),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
               ),
             ),
@@ -653,8 +653,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                     title: Text(
                       t.go_add_edit_street_screen.contacts,
                       style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                     ),
                     trailing: Switch(
@@ -671,8 +671,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                     title: Text(
                       t.go_add_edit_street_screen.churches,
                       style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                     ),
                     trailing: Switch(
@@ -689,8 +689,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                     title: Text(
                       t.go_add_edit_street_screen.ministries,
                       style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                     ),
                     trailing: Switch(
@@ -707,8 +707,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                     title: Text(
                       t.go_add_edit_street_screen.areas,
                       style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                     ),
                     trailing: Switch(
@@ -725,8 +725,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                     title: Text(
                       t.go_add_edit_street_screen.streets,
                       style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                     ),
                     trailing: Switch(
@@ -743,8 +743,8 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
                     title: Text(
                       t.go_add_edit_street_screen.zones,
                       style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                     ),
                     trailing: Switch(

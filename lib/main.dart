@@ -9,10 +9,10 @@ import 'package:by_faith/features/go/screens/go_tab_screen.dart';
 import 'package:provider/provider.dart'; // Import provider package
 import 'package:by_faith/app/i18n/strings.g.dart'; // Import translations
 import 'package:flutter_localizations/flutter_localizations.dart'; // Import for localization delegates
-
 import 'package:by_faith/objectbox.dart';
-import 'package:by_faith/features/go/providers/go_settings_font_provider.dart'; // Import GoSettingsFontProvider
 import 'package:by_faith/features/home/providers/home_settings_font_provider.dart'; // Import HomeSettingsFontProvider
+import 'package:by_faith/features/go/providers/go_settings_font_provider.dart'; // Import GoSettingsFontProvider
+import 'package:by_faith/features/study/providers/study_settings_font_provider.dart'; // Import StudySettingsFontProvider
 import 'package:by_faith/core/models/user_preferences_model.dart';
 
 void main() async {
@@ -39,8 +39,9 @@ void main() async {
     TranslationProvider(
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => FontProvider()),
           ChangeNotifierProvider(create: (_) => HomeSettingsFontProvider()),
+          ChangeNotifierProvider(create: (_) => GoSettingsFontProvider()), // Add StudySettingsFontProvider
+          ChangeNotifierProvider(create: (_) => StudySettingsFontProvider()), // Add StudySettingsFontProvider
         ],
         child: const MyApp(),
       ),

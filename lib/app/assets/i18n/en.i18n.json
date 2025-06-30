@@ -488,5 +488,19 @@
     "enter_address": "Enter address",
     "world": "World",
     "go_menu": "Go Menu"
+  },
+  "study_tab_screen": {
+    "title": "Study",
+    "study_menu": "Study Menu"
+  },
+  "study_settings_screen": {
+    "title": "Settings",
+    "text_settings": "Text Settings",
+    "font_family": "Font Family",
+    "font_size": "Font Size:",
+    "preview": "Preview:",
+    "back": "Back",
+    "load": "Load",
+    "sample_text": "Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth."
   }
 }

@@ -57,6 +57,8 @@ class TranslationsHi implements Translations {
 	@override late final _TranslationsGoSettingsScreenHi go_settings_screen = _TranslationsGoSettingsScreenHi._(_root);
 	@override late final _TranslationsGoShareScreenHi go_share_screen = _TranslationsGoShareScreenHi._(_root);
 	@override late final _TranslationsGoTabScreenHi go_tab_screen = _TranslationsGoTabScreenHi._(_root);
+	@override late final _TranslationsStudyTabScreenHi study_tab_screen = _TranslationsStudyTabScreenHi._(_root);
+	@override late final _TranslationsStudySettingsScreenHi study_settings_screen = _TranslationsStudySettingsScreenHi._(_root);
 }
 
 // Path: main
@@ -697,6 +699,34 @@ class _TranslationsGoTabScreenHi implements TranslationsGoTabScreenEn {
 	@override String get tap_on_the_map_to_add_a_marker => 'मानचित्र पर मार्कर जोड़ने के लिए टैप करें।';
 }
 
+// Path: study_tab_screen
+class _TranslationsStudyTabScreenHi implements TranslationsStudyTabScreenEn {
+	_TranslationsStudyTabScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'अध्ययन';
+	@override String get study_menu => 'अध्ययन मेनू';
+}
+
+// Path: study_settings_screen
+class _TranslationsStudySettingsScreenHi implements TranslationsStudySettingsScreenEn {
+	_TranslationsStudySettingsScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'सेटिंग्स';
+	@override String get text_settings => 'पाठ सेटिंग्स';
+	@override String get font_family => 'फ़ॉन्ट परिवार';
+	@override String get font_size => 'फ़ॉन्ट आकार:';
+	@override String get preview => 'पूर्वावलोकन:';
+	@override String get back => 'वापस';
+	@override String get load => 'लोड करें';
+	@override String get sample_text => 'अपने आप को परमेश्वर के सामने स्वीकार्य बनाने के लिए अध्ययन करो, ताकि तुम एक ऐसे काम करने वाले बनो जिसे लज्जित न होना पड़े, और जो सत्य के वचन को ठीक प्रकार से प्रस्तुत करता है।';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on TranslationsHi {
@@ -1151,6 +1181,16 @@ extension on TranslationsHi {
 			case 'go_tab_screen.world': return 'विश्व';
 			case 'go_tab_screen.go_menu': return 'गो मेनू';
 			case 'go_tab_screen.tap_on_the_map_to_add_a_marker': return 'मानचित्र पर मार्कर जोड़ने के लिए टैप करें।';
+			case 'study_tab_screen.title': return 'अध्ययन';
+			case 'study_tab_screen.study_menu': return 'अध्ययन मेनू';
+			case 'study_settings_screen.title': return 'सेटिंग्स';
+			case 'study_settings_screen.text_settings': return 'पाठ सेटिंग्स';
+			case 'study_settings_screen.font_family': return 'फ़ॉन्ट परिवार';
+			case 'study_settings_screen.font_size': return 'फ़ॉन्ट आकार:';
+			case 'study_settings_screen.preview': return 'पूर्वावलोकन:';
+			case 'study_settings_screen.back': return 'वापस';
+			case 'study_settings_screen.load': return 'लोड करें';
+			case 'study_settings_screen.sample_text': return 'अपने आप को परमेश्वर के सामने स्वीकार्य बनाने के लिए अध्ययन करो, ताकि तुम एक ऐसे काम करने वाले बनो जिसे लज्जित न होना पड़े, और जो सत्य के वचन को ठीक प्रकार से प्रस्तुत करता है।';
 			default: return null;
 		}
 	}

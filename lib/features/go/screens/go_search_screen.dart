@@ -71,8 +71,8 @@ class _GoSearchScreenState extends State<GoSearchScreen> {
         title: Text(
           t.go_search_screen.title,
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
           ),
         ),
       ),
@@ -85,13 +85,13 @@ class _GoSearchScreenState extends State<GoSearchScreen> {
               decoration: InputDecoration(
                 hintText: t.go_search_screen.enter_address,
                 hintStyle: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
                 suffixIcon: IconButton(
                   icon: Icon(
                     Icons.search,
-                    size: context.watch<FontProvider>().fontSize * 1.2,
+                    size: context.watch<GoSettingsFontProvider>().fontSize * 1.2,
                   ),
                   onPressed: () => _searchAddress(_searchController.text),
                   tooltip: t.go_search_screen.search,
@@ -99,8 +99,8 @@ class _GoSearchScreenState extends State<GoSearchScreen> {
               ),
               onSubmitted: (_) => _searchAddress(_searchController.text),
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
             const SizedBox(height: 16),
@@ -113,8 +113,8 @@ class _GoSearchScreenState extends State<GoSearchScreen> {
                   }
                 },
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
               ),
             if (_foundLocation != null)
@@ -122,8 +122,8 @@ class _GoSearchScreenState extends State<GoSearchScreen> {
                 t.go_search_screen.latitude.replaceAll('{lat}', _foundLocation!.latitude.toString()) + ', ' +
                 t.go_search_screen.longitude.replaceAll('{lon}', _foundLocation!.longitude.toString()),
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
               ),
           ],

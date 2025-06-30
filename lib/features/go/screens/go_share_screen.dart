@@ -182,8 +182,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
         title: Text(
           t.go_share_screen.title,
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
           ),
         ),
       ),
@@ -193,8 +193,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
             title: Text(
               t.go_share_screen.churches,
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
             onExpansionChanged: (bool expanded) {
@@ -209,8 +209,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                       title: Text(
                         t.go_share_screen.no_churches,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                     )
@@ -219,8 +219,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                       title: Text(
                         church.churchName,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                       onTap: () => _shareContent(
@@ -233,8 +233,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
             title: Text(
               t.go_share_screen.contacts,
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
             onExpansionChanged: (bool expanded) {
@@ -249,8 +249,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                       title: Text(
                         t.go_share_screen.no_contacts,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                     )
@@ -259,8 +259,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                       title: Text(
                         contact.fullName,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                       onTap: () => _shareContent(
@@ -273,8 +273,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
             title: Text(
               t.go_share_screen.ministries,
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
             onExpansionChanged: (bool expanded) {
@@ -289,8 +289,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                       title: Text(
                         t.go_share_screen.no_ministries,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                     )
@@ -299,8 +299,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                       title: Text(
                         ministry.ministryName,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                       onTap: () => _shareContent(
@@ -313,8 +313,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
             title: Text(
               t.go_share_screen.areas,
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
             onExpansionChanged: (bool expanded) {
@@ -329,8 +329,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                       title: Text(
                         t.go_share_screen.no_areas,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                     )
@@ -339,8 +339,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                       title: Text(
                         area.name,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                       onTap: () => _shareContent(
@@ -353,8 +353,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
             title: Text(
               t.go_share_screen.streets,
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
             onExpansionChanged: (bool expanded) {
@@ -369,8 +369,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                       title: Text(
                         t.go_share_screen.no_streets,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                     )
@@ -379,8 +379,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                       title: Text(
                         street.name,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                       onTap: () => _shareContent(
@@ -393,8 +393,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
             title: Text(
               t.go_share_screen.zones,
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
             onExpansionChanged: (bool expanded) {
@@ -409,8 +409,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                       title: Text(
                         t.go_share_screen.no_zones,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                     )
@@ -419,8 +419,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                       title: Text(
                         zone.name,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                       onTap: () => _shareContent(
@@ -433,8 +433,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
             title: Text(
               t.go_share_screen.all,
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
             onExpansionChanged: (bool expanded) {
@@ -448,8 +448,8 @@ ${zones.isEmpty ? 'None' : zones.map(_formatZone).join('\n\n')}
                 title: Text(
                   t.go_share_screen.share_all_data,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 onTap: () => _shareContent(

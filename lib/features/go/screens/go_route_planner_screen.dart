@@ -80,8 +80,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
         title: Text(
           'Rename $type',
           style: TextStyle(
-            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
           ),
         ),
         content: TextField(
@@ -89,13 +89,13 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
           decoration: InputDecoration(
             hintText: 'Enter new name',
             hintStyle: TextStyle(
-              fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-              fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+              fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+              fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
             ),
           ),
           style: TextStyle(
-            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
           ),
         ),
         actions: [
@@ -104,8 +104,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
             child: Text(
               'Cancel',
               style: TextStyle(
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
               ),
             ),
           ),
@@ -114,8 +114,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
             child: Text(
               'Save',
               style: TextStyle(
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
               ),
             ),
           ),
@@ -178,8 +178,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
         title: Text(
           t.go_route_planner_screen.title,
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
           ),
         ),
       ),
@@ -192,8 +192,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                 title: Text(
                   t.go_route_planner_screen.areas,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 initiallyExpanded: true,
@@ -209,8 +209,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                           child: Text(
                             t.go_route_planner_screen.no_areas,
                             style: TextStyle(
-                              fontFamily: context.watch<FontProvider>().fontFamily,
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             ),
                           ),
                         );
@@ -225,37 +225,37 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                             title: Text(
                               area.name,
                               style: TextStyle(
-                                fontFamily: context.watch<FontProvider>().fontFamily,
-                                fontSize: context.watch<FontProvider>().fontSize,
+                                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                               ),
                             ),
                             subtitle: area.points.isNotEmpty
                                 ? Text(
                                     'Lat: \\${area.points.first.latitude.toStringAsFixed(4)}, Lon: \\${area.points.first.longitude.toStringAsFixed(4)}',
                                     style: TextStyle(
-                                      fontFamily: context.watch<FontProvider>().fontFamily,
-                                      fontSize: context.watch<FontProvider>().fontSize * 0.8,
+                                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                                      fontSize: context.watch<GoSettingsFontProvider>().fontSize * 0.8,
                                     ),
                                   )
                                 : Text(
                                     t.go_route_planner_screen.no_coordinates,
                                     style: TextStyle(
-                                      fontFamily: context.watch<FontProvider>().fontFamily,
-                                      fontSize: context.watch<FontProvider>().fontSize * 0.8,
+                                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                                      fontSize: context.watch<GoSettingsFontProvider>().fontSize * 0.8,
                                     ),
                                   ),
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Area', area),
                               itemBuilder: (context) {
-                                final fontProvider = Provider.of<FontProvider>(context, listen: false);
+                                final goSettingsFontProvider = Provider.of<GoSettingsFontProvider>(context, listen: false);
                                 return [
                                   PopupMenuItem(
                                     value: 'edit',
                                     child: Text(
                                       t.go_route_planner_screen.edit,
                                       style: TextStyle(
-                                        fontFamily: fontProvider.fontFamily,
-                                        fontSize: fontProvider.fontSize,
+                                        fontFamily: goSettingsFontProvider.fontFamily,
+                                        fontSize: goSettingsFontProvider.fontSize,
                                       ),
                                     ),
                                   ),
@@ -264,8 +264,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                     child: Text(
                                       t.go_route_planner_screen.rename,
                                       style: TextStyle(
-                                        fontFamily: fontProvider.fontFamily,
-                                        fontSize: fontProvider.fontSize,
+                                        fontFamily: goSettingsFontProvider.fontFamily,
+                                        fontSize: goSettingsFontProvider.fontSize,
                                       ),
                                     ),
                                   ),
@@ -274,8 +274,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                     child: Text(
                                       t.go_route_planner_screen.delete,
                                       style: TextStyle(
-                                        fontFamily: fontProvider.fontFamily,
-                                        fontSize: fontProvider.fontSize,
+                                        fontFamily: goSettingsFontProvider.fontFamily,
+                                        fontSize: goSettingsFontProvider.fontSize,
                                       ),
                                     ),
                                   ),
@@ -293,8 +293,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                 title: Text(
                   t.go_route_planner_screen.streets,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 initiallyExpanded: true,
@@ -310,8 +310,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                           child: Text(
                             t.go_route_planner_screen.no_streets,
                             style: TextStyle(
-                              fontFamily: context.watch<FontProvider>().fontFamily,
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             ),
                           ),
                         );
@@ -326,37 +326,37 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                             title: Text(
                               street.name,
                               style: TextStyle(
-                                fontFamily: context.watch<FontProvider>().fontFamily,
-                                fontSize: context.watch<FontProvider>().fontSize,
+                                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                               ),
                             ),
                             subtitle: street.points.isNotEmpty
                                 ? Text(
                                     'Lat: \\${street.points.first.latitude.toStringAsFixed(4)}, Lon: \\${street.points.first.longitude.toStringAsFixed(4)}',
                                     style: TextStyle(
-                                      fontFamily: context.watch<FontProvider>().fontFamily,
-                                      fontSize: context.watch<FontProvider>().fontSize * 0.8,
+                                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                                      fontSize: context.watch<GoSettingsFontProvider>().fontSize * 0.8,
                                     ),
                                   )
                                 : Text(
                                     t.go_route_planner_screen.no_coordinates,
                                     style: TextStyle(
-                                      fontFamily: context.watch<FontProvider>().fontFamily,
-                                      fontSize: context.watch<FontProvider>().fontSize * 0.8,
+                                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                                      fontSize: context.watch<GoSettingsFontProvider>().fontSize * 0.8,
                                     ),
                                   ),
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Street', street),
                               itemBuilder: (context) {
-                                final fontProvider = Provider.of<FontProvider>(context, listen: false);
+                                final goSettingsFontProvider = Provider.of<GoSettingsFontProvider>(context, listen: false);
                                 return [
                                   PopupMenuItem(
                                     value: 'edit',
                                     child: Text(
                                       t.go_route_planner_screen.edit,
                                       style: TextStyle(
-                                        fontFamily: fontProvider.fontFamily,
-                                        fontSize: fontProvider.fontSize,
+                                        fontFamily: goSettingsFontProvider.fontFamily,
+                                        fontSize: goSettingsFontProvider.fontSize,
                                       ),
                                     ),
                                   ),
@@ -365,8 +365,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                     child: Text(
                                       t.go_route_planner_screen.rename,
                                       style: TextStyle(
-                                        fontFamily: fontProvider.fontFamily,
-                                        fontSize: fontProvider.fontSize,
+                                        fontFamily: goSettingsFontProvider.fontFamily,
+                                        fontSize: goSettingsFontProvider.fontSize,
                                       ),
                                     ),
                                   ),
@@ -375,8 +375,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                     child: Text(
                                       t.go_route_planner_screen.delete,
                                       style: TextStyle(
-                                        fontFamily: fontProvider.fontFamily,
-                                        fontSize: fontProvider.fontSize,
+                                        fontFamily: goSettingsFontProvider.fontFamily,
+                                        fontSize: goSettingsFontProvider.fontSize,
                                       ),
                                     ),
                                   ),
@@ -394,8 +394,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                 title: Text(
                   t.go_route_planner_screen.zones,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 initiallyExpanded: true,
@@ -411,8 +411,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                           child: Text(
                             t.go_route_planner_screen.no_zones,
                             style: TextStyle(
-                              fontFamily: context.watch<FontProvider>().fontFamily,
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             ),
                           ),
                         );
@@ -427,29 +427,29 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                             title: Text(
                               zone.name,
                               style: TextStyle(
-                                fontFamily: context.watch<FontProvider>().fontFamily,
-                                fontSize: context.watch<FontProvider>().fontSize,
+                                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                               ),
                             ),
                             subtitle: Text(
                               'Lat: ${zone.latitude.toStringAsFixed(4)}, Lon: ${zone.longitude.toStringAsFixed(4)}',
                               style: TextStyle(
-                                fontFamily: context.watch<FontProvider>().fontFamily,
-                                fontSize: context.watch<FontProvider>().fontSize * 0.8,
+                                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                                fontSize: context.watch<GoSettingsFontProvider>().fontSize * 0.8,
                               ),
                             ),
                             trailing: PopupMenuButton<String>(
                               onSelected: (value) => _handleMenuSelection(value, 'Zone', zone),
                               itemBuilder: (context) {
-                                final fontProvider = Provider.of<FontProvider>(context, listen: false);
+                                final goSettingsFontProvider = Provider.of<GoSettingsFontProvider>(context, listen: false);
                                 return [
                                   PopupMenuItem(
                                     value: 'edit',
                                     child: Text(
                                       t.go_route_planner_screen.edit,
                                       style: TextStyle(
-                                        fontFamily: fontProvider.fontFamily,
-                                        fontSize: fontProvider.fontSize,
+                                        fontFamily: goSettingsFontProvider.fontFamily,
+                                        fontSize: goSettingsFontProvider.fontSize,
                                       ),
                                     ),
                                   ),
@@ -458,8 +458,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                     child: Text(
                                       t.go_route_planner_screen.rename,
                                       style: TextStyle(
-                                        fontFamily: fontProvider.fontFamily,
-                                        fontSize: fontProvider.fontSize,
+                                        fontFamily: goSettingsFontProvider.fontFamily,
+                                        fontSize: goSettingsFontProvider.fontSize,
                                       ),
                                     ),
                                   ),
@@ -468,8 +468,8 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
                                     child: Text(
                                       t.go_route_planner_screen.delete,
                                       style: TextStyle(
-                                        fontFamily: fontProvider.fontFamily,
-                                        fontSize: fontProvider.fontSize,
+                                        fontFamily: goSettingsFontProvider.fontFamily,
+                                        fontSize: goSettingsFontProvider.fontSize,
                                       ),
                                     ),
                                   ),

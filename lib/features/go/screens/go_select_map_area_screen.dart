@@ -104,15 +104,15 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
           title: Text(
             t.go_select_map_area_screen.download_limit_exceeded,
             style: TextStyle(
-              fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-              fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+              fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+              fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
             ),
           ),
           content: Text(
             t.go_select_map_area_screen.download_limit_message,
             style: TextStyle(
-              fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-              fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+              fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+              fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
             ),
           ),
           actions: [
@@ -121,8 +121,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
               child: Text(
                 t.go_select_map_area_screen.ok,
                 style: TextStyle(
-                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                  fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                 ),
               ),
             ),
@@ -137,8 +137,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
         title: Text(
           t.go_select_map_area_screen.download_map,
           style: TextStyle(
-            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
           ),
         ),
         content: _isLoadingSize
@@ -146,8 +146,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
             : Text(
                 t.go_select_map_area_screen.download_map_question.replaceAll('{tiles}', '$_estimatedTileCount').replaceAll('{size}', estimatedSizeMB),
                 style: TextStyle(
-                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                  fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                 ),
               ),
         actions: [
@@ -156,8 +156,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
             child: Text(
               t.go_select_map_area_screen.close,
               style: TextStyle(
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
               ),
             ),
           ),
@@ -170,8 +170,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                   title: Text(
                     t.go_select_map_area_screen.name_your_map,
                     style: TextStyle(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                     ),
                   ),
                   content: TextField(
@@ -179,13 +179,13 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                     decoration: InputDecoration(
                       hintText: t.go_select_map_area_screen.enter_map_name,
                       hintStyle: TextStyle(
-                        fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                        fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                        fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                        fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                       ),
                     ),
                     style: TextStyle(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                     ),
                   ),
                   actions: [
@@ -194,8 +194,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                       child: Text(
                         t.go_select_map_area_screen.cancel,
                         style: TextStyle(
-                          fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                          fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                          fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                          fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                         ),
                       ),
                     ),
@@ -204,8 +204,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                       child: Text(
                         t.go_select_map_area_screen.download,
                         style: TextStyle(
-                          fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                          fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                          fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                          fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                         ),
                       ),
                     ),
@@ -261,8 +261,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
         title: Text(
           t.go_select_map_area_screen.title,
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
           ),
         ),
       ),
@@ -312,8 +312,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                     'OpenStreetMap contributors',
                     onTap: () => {},
                     textStyle: TextStyle(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize * 0.7,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize * 0.7,
                     ),
                   ),
                 ],
@@ -331,7 +331,7 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                   onPressed: zoomIn,
                   child: Icon(
                     Icons.add,
-                    size: context.watch<FontProvider>().fontSize * 1.2,
+                    size: context.watch<GoSettingsFontProvider>().fontSize * 1.2,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -341,7 +341,7 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                   onPressed: zoomOut,
                   child: Icon(
                     Icons.remove,
-                    size: context.watch<FontProvider>().fontSize * 1.2,
+                    size: context.watch<GoSettingsFontProvider>().fontSize * 1.2,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -350,7 +350,7 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
                   onPressed: _showDownloadDialog,
                   child: Icon(
                     Icons.download,
-                    size: context.watch<FontProvider>().fontSize * 1.2,
+                    size: context.watch<GoSettingsFontProvider>().fontSize * 1.2,
                   ),
                 ),
               ],

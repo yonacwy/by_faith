@@ -41,15 +41,15 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
         title: Text(
           t.go_churches_screen.delete_church,
           style: TextStyle(
-            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
           ),
         ),
         content: Text(
           t.go_churches_screen.delete_church_confirmation.replaceAll('{churchName}', church.churchName),
           style: TextStyle(
-            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
           ),
         ),
         actions: [
@@ -58,8 +58,8 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
             child: Text(
               t.go_churches_screen.cancel,
               style: TextStyle(
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
               ),
             ),
           ),
@@ -76,8 +76,8 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
                   content: Text(
                     t.go_churches_screen.church_deleted.replaceAll('{churchName}', church.churchName),
                     style: TextStyle(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                     ),
                   ),
                 ),
@@ -87,8 +87,8 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
               t.go_churches_screen.delete,
               style: TextStyle(
                 color: Colors.red,
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
               ),
             ),
           ),
@@ -104,8 +104,8 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
         title: Text(
           t.go_churches_screen.title,
           style: TextStyle(
-            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
           ),
         ),
         actions: [
@@ -130,8 +130,8 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
               child: Text(
                 t.go_churches_screen.no_churches,
                 style: TextStyle(
-                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                  fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                 ),
               ),
             );
@@ -152,8 +152,8 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
                   title: Text(
                     church.churchName,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize + 2,
                     ),
                   ),
                   subtitle: Column(
@@ -163,40 +163,40 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
                         Text(
                           t.go_churches_screen.pastor.replaceAll('{pastorName}', church.pastorName!),
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
-                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
+                            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
                           ),
                         ),
                       if (church.phone != null && church.phone!.isNotEmpty)
                         Text(
                           t.go_churches_screen.phone.replaceAll('{phone}', church.phone!),
                           style: TextStyle(
-                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
-                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
+                            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
                           ),
                         ),
                       if (church.email != null && church.email!.isNotEmpty)
                         Text(
                           t.go_churches_screen.email.replaceAll('{email}', church.email!),
                           style: TextStyle(
-                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
-                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
+                            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
                           ),
                         ),
                       if (church.address != null && church.address!.isNotEmpty)
                         Text(
                           t.go_churches_screen.address.replaceAll('{address}', church.address!),
                           style: TextStyle(
-                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
-                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
+                            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
                           ),
                         ),
                       if (church.financialStatus != null && church.financialStatus!.isNotEmpty)
                         Text(
                           t.go_churches_screen.financial_status.replaceAll('{status}', church.financialStatus!),
                           style: TextStyle(
-                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
-                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
+                            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
+                            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
                           ),
                         ),
                     ],
@@ -211,16 +211,16 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
                             Text(
                               'Phone: [200b${church.phone}',
                               style: TextStyle(
-                                fontSize: context.watch<FontProvider>().fontSize,
-                                fontFamily: context.watch<FontProvider>().fontFamily,
+                                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
+                                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
                               ),
                             ),
                           if (church.email != null && church.email!.isNotEmpty)
                             Text(
                               'Email: [200b${church.email}',
                               style: TextStyle(
-                                fontSize: context.watch<FontProvider>().fontSize,
-                                fontFamily: context.watch<FontProvider>().fontFamily,
+                                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
+                                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
                               ),
                             ),
                           if (church.notes.isNotEmpty) ...[
@@ -229,8 +229,8 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
                               t.go_churches_screen.notes,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: context.watch<FontProvider>().fontSize + 2,
-                                fontFamily: context.watch<FontProvider>().fontFamily,
+                                fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
+                                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
                               ),
                             ),
                             ...church.notes.map((note) => ListTile(
@@ -244,8 +244,8 @@ class _GoChurchesScreenState extends State<GoChurchesScreen> {
                               subtitle: Text(
                                 t.go_churches_screen.created.replaceAll('{date}', DateFormat.yMMMd().format(note.createdAt)),
                                 style: TextStyle(
-                                  fontSize: context.watch<FontProvider>().fontSize - 2,
-                                  fontFamily: context.watch<FontProvider>().fontFamily,
+                                  fontSize: context.watch<GoSettingsFontProvider>().fontSize - 2,
+                                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
                                 ),
                               ),
                               trailing: Row(

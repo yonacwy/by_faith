@@ -41,15 +41,15 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
         title: Text(
           t.go_contacts_screen.title,
           style: TextStyle(
-            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
           ),
         ),
         content: Text(
           t.go_contacts_screen.delete_contact_confirmation.replaceAll('{fullName}', contact.fullName),
           style: TextStyle(
-            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
           ),
         ),
         actions: [
@@ -58,8 +58,8 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
             child: Text(
               t.go_contacts_screen.cancel,
               style: TextStyle(
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
               ),
             ),
           ),
@@ -76,8 +76,8 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                   content: Text(
                     t.go_contacts_screen.contact_deleted.replaceAll('{fullName}', contact.fullName),
                     style: TextStyle(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                     ),
                   ),
                 ),
@@ -87,8 +87,8 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
               t.go_contacts_screen.delete,
               style: TextStyle(
                 color: Colors.red,
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
               ),
             ),
           ),
@@ -104,8 +104,8 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
         title: Text(
           t.go_contacts_screen.title,
           style: TextStyle(
-            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
           ),
         ),
         actions: [
@@ -130,8 +130,8 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
               child: Text(
                 t.go_contacts_screen.no_contacts,
                 style: TextStyle(
-                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                  fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                 ),
               ),
             );
@@ -154,8 +154,8 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                   title: Text(
                     contact.fullName,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize + 2,
                     ),
                   ),
                   subtitle: Column(
@@ -165,32 +165,32 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                         Text(
                           t.go_contacts_screen.phone.replaceAll('{phone}', contact.phone ?? ''),
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                           ),
                         ),
                       if (contact.email != null && contact.email!.isNotEmpty)
                         Text(
                           t.go_contacts_screen.email.replaceAll('{email}', contact.email ?? ''),
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                           ),
                         ),
                       if (contact.address != null && contact.address!.isNotEmpty)
                         Text(
                           t.go_contacts_screen.address.replaceAll('{address}', contact.address ?? ''),
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                           ),
                         ),
                       if (contact.eternalStatus != null && contact.eternalStatus!.isNotEmpty)
                         Text(
                           t.go_contacts_screen.eternal_status.replaceAll('{status}', contact.eternalStatus ?? ''),
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                           ),
                         ),
                     ],
@@ -205,24 +205,24 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                             Text(
                               t.go_contacts_screen.birthday.replaceAll('{birthday}', contact.birthday ?? ''),
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                               ),
                             ),
                           if (contact.phone != null && contact.phone!.isNotEmpty)
                             Text(
                               t.go_contacts_screen.phone.replaceAll('{phone}', contact.phone ?? ''),
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                               ),
                             ),
                           if (contact.email != null && contact.email!.isNotEmpty)
                             Text(
                               t.go_contacts_screen.email.replaceAll('{email}', contact.email ?? ''),
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                               ),
                             ),
                           if (notes.isNotEmpty) ...[
@@ -231,8 +231,8 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                               t.go_contacts_screen.notes,
                               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                                 fontWeight: FontWeight.bold,
-                                fontFamily: context.watch<FontProvider>().fontFamily,
-                                fontSize: context.watch<FontProvider>().fontSize + 2,
+                                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                                fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                               ),
                             ),
                             ...notes.map((note) => ListTile(
@@ -246,8 +246,8 @@ class _GoContactsScreenState extends State<GoContactsScreen> {
                                   subtitle: Text(
                                     t.go_contacts_screen.created.replaceAll('{date}', DateFormat.yMMMd().format(note.createdAt)),
                                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                      fontFamily: context.watch<FontProvider>().fontFamily,
-                                      fontSize: context.watch<FontProvider>().fontSize - 2,
+                                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                                      fontSize: context.watch<GoSettingsFontProvider>().fontSize - 2,
                                     ),
                                   ),
                                   trailing: Row(

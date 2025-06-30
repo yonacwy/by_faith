@@ -58,7 +58,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
   }
 
   void _showMapSelection() {
-    final fontProvider = Provider.of<FontProvider>(context, listen: false);
+    final goSettingsFontProvider = Provider.of<GoSettingsFontProvider>(context, listen: false);
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final mapCount = widget.goMapInfoBox.getAll().length;
     if (mapCount >= 5) {
@@ -67,8 +67,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
           content: Text(
             t.go_offline_maps_screen.max_maps_warning,
             style: TextStyle(
-              fontFamily: fontProvider.fontFamily,
-              fontSize: fontProvider.fontSize,
+              fontFamily: goSettingsFontProvider.fontFamily,
+              fontSize: goSettingsFontProvider.fontSize,
             ),
           ),
         ),
@@ -96,7 +96,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
 
   Future<void> _deleteMap(String mapName) async {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
-    final fontProvider = Provider.of<FontProvider>(context, listen: false);
+    final goSettingsFontProvider = Provider.of<GoSettingsFontProvider>(context, listen: false);
     try {
       final mapInfo = widget.goMapInfoBox.query(GoMapInfo_.name.equals(mapName)).build().findFirst();
       if (mapInfo != null) {
@@ -111,8 +111,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
             content: Text(
               t.go_offline_maps_screen.failed_to_delete_map.replaceAll('{mapName}', mapName).replaceAll('{error}', error.toString()),
               style: TextStyle(
-                fontFamily: fontProvider.fontFamily,
-                fontSize: fontProvider.fontSize,
+                fontFamily: goSettingsFontProvider.fontFamily,
+                fontSize: goSettingsFontProvider.fontSize,
               ),
             ),
           ),
@@ -122,7 +122,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
   }
 
   Future<void> _renameMap(GoMapInfo mapInfo) async {
-    final fontProvider = Provider.of<FontProvider>(context, listen: false);
+    final goSettingsFontProvider = Provider.of<GoSettingsFontProvider>(context, listen: false);
     TextEditingController controller = TextEditingController(text: mapInfo.name);
     String? newName = await showDialog<String>(
       context: context,
@@ -130,8 +130,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
         title: Text(
           t.go_offline_maps_screen.rename_map,
           style: TextStyle(
-            fontFamily: fontProvider.fontFamily,
-            fontSize: fontProvider.fontSize,
+            fontFamily: goSettingsFontProvider.fontFamily,
+            fontSize: goSettingsFontProvider.fontSize,
           ),
         ),
         content: TextField(
@@ -139,13 +139,13 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
           decoration: InputDecoration(
             hintText: t.go_offline_maps_screen.enter_new_map_name,
             hintStyle: TextStyle(
-              fontFamily: fontProvider.fontFamily,
-              fontSize: fontProvider.fontSize,
+              fontFamily: goSettingsFontProvider.fontFamily,
+              fontSize: goSettingsFontProvider.fontSize,
             ),
           ),
           style: TextStyle(
-            fontFamily: fontProvider.fontFamily,
-            fontSize: fontProvider.fontSize,
+            fontFamily: goSettingsFontProvider.fontFamily,
+            fontSize: goSettingsFontProvider.fontSize,
           ),
         ),
         actions: [
@@ -154,8 +154,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
             child: Text(
               t.go_offline_maps_screen.cancel,
               style: TextStyle(
-                fontFamily: fontProvider.fontFamily,
-                fontSize: fontProvider.fontSize,
+                fontFamily: goSettingsFontProvider.fontFamily,
+                fontSize: goSettingsFontProvider.fontSize,
               ),
             ),
           ),
@@ -164,8 +164,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
             child: Text(
               t.go_offline_maps_screen.save,
               style: TextStyle(
-                fontFamily: fontProvider.fontFamily,
-                fontSize: fontProvider.fontSize,
+                fontFamily: goSettingsFontProvider.fontFamily,
+                fontSize: goSettingsFontProvider.fontSize,
               ),
             ),
           ),
@@ -189,8 +189,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
               content: Text(
                 t.go_offline_maps_screen.failed_to_rename_map.replaceAll('{error}', error.toString()),
                 style: TextStyle(
-                  fontFamily: fontProvider.fontFamily,
-                  fontSize: fontProvider.fontSize,
+                  fontFamily: goSettingsFontProvider.fontFamily,
+                  fontSize: goSettingsFontProvider.fontSize,
                 ),
               ),
             ),
@@ -202,7 +202,7 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
 
   Future<void> _updateMap(GoMapInfo mapInfo) async {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
-    final fontProvider = Provider.of<FontProvider>(context, listen: false);
+    final goSettingsFontProvider = Provider.of<GoSettingsFontProvider>(context, listen: false);
     // Re-download the map with the same parameters
     try {
       await widget.onDownloadMap(
@@ -222,8 +222,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
             content: Text(
               t.go_offline_maps_screen.map_updated_successfully.replaceAll('{mapName}', mapInfo.name),
               style: TextStyle(
-                fontFamily: fontProvider.fontFamily,
-                fontSize: fontProvider.fontSize,
+                fontFamily: goSettingsFontProvider.fontFamily,
+                fontSize: goSettingsFontProvider.fontSize,
               ),
             ),
           ),
@@ -236,8 +236,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
             content: Text(
               t.go_offline_maps_screen.failed_to_update_map.replaceAll('{error}', error.toString()),
               style: TextStyle(
-                fontFamily: fontProvider.fontFamily,
-                fontSize: fontProvider.fontSize,
+                fontFamily: goSettingsFontProvider.fontFamily,
+                fontSize: goSettingsFontProvider.fontSize,
               ),
             ),
           ),
@@ -253,8 +253,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
         title: Text(
           t.go_offline_maps_screen.title,
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
           ),
         ),
       ),
@@ -266,8 +266,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
               title: Text(
                 t.go_offline_maps_screen.select_your_own_map,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
               ),
               onTap: _showMapSelection,
@@ -276,8 +276,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
               title: Text(
                 t.go_offline_maps_screen.downloaded_maps,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
               ),
               initiallyExpanded: true,
@@ -293,8 +293,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                         child: Text(
                           t.go_offline_maps_screen.no_maps_downloaded,
                           style: TextStyle(
-                            fontFamily: context.watch<FontProvider>().fontFamily,
-                            fontSize: context.watch<FontProvider>().fontSize,
+                            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                           ),
                         ),
                       );
@@ -311,8 +311,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                           title: Text(
                             isWorldMap ? t.go_offline_maps_screen.world : mapInfo.name,
                             style: TextStyle(
-                              fontFamily: context.watch<FontProvider>().fontFamily,
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             ),
                           ),
                           trailing: PopupMenuButton<String>(
@@ -334,15 +334,15 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                               }
                             },
                             itemBuilder: (context) {
-                              final fontProvider = Provider.of<FontProvider>(context, listen: false);
+                              final goSettingsFontProvider = Provider.of<GoSettingsFontProvider>(context, listen: false);
                               return [
                                 PopupMenuItem(
                                   value: 'view',
                                   child: Text(
                                     t.go_offline_maps_screen.view,
                                     style: TextStyle(
-                                      fontFamily: fontProvider.fontFamily,
-                                      fontSize: fontProvider.fontSize,
+                                      fontFamily: goSettingsFontProvider.fontFamily,
+                                      fontSize: goSettingsFontProvider.fontSize,
                                     ),
                                   ),
                                 ),
@@ -351,8 +351,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                                   child: Text(
                                     t.go_offline_maps_screen.update,
                                     style: TextStyle(
-                                      fontFamily: fontProvider.fontFamily,
-                                      fontSize: fontProvider.fontSize,
+                                      fontFamily: goSettingsFontProvider.fontFamily,
+                                      fontSize: goSettingsFontProvider.fontSize,
                                     ),
                                   ),
                                 ),
@@ -361,8 +361,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                                   child: Text(
                                     t.go_offline_maps_screen.rename,
                                     style: TextStyle(
-                                      fontFamily: fontProvider.fontFamily,
-                                      fontSize: fontProvider.fontSize,
+                                      fontFamily: goSettingsFontProvider.fontFamily,
+                                      fontSize: goSettingsFontProvider.fontSize,
                                     ),
                                   ),
                                 ),
@@ -371,8 +371,8 @@ class _GoOfflineMapsScreenState extends State<GoOfflineMapsScreen> {
                                   child: Text(
                                     t.go_offline_maps_screen.delete,
                                     style: TextStyle(
-                                      fontFamily: fontProvider.fontFamily,
-                                      fontSize: fontProvider.fontSize,
+                                      fontFamily: goSettingsFontProvider.fontFamily,
+                                      fontSize: goSettingsFontProvider.fontSize,
                                     ),
                                   ),
                                 ),

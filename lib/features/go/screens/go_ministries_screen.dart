@@ -41,15 +41,15 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
         title: Text(
           t.go_ministries_screen.delete_ministry,
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
           ),
         ),
         content: Text(
           t.go_ministries_screen.delete_ministry_confirmation.replaceAll('{ministryName}', ministry.ministryName),
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
           ),
         ),
         actions: [
@@ -58,8 +58,8 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
             child: Text(
               t.go_ministries_screen.cancel,
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
           ),
@@ -76,8 +76,8 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                   content: Text(
                     t.go_ministries_screen.ministry_deleted.replaceAll('{ministryName}', ministry.ministryName),
                     style: TextStyle(
-                      fontFamily: context.watch<FontProvider>().fontFamily,
-                      fontSize: context.watch<FontProvider>().fontSize,
+                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                      fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                     ),
                   ),
                 ),
@@ -87,8 +87,8 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
               t.go_ministries_screen.delete,
               style: TextStyle(
                 color: Colors.red,
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
           ),
@@ -104,8 +104,8 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
         title: Text(
           t.go_ministries_screen.title,
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
           ),
         ),
         actions: [
@@ -130,8 +130,8 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
               child: Text(
                 t.go_ministries_screen.no_ministries,
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
               ),
             );
@@ -152,8 +152,8 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                   title: Text(
                     ministry.ministryName,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize + 2,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                         ),
                   ),
                   subtitle: Column(
@@ -163,40 +163,40 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                         Text(
                           t.go_ministries_screen.contact.replaceAll('{contactName}', ministry.contactName!),
                           style: TextStyle(
-                            fontFamily: context.watch<FontProvider>().fontFamily,
-                            fontSize: context.watch<FontProvider>().fontSize,
+                            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                           ),
                         ),
                       if (ministry.phone != null && ministry.phone!.isNotEmpty)
                         Text(
                           t.go_ministries_screen.phone.replaceAll('{phone}', ministry.phone!),
                           style: TextStyle(
-                            fontFamily: context.watch<FontProvider>().fontFamily,
-                            fontSize: context.watch<FontProvider>().fontSize,
+                            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                           ),
                         ),
                       if (ministry.email != null && ministry.email!.isNotEmpty)
                         Text(
                           t.go_ministries_screen.email.replaceAll('{email}', ministry.email!),
                           style: TextStyle(
-                            fontFamily: context.watch<FontProvider>().fontFamily,
-                            fontSize: context.watch<FontProvider>().fontSize,
+                            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                           ),
                         ),
                       if (ministry.address != null && ministry.address!.isNotEmpty)
                         Text(
                           t.go_ministries_screen.address.replaceAll('{address}', ministry.address!),
                           style: TextStyle(
-                            fontFamily: context.watch<FontProvider>().fontFamily,
-                            fontSize: context.watch<FontProvider>().fontSize,
+                            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                           ),
                         ),
                       if (ministry.partnerStatus != null && ministry.partnerStatus!.isNotEmpty)
                         Text(
                           t.go_ministries_screen.partner_status.replaceAll('{status}', ministry.partnerStatus!),
                           style: TextStyle(
-                            fontFamily: context.watch<FontProvider>().fontFamily,
-                            fontSize: context.watch<FontProvider>().fontSize,
+                            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                           ),
                         ),
                     ],
@@ -211,16 +211,16 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                             Text(
                               'Phone: ${ministry.phone}',
                               style: TextStyle(
-                                fontFamily: context.watch<FontProvider>().fontFamily,
-                                fontSize: context.watch<FontProvider>().fontSize,
+                                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                               ),
                             ),
                           if (ministry.email != null && ministry.email!.isNotEmpty)
                             Text(
                               'Email: ${ministry.email}',
                               style: TextStyle(
-                                fontFamily: context.watch<FontProvider>().fontFamily,
-                                fontSize: context.watch<FontProvider>().fontSize,
+                                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                               ),
                             ),
                           if (ministry.notes.isNotEmpty) ...[
@@ -229,8 +229,8 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                               t.go_ministries_screen.notes,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontFamily: context.watch<FontProvider>().fontFamily,
-                                fontSize: context.watch<FontProvider>().fontSize,
+                                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                               ),
                             ),
                             ...ministry.notes.map((note) => ListTile(
@@ -244,8 +244,8 @@ class _GoMinistriesScreenState extends State<GoMinistriesScreen> {
                                   subtitle: Text(
                                     t.go_ministries_screen.created.replaceAll('{date}', DateFormat.yMMMd().format(note.createdAt)),
                                     style: TextStyle(
-                                      fontFamily: context.watch<FontProvider>().fontFamily,
-                                      fontSize: context.watch<FontProvider>().fontSize - 2,
+                                      fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                                      fontSize: context.watch<GoSettingsFontProvider>().fontSize - 2,
                                     ),
                                   ),
                                   trailing: Row(

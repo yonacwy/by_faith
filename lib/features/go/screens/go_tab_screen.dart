@@ -166,8 +166,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
         title: Text(
           t.go_tab_screen.markers_in_zone,
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
           ),
         ),
         content: SingleChildScrollView(
@@ -179,15 +179,15 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                 title: Text(
                   item is GoContact ? item.fullName : item is GoChurch ? item.churchName : item.ministryName,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 subtitle: Text(
                   type,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize * 0.8,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize * 0.8,
                   ),
                 ),
                 onTap: () {
@@ -225,8 +225,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
             child: Text(
               t.go_tab_screen.close,
               style: TextStyle(
-                fontFamily: context.watch<FontProvider>().fontFamily,
-                fontSize: context.watch<FontProvider>().fontSize,
+                fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                fontSize: context.watch<GoSettingsFontProvider>().fontSize,
               ),
             ),
           ),
@@ -761,8 +761,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                 title: Text(
                   t.go_tab_screen.add_area,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 onTap: () {
@@ -774,8 +774,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                 title: Text(
                   t.go_tab_screen.add_street,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 onTap: () {
@@ -787,8 +787,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                 title: Text(
                   t.go_tab_screen.add_zone,
                   style: TextStyle(
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                   ),
                 ),
                 onTap: () {
@@ -900,8 +900,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                       title: Text(
                         t.go_tab_screen.contacts,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                       trailing: Switch(
@@ -918,8 +918,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                       title: Text(
                         t.go_tab_screen.churches,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                       trailing: Switch(
@@ -936,8 +936,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                       title: Text(
                         t.go_tab_screen.ministries,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                       trailing: Switch(
@@ -954,8 +954,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                       title: Text(
                         t.go_tab_screen.areas,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                       trailing: Switch(
@@ -972,8 +972,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                       title: Text(
                         t.go_tab_screen.streets,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                       trailing: Switch(
@@ -990,8 +990,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                       title: Text(
                         t.go_tab_screen.zones,
                         style: TextStyle(
-                          fontFamily: context.watch<FontProvider>().fontFamily,
-                          fontSize: context.watch<FontProvider>().fontSize,
+                          fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                          fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                         ),
                       ),
                       trailing: Switch(
@@ -1120,8 +1120,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                       t.go_tab_screen.go_menu,
                       style: TextStyle(
                         color: Colors.white,
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize + 6,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize + 6,
                       ),
                     ),
                   ),
@@ -1177,8 +1177,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               title: Text(
                 t.go_tab_screen.churches,
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
               ),
               onTap: _navigateToChurches,
@@ -1188,8 +1188,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               title: Text(
                 t.go_tab_screen.contacts,
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
               ),
               onTap: _navigateToContacts,
@@ -1199,8 +1199,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               title: Text(
                 t.go_tab_screen.ministries,
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
               ),
               onTap: _navigateToMinistries,
@@ -1210,8 +1210,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               title: Text(
                 t.go_tab_screen.offline_maps,
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
               ),
               onTap: _showOfflineMaps,
@@ -1221,8 +1221,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               title: Text(
                 t.go_tab_screen.route_planner,
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
               ),
               onTap: () {
@@ -1374,8 +1374,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               title: Text(
                 t.go_tab_screen.add_contact,
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
               ),
               onTap: () {
@@ -1400,8 +1400,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               title: Text(
                 t.go_tab_screen.add_church,
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
               ),
               onTap: () {
@@ -1426,8 +1426,8 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
               title: Text(
                 t.go_tab_screen.add_ministry,
                 style: TextStyle(
-                  fontFamily: context.watch<FontProvider>().fontFamily,
-                  fontSize: context.watch<FontProvider>().fontSize,
+                  fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                  fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                 ),
               ),
               onTap: () {

@@ -245,15 +245,15 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
           title: Text(
             t.go_add_edit_area_screen.cancel_area_creation,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                  fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize + 2,
                 ),
           ),
           content: Text(
             t.go_add_edit_area_screen.discard_changes_to_area,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                  fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                 ),
           ),
           actions: [
@@ -262,8 +262,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
               child: Text(
                 t.go_add_edit_area_screen.keep_editing,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                     ),
               ),
             ),
@@ -272,8 +272,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
               child: Text(
                 t.go_add_edit_area_screen.discard,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                     ),
               ),
             ),
@@ -318,8 +318,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
               ? t.go_add_edit_area_screen.edit_area
               : t.go_add_edit_area_screen.save_area,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize + 2,
+                  fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize + 2,
                 ),
         ),
         content: TextField(
@@ -328,17 +328,17 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             hintText: t.go_add_edit_area_screen.enter_name,
             labelText: t.go_add_edit_area_screen.name,
             hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                  fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                 ),
             labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                  fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                  fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                  fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                 ),
           ),
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
               ),
         ),
         actions: [
@@ -347,8 +347,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             child: Text(
               t.go_add_edit_area_screen.cancel,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                    fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                    fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                    fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                   ),
             ),
           ),
@@ -360,8 +360,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                     content: Text(
                       t.go_add_edit_area_screen.name_cannot_be_empty,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                            fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                            fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                            fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                           ),
                     ),
                   ),
@@ -373,8 +373,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             child: Text(
               t.go_add_edit_area_screen.save_area,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                    fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                    fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                    fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                   ),
             ),
           ),
@@ -401,8 +401,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
               content: Text(
                 t.go_add_edit_area_screen.area_saved_successfully,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                     ),
               ),
             ),
@@ -416,8 +416,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
               content: Text(
                 '${t.go_add_edit_area_screen.error_saving_area}$e',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: Provider.of<FontProvider>(context, listen: false).fontFamily,
-                      fontSize: Provider.of<FontProvider>(context, listen: false).fontSize,
+                      fontFamily: Provider.of<GoSettingsFontProvider>(context, listen: false).fontFamily,
+                      fontSize: Provider.of<GoSettingsFontProvider>(context, listen: false).fontSize,
                     ),
               ),
             ),
@@ -583,8 +583,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                     title: Text(
                       t.go_add_edit_area_screen.contacts,
                       style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                     ),
                     trailing: Switch(
@@ -601,8 +601,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                     title: Text(
                       t.go_add_edit_area_screen.churches,
                       style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                     ),
                     trailing: Switch(
@@ -619,8 +619,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                     title: Text(
                       t.go_add_edit_area_screen.ministries,
                       style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                     ),
                     trailing: Switch(
@@ -637,8 +637,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                     title: Text(
                       t.go_add_edit_area_screen.areas,
                       style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                     ),
                     trailing: Switch(
@@ -655,8 +655,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                     title: Text(
                       t.go_add_edit_area_screen.streets,
                       style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                     ),
                     trailing: Switch(
@@ -673,8 +673,8 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
                     title: Text(
                       t.go_add_edit_area_screen.zones,
                       style: TextStyle(
-                        fontFamily: context.watch<FontProvider>().fontFamily,
-                        fontSize: context.watch<FontProvider>().fontSize,
+                        fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                       ),
                     ),
                     trailing: Switch(

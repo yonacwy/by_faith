@@ -36,8 +36,8 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
         title: Text(
           t.go_settings_screen.title,
           style: TextStyle(
-            fontFamily: context.watch<FontProvider>().fontFamily,
-            fontSize: context.watch<FontProvider>().fontSize + 2,
+            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+            fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
             color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
@@ -60,8 +60,8 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
                   t.go_settings_screen.text_settings,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontFamily: context.watch<FontProvider>().fontFamily,
-                    fontSize: context.watch<FontProvider>().fontSize + 2,
+                    fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<GoSettingsFontProvider>().fontSize + 2,
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
@@ -81,15 +81,15 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
                         Text(
                           t.go_settings_screen.font_family,
                           style: TextStyle(
-                            fontFamily: context.watch<FontProvider>().fontFamily,
-                            fontSize: context.watch<FontProvider>().fontSize,
+                            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                         const SizedBox(height: 8),
                         DropdownButton<String>(
-                          value: context.watch<FontProvider>().fontFamily,
+                          value: context.watch<GoSettingsFontProvider>().fontFamily,
                           isExpanded: true,
                           underline: const SizedBox(),
                           items: fontOptions.map((font) {
@@ -107,7 +107,7 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
                           }).toList(),
                           onChanged: (value) {
                             if (value != null) {
-                              context.read<FontProvider>().setFontFamily(value);
+                              context.read<GoSettingsFontProvider>().setFontFamily(value);
                             }
                           },
                         ),
@@ -115,28 +115,28 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
                         Text(
                           t.go_settings_screen.font_size,
                           style: TextStyle(
-                            fontFamily: context.watch<FontProvider>().fontFamily,
-                            fontSize: context.watch<FontProvider>().fontSize,
+                            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                         Slider(
-                          value: context.watch<FontProvider>().fontSize,
+                          value: context.watch<GoSettingsFontProvider>().fontSize,
                           min: 10.0,
                           max: 30.0,
                           divisions: 20,
-                          label: context.watch<FontProvider>().fontSize.toStringAsFixed(1),
+                          label: context.watch<GoSettingsFontProvider>().fontSize.toStringAsFixed(1),
                           onChanged: (value) {
-                            context.read<FontProvider>().setFontSize(value);
+                            context.read<GoSettingsFontProvider>().setFontSize(value);
                           },
                         ),
                         const SizedBox(height: 16),
                         Text(
                           t.go_settings_screen.preview,
                           style: TextStyle(
-                            fontFamily: context.watch<FontProvider>().fontFamily,
-                            fontSize: context.watch<FontProvider>().fontSize,
+                            fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                            fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.onSurface,
                           ),
@@ -153,8 +153,8 @@ class _GoSettingsScreenState extends State<GoSettingsScreen> {
                           child: Text(
                             t.go_settings_screen.sample_text,
                             style: TextStyle(
-                              fontFamily: context.watch<FontProvider>().fontFamily,
-                              fontSize: context.watch<FontProvider>().fontSize,
+                              fontFamily: context.watch<GoSettingsFontProvider>().fontFamily,
+                              fontSize: context.watch<GoSettingsFontProvider>().fontSize,
                               color: Theme.of(context).colorScheme.onSurface,
                               height: 1.5,
                             ),

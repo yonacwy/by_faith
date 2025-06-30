@@ -1385,10 +1385,10 @@ packages:
     dependency: "direct main"
     description:
       name: reactive_mind_map
-      sha256: "057ff5e8fef05bb3534c5dc71b5df6aeeb529c0433fd9993d535596f514efcfb"
+      sha256: c15fec442de176a245938701b065564149273d0e9ddbe64f3123e86bc8ae146d
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.3"
+    version: "1.1.1"
   recase:
     dependency: transitive
     description:
