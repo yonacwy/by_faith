@@ -7,17 +7,11 @@
     "study": "Study",
     "go": "Go"
   },
-  "home_tab_screen": {
-    "title": "Home",
-    "menu": "Home Menu",
-    "info": "Info",
-    "support": "Support",
-    "profile": "Profile",
-    "calendar": "Calendar",
-    "settings": "Settings",
-    "content": "Home Tab Content"
+  "home_bibles_screen": {
+    "title": "Bibles",
+    "content": "Content"
   },
-    "home_settings_screen": {
+  "home_settings_screen": {
     "title": "Settings",
     "language": "Language",
     "english": "English",
@@ -32,6 +26,17 @@
     "app_language": "App Language",
     "back": "Back",
     "load": "Load"
+  },
+  "home_tab_screen": {
+    "title": "Home",
+    "menu": "Home Menu",
+    "info": "Info",
+    "support": "Support",
+    "profile": "Profile",
+    "bibles": "Bibles",
+    "calendar": "Calendar",
+    "settings": "Settings",
+    "content": "Home Tab Content"
   },
   "go_add_edit_area_screen": {
     "tap_to_add_points": "Tap on the map to add points for Area.",

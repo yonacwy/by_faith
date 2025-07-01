@@ -7,15 +7,20 @@
     "study": "Estudiar",
     "go": "Ir"
   },
+  "home_bibles_screen": {
+    "title": "Biblias",
+    "content": "Contenido"
+  },
   "home_tab_screen": {
     "title": "Inicio",
-    "menu": "Menú de Inicio",
+    "menu": "Menú de inicio",
     "info": "Información",
     "support": "Soporte",
     "profile": "Perfil",
+    "bibles": "Biblias",
     "calendar": "Calendario",
-    "settings": "Ajustes",
-    "content": "Contenido de la Pestaña de Inicio"
+    "settings": "Configuraciones",
+    "content": "Contenido de la pestaña de inicio"
   },
     "home_settings_screen": {
     "title": "Ajustes",

@@ -5,6 +5,7 @@ import 'package:by_faith/features/home/screens/home_support_screen.dart';
 import 'package:by_faith/features/home/screens/home_calendar_screen.dart';
 import 'package:by_faith/features/home/screens/home_settings_screen.dart';
 import 'package:by_faith/features/home/screens/home_user_profile_screen.dart';
+import 'package:by_faith/features/home/screens/home_bibles_screen.dart';
 
 class HomeTabScreen extends StatelessWidget {
   const HomeTabScreen({super.key});
@@ -32,44 +33,68 @@ class HomeTabScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.red[900],
               ),
-              child: Text(
-                t.home_tab_screen.menu,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      t.home_tab_screen.menu,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.info, color: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const HomeInfoScreen()),
+                            );
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.support_agent, color: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const HomeSupportScreen()),
+                            );
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.settings, color: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const HomeSettingsScreen()),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.info),
-              title: Text(t.home_tab_screen.info),
+              leading: const Icon(Icons.book), // Using a book icon for Bibles
+              title: Text(t.home_tab_screen.bibles),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomeInfoScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.support_agent),
-              title: Text(t.home_tab_screen.support),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeSupportScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.person),
-              title: Text(t.home_tab_screen.profile),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeUserProfileScreen()),
+                  MaterialPageRoute(builder: (context) => const HomeBiblesScreen()),
                 );
               },
             ),
@@ -85,13 +110,13 @@ class HomeTabScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.settings),
-              title: Text(t.home_tab_screen.settings),
+              leading: const Icon(Icons.person),
+              title: Text(t.home_tab_screen.profile),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomeSettingsScreen()),
+                  MaterialPageRoute(builder: (context) => const HomeUserProfileScreen()),
                 );
               },
             ),

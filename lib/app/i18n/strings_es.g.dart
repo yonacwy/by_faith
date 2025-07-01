@@ -37,6 +37,7 @@ class TranslationsEs implements Translations {
 
 	// Translations
 	@override late final _TranslationsMainEs main = _TranslationsMainEs._(_root);
+	@override late final _TranslationsHomeBiblesScreenEs home_bibles_screen = _TranslationsHomeBiblesScreenEs._(_root);
 	@override late final _TranslationsHomeTabScreenEs home_tab_screen = _TranslationsHomeTabScreenEs._(_root);
 	@override late final _TranslationsHomeSettingsScreenEs home_settings_screen = _TranslationsHomeSettingsScreenEs._(_root);
 	@override late final _TranslationsGoAddEditAreaScreenEs go_add_edit_area_screen = _TranslationsGoAddEditAreaScreenEs._(_root);
@@ -76,6 +77,17 @@ class _TranslationsMainEs implements TranslationsMainEn {
 	@override String get go => 'Ir';
 }
 
+// Path: home_bibles_screen
+class _TranslationsHomeBiblesScreenEs implements TranslationsHomeBiblesScreenEn {
+	_TranslationsHomeBiblesScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Biblias';
+	@override String get content => 'Contenido';
+}
+
 // Path: home_tab_screen
 class _TranslationsHomeTabScreenEs implements TranslationsHomeTabScreenEn {
 	_TranslationsHomeTabScreenEs._(this._root);
@@ -84,13 +96,14 @@ class _TranslationsHomeTabScreenEs implements TranslationsHomeTabScreenEn {
 
 	// Translations
 	@override String get title => 'Inicio';
-	@override String get menu => 'Menú de Inicio';
+	@override String get menu => 'Menú de inicio';
 	@override String get info => 'Información';
 	@override String get support => 'Soporte';
 	@override String get profile => 'Perfil';
+	@override String get bibles => 'Biblias';
 	@override String get calendar => 'Calendario';
-	@override String get settings => 'Ajustes';
-	@override String get content => 'Contenido de la Pestaña de Inicio';
+	@override String get settings => 'Configuraciones';
+	@override String get content => 'Contenido de la pestaña de inicio';
 }
 
 // Path: home_settings_screen
@@ -737,14 +750,17 @@ extension on TranslationsEs {
 			case 'main.read': return 'Leer';
 			case 'main.study': return 'Estudiar';
 			case 'main.go': return 'Ir';
+			case 'home_bibles_screen.title': return 'Biblias';
+			case 'home_bibles_screen.content': return 'Contenido';
 			case 'home_tab_screen.title': return 'Inicio';
-			case 'home_tab_screen.menu': return 'Menú de Inicio';
+			case 'home_tab_screen.menu': return 'Menú de inicio';
 			case 'home_tab_screen.info': return 'Información';
 			case 'home_tab_screen.support': return 'Soporte';
 			case 'home_tab_screen.profile': return 'Perfil';
+			case 'home_tab_screen.bibles': return 'Biblias';
 			case 'home_tab_screen.calendar': return 'Calendario';
-			case 'home_tab_screen.settings': return 'Ajustes';
-			case 'home_tab_screen.content': return 'Contenido de la Pestaña de Inicio';
+			case 'home_tab_screen.settings': return 'Configuraciones';
+			case 'home_tab_screen.content': return 'Contenido de la pestaña de inicio';
 			case 'home_settings_screen.title': return 'Ajustes';
 			case 'home_settings_screen.language': return 'Idioma';
 			case 'home_settings_screen.english': return 'Inglés';

@@ -40,8 +40,9 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 
 	// Translations
 	late final TranslationsMainEn main = TranslationsMainEn._(_root);
-	late final TranslationsHomeTabScreenEn home_tab_screen = TranslationsHomeTabScreenEn._(_root);
+	late final TranslationsHomeBiblesScreenEn home_bibles_screen = TranslationsHomeBiblesScreenEn._(_root);
 	late final TranslationsHomeSettingsScreenEn home_settings_screen = TranslationsHomeSettingsScreenEn._(_root);
+	late final TranslationsHomeTabScreenEn home_tab_screen = TranslationsHomeTabScreenEn._(_root);
 	late final TranslationsGoAddEditAreaScreenEn go_add_edit_area_screen = TranslationsGoAddEditAreaScreenEn._(_root);
 	late final TranslationsGoAddEditChurchScreenEn go_add_edit_church_screen = TranslationsGoAddEditChurchScreenEn._(_root);
 	late final TranslationsGoAddEditContactScreenEn go_add_edit_contact_screen = TranslationsGoAddEditContactScreenEn._(_root);
@@ -79,21 +80,15 @@ class TranslationsMainEn {
 	String get go => 'Go';
 }
 
-// Path: home_tab_screen
-class TranslationsHomeTabScreenEn {
-	TranslationsHomeTabScreenEn._(this._root);
+// Path: home_bibles_screen
+class TranslationsHomeBiblesScreenEn {
+	TranslationsHomeBiblesScreenEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get title => 'Home';
-	String get menu => 'Home Menu';
-	String get info => 'Info';
-	String get support => 'Support';
-	String get profile => 'Profile';
-	String get calendar => 'Calendar';
-	String get settings => 'Settings';
-	String get content => 'Home Tab Content';
+	String get title => 'Bibles';
+	String get content => 'Content';
 }
 
 // Path: home_settings_screen
@@ -117,6 +112,24 @@ class TranslationsHomeSettingsScreenEn {
 	String get app_language => 'App Language';
 	String get back => 'Back';
 	String get load => 'Load';
+}
+
+// Path: home_tab_screen
+class TranslationsHomeTabScreenEn {
+	TranslationsHomeTabScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Home';
+	String get menu => 'Home Menu';
+	String get info => 'Info';
+	String get support => 'Support';
+	String get profile => 'Profile';
+	String get bibles => 'Bibles';
+	String get calendar => 'Calendar';
+	String get settings => 'Settings';
+	String get content => 'Home Tab Content';
 }
 
 // Path: go_add_edit_area_screen
@@ -740,14 +753,8 @@ extension on Translations {
 			case 'main.read': return 'Read';
 			case 'main.study': return 'Study';
 			case 'main.go': return 'Go';
-			case 'home_tab_screen.title': return 'Home';
-			case 'home_tab_screen.menu': return 'Home Menu';
-			case 'home_tab_screen.info': return 'Info';
-			case 'home_tab_screen.support': return 'Support';
-			case 'home_tab_screen.profile': return 'Profile';
-			case 'home_tab_screen.calendar': return 'Calendar';
-			case 'home_tab_screen.settings': return 'Settings';
-			case 'home_tab_screen.content': return 'Home Tab Content';
+			case 'home_bibles_screen.title': return 'Bibles';
+			case 'home_bibles_screen.content': return 'Content';
 			case 'home_settings_screen.title': return 'Settings';
 			case 'home_settings_screen.language': return 'Language';
 			case 'home_settings_screen.english': return 'English';
@@ -762,6 +769,15 @@ extension on Translations {
 			case 'home_settings_screen.app_language': return 'App Language';
 			case 'home_settings_screen.back': return 'Back';
 			case 'home_settings_screen.load': return 'Load';
+			case 'home_tab_screen.title': return 'Home';
+			case 'home_tab_screen.menu': return 'Home Menu';
+			case 'home_tab_screen.info': return 'Info';
+			case 'home_tab_screen.support': return 'Support';
+			case 'home_tab_screen.profile': return 'Profile';
+			case 'home_tab_screen.bibles': return 'Bibles';
+			case 'home_tab_screen.calendar': return 'Calendar';
+			case 'home_tab_screen.settings': return 'Settings';
+			case 'home_tab_screen.content': return 'Home Tab Content';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'Tap on the map to add points for Area.';
 			case 'go_add_edit_area_screen.cancel': return 'Cancel';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'Cancel Area Creation';

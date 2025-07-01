@@ -7,12 +7,17 @@
     "study": "अध्ययन",
     "go": "जाओ"
   },
+  "home_bibles_screen": {
+    "title": "बाइबल",
+    "content": "सामग्री"
+  },
   "home_tab_screen": {
     "title": "होम",
     "menu": "होम मेनू",
     "info": "जानकारी",
     "support": "सहायता",
     "profile": "प्रोफ़ाइल",
+    "bibles": "बाइबल",
     "calendar": "कैलेंडर",
     "settings": "सेटिंग्स",
     "content": "होम टैब सामग्री"
