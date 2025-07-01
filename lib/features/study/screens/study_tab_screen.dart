@@ -1,3 +1,5 @@
+import 'package:by_faith/features/study/screens/study_references_screen.dart';
+import 'package:by_faith/features/study/screens/study_topics_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:by_faith/features/study/screens/study_notes_screen.dart';
@@ -100,17 +102,6 @@ class StudyTabScreen extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.notes),
-              title: const Text('Notes'),
-              onTap: () {
-                Navigator.pop(context); // Close the drawer
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const StudyNotesScreen()),
-                );
-              },
-            ),
-            ListTile(
               leading: const Icon(Symbols.network_node),
               title: const Text('Mapping'),
               onTap: () {
@@ -122,6 +113,28 @@ class StudyTabScreen extends StatelessWidget {
               },
             ),
             ListTile(
+              leading: const Icon(Icons.notes),
+              title: const Text('Notes'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const StudyNotesScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.book), // Using a book icon for references
+              title: const Text('References'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const StudyReferencesScreen()),
+                );
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.search),
               title: const Text('Search'),
               onTap: () {
@@ -129,6 +142,17 @@ class StudyTabScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const StudySearchScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.topic), // Using a topic icon for topics
+              title: const Text('Topics'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const StudyTopicsScreen()),
                 );
               },
             ),
