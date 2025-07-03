@@ -60,8 +60,9 @@ class TranslationsEs implements Translations {
 	@override late final _TranslationsGoSettingsScreenEs go_settings_screen = _TranslationsGoSettingsScreenEs._(_root);
 	@override late final _TranslationsGoShareScreenEs go_share_screen = _TranslationsGoShareScreenEs._(_root);
 	@override late final _TranslationsGoTabScreenEs go_tab_screen = _TranslationsGoTabScreenEs._(_root);
-	@override late final _TranslationsStudyTabScreenEs study_tab_screen = _TranslationsStudyTabScreenEs._(_root);
+	@override late final _TranslationsStudyPlansScreenEs study_plans_screen = _TranslationsStudyPlansScreenEs._(_root);
 	@override late final _TranslationsStudySettingsScreenEs study_settings_screen = _TranslationsStudySettingsScreenEs._(_root);
+	@override late final _TranslationsStudyTabScreenEs study_tab_screen = _TranslationsStudyTabScreenEs._(_root);
 }
 
 // Path: main
@@ -737,15 +738,15 @@ class _TranslationsGoTabScreenEs implements TranslationsGoTabScreenEn {
 	@override String get go_menu => 'Menú Ir';
 }
 
-// Path: study_tab_screen
-class _TranslationsStudyTabScreenEs implements TranslationsStudyTabScreenEn {
-	_TranslationsStudyTabScreenEs._(this._root);
+// Path: study_plans_screen
+class _TranslationsStudyPlansScreenEs implements TranslationsStudyPlansScreenEn {
+	_TranslationsStudyPlansScreenEs._(this._root);
 
 	final TranslationsEs _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Estudiar';
-	@override String get study_menu => 'Menú Estudiar';
+	@override String get title => 'Planes de Estudio';
+	@override String get content => 'Contenido de los Planes de Estudio';
 }
 
 // Path: study_settings_screen
@@ -763,6 +764,17 @@ class _TranslationsStudySettingsScreenEs implements TranslationsStudySettingsScr
 	@override String get back => 'Atrás';
 	@override String get load => 'Cargar';
 	@override String get sample_text => 'Estudia para presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad.';
+}
+
+// Path: study_tab_screen
+class _TranslationsStudyTabScreenEs implements TranslationsStudyTabScreenEn {
+	_TranslationsStudyTabScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Estudiar';
+	@override String get study_menu => 'Menú Estudiar';
 }
 
 /// Flat map(s) containing all translations.
@@ -1227,8 +1239,8 @@ extension on TranslationsEs {
 			case 'go_tab_screen.enter_address': return 'Introduce una dirección';
 			case 'go_tab_screen.world': return 'Mundo';
 			case 'go_tab_screen.go_menu': return 'Menú Ir';
-			case 'study_tab_screen.title': return 'Estudiar';
-			case 'study_tab_screen.study_menu': return 'Menú Estudiar';
+			case 'study_plans_screen.title': return 'Planes de Estudio';
+			case 'study_plans_screen.content': return 'Contenido de los Planes de Estudio';
 			case 'study_settings_screen.title': return 'Configuración';
 			case 'study_settings_screen.text_settings': return 'Configuración de texto';
 			case 'study_settings_screen.font_family': return 'Tipo de letra';
@@ -1237,6 +1249,8 @@ extension on TranslationsEs {
 			case 'study_settings_screen.back': return 'Atrás';
 			case 'study_settings_screen.load': return 'Cargar';
 			case 'study_settings_screen.sample_text': return 'Estudia para presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad.';
+			case 'study_tab_screen.title': return 'Estudiar';
+			case 'study_tab_screen.study_menu': return 'Menú Estudiar';
 			default: return null;
 		}
 	}

@@ -63,8 +63,9 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final TranslationsGoSettingsScreenEn go_settings_screen = TranslationsGoSettingsScreenEn._(_root);
 	late final TranslationsGoShareScreenEn go_share_screen = TranslationsGoShareScreenEn._(_root);
 	late final TranslationsGoTabScreenEn go_tab_screen = TranslationsGoTabScreenEn._(_root);
-	late final TranslationsStudyTabScreenEn study_tab_screen = TranslationsStudyTabScreenEn._(_root);
+	late final TranslationsStudyPlansScreenEn study_plans_screen = TranslationsStudyPlansScreenEn._(_root);
 	late final TranslationsStudySettingsScreenEn study_settings_screen = TranslationsStudySettingsScreenEn._(_root);
+	late final TranslationsStudyTabScreenEn study_tab_screen = TranslationsStudyTabScreenEn._(_root);
 }
 
 // Path: main
@@ -740,15 +741,15 @@ class TranslationsGoTabScreenEn {
 	String get go_menu => 'Go Menu';
 }
 
-// Path: study_tab_screen
-class TranslationsStudyTabScreenEn {
-	TranslationsStudyTabScreenEn._(this._root);
+// Path: study_plans_screen
+class TranslationsStudyPlansScreenEn {
+	TranslationsStudyPlansScreenEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get title => 'Study';
-	String get study_menu => 'Study Menu';
+	String get title => 'Study Plans';
+	String get content => 'Study Plans Content';
 }
 
 // Path: study_settings_screen
@@ -766,6 +767,17 @@ class TranslationsStudySettingsScreenEn {
 	String get back => 'Back';
 	String get load => 'Load';
 	String get sample_text => 'Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth.';
+}
+
+// Path: study_tab_screen
+class TranslationsStudyTabScreenEn {
+	TranslationsStudyTabScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Study';
+	String get study_menu => 'Study Menu';
 }
 
 /// Flat map(s) containing all translations.
@@ -1230,8 +1242,8 @@ extension on Translations {
 			case 'go_tab_screen.enter_address': return 'Enter address';
 			case 'go_tab_screen.world': return 'World';
 			case 'go_tab_screen.go_menu': return 'Go Menu';
-			case 'study_tab_screen.title': return 'Study';
-			case 'study_tab_screen.study_menu': return 'Study Menu';
+			case 'study_plans_screen.title': return 'Study Plans';
+			case 'study_plans_screen.content': return 'Study Plans Content';
 			case 'study_settings_screen.title': return 'Settings';
 			case 'study_settings_screen.text_settings': return 'Text Settings';
 			case 'study_settings_screen.font_family': return 'Font Family';
@@ -1240,6 +1252,8 @@ extension on Translations {
 			case 'study_settings_screen.back': return 'Back';
 			case 'study_settings_screen.load': return 'Load';
 			case 'study_settings_screen.sample_text': return 'Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth.';
+			case 'study_tab_screen.title': return 'Study';
+			case 'study_tab_screen.study_menu': return 'Study Menu';
 			default: return null;
 		}
 	}

@@ -504,9 +504,9 @@
     "world": "Mundo",
     "go_menu": "Menú Ir"
   },
-  "study_tab_screen": {
-    "title": "Estudiar",
-    "study_menu": "Menú Estudiar"
+  "study_plans_screen": {
+    "title": "Planes de Estudio",
+    "content": "Contenido de los Planes de Estudio"
   },
   "study_settings_screen": {
     "title": "Configuración",
@@ -517,5 +517,9 @@
     "back": "Atrás",
     "load": "Cargar",
     "sample_text": "Estudia para presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad."
+  },
+    "study_tab_screen": {
+    "title": "Estudiar",
+    "study_menu": "Menú Estudiar"
   }
 }

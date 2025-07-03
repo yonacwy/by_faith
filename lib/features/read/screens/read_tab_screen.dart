@@ -6,6 +6,8 @@ import 'package:by_faith/features/read/screens/read_plans_screen.dart';
 import 'package:by_faith/features/read/screens/read_share_screen.dart';
 import 'package:by_faith/features/read/screens/read_export_import_screen.dart';
 import 'package:by_faith/features/read/screens/read_search_screen.dart';
+import 'package:by_faith/features/read/screens/read_memorizations_screen.dart';
+import 'package:by_faith/features/read/screens/read_highlights_screen.dart';
 
 class ReadTabScreen extends StatelessWidget {
   const ReadTabScreen({super.key});
@@ -110,6 +112,28 @@ class ReadTabScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const ReadFavoritesScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.highlight), // Using a relevant icon, adjust if needed
+              title: const Text('Highlights'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ReadHighlightsScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.memory), // Using a relevant icon, adjust if needed
+              title: const Text('Memorizations'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ReadMemorizationsScreen()),
                 );
               },
             ),

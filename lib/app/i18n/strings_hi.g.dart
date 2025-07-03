@@ -60,8 +60,9 @@ class TranslationsHi implements Translations {
 	@override late final _TranslationsGoSettingsScreenHi go_settings_screen = _TranslationsGoSettingsScreenHi._(_root);
 	@override late final _TranslationsGoShareScreenHi go_share_screen = _TranslationsGoShareScreenHi._(_root);
 	@override late final _TranslationsGoTabScreenHi go_tab_screen = _TranslationsGoTabScreenHi._(_root);
-	@override late final _TranslationsStudyTabScreenHi study_tab_screen = _TranslationsStudyTabScreenHi._(_root);
+	@override late final _TranslationsStudyPlansScreenHi study_plans_screen = _TranslationsStudyPlansScreenHi._(_root);
 	@override late final _TranslationsStudySettingsScreenHi study_settings_screen = _TranslationsStudySettingsScreenHi._(_root);
+	@override late final _TranslationsStudyTabScreenHi study_tab_screen = _TranslationsStudyTabScreenHi._(_root);
 }
 
 // Path: main
@@ -738,15 +739,15 @@ class _TranslationsGoTabScreenHi implements TranslationsGoTabScreenEn {
 	@override String get tap_on_the_map_to_add_a_marker => 'मानचित्र पर मार्कर जोड़ने के लिए टैप करें।';
 }
 
-// Path: study_tab_screen
-class _TranslationsStudyTabScreenHi implements TranslationsStudyTabScreenEn {
-	_TranslationsStudyTabScreenHi._(this._root);
+// Path: study_plans_screen
+class _TranslationsStudyPlansScreenHi implements TranslationsStudyPlansScreenEn {
+	_TranslationsStudyPlansScreenHi._(this._root);
 
 	final TranslationsHi _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'अध्ययन';
-	@override String get study_menu => 'अध्ययन मेनू';
+	@override String get title => 'अध्ययन योजनाएँ';
+	@override String get content => 'अध्ययन योजनाओं की सामग्री';
 }
 
 // Path: study_settings_screen
@@ -764,6 +765,17 @@ class _TranslationsStudySettingsScreenHi implements TranslationsStudySettingsScr
 	@override String get back => 'वापस';
 	@override String get load => 'लोड करें';
 	@override String get sample_text => 'अपने आप को परमेश्वर के सामने स्वीकार्य बनाने के लिए अध्ययन करो, ताकि तुम एक ऐसे काम करने वाले बनो जिसे लज्जित न होना पड़े, और जो सत्य के वचन को ठीक प्रकार से प्रस्तुत करता है।';
+}
+
+// Path: study_tab_screen
+class _TranslationsStudyTabScreenHi implements TranslationsStudyTabScreenEn {
+	_TranslationsStudyTabScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'अध्ययन';
+	@override String get study_menu => 'अध्ययन मेनू';
 }
 
 /// Flat map(s) containing all translations.
@@ -1229,8 +1241,8 @@ extension on TranslationsHi {
 			case 'go_tab_screen.world': return 'विश्व';
 			case 'go_tab_screen.go_menu': return 'गो मेनू';
 			case 'go_tab_screen.tap_on_the_map_to_add_a_marker': return 'मानचित्र पर मार्कर जोड़ने के लिए टैप करें।';
-			case 'study_tab_screen.title': return 'अध्ययन';
-			case 'study_tab_screen.study_menu': return 'अध्ययन मेनू';
+			case 'study_plans_screen.title': return 'अध्ययन योजनाएँ';
+			case 'study_plans_screen.content': return 'अध्ययन योजनाओं की सामग्री';
 			case 'study_settings_screen.title': return 'सेटिंग्स';
 			case 'study_settings_screen.text_settings': return 'पाठ सेटिंग्स';
 			case 'study_settings_screen.font_family': return 'फ़ॉन्ट परिवार';
@@ -1239,6 +1251,8 @@ extension on TranslationsHi {
 			case 'study_settings_screen.back': return 'वापस';
 			case 'study_settings_screen.load': return 'लोड करें';
 			case 'study_settings_screen.sample_text': return 'अपने आप को परमेश्वर के सामने स्वीकार्य बनाने के लिए अध्ययन करो, ताकि तुम एक ऐसे काम करने वाले बनो जिसे लज्जित न होना पड़े, और जो सत्य के वचन को ठीक प्रकार से प्रस्तुत करता है।';
+			case 'study_tab_screen.title': return 'अध्ययन';
+			case 'study_tab_screen.study_menu': return 'अध्ययन मेनू';
 			default: return null;
 		}
 	}

@@ -8,6 +8,7 @@ import 'package:by_faith/features/study/screens/study_settings_screen.dart';
 import 'package:by_faith/features/study/screens/study_mapping_screen.dart';
 import 'package:by_faith/features/study/screens/study_share_screen.dart';
 import 'package:by_faith/features/study/screens/study_export_import_screen.dart';
+import 'package:by_faith/features/study/screens/study_plans_screen.dart'; // Added import for StudyPlansScreen
 import 'package:by_faith/objectbox.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:by_faith/objectbox.g.dart';
@@ -129,6 +130,17 @@ class StudyTabScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const StudyNotesScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.assignment), // Using an assignment icon for plans
+              title: const Text('Plans'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const StudyPlansScreen()),
                 );
               },
             ),

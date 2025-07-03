@@ -504,9 +504,9 @@
     "world": "World",
     "go_menu": "Go Menu"
   },
-  "study_tab_screen": {
-    "title": "Study",
-    "study_menu": "Study Menu"
+    "study_plans_screen": {
+    "title": "Study Plans",
+    "content": "Study Plans Content"
   },
   "study_settings_screen": {
     "title": "Settings",
@@ -517,5 +517,9 @@
     "back": "Back",
     "load": "Load",
     "sample_text": "Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth."
+  },
+  "study_tab_screen": {
+    "title": "Study",
+    "study_menu": "Study Menu"
   }
 }
