@@ -7,9 +7,17 @@
     "study": "Estudiar",
     "go": "Ir"
   },
-  "home_bibles_screen": {
-    "title": "Biblias",
+  "home_builder_screen": {
+    "title": "Constructor",
     "content": "Contenido"
+  },
+  "home_journal_screen": {
+    "title": "Diario",
+    "content": "Contenido del Diario"
+  },
+  "home_library_screen": {
+    "title": "Biblioteca",
+    "content": "Contenido de la Biblioteca"
   },
   "home_tab_screen": {
     "title": "Inicio",
@@ -17,8 +25,10 @@
     "info": "Información",
     "support": "Soporte",
     "profile": "Perfil",
-    "bibles": "Biblias",
+    "builder": "Constructor",
     "calendar": "Calendario",
+    "journal": "Diario",
+    "library": "Biblioteca",
     "settings": "Configuraciones",
     "content": "Contenido de la pestaña de inicio"
   },

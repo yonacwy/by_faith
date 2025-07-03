@@ -7,9 +7,17 @@
     "study": "अध्ययन",
     "go": "जाओ"
   },
-  "home_bibles_screen": {
-    "title": "बाइबल",
+  "home_builder_screen": {
+    "title": "निर्माता",
     "content": "सामग्री"
+  },
+  "home_journal_screen": {
+    "title": "जर्नल",
+    "content": "जर्नल सामग्री"
+  },
+  "home_library_screen": {
+    "title": "पुस्तकालय",
+    "content": "पुस्तकालय सामग्री"
   },
   "home_tab_screen": {
     "title": "होम",
@@ -17,8 +25,10 @@
     "info": "जानकारी",
     "support": "सहायता",
     "profile": "प्रोफ़ाइल",
-    "bibles": "बाइबल",
+    "builder": "निर्माता",
     "calendar": "कैलेंडर",
+    "journal": "जर्नल",
+    "library": "पुस्तकालय",
     "settings": "सेटिंग्स",
     "content": "होम टैब सामग्री"
   },

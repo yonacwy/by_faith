@@ -37,7 +37,9 @@ class TranslationsHi implements Translations {
 
 	// Translations
 	@override late final _TranslationsMainHi main = _TranslationsMainHi._(_root);
-	@override late final _TranslationsHomeBiblesScreenHi home_bibles_screen = _TranslationsHomeBiblesScreenHi._(_root);
+	@override late final _TranslationsHomeBuilderScreenHi home_builder_screen = _TranslationsHomeBuilderScreenHi._(_root);
+	@override late final _TranslationsHomeJournalScreenHi home_journal_screen = _TranslationsHomeJournalScreenHi._(_root);
+	@override late final _TranslationsHomeLibraryScreenHi home_library_screen = _TranslationsHomeLibraryScreenHi._(_root);
 	@override late final _TranslationsHomeTabScreenHi home_tab_screen = _TranslationsHomeTabScreenHi._(_root);
 	@override late final _TranslationsHomeSettingsScreenHi home_settings_screen = _TranslationsHomeSettingsScreenHi._(_root);
 	@override late final _TranslationsGoAddEditAreaScreenHi go_add_edit_area_screen = _TranslationsGoAddEditAreaScreenHi._(_root);
@@ -77,15 +79,37 @@ class _TranslationsMainHi implements TranslationsMainEn {
 	@override String get go => 'जाओ';
 }
 
-// Path: home_bibles_screen
-class _TranslationsHomeBiblesScreenHi implements TranslationsHomeBiblesScreenEn {
-	_TranslationsHomeBiblesScreenHi._(this._root);
+// Path: home_builder_screen
+class _TranslationsHomeBuilderScreenHi implements TranslationsHomeBuilderScreenEn {
+	_TranslationsHomeBuilderScreenHi._(this._root);
 
 	final TranslationsHi _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'बाइबल';
+	@override String get title => 'निर्माता';
 	@override String get content => 'सामग्री';
+}
+
+// Path: home_journal_screen
+class _TranslationsHomeJournalScreenHi implements TranslationsHomeJournalScreenEn {
+	_TranslationsHomeJournalScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'जर्नल';
+	@override String get content => 'जर्नल सामग्री';
+}
+
+// Path: home_library_screen
+class _TranslationsHomeLibraryScreenHi implements TranslationsHomeLibraryScreenEn {
+	_TranslationsHomeLibraryScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'पुस्तकालय';
+	@override String get content => 'पुस्तकालय सामग्री';
 }
 
 // Path: home_tab_screen
@@ -100,8 +124,10 @@ class _TranslationsHomeTabScreenHi implements TranslationsHomeTabScreenEn {
 	@override String get info => 'जानकारी';
 	@override String get support => 'सहायता';
 	@override String get profile => 'प्रोफ़ाइल';
-	@override String get bibles => 'बाइबल';
+	@override String get builder => 'निर्माता';
 	@override String get calendar => 'कैलेंडर';
+	@override String get journal => 'जर्नल';
+	@override String get library => 'पुस्तकालय';
 	@override String get settings => 'सेटिंग्स';
 	@override String get content => 'होम टैब सामग्री';
 }
@@ -751,15 +777,21 @@ extension on TranslationsHi {
 			case 'main.read': return 'पढ़ें';
 			case 'main.study': return 'अध्ययन';
 			case 'main.go': return 'जाओ';
-			case 'home_bibles_screen.title': return 'बाइबल';
-			case 'home_bibles_screen.content': return 'सामग्री';
+			case 'home_builder_screen.title': return 'निर्माता';
+			case 'home_builder_screen.content': return 'सामग्री';
+			case 'home_journal_screen.title': return 'जर्नल';
+			case 'home_journal_screen.content': return 'जर्नल सामग्री';
+			case 'home_library_screen.title': return 'पुस्तकालय';
+			case 'home_library_screen.content': return 'पुस्तकालय सामग्री';
 			case 'home_tab_screen.title': return 'होम';
 			case 'home_tab_screen.menu': return 'होम मेनू';
 			case 'home_tab_screen.info': return 'जानकारी';
 			case 'home_tab_screen.support': return 'सहायता';
 			case 'home_tab_screen.profile': return 'प्रोफ़ाइल';
-			case 'home_tab_screen.bibles': return 'बाइबल';
+			case 'home_tab_screen.builder': return 'निर्माता';
 			case 'home_tab_screen.calendar': return 'कैलेंडर';
+			case 'home_tab_screen.journal': return 'जर्नल';
+			case 'home_tab_screen.library': return 'पुस्तकालय';
 			case 'home_tab_screen.settings': return 'सेटिंग्स';
 			case 'home_tab_screen.content': return 'होम टैब सामग्री';
 			case 'home_settings_screen.title': return 'सेटिंग्स';

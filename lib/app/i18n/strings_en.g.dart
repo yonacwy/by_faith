@@ -40,7 +40,9 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 
 	// Translations
 	late final TranslationsMainEn main = TranslationsMainEn._(_root);
-	late final TranslationsHomeBiblesScreenEn home_bibles_screen = TranslationsHomeBiblesScreenEn._(_root);
+	late final TranslationsHomeBuilderScreenEn home_builder_screen = TranslationsHomeBuilderScreenEn._(_root);
+	late final TranslationsHomeJournalScreenEn home_journal_screen = TranslationsHomeJournalScreenEn._(_root);
+	late final TranslationsHomeLibraryScreenEn home_library_screen = TranslationsHomeLibraryScreenEn._(_root);
 	late final TranslationsHomeSettingsScreenEn home_settings_screen = TranslationsHomeSettingsScreenEn._(_root);
 	late final TranslationsHomeTabScreenEn home_tab_screen = TranslationsHomeTabScreenEn._(_root);
 	late final TranslationsGoAddEditAreaScreenEn go_add_edit_area_screen = TranslationsGoAddEditAreaScreenEn._(_root);
@@ -80,14 +82,36 @@ class TranslationsMainEn {
 	String get go => 'Go';
 }
 
-// Path: home_bibles_screen
-class TranslationsHomeBiblesScreenEn {
-	TranslationsHomeBiblesScreenEn._(this._root);
+// Path: home_builder_screen
+class TranslationsHomeBuilderScreenEn {
+	TranslationsHomeBuilderScreenEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get title => 'Bibles';
+	String get title => 'Builder';
+	String get content => 'Content';
+}
+
+// Path: home_journal_screen
+class TranslationsHomeJournalScreenEn {
+	TranslationsHomeJournalScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Journal';
+	String get content => 'Content';
+}
+
+// Path: home_library_screen
+class TranslationsHomeLibraryScreenEn {
+	TranslationsHomeLibraryScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Library';
 	String get content => 'Content';
 }
 
@@ -126,8 +150,10 @@ class TranslationsHomeTabScreenEn {
 	String get info => 'Info';
 	String get support => 'Support';
 	String get profile => 'Profile';
-	String get bibles => 'Bibles';
+	String get builder => 'Builder';
 	String get calendar => 'Calendar';
+	String get journal => 'Journal';
+	String get library => 'Library';
 	String get settings => 'Settings';
 	String get content => 'Home Tab Content';
 }
@@ -753,8 +779,12 @@ extension on Translations {
 			case 'main.read': return 'Read';
 			case 'main.study': return 'Study';
 			case 'main.go': return 'Go';
-			case 'home_bibles_screen.title': return 'Bibles';
-			case 'home_bibles_screen.content': return 'Content';
+			case 'home_builder_screen.title': return 'Builder';
+			case 'home_builder_screen.content': return 'Content';
+			case 'home_journal_screen.title': return 'Journal';
+			case 'home_journal_screen.content': return 'Content';
+			case 'home_library_screen.title': return 'Library';
+			case 'home_library_screen.content': return 'Content';
 			case 'home_settings_screen.title': return 'Settings';
 			case 'home_settings_screen.language': return 'Language';
 			case 'home_settings_screen.english': return 'English';
@@ -774,8 +804,10 @@ extension on Translations {
 			case 'home_tab_screen.info': return 'Info';
 			case 'home_tab_screen.support': return 'Support';
 			case 'home_tab_screen.profile': return 'Profile';
-			case 'home_tab_screen.bibles': return 'Bibles';
+			case 'home_tab_screen.builder': return 'Builder';
 			case 'home_tab_screen.calendar': return 'Calendar';
+			case 'home_tab_screen.journal': return 'Journal';
+			case 'home_tab_screen.library': return 'Library';
 			case 'home_tab_screen.settings': return 'Settings';
 			case 'home_tab_screen.content': return 'Home Tab Content';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'Tap on the map to add points for Area.';

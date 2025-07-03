@@ -5,7 +5,9 @@ import 'package:by_faith/features/home/screens/home_support_screen.dart';
 import 'package:by_faith/features/home/screens/home_calendar_screen.dart';
 import 'package:by_faith/features/home/screens/home_settings_screen.dart';
 import 'package:by_faith/features/home/screens/home_user_profile_screen.dart';
-import 'package:by_faith/features/home/screens/home_bibles_screen.dart';
+import 'package:by_faith/features/home/screens/home_builder_screen.dart';
+import 'package:by_faith/features/home/screens/home_journal_screen.dart';
+import 'package:by_faith/features/home/screens/home_library_screen.dart';
 
 class HomeTabScreen extends StatelessWidget {
   const HomeTabScreen({super.key});
@@ -88,13 +90,13 @@ class HomeTabScreen extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.book), // Using a book icon for Bibles
-              title: Text(t.home_tab_screen.bibles),
+              leading: const Icon(Icons.architecture), // Using a architecture icon for Builder
+              title: Text(t.home_tab_screen.builder),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomeBiblesScreen()),
+                  MaterialPageRoute(builder: (context) => const HomeBuilderScreen()),
                 );
               },
             ),
@@ -106,6 +108,28 @@ class HomeTabScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const HomeCalendarScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.edit_note), // Using an icon for Journal
+              title: Text(t.home_tab_screen.journal),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeJournalScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.library_books), // Using a library icon
+              title: Text(t.home_tab_screen.library), // Assuming 'library' key exists in translations
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeLibraryScreen()),
                 );
               },
             ),

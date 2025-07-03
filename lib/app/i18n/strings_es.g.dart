@@ -37,7 +37,9 @@ class TranslationsEs implements Translations {
 
 	// Translations
 	@override late final _TranslationsMainEs main = _TranslationsMainEs._(_root);
-	@override late final _TranslationsHomeBiblesScreenEs home_bibles_screen = _TranslationsHomeBiblesScreenEs._(_root);
+	@override late final _TranslationsHomeBuilderScreenEs home_builder_screen = _TranslationsHomeBuilderScreenEs._(_root);
+	@override late final _TranslationsHomeJournalScreenEs home_journal_screen = _TranslationsHomeJournalScreenEs._(_root);
+	@override late final _TranslationsHomeLibraryScreenEs home_library_screen = _TranslationsHomeLibraryScreenEs._(_root);
 	@override late final _TranslationsHomeTabScreenEs home_tab_screen = _TranslationsHomeTabScreenEs._(_root);
 	@override late final _TranslationsHomeSettingsScreenEs home_settings_screen = _TranslationsHomeSettingsScreenEs._(_root);
 	@override late final _TranslationsGoAddEditAreaScreenEs go_add_edit_area_screen = _TranslationsGoAddEditAreaScreenEs._(_root);
@@ -77,15 +79,37 @@ class _TranslationsMainEs implements TranslationsMainEn {
 	@override String get go => 'Ir';
 }
 
-// Path: home_bibles_screen
-class _TranslationsHomeBiblesScreenEs implements TranslationsHomeBiblesScreenEn {
-	_TranslationsHomeBiblesScreenEs._(this._root);
+// Path: home_builder_screen
+class _TranslationsHomeBuilderScreenEs implements TranslationsHomeBuilderScreenEn {
+	_TranslationsHomeBuilderScreenEs._(this._root);
 
 	final TranslationsEs _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Biblias';
+	@override String get title => 'Constructor';
 	@override String get content => 'Contenido';
+}
+
+// Path: home_journal_screen
+class _TranslationsHomeJournalScreenEs implements TranslationsHomeJournalScreenEn {
+	_TranslationsHomeJournalScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Diario';
+	@override String get content => 'Contenido del Diario';
+}
+
+// Path: home_library_screen
+class _TranslationsHomeLibraryScreenEs implements TranslationsHomeLibraryScreenEn {
+	_TranslationsHomeLibraryScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Biblioteca';
+	@override String get content => 'Contenido de la Biblioteca';
 }
 
 // Path: home_tab_screen
@@ -100,8 +124,10 @@ class _TranslationsHomeTabScreenEs implements TranslationsHomeTabScreenEn {
 	@override String get info => 'Información';
 	@override String get support => 'Soporte';
 	@override String get profile => 'Perfil';
-	@override String get bibles => 'Biblias';
+	@override String get builder => 'Constructor';
 	@override String get calendar => 'Calendario';
+	@override String get journal => 'Diario';
+	@override String get library => 'Biblioteca';
 	@override String get settings => 'Configuraciones';
 	@override String get content => 'Contenido de la pestaña de inicio';
 }
@@ -750,15 +776,21 @@ extension on TranslationsEs {
 			case 'main.read': return 'Leer';
 			case 'main.study': return 'Estudiar';
 			case 'main.go': return 'Ir';
-			case 'home_bibles_screen.title': return 'Biblias';
-			case 'home_bibles_screen.content': return 'Contenido';
+			case 'home_builder_screen.title': return 'Constructor';
+			case 'home_builder_screen.content': return 'Contenido';
+			case 'home_journal_screen.title': return 'Diario';
+			case 'home_journal_screen.content': return 'Contenido del Diario';
+			case 'home_library_screen.title': return 'Biblioteca';
+			case 'home_library_screen.content': return 'Contenido de la Biblioteca';
 			case 'home_tab_screen.title': return 'Inicio';
 			case 'home_tab_screen.menu': return 'Menú de inicio';
 			case 'home_tab_screen.info': return 'Información';
 			case 'home_tab_screen.support': return 'Soporte';
 			case 'home_tab_screen.profile': return 'Perfil';
-			case 'home_tab_screen.bibles': return 'Biblias';
+			case 'home_tab_screen.builder': return 'Constructor';
 			case 'home_tab_screen.calendar': return 'Calendario';
+			case 'home_tab_screen.journal': return 'Diario';
+			case 'home_tab_screen.library': return 'Biblioteca';
 			case 'home_tab_screen.settings': return 'Configuraciones';
 			case 'home_tab_screen.content': return 'Contenido de la pestaña de inicio';
 			case 'home_settings_screen.title': return 'Ajustes';

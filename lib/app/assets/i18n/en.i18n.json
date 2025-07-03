@@ -7,8 +7,16 @@
     "study": "Study",
     "go": "Go"
   },
-  "home_bibles_screen": {
-    "title": "Bibles",
+  "home_builder_screen": {
+    "title": "Builder",
+    "content": "Content"
+  },
+  "home_journal_screen": {
+    "title": "Journal",
+    "content": "Content"
+  },
+  "home_library_screen": {
+    "title": "Library",
     "content": "Content"
   },
   "home_settings_screen": {
@@ -33,8 +41,10 @@
     "info": "Info",
     "support": "Support",
     "profile": "Profile",
-    "bibles": "Bibles",
+    "builder": "Builder",
     "calendar": "Calendar",
+    "journal": "Journal",
+    "library": "Library",
     "settings": "Settings",
     "content": "Home Tab Content"
   },
