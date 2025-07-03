@@ -43,6 +43,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final TranslationsHomeBuilderScreenEn home_builder_screen = TranslationsHomeBuilderScreenEn._(_root);
 	late final TranslationsHomeJournalScreenEn home_journal_screen = TranslationsHomeJournalScreenEn._(_root);
 	late final TranslationsHomeLibraryScreenEn home_library_screen = TranslationsHomeLibraryScreenEn._(_root);
+	late final TranslationsHomeSearchScreenEn home_search_screen = TranslationsHomeSearchScreenEn._(_root);
 	late final TranslationsHomeSettingsScreenEn home_settings_screen = TranslationsHomeSettingsScreenEn._(_root);
 	late final TranslationsHomeTabScreenEn home_tab_screen = TranslationsHomeTabScreenEn._(_root);
 	late final TranslationsGoAddEditAreaScreenEn go_add_edit_area_screen = TranslationsGoAddEditAreaScreenEn._(_root);
@@ -116,6 +117,17 @@ class TranslationsHomeLibraryScreenEn {
 	String get content => 'Content';
 }
 
+// Path: home_search_screen
+class TranslationsHomeSearchScreenEn {
+	TranslationsHomeSearchScreenEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Search';
+	String get content => 'Content';
+}
+
 // Path: home_settings_screen
 class TranslationsHomeSettingsScreenEn {
 	TranslationsHomeSettingsScreenEn._(this._root);
@@ -155,6 +167,7 @@ class TranslationsHomeTabScreenEn {
 	String get calendar => 'Calendar';
 	String get journal => 'Journal';
 	String get library => 'Library';
+	String get search => 'Search';
 	String get settings => 'Settings';
 	String get content => 'Home Tab Content';
 }
@@ -797,6 +810,8 @@ extension on Translations {
 			case 'home_journal_screen.content': return 'Content';
 			case 'home_library_screen.title': return 'Library';
 			case 'home_library_screen.content': return 'Content';
+			case 'home_search_screen.title': return 'Search';
+			case 'home_search_screen.content': return 'Content';
 			case 'home_settings_screen.title': return 'Settings';
 			case 'home_settings_screen.language': return 'Language';
 			case 'home_settings_screen.english': return 'English';
@@ -820,6 +835,7 @@ extension on Translations {
 			case 'home_tab_screen.calendar': return 'Calendar';
 			case 'home_tab_screen.journal': return 'Journal';
 			case 'home_tab_screen.library': return 'Library';
+			case 'home_tab_screen.search': return 'Search';
 			case 'home_tab_screen.settings': return 'Settings';
 			case 'home_tab_screen.content': return 'Home Tab Content';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'Tap on the map to add points for Area.';

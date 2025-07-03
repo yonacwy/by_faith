@@ -4,6 +4,10 @@ import 'package:by_faith/features/pray/screens/pray_settings_screen.dart';
 import 'package:by_faith/features/pray/screens/pray_share_screen.dart';
 import 'package:by_faith/features/pray/screens/pray_plans_screen.dart';
 import 'package:by_faith/features/pray/screens/pray_export_import_screen.dart';
+import 'package:by_faith/features/pray/screens/pray_challenges_screen.dart';
+import 'package:by_faith/features/pray/screens/pray_reminders_screen.dart';
+import 'package:by_faith/features/pray/screens/pray_timers_screen.dart';
+import 'package:by_faith/features/pray/screens/pray_walls_screen.dart';
 
 class PrayTabScreen extends StatelessWidget {
   const PrayTabScreen({super.key});
@@ -21,6 +25,12 @@ class PrayTabScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(builder: (context) => const PraySearchScreen()),
               );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.sort), // Added sort icon
+            onPressed: () {
+              // TODO: Implement sort functionality
             },
           ),
           Builder(
@@ -94,6 +104,17 @@ class PrayTabScreen extends StatelessWidget {
               ),
             ),
             ListTile(
+              leading: const Icon(Icons.flag),
+              title: const Text('Challenges'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PrayChallengesScreen()),
+                );
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.assignment),
               title: const Text('Plans'),
               onTap: () {
@@ -101,6 +122,39 @@ class PrayTabScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const PrayPlansScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.alarm),
+              title: const Text('Reminders'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PrayRemindersScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.timer),
+              title: const Text('Timers'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PrayTimersScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.fence),
+              title: const Text('Walls'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PrayWallsScreen()),
                 );
               },
             ),

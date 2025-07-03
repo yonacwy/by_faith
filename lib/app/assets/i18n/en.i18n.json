@@ -19,6 +19,10 @@
     "title": "Library",
     "content": "Content"
   },
+  "home_search_screen": {
+    "title": "Search",
+    "content": "Content"
+  },
   "home_settings_screen": {
     "title": "Settings",
     "language": "Language",
@@ -45,6 +49,7 @@
     "calendar": "Calendar",
     "journal": "Journal",
     "library": "Library",
+    "search": "Search",
     "settings": "Settings",
     "content": "Home Tab Content"
   },

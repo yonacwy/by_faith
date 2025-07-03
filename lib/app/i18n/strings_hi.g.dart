@@ -40,6 +40,7 @@ class TranslationsHi implements Translations {
 	@override late final _TranslationsHomeBuilderScreenHi home_builder_screen = _TranslationsHomeBuilderScreenHi._(_root);
 	@override late final _TranslationsHomeJournalScreenHi home_journal_screen = _TranslationsHomeJournalScreenHi._(_root);
 	@override late final _TranslationsHomeLibraryScreenHi home_library_screen = _TranslationsHomeLibraryScreenHi._(_root);
+	@override late final _TranslationsHomeSearchScreenHi home_search_screen = _TranslationsHomeSearchScreenHi._(_root);
 	@override late final _TranslationsHomeTabScreenHi home_tab_screen = _TranslationsHomeTabScreenHi._(_root);
 	@override late final _TranslationsHomeSettingsScreenHi home_settings_screen = _TranslationsHomeSettingsScreenHi._(_root);
 	@override late final _TranslationsGoAddEditAreaScreenHi go_add_edit_area_screen = _TranslationsGoAddEditAreaScreenHi._(_root);
@@ -113,6 +114,17 @@ class _TranslationsHomeLibraryScreenHi implements TranslationsHomeLibraryScreenE
 	@override String get content => 'पुस्तकालय सामग्री';
 }
 
+// Path: home_search_screen
+class _TranslationsHomeSearchScreenHi implements TranslationsHomeSearchScreenEn {
+	_TranslationsHomeSearchScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'खोजें';
+	@override String get content => 'खोज सामग्री';
+}
+
 // Path: home_tab_screen
 class _TranslationsHomeTabScreenHi implements TranslationsHomeTabScreenEn {
 	_TranslationsHomeTabScreenHi._(this._root);
@@ -129,6 +141,7 @@ class _TranslationsHomeTabScreenHi implements TranslationsHomeTabScreenEn {
 	@override String get calendar => 'कैलेंडर';
 	@override String get journal => 'जर्नल';
 	@override String get library => 'पुस्तकालय';
+	@override String get search => 'खोजें';
 	@override String get settings => 'सेटिंग्स';
 	@override String get content => 'होम टैब सामग्री';
 }
@@ -795,6 +808,8 @@ extension on TranslationsHi {
 			case 'home_journal_screen.content': return 'जर्नल सामग्री';
 			case 'home_library_screen.title': return 'पुस्तकालय';
 			case 'home_library_screen.content': return 'पुस्तकालय सामग्री';
+			case 'home_search_screen.title': return 'खोजें';
+			case 'home_search_screen.content': return 'खोज सामग्री';
 			case 'home_tab_screen.title': return 'होम';
 			case 'home_tab_screen.menu': return 'होम मेनू';
 			case 'home_tab_screen.info': return 'जानकारी';
@@ -804,6 +819,7 @@ extension on TranslationsHi {
 			case 'home_tab_screen.calendar': return 'कैलेंडर';
 			case 'home_tab_screen.journal': return 'जर्नल';
 			case 'home_tab_screen.library': return 'पुस्तकालय';
+			case 'home_tab_screen.search': return 'खोजें';
 			case 'home_tab_screen.settings': return 'सेटिंग्स';
 			case 'home_tab_screen.content': return 'होम टैब सामग्री';
 			case 'home_settings_screen.title': return 'सेटिंग्स';

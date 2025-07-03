@@ -19,6 +19,10 @@
     "title": "पुस्तकालय",
     "content": "पुस्तकालय सामग्री"
   },
+  "home_search_screen": {
+    "title": "खोजें",
+    "content": "खोज सामग्री"
+  },
   "home_tab_screen": {
     "title": "होम",
     "menu": "होम मेनू",
@@ -29,6 +33,7 @@
     "calendar": "कैलेंडर",
     "journal": "जर्नल",
     "library": "पुस्तकालय",
+    "search": "खोजें",
     "settings": "सेटिंग्स",
     "content": "होम टैब सामग्री"
   },

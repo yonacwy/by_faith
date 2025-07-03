@@ -27,6 +27,12 @@ class ReadTabScreen extends StatelessWidget {
               );
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.fullscreen), // Fullscreen icon
+            onPressed: () {
+              // TODO: Implement fullscreen toggle logic
+            },
+          ),
           Builder(
             builder: (context) => IconButton(
               icon: const Icon(Icons.menu),

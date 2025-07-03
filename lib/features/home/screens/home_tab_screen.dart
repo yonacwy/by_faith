@@ -8,6 +8,7 @@ import 'package:by_faith/features/home/screens/home_user_profile_screen.dart';
 import 'package:by_faith/features/home/screens/home_builder_screen.dart';
 import 'package:by_faith/features/home/screens/home_journal_screen.dart';
 import 'package:by_faith/features/home/screens/home_library_screen.dart';
+import 'package:by_faith/features/home/screens/home_search_screen.dart';
 
 class HomeTabScreen extends StatelessWidget {
   const HomeTabScreen({super.key});
@@ -19,6 +20,21 @@ class HomeTabScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(t.home_tab_screen.title),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeSearchScreen()),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.visibility),
+            onPressed: () {
+              // TODO: Implement visibility toggle logic
+            },
+          ),
           Builder(
             builder: (context) => IconButton(
               icon: const Icon(Icons.menu),

@@ -35,6 +35,13 @@ class StudyTabScreen extends StatelessWidget {
               );
             },
           ),
+          // Fullscreen toggle icon
+          IconButton(
+            icon: const Icon(Icons.fullscreen),
+            onPressed: () {
+              // TODO: Implement fullscreen toggle logic
+            },
+          ),
           Builder(
             builder: (context) => IconButton(
               icon: const Icon(Icons.menu),

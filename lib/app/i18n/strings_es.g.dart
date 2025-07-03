@@ -40,6 +40,7 @@ class TranslationsEs implements Translations {
 	@override late final _TranslationsHomeBuilderScreenEs home_builder_screen = _TranslationsHomeBuilderScreenEs._(_root);
 	@override late final _TranslationsHomeJournalScreenEs home_journal_screen = _TranslationsHomeJournalScreenEs._(_root);
 	@override late final _TranslationsHomeLibraryScreenEs home_library_screen = _TranslationsHomeLibraryScreenEs._(_root);
+	@override late final _TranslationsHomeSearchScreenEs home_search_screen = _TranslationsHomeSearchScreenEs._(_root);
 	@override late final _TranslationsHomeTabScreenEs home_tab_screen = _TranslationsHomeTabScreenEs._(_root);
 	@override late final _TranslationsHomeSettingsScreenEs home_settings_screen = _TranslationsHomeSettingsScreenEs._(_root);
 	@override late final _TranslationsGoAddEditAreaScreenEs go_add_edit_area_screen = _TranslationsGoAddEditAreaScreenEs._(_root);
@@ -113,6 +114,17 @@ class _TranslationsHomeLibraryScreenEs implements TranslationsHomeLibraryScreenE
 	@override String get content => 'Contenido de la Biblioteca';
 }
 
+// Path: home_search_screen
+class _TranslationsHomeSearchScreenEs implements TranslationsHomeSearchScreenEn {
+	_TranslationsHomeSearchScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Buscar';
+	@override String get content => 'Contenido de la Búsqueda';
+}
+
 // Path: home_tab_screen
 class _TranslationsHomeTabScreenEs implements TranslationsHomeTabScreenEn {
 	_TranslationsHomeTabScreenEs._(this._root);
@@ -129,6 +141,7 @@ class _TranslationsHomeTabScreenEs implements TranslationsHomeTabScreenEn {
 	@override String get calendar => 'Calendario';
 	@override String get journal => 'Diario';
 	@override String get library => 'Biblioteca';
+	@override String get search => 'Buscar';
 	@override String get settings => 'Configuraciones';
 	@override String get content => 'Contenido de la pestaña de inicio';
 }
@@ -794,6 +807,8 @@ extension on TranslationsEs {
 			case 'home_journal_screen.content': return 'Contenido del Diario';
 			case 'home_library_screen.title': return 'Biblioteca';
 			case 'home_library_screen.content': return 'Contenido de la Biblioteca';
+			case 'home_search_screen.title': return 'Buscar';
+			case 'home_search_screen.content': return 'Contenido de la Búsqueda';
 			case 'home_tab_screen.title': return 'Inicio';
 			case 'home_tab_screen.menu': return 'Menú de inicio';
 			case 'home_tab_screen.info': return 'Información';
@@ -803,6 +818,7 @@ extension on TranslationsEs {
 			case 'home_tab_screen.calendar': return 'Calendario';
 			case 'home_tab_screen.journal': return 'Diario';
 			case 'home_tab_screen.library': return 'Biblioteca';
+			case 'home_tab_screen.search': return 'Buscar';
 			case 'home_tab_screen.settings': return 'Configuraciones';
 			case 'home_tab_screen.content': return 'Contenido de la pestaña de inicio';
 			case 'home_settings_screen.title': return 'Ajustes';

@@ -19,6 +19,10 @@
     "title": "Biblioteca",
     "content": "Contenido de la Biblioteca"
   },
+  "home_search_screen": {
+    "title": "Buscar",
+    "content": "Contenido de la Búsqueda"
+  },
   "home_tab_screen": {
     "title": "Inicio",
     "menu": "Menú de inicio",
@@ -29,6 +33,7 @@
     "calendar": "Calendario",
     "journal": "Diario",
     "library": "Biblioteca",
+    "search": "Buscar",
     "settings": "Configuraciones",
     "content": "Contenido de la pestaña de inicio"
   },
