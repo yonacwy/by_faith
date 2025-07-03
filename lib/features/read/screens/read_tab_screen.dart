@@ -3,6 +3,9 @@ import 'package:by_faith/features/read/screens/read_bookmarks_screen.dart';
 import 'package:by_faith/features/read/screens/read_favorites_screen.dart';
 import 'package:by_faith/features/read/screens/read_settings_screen.dart';
 import 'package:by_faith/features/read/screens/read_plans_screen.dart';
+import 'package:by_faith/features/read/screens/read_share_screen.dart';
+import 'package:by_faith/features/read/screens/read_export_import_screen.dart';
+import 'package:by_faith/features/read/screens/read_search_screen.dart';
 
 class ReadTabScreen extends StatelessWidget {
   const ReadTabScreen({super.key});
@@ -13,6 +16,15 @@ class ReadTabScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Read'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ReadSearchScreen()),
+              );
+            },
+          ),
           Builder(
             builder: (context) => IconButton(
               icon: const Icon(Icons.menu),
@@ -29,12 +41,54 @@ class ReadTabScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.red[900],
               ),
-              child: Text(
-                'Read Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'Read Menu',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                  SizedBox(height: 8), // Add some spacing
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.share, color: Colors.white),
+                        onPressed: () {
+                          Navigator.pop(context); // Close the drawer
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const ReadShareScreen()),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.import_export, color: Colors.white),
+                        onPressed: () {
+                          Navigator.pop(context); // Close the drawer
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const ReadExportImportScreen()),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.settings, color: Colors.white),
+                        onPressed: () {
+                          Navigator.pop(context); // Close the drawer
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const ReadSettingsScreen()),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
             ListTile(
@@ -67,17 +121,6 @@ class ReadTabScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const ReadPlansScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ReadSettingsScreen()),
                 );
               },
             ),

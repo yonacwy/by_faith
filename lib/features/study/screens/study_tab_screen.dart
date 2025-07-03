@@ -25,6 +25,15 @@ class StudyTabScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(t.study_tab_screen.title),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const StudySearchScreen()),
+              );
+            },
+          ),
           Builder(
             builder: (context) => IconButton(
               icon: const Icon(Icons.menu),
@@ -131,17 +140,6 @@ class StudyTabScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const StudyReferencesScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.search),
-              title: const Text('Search'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const StudySearchScreen()),
                 );
               },
             ),

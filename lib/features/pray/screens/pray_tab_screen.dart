@@ -3,6 +3,7 @@ import 'package:by_faith/features/pray/screens/pray_search_screen.dart';
 import 'package:by_faith/features/pray/screens/pray_settings_screen.dart';
 import 'package:by_faith/features/pray/screens/pray_share_screen.dart';
 import 'package:by_faith/features/pray/screens/pray_plans_screen.dart';
+import 'package:by_faith/features/pray/screens/pray_export_import_screen.dart';
 
 class PrayTabScreen extends StatelessWidget {
   const PrayTabScreen({super.key});
@@ -13,6 +14,15 @@ class PrayTabScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Pray'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PraySearchScreen()),
+              );
+            },
+          ),
           Builder(
             builder: (context) => IconButton(
               icon: const Icon(Icons.menu),
@@ -29,12 +39,58 @@ class PrayTabScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.red[900],
               ),
-              child: Text(
-                'Pray Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Pray Menu',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 8.0,
+                    right: 8.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.share, color: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const PrayShareScreen()),
+                            );
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.import_export, color: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const PrayExportImportScreen()),
+                            );
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.settings, color: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const PraySettingsScreen()),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             ListTile(
@@ -45,39 +101,6 @@ class PrayTabScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const PrayPlansScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.search),
-              title: const Text('Search'),
-              onTap: () {
-                Navigator.pop(context); // Close the drawer
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const PraySearchScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.share),
-              title: const Text('Share'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const PrayShareScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const PraySettingsScreen()),
                 );
               },
             ),
