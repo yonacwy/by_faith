@@ -61,11 +61,10 @@ class PrayTabScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 8.0,
-                    right: 8.0,
+                  Align(
+                    alignment: Alignment.bottomRight,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
                           icon: const Icon(Icons.share, color: Colors.white),

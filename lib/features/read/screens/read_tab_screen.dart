@@ -49,52 +49,55 @@ class ReadTabScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.red[900],
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
+              child: Stack(
                 children: [
-                  Text(
-                    'Read Menu',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Read Menu',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                      ),
                     ),
                   ),
-                  SizedBox(height: 8), // Add some spacing
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.share, color: Colors.white),
-                        onPressed: () {
-                          Navigator.pop(context); // Close the drawer
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const ReadShareScreen()),
-                          );
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.import_export, color: Colors.white),
-                        onPressed: () {
-                          Navigator.pop(context); // Close the drawer
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const ReadExportImportScreen()),
-                          );
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.settings, color: Colors.white),
-                        onPressed: () {
-                          Navigator.pop(context); // Close the drawer
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const ReadSettingsScreen()),
-                          );
-                        },
-                      ),
-                    ],
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.share, color: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context); // Close the drawer
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const ReadShareScreen()),
+                            );
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.import_export, color: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context); // Close the drawer
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const ReadExportImportScreen()),
+                            );
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.settings, color: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context); // Close the drawer
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const ReadSettingsScreen()),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
