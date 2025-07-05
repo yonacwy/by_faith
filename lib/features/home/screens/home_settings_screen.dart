@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:by_faith/app/i18n/strings.g.dart';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+import 'package:archive/archive_io.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
 import 'package:by_faith/objectbox.dart';
 import 'package:by_faith/core/models/user_preferences_model.dart';
 import '../providers/home_settings_font_provider.dart';
@@ -66,6 +71,75 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  t.home_settings_screen.bible_settings,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: context.watch<HomeSettingsFontProvider>().fontFamily,
+                    fontSize: context.watch<HomeSettingsFontProvider>().fontSize + 2,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Card(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.outlineVariant),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ListTile(
+                          title: Text(
+                            t.home_settings_screen.bible_download,
+                            style: TextStyle(
+                              fontFamily: context.watch<HomeSettingsFontProvider>().fontFamily,
+                              fontSize: context.watch<HomeSettingsFontProvider>().fontSize,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                          trailing: const Icon(Icons.download),
+                          onTap: () {
+                            // TODO: Implement Bible Download functionality
+                          },
+                        ),
+                        ListTile(
+                          title: Text(
+                            t.home_settings_screen.bible_upload,
+                            style: TextStyle(
+                              fontFamily: context.watch<HomeSettingsFontProvider>().fontFamily,
+                              fontSize: context.watch<HomeSettingsFontProvider>().fontSize,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                          trailing: const Icon(Icons.upload_file),
+                          onTap: () async {
+                            await _pickAndExtractZipFile();
+                          },
+                        ),
+                        ListTile(
+                          title: Text(
+                            t.home_settings_screen.bibles_installed,
+                            style: TextStyle(
+                              fontFamily: context.watch<HomeSettingsFontProvider>().fontFamily,
+                              fontSize: context.watch<HomeSettingsFontProvider>().fontSize,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                          trailing: const Icon(Icons.list),
+                          onTap: () {
+                            // TODO: Implement Bibles Installed functionality
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
                 Text(
                   t.home_settings_screen.text_settings,
                   style: TextStyle(
@@ -329,6 +403,73 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+extension on _HomeSettingsScreenState {
+  Future<void> _pickAndExtractZipFile() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['zip'],
+      );
+
+      if (result != null && result.files.single.path != null) {
+        String? filePath = result.files.single.path;
+        if (filePath == null) {
+          _showSnackBar(t.home_settings_screen.file_not_selected);
+          return;
+        }
+
+        File file = File(filePath);
+        if (!file.existsSync()) {
+          _showSnackBar(t.home_settings_screen.file_not_found);
+          return;
+        }
+
+        if (!filePath.toLowerCase().endsWith('.zip')) {
+          _showSnackBar(t.home_settings_screen.not_a_zip_file);
+          return;
+        }
+
+        List<int> bytes = await file.readAsBytes();
+        final archive = ZipDecoder().decodeBytes(bytes);
+
+        final appDocDir = await getApplicationDocumentsDirectory();
+        final targetDirPath = p.join(appDocDir.path, 'by_faith', 'data');
+        final targetDir = Directory(targetDirPath);
+
+        if (!await targetDir.exists()) {
+          await targetDir.create(recursive: true);
+        }
+
+        for (final file in archive) {
+          final filename = file.name;
+          if (file.isFile) {
+            final data = file.content as List<int>;
+            File(p.join(targetDirPath, filename))
+              ..createSync(recursive: true)
+              ..writeAsBytesSync(data);
+          } else {
+            await Directory(p.join(targetDirPath, filename)).create(recursive: true);
+          }
+        }
+        _showSnackBar(t.home_settings_screen.upload_success);
+      } else {
+        _showSnackBar(t.home_settings_screen.file_not_selected);
+      }
+    } catch (e) {
+      _showSnackBar('${t.home_settings_screen.upload_failed}: $e');
+    }
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 3),
       ),
     );
   }

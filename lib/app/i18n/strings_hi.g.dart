@@ -167,6 +167,15 @@ class _TranslationsHomeSettingsScreenHi implements TranslationsHomeSettingsScree
 	@override String get app_language => 'ऐप भाषा';
 	@override String get back => 'वापस';
 	@override String get load => 'लोड करें';
+	@override String get bible_settings => 'बाइबल सेटिंग्स';
+	@override String get bible_download => 'बाइबल डाउनलोड';
+	@override String get bible_upload => 'बाइबल अपलोड';
+	@override String get bibles_installed => 'स्थापित बाइबल';
+	@override String get file_not_selected => 'कोई फ़ाइल नहीं चुनी गई।';
+	@override String get file_not_found => 'फ़ाइल नहीं मिली।';
+	@override String get not_a_zip_file => 'कृपया एक वैध ज़िप फ़ाइल चुनें।';
+	@override String get upload_success => 'बाइबल सफलतापूर्वक अपलोड और निकाली गई!';
+	@override String get upload_failed => 'अपलोड विफल रहा';
 }
 
 // Path: go_add_edit_area_screen
@@ -836,6 +845,15 @@ extension on TranslationsHi {
 			case 'home_settings_screen.app_language': return 'ऐप भाषा';
 			case 'home_settings_screen.back': return 'वापस';
 			case 'home_settings_screen.load': return 'लोड करें';
+			case 'home_settings_screen.bible_settings': return 'बाइबल सेटिंग्स';
+			case 'home_settings_screen.bible_download': return 'बाइबल डाउनलोड';
+			case 'home_settings_screen.bible_upload': return 'बाइबल अपलोड';
+			case 'home_settings_screen.bibles_installed': return 'स्थापित बाइबल';
+			case 'home_settings_screen.file_not_selected': return 'कोई फ़ाइल नहीं चुनी गई।';
+			case 'home_settings_screen.file_not_found': return 'फ़ाइल नहीं मिली।';
+			case 'home_settings_screen.not_a_zip_file': return 'कृपया एक वैध ज़िप फ़ाइल चुनें।';
+			case 'home_settings_screen.upload_success': return 'बाइबल सफलतापूर्वक अपलोड और निकाली गई!';
+			case 'home_settings_screen.upload_failed': return 'अपलोड विफल रहा';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'क्षेत्र के लिए बिंदु जोड़ने के लिए मानचित्र पर टैप करें।';
 			case 'go_add_edit_area_screen.cancel': return 'रद्द करें';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'क्षेत्र निर्माण रद्द करें';

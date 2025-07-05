@@ -167,6 +167,15 @@ class _TranslationsHomeSettingsScreenEs implements TranslationsHomeSettingsScree
 	@override String get app_language => 'Idioma de la Aplicación';
 	@override String get back => 'Atrás';
 	@override String get load => 'Cargar';
+	@override String get bible_settings => 'Ajustes de la Biblia';
+	@override String get bible_download => 'Descarga de la Biblia';
+	@override String get bible_upload => 'Carga de la Biblia';
+	@override String get bibles_installed => 'Biblias Instaladas';
+	@override String get file_not_selected => 'No se ha seleccionado ningún archivo.';
+	@override String get file_not_found => 'Archivo no encontrado.';
+	@override String get not_a_zip_file => 'Por favor, selecciona un archivo ZIP válido.';
+	@override String get upload_success => '¡Biblia subida y extraída con éxito!';
+	@override String get upload_failed => 'Error al subir';
 }
 
 // Path: go_add_edit_area_screen
@@ -835,6 +844,15 @@ extension on TranslationsEs {
 			case 'home_settings_screen.app_language': return 'Idioma de la Aplicación';
 			case 'home_settings_screen.back': return 'Atrás';
 			case 'home_settings_screen.load': return 'Cargar';
+			case 'home_settings_screen.bible_settings': return 'Ajustes de la Biblia';
+			case 'home_settings_screen.bible_download': return 'Descarga de la Biblia';
+			case 'home_settings_screen.bible_upload': return 'Carga de la Biblia';
+			case 'home_settings_screen.bibles_installed': return 'Biblias Instaladas';
+			case 'home_settings_screen.file_not_selected': return 'No se ha seleccionado ningún archivo.';
+			case 'home_settings_screen.file_not_found': return 'Archivo no encontrado.';
+			case 'home_settings_screen.not_a_zip_file': return 'Por favor, selecciona un archivo ZIP válido.';
+			case 'home_settings_screen.upload_success': return '¡Biblia subida y extraída con éxito!';
+			case 'home_settings_screen.upload_failed': return 'Error al subir';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'Toca el mapa para añadir puntos para el Área.';
 			case 'go_add_edit_area_screen.cancel': return 'Cancelar';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'Cancelar Creación de Área';

@@ -51,7 +51,16 @@
     "language_settings": "भाषा सेटिंग्स",
     "app_language": "ऐप भाषा",
     "back": "वापस",
-    "load": "लोड करें"
+    "load": "लोड करें",
+    "bible_settings": "बाइबल सेटिंग्स",
+    "bible_download": "बाइबल डाउनलोड",
+    "bible_upload": "बाइबल अपलोड",
+    "bibles_installed": "स्थापित बाइबल",
+    "file_not_selected": "कोई फ़ाइल नहीं चुनी गई।",
+    "file_not_found": "फ़ाइल नहीं मिली।",
+    "not_a_zip_file": "कृपया एक वैध ज़िप फ़ाइल चुनें।",
+    "upload_success": "बाइबल सफलतापूर्वक अपलोड और निकाली गई!",
+    "upload_failed": "अपलोड विफल रहा"
   },
   "go_add_edit_area_screen": {
     "tap_to_add_points": "क्षेत्र के लिए बिंदु जोड़ने के लिए मानचित्र पर टैप करें।",

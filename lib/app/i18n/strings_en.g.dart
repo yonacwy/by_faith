@@ -149,6 +149,15 @@ class TranslationsHomeSettingsScreenEn {
 	String get app_language => 'App Language';
 	String get back => 'Back';
 	String get load => 'Load';
+	String get bible_settings => 'Bible Settings';
+	String get bible_download => 'Bible Download';
+	String get bible_upload => 'Bible Upload';
+	String get bibles_installed => 'Bibles Installed';
+	String get file_not_selected => 'No file selected.';
+	String get file_not_found => 'File not found.';
+	String get not_a_zip_file => 'Please select a valid ZIP file.';
+	String get upload_success => 'Bible uploaded and extracted successfully!';
+	String get upload_failed => 'Upload failed';
 }
 
 // Path: home_tab_screen
@@ -826,6 +835,15 @@ extension on Translations {
 			case 'home_settings_screen.app_language': return 'App Language';
 			case 'home_settings_screen.back': return 'Back';
 			case 'home_settings_screen.load': return 'Load';
+			case 'home_settings_screen.bible_settings': return 'Bible Settings';
+			case 'home_settings_screen.bible_download': return 'Bible Download';
+			case 'home_settings_screen.bible_upload': return 'Bible Upload';
+			case 'home_settings_screen.bibles_installed': return 'Bibles Installed';
+			case 'home_settings_screen.file_not_selected': return 'No file selected.';
+			case 'home_settings_screen.file_not_found': return 'File not found.';
+			case 'home_settings_screen.not_a_zip_file': return 'Please select a valid ZIP file.';
+			case 'home_settings_screen.upload_success': return 'Bible uploaded and extracted successfully!';
+			case 'home_settings_screen.upload_failed': return 'Upload failed';
 			case 'home_tab_screen.title': return 'Home';
 			case 'home_tab_screen.menu': return 'Home Menu';
 			case 'home_tab_screen.info': return 'Info';

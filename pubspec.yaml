@@ -51,6 +51,7 @@ dependencies:
   reactive_mind_map: ^1.0.3
   slang: ^4.7.2
   slang_flutter: ^4.7.0
+  bible_parser_flutter: ^0.1.0
   flutter_localizations: # Add flutter_localizations
     sdk: flutter
 

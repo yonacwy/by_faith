@@ -37,7 +37,16 @@
     "language_settings": "Language Settings",
     "app_language": "App Language",
     "back": "Back",
-    "load": "Load"
+    "load": "Load",
+    "bible_settings": "Bible Settings",
+    "bible_download": "Bible Download",
+    "bible_upload": "Bible Upload",
+    "bibles_installed": "Bibles Installed",
+    "file_not_selected": "No file selected.",
+    "file_not_found": "File not found.",
+    "not_a_zip_file": "Please select a valid ZIP file.",
+    "upload_success": "Bible uploaded and extracted successfully!",
+    "upload_failed": "Upload failed"
   },
   "home_tab_screen": {
     "title": "Home",
