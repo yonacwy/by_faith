@@ -158,6 +158,16 @@ class TranslationsHomeSettingsScreenEn {
 	String get not_a_zip_file => 'Please select a valid ZIP file.';
 	String get upload_success => 'Bible uploaded and extracted successfully!';
 	String get upload_failed => 'Upload failed';
+	String get no_xml_found => 'No XML Bible file found in the ZIP.';
+	String get bible_already_exists => 'Bible version \'{name}\' already exists.';
+	String get invalid_bible_xml => 'Invalid Bible XML file: No <usfx> element found.';
+	String get no_bibles_installed => 'No Bibles installed.';
+	String get delete_bible => 'Delete Bible';
+	String get confirm_delete_title => 'Delete Bible?';
+	String get confirm_delete_message => 'Are you sure you want to delete {name}? This will remove all associated data.';
+	String get cancel => 'Cancel';
+	String get delete => 'Delete';
+	String get bible_deleted => 'Bible \'{name}\' deleted.';
 }
 
 // Path: home_tab_screen
@@ -800,6 +810,11 @@ class TranslationsStudyTabScreenEn {
 	// Translations
 	String get title => 'Study';
 	String get study_menu => 'Study Menu';
+	String get bibles => 'Bibles';
+	String get no_bibles_installed => 'No Bibles installed yet.';
+	String get select_bible_version => 'Select Bible Version';
+	String get select_book => 'Select Book';
+	String get select_chapter => 'Select Chapter';
 }
 
 /// Flat map(s) containing all translations.
@@ -844,6 +859,16 @@ extension on Translations {
 			case 'home_settings_screen.not_a_zip_file': return 'Please select a valid ZIP file.';
 			case 'home_settings_screen.upload_success': return 'Bible uploaded and extracted successfully!';
 			case 'home_settings_screen.upload_failed': return 'Upload failed';
+			case 'home_settings_screen.no_xml_found': return 'No XML Bible file found in the ZIP.';
+			case 'home_settings_screen.bible_already_exists': return 'Bible version \'{name}\' already exists.';
+			case 'home_settings_screen.invalid_bible_xml': return 'Invalid Bible XML file: No <usfx> element found.';
+			case 'home_settings_screen.no_bibles_installed': return 'No Bibles installed.';
+			case 'home_settings_screen.delete_bible': return 'Delete Bible';
+			case 'home_settings_screen.confirm_delete_title': return 'Delete Bible?';
+			case 'home_settings_screen.confirm_delete_message': return 'Are you sure you want to delete {name}? This will remove all associated data.';
+			case 'home_settings_screen.cancel': return 'Cancel';
+			case 'home_settings_screen.delete': return 'Delete';
+			case 'home_settings_screen.bible_deleted': return 'Bible \'{name}\' deleted.';
 			case 'home_tab_screen.title': return 'Home';
 			case 'home_tab_screen.menu': return 'Home Menu';
 			case 'home_tab_screen.info': return 'Info';
@@ -1288,6 +1313,11 @@ extension on Translations {
 			case 'study_settings_screen.sample_text': return 'Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth.';
 			case 'study_tab_screen.title': return 'Study';
 			case 'study_tab_screen.study_menu': return 'Study Menu';
+			case 'study_tab_screen.bibles': return 'Bibles';
+			case 'study_tab_screen.no_bibles_installed': return 'No Bibles installed yet.';
+			case 'study_tab_screen.select_bible_version': return 'Select Bible Version';
+			case 'study_tab_screen.select_book': return 'Select Book';
+			case 'study_tab_screen.select_chapter': return 'Select Chapter';
 			default: return null;
 		}
 	}

@@ -2,6 +2,7 @@ import 'package:by_faith/core/models/user_preferences_model.dart';
 import 'package:by_faith/objectbox.g.dart';
 import 'package:by_faith/features/go/models/go_model.dart';
 import 'package:by_faith/features/go/models/go_map_info_model.dart';
+import 'package:by_faith/features/study/models/study_bibles_model.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart' as fmtc;
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart' show FMTCObjectBoxBackend;
@@ -21,6 +22,10 @@ late Box<UserPreferences> userPreferencesBox;
 late Box<GoContactNote> goContactNotesBox;
 late Box<GoChurchNote> goChurchNotesBox;
 late Box<GoMinistryNote> goMinistryNotesBox;
+late Box<BibleVersion> bibleVersionBox;
+late Box<Book> bookBox;
+late Box<Chapter> chapterBox;
+late Box<Verse> verseBox;
 
 /// Initializes the ObjectBox store and FMTC backend.
 /// Returns `true` if successful, `false` otherwise.
@@ -41,6 +46,10 @@ Future<bool> setupObjectBox() async {
     goContactNotesBox = store.box<GoContactNote>();
     goChurchNotesBox = store.box<GoChurchNote>();
     goMinistryNotesBox = store.box<GoMinistryNote>();
+    bibleVersionBox = store.box<BibleVersion>();
+    bookBox = store.box<Book>();
+    chapterBox = store.box<Chapter>();
+    verseBox = store.box<Verse>();
 
     // Initialize FMTC backend with ObjectBox
     await FMTCObjectBoxBackend().initialise();

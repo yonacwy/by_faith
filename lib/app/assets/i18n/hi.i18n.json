@@ -60,7 +60,17 @@
     "file_not_found": "फ़ाइल नहीं मिली।",
     "not_a_zip_file": "कृपया एक वैध ज़िप फ़ाइल चुनें।",
     "upload_success": "बाइबल सफलतापूर्वक अपलोड और निकाली गई!",
-    "upload_failed": "अपलोड विफल रहा"
+    "upload_failed": "अपलोड विफल रहा",
+    "no_xml_found": "ज़िप में कोई XML बाइबल फ़ाइल नहीं मिली।",
+    "bible_already_exists": "बाइबल संस्करण '{name}' पहले से मौजूद है।",
+    "invalid_bible_xml": "Invalid Bible XML file: No <usfx> element found.",
+    "no_bibles_installed": "कोई बाइबल स्थापित नहीं है।",
+    "delete_bible": "बाइबल हटाएँ",
+    "confirm_delete_title": "बाइबल हटाएँ?",
+    "confirm_delete_message": "क्या आप वाकई {name} को हटाना चाहते हैं? इससे सभी संबंधित डेटा हट जाएंगे।",
+    "cancel": "रद्द करें",
+    "delete": "हटाएँ",
+    "bible_deleted": "बाइबल '{name}' हटाई गई।"
   },
   "go_add_edit_area_screen": {
     "tap_to_add_points": "क्षेत्र के लिए बिंदु जोड़ने के लिए मानचित्र पर टैप करें।",
@@ -534,7 +544,12 @@
     "sample_text": "अपने आप को परमेश्वर के सामने स्वीकार्य बनाने के लिए अध्ययन करो, ताकि तुम एक ऐसे काम करने वाले बनो जिसे लज्जित न होना पड़े, और जो सत्य के वचन को ठीक प्रकार से प्रस्तुत करता है।"
     },
     "study_tab_screen": {
-    "title": "अध्ययन",
-    "study_menu": "अध्ययन मेनू"
+      "title": "अध्ययन",
+      "study_menu": "अध्ययन मेनू",
+      "bibles": "बाइबल",
+      "no_bibles_installed": "कोई बाइबल स्थापित नहीं है।",
+      "select_bible_version": "बाइबल संस्करण चुनें",
+      "select_book": "पुस्तक चुनें",
+      "select_chapter": "अध्याय चुनें"
+    }
   }
-}

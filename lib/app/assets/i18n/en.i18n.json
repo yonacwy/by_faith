@@ -46,7 +46,17 @@
     "file_not_found": "File not found.",
     "not_a_zip_file": "Please select a valid ZIP file.",
     "upload_success": "Bible uploaded and extracted successfully!",
-    "upload_failed": "Upload failed"
+    "upload_failed": "Upload failed",
+    "no_xml_found": "No XML Bible file found in the ZIP.",
+    "bible_already_exists": "Bible version '{name}' already exists.",
+    "invalid_bible_xml": "Invalid Bible XML file: No <usfx> element found.",
+    "no_bibles_installed": "No Bibles installed.",
+    "delete_bible": "Delete Bible",
+    "confirm_delete_title": "Delete Bible?",
+    "confirm_delete_message": "Are you sure you want to delete {name}? This will remove all associated data.",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "bible_deleted": "Bible '{name}' deleted."
   },
   "home_tab_screen": {
     "title": "Home",
@@ -534,6 +544,11 @@
   },
   "study_tab_screen": {
     "title": "Study",
-    "study_menu": "Study Menu"
+    "study_menu": "Study Menu",
+    "bibles": "Bibles",
+    "no_bibles_installed": "No Bibles installed yet.",
+    "select_bible_version": "Select Bible Version",
+    "select_book": "Select Book",
+    "select_chapter": "Select Chapter"
   }
 }

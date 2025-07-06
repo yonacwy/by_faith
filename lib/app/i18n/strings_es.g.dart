@@ -176,6 +176,16 @@ class _TranslationsHomeSettingsScreenEs implements TranslationsHomeSettingsScree
 	@override String get not_a_zip_file => 'Por favor, selecciona un archivo ZIP válido.';
 	@override String get upload_success => '¡Biblia subida y extraída con éxito!';
 	@override String get upload_failed => 'Error al subir';
+	@override String get no_xml_found => 'No se encontró ningún archivo XML de la Biblia en el ZIP.';
+	@override String get bible_already_exists => 'La versión de la Biblia \'{name}\' ya existe.';
+	@override String get invalid_bible_xml => 'Invalid Bible XML file: No <usfx> element found.';
+	@override String get no_bibles_installed => 'No hay Biblias instaladas.';
+	@override String get delete_bible => 'Eliminar Biblia';
+	@override String get confirm_delete_title => '¿Eliminar Biblia?';
+	@override String get confirm_delete_message => '¿Estás seguro de que deseas eliminar {name}? Esto eliminará todos los datos asociados.';
+	@override String get cancel => 'Cancelar';
+	@override String get delete => 'Eliminar';
+	@override String get bible_deleted => 'Biblia \'{name}\' eliminada.';
 }
 
 // Path: go_add_edit_area_screen
@@ -795,8 +805,13 @@ class _TranslationsStudyTabScreenEs implements TranslationsStudyTabScreenEn {
 	final TranslationsEs _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Estudiar';
-	@override String get study_menu => 'Menú Estudiar';
+	@override String get title => 'Estudio';
+	@override String get study_menu => 'Menú de Estudio';
+	@override String get bibles => 'Biblias';
+	@override String get no_bibles_installed => 'No hay Biblias instaladas aún.';
+	@override String get select_bible_version => 'Seleccionar Versión de la Biblia';
+	@override String get select_book => 'Seleccionar Libro';
+	@override String get select_chapter => 'Seleccionar Capítulo';
 }
 
 /// Flat map(s) containing all translations.
@@ -853,6 +868,16 @@ extension on TranslationsEs {
 			case 'home_settings_screen.not_a_zip_file': return 'Por favor, selecciona un archivo ZIP válido.';
 			case 'home_settings_screen.upload_success': return '¡Biblia subida y extraída con éxito!';
 			case 'home_settings_screen.upload_failed': return 'Error al subir';
+			case 'home_settings_screen.no_xml_found': return 'No se encontró ningún archivo XML de la Biblia en el ZIP.';
+			case 'home_settings_screen.bible_already_exists': return 'La versión de la Biblia \'{name}\' ya existe.';
+			case 'home_settings_screen.invalid_bible_xml': return 'Invalid Bible XML file: No <usfx> element found.';
+			case 'home_settings_screen.no_bibles_installed': return 'No hay Biblias instaladas.';
+			case 'home_settings_screen.delete_bible': return 'Eliminar Biblia';
+			case 'home_settings_screen.confirm_delete_title': return '¿Eliminar Biblia?';
+			case 'home_settings_screen.confirm_delete_message': return '¿Estás seguro de que deseas eliminar {name}? Esto eliminará todos los datos asociados.';
+			case 'home_settings_screen.cancel': return 'Cancelar';
+			case 'home_settings_screen.delete': return 'Eliminar';
+			case 'home_settings_screen.bible_deleted': return 'Biblia \'{name}\' eliminada.';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'Toca el mapa para añadir puntos para el Área.';
 			case 'go_add_edit_area_screen.cancel': return 'Cancelar';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'Cancelar Creación de Área';
@@ -1283,8 +1308,13 @@ extension on TranslationsEs {
 			case 'study_settings_screen.back': return 'Atrás';
 			case 'study_settings_screen.load': return 'Cargar';
 			case 'study_settings_screen.sample_text': return 'Estudia para presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad.';
-			case 'study_tab_screen.title': return 'Estudiar';
-			case 'study_tab_screen.study_menu': return 'Menú Estudiar';
+			case 'study_tab_screen.title': return 'Estudio';
+			case 'study_tab_screen.study_menu': return 'Menú de Estudio';
+			case 'study_tab_screen.bibles': return 'Biblias';
+			case 'study_tab_screen.no_bibles_installed': return 'No hay Biblias instaladas aún.';
+			case 'study_tab_screen.select_bible_version': return 'Seleccionar Versión de la Biblia';
+			case 'study_tab_screen.select_book': return 'Seleccionar Libro';
+			case 'study_tab_screen.select_chapter': return 'Seleccionar Capítulo';
 			default: return null;
 		}
 	}

@@ -60,7 +60,17 @@
     "file_not_found": "Archivo no encontrado.",
     "not_a_zip_file": "Por favor, selecciona un archivo ZIP válido.",
     "upload_success": "¡Biblia subida y extraída con éxito!",
-    "upload_failed": "Error al subir"
+    "upload_failed": "Error al subir",
+    "no_xml_found": "No se encontró ningún archivo XML de la Biblia en el ZIP.",
+    "bible_already_exists": "La versión de la Biblia '{name}' ya existe.",
+    "invalid_bible_xml": "Invalid Bible XML file: No <usfx> element found.",
+    "no_bibles_installed": "No hay Biblias instaladas.",
+    "delete_bible": "Eliminar Biblia",
+    "confirm_delete_title": "¿Eliminar Biblia?",
+    "confirm_delete_message": "¿Estás seguro de que deseas eliminar {name}? Esto eliminará todos los datos asociados.",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "bible_deleted": "Biblia '{name}' eliminada."
   },
   "go_add_edit_area_screen": {
     "tap_to_add_points": "Toca el mapa para añadir puntos para el Área.",
@@ -533,7 +543,12 @@
     "sample_text": "Estudia para presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad."
   },
     "study_tab_screen": {
-    "title": "Estudiar",
-    "study_menu": "Menú Estudiar"
+    "title": "Estudio",
+    "study_menu": "Menú de Estudio",
+    "bibles": "Biblias",
+    "no_bibles_installed": "No hay Biblias instaladas aún.",
+    "select_bible_version": "Seleccionar Versión de la Biblia",
+    "select_book": "Seleccionar Libro",
+    "select_chapter": "Seleccionar Capítulo"
   }
 }

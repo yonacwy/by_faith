@@ -176,6 +176,16 @@ class _TranslationsHomeSettingsScreenHi implements TranslationsHomeSettingsScree
 	@override String get not_a_zip_file => 'कृपया एक वैध ज़िप फ़ाइल चुनें।';
 	@override String get upload_success => 'बाइबल सफलतापूर्वक अपलोड और निकाली गई!';
 	@override String get upload_failed => 'अपलोड विफल रहा';
+	@override String get no_xml_found => 'ज़िप में कोई XML बाइबल फ़ाइल नहीं मिली।';
+	@override String get bible_already_exists => 'बाइबल संस्करण \'{name}\' पहले से मौजूद है।';
+	@override String get invalid_bible_xml => 'Invalid Bible XML file: No <usfx> element found.';
+	@override String get no_bibles_installed => 'कोई बाइबल स्थापित नहीं है।';
+	@override String get delete_bible => 'बाइबल हटाएँ';
+	@override String get confirm_delete_title => 'बाइबल हटाएँ?';
+	@override String get confirm_delete_message => 'क्या आप वाकई {name} को हटाना चाहते हैं? इससे सभी संबंधित डेटा हट जाएंगे।';
+	@override String get cancel => 'रद्द करें';
+	@override String get delete => 'हटाएँ';
+	@override String get bible_deleted => 'बाइबल \'{name}\' हटाई गई।';
 }
 
 // Path: go_add_edit_area_screen
@@ -798,6 +808,11 @@ class _TranslationsStudyTabScreenHi implements TranslationsStudyTabScreenEn {
 	// Translations
 	@override String get title => 'अध्ययन';
 	@override String get study_menu => 'अध्ययन मेनू';
+	@override String get bibles => 'बाइबल';
+	@override String get no_bibles_installed => 'कोई बाइबल स्थापित नहीं है।';
+	@override String get select_bible_version => 'बाइबल संस्करण चुनें';
+	@override String get select_book => 'पुस्तक चुनें';
+	@override String get select_chapter => 'अध्याय चुनें';
 }
 
 /// Flat map(s) containing all translations.
@@ -854,6 +869,16 @@ extension on TranslationsHi {
 			case 'home_settings_screen.not_a_zip_file': return 'कृपया एक वैध ज़िप फ़ाइल चुनें।';
 			case 'home_settings_screen.upload_success': return 'बाइबल सफलतापूर्वक अपलोड और निकाली गई!';
 			case 'home_settings_screen.upload_failed': return 'अपलोड विफल रहा';
+			case 'home_settings_screen.no_xml_found': return 'ज़िप में कोई XML बाइबल फ़ाइल नहीं मिली।';
+			case 'home_settings_screen.bible_already_exists': return 'बाइबल संस्करण \'{name}\' पहले से मौजूद है।';
+			case 'home_settings_screen.invalid_bible_xml': return 'Invalid Bible XML file: No <usfx> element found.';
+			case 'home_settings_screen.no_bibles_installed': return 'कोई बाइबल स्थापित नहीं है।';
+			case 'home_settings_screen.delete_bible': return 'बाइबल हटाएँ';
+			case 'home_settings_screen.confirm_delete_title': return 'बाइबल हटाएँ?';
+			case 'home_settings_screen.confirm_delete_message': return 'क्या आप वाकई {name} को हटाना चाहते हैं? इससे सभी संबंधित डेटा हट जाएंगे।';
+			case 'home_settings_screen.cancel': return 'रद्द करें';
+			case 'home_settings_screen.delete': return 'हटाएँ';
+			case 'home_settings_screen.bible_deleted': return 'बाइबल \'{name}\' हटाई गई।';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'क्षेत्र के लिए बिंदु जोड़ने के लिए मानचित्र पर टैप करें।';
 			case 'go_add_edit_area_screen.cancel': return 'रद्द करें';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'क्षेत्र निर्माण रद्द करें';
@@ -1287,6 +1312,11 @@ extension on TranslationsHi {
 			case 'study_settings_screen.sample_text': return 'अपने आप को परमेश्वर के सामने स्वीकार्य बनाने के लिए अध्ययन करो, ताकि तुम एक ऐसे काम करने वाले बनो जिसे लज्जित न होना पड़े, और जो सत्य के वचन को ठीक प्रकार से प्रस्तुत करता है।';
 			case 'study_tab_screen.title': return 'अध्ययन';
 			case 'study_tab_screen.study_menu': return 'अध्ययन मेनू';
+			case 'study_tab_screen.bibles': return 'बाइबल';
+			case 'study_tab_screen.no_bibles_installed': return 'कोई बाइबल स्थापित नहीं है।';
+			case 'study_tab_screen.select_bible_version': return 'बाइबल संस्करण चुनें';
+			case 'study_tab_screen.select_book': return 'पुस्तक चुनें';
+			case 'study_tab_screen.select_chapter': return 'अध्याय चुनें';
 			default: return null;
 		}
 	}
