@@ -10,6 +10,7 @@ class UserPreferences {
   String? fontFamily; // Added for font family
   double? fontSize;   // Added for font size
   String? languageCode; // Added for language preference
+  int? currentBibleVersionId; // Added for current Bible version
 
   UserPreferences({
     this.id = 0,
@@ -17,6 +18,7 @@ class UserPreferences {
     this.fontFamily = 'Roboto', // Default font
     this.fontSize = 16.0,      // Default size
     this.languageCode = 'en',  // Default language
+    this.currentBibleVersionId, // Default to null
   });
 }
 

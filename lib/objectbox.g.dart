@@ -650,7 +650,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(14, 9106214510446720645),
     name: 'UserPreferences',
-    lastPropertyId: const obx_int.IdUid(5, 3881933936764413591),
+    lastPropertyId: const obx_int.IdUid(6, 453852072683028075),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -681,6 +681,12 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(5, 3881933936764413591),
         name: 'languageCode',
         type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 453852072683028075),
+        name: 'currentBibleVersionId',
+        type: 6,
         flags: 0,
       ),
     ],
@@ -1694,12 +1700,13 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final languageCodeOffset = object.languageCode == null
             ? null
             : fbb.writeString(object.languageCode!);
-        fbb.startTable(6);
+        fbb.startTable(7);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, currentMapOffset);
         fbb.addOffset(2, fontFamilyOffset);
         fbb.addFloat64(3, object.fontSize);
         fbb.addOffset(4, languageCodeOffset);
+        fbb.addInt64(5, object.currentBibleVersionId);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -1726,12 +1733,15 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final languageCodeParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 12);
+        final currentBibleVersionIdParam = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 14);
         final object = UserPreferences(
           id: idParam,
           currentMap: currentMapParam,
           fontFamily: fontFamilyParam,
           fontSize: fontSizeParam,
           languageCode: languageCodeParam,
+          currentBibleVersionId: currentBibleVersionIdParam,
         );
 
         return object;
@@ -2260,6 +2270,10 @@ class UserPreferences_ {
   static final languageCode = obx.QueryStringProperty<UserPreferences>(
     _entities[13].properties[4],
   );
+
+  /// See [UserPreferences.currentBibleVersionId].
+  static final currentBibleVersionId =
+      obx.QueryIntegerProperty<UserPreferences>(_entities[13].properties[5]);
 }
 
 /// [Verse] entity fields to define ObjectBox queries.

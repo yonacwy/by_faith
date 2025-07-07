@@ -51,14 +51,19 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
   Future<void> _loadInitialBibleData() async {
     final bibleVersionBox = store.box<BibleVersion>();
     final allBibles = bibleVersionBox.getAll();
-    final firstBible = allBibles.firstOrNull;
+    final prefs = getUserPreferences(userPreferencesBox);
 
-    if (firstBible != null) {
+    BibleVersion? initialBible;
+    if (prefs.currentBibleVersionId != null) {
+      initialBible = bibleVersionBox.get(prefs.currentBibleVersionId!);
+    }
+    initialBible ??= allBibles.firstOrNull;
+
+    if (initialBible != null) {
       setState(() {
-        // Always use the instance from the current list
-        _selectedBibleVersion = allBibles.firstWhere((b) => b.id == firstBible.id);
+        _selectedBibleVersion = allBibles.firstWhere((b) => b.id == initialBible!.id);
       });
-      await _loadBooks(firstBible);
+      await _loadBooks(initialBible);
     }
   }
 
@@ -181,7 +186,10 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                               MaterialPageRoute(
                                 builder: (context) => const StudyExportImportScreen(),
                               ),
-                            );
+                            ).then((_) {
+                              // This code runs when StudyExportImportScreen is popped
+                              _loadInitialBibleData(); // Reload data when returning
+                            });
                           },
                         ),
                         IconButton(
@@ -274,7 +282,6 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                     hint: Text(t.study_tab_screen.select_bible_version),
                     onChanged: (BibleVersion? newValue) async {
                       if (newValue != null) {
-                        // Always use the instance from the current list
                         final selected = bibleVersions.firstWhere((b) => b.id == newValue.id);
                         setState(() {
                           _selectedBibleVersion = selected;
@@ -283,6 +290,11 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                           _verses = [];
                         });
                         await _loadBooks(selected);
+
+                        // Save selected Bible version to UserPreferences
+                        final prefs = getUserPreferences(userPreferencesBox);
+                        prefs.currentBibleVersionId = selected.id;
+                        userPreferencesBox.put(prefs);
                       }
                     },
                     items: bibleVersions.map<DropdownMenuItem<BibleVersion>>((BibleVersion value) {

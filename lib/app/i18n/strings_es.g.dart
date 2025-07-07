@@ -168,8 +168,12 @@ class _TranslationsHomeSettingsScreenEs implements TranslationsHomeSettingsScree
 	@override String get back => 'Atrás';
 	@override String get load => 'Cargar';
 	@override String get bible_settings => 'Ajustes de la Biblia';
+	@override String get bible_install => 'Instalación de la Biblia';
+	@override String get uploaded_file => 'Archivo Subido';
+	@override String get upload_bible => 'Subir Biblia';
+	@override String get install_bible => 'Instalar Biblia';
 	@override String get bible_download => 'Descarga de la Biblia';
-	@override String get bible_upload => 'Carga de la Biblia';
+	@override String get download_instructions => 'Las instrucciones de descarga aparecerán aquí.';
 	@override String get bibles_installed => 'Biblias Instaladas';
 	@override String get file_not_selected => 'No se ha seleccionado ningún archivo.';
 	@override String get file_not_found => 'Archivo no encontrado.';
@@ -186,6 +190,16 @@ class _TranslationsHomeSettingsScreenEs implements TranslationsHomeSettingsScree
 	@override String get cancel => 'Cancelar';
 	@override String get delete => 'Eliminar';
 	@override String get bible_deleted => 'Biblia \'{name}\' eliminada.';
+	@override String get preparing_upload => 'Preparando la subida...';
+	@override String get deleting_bible => 'Eliminando Biblia \'{name}\'...';
+	@override String get extracting_and_parsing => 'Extrayendo y analizando datos de la Biblia...';
+	@override String get saving_to_database => 'Guardando en la base de datos...';
+	@override String get delete_failed => 'Error al eliminar';
+	@override String get file_selected => 'Archivo seleccionado.';
+	@override String get file_selected_success => 'Archivo \'{name}\' seleccionado con éxito.';
+	@override String get no_file_to_install => 'No se ha seleccionado ningún archivo para la instalación.';
+	@override String get install_failed => 'Error en la instalación';
+	@override String get install_success => '¡Biblia instalada con éxito!';
 }
 
 // Path: go_add_edit_area_screen
@@ -860,8 +874,12 @@ extension on TranslationsEs {
 			case 'home_settings_screen.back': return 'Atrás';
 			case 'home_settings_screen.load': return 'Cargar';
 			case 'home_settings_screen.bible_settings': return 'Ajustes de la Biblia';
+			case 'home_settings_screen.bible_install': return 'Instalación de la Biblia';
+			case 'home_settings_screen.uploaded_file': return 'Archivo Subido';
+			case 'home_settings_screen.upload_bible': return 'Subir Biblia';
+			case 'home_settings_screen.install_bible': return 'Instalar Biblia';
 			case 'home_settings_screen.bible_download': return 'Descarga de la Biblia';
-			case 'home_settings_screen.bible_upload': return 'Carga de la Biblia';
+			case 'home_settings_screen.download_instructions': return 'Las instrucciones de descarga aparecerán aquí.';
 			case 'home_settings_screen.bibles_installed': return 'Biblias Instaladas';
 			case 'home_settings_screen.file_not_selected': return 'No se ha seleccionado ningún archivo.';
 			case 'home_settings_screen.file_not_found': return 'Archivo no encontrado.';
@@ -878,6 +896,16 @@ extension on TranslationsEs {
 			case 'home_settings_screen.cancel': return 'Cancelar';
 			case 'home_settings_screen.delete': return 'Eliminar';
 			case 'home_settings_screen.bible_deleted': return 'Biblia \'{name}\' eliminada.';
+			case 'home_settings_screen.preparing_upload': return 'Preparando la subida...';
+			case 'home_settings_screen.deleting_bible': return 'Eliminando Biblia \'{name}\'...';
+			case 'home_settings_screen.extracting_and_parsing': return 'Extrayendo y analizando datos de la Biblia...';
+			case 'home_settings_screen.saving_to_database': return 'Guardando en la base de datos...';
+			case 'home_settings_screen.delete_failed': return 'Error al eliminar';
+			case 'home_settings_screen.file_selected': return 'Archivo seleccionado.';
+			case 'home_settings_screen.file_selected_success': return 'Archivo \'{name}\' seleccionado con éxito.';
+			case 'home_settings_screen.no_file_to_install': return 'No se ha seleccionado ningún archivo para la instalación.';
+			case 'home_settings_screen.install_failed': return 'Error en la instalación';
+			case 'home_settings_screen.install_success': return '¡Biblia instalada con éxito!';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'Toca el mapa para añadir puntos para el Área.';
 			case 'go_add_edit_area_screen.cancel': return 'Cancelar';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'Cancelar Creación de Área';

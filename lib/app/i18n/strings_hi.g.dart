@@ -168,8 +168,12 @@ class _TranslationsHomeSettingsScreenHi implements TranslationsHomeSettingsScree
 	@override String get back => 'वापस';
 	@override String get load => 'लोड करें';
 	@override String get bible_settings => 'बाइबल सेटिंग्स';
+	@override String get bible_install => 'बाइबल स्थापित करें';
+	@override String get uploaded_file => 'अपलोड की गई फ़ाइल';
+	@override String get upload_bible => 'बाइबल अपलोड करें';
+	@override String get install_bible => 'बाइबल स्थापित करें';
 	@override String get bible_download => 'बाइबल डाउनलोड';
-	@override String get bible_upload => 'बाइबल अपलोड';
+	@override String get download_instructions => 'डाउनलोड निर्देश यहाँ दिखाई देंगे।';
 	@override String get bibles_installed => 'स्थापित बाइबल';
 	@override String get file_not_selected => 'कोई फ़ाइल नहीं चुनी गई।';
 	@override String get file_not_found => 'फ़ाइल नहीं मिली।';
@@ -186,6 +190,16 @@ class _TranslationsHomeSettingsScreenHi implements TranslationsHomeSettingsScree
 	@override String get cancel => 'रद्द करें';
 	@override String get delete => 'हटाएँ';
 	@override String get bible_deleted => 'बाइबल \'{name}\' हटाई गई।';
+	@override String get preparing_upload => 'अपलोड तैयार कर रहा है...';
+	@override String get deleting_bible => 'बाइबल \'{name}\' हटाई जा रही है...';
+	@override String get extracting_and_parsing => 'निकालना और बाइबल डेटा पार्स कर रहा है...';
+	@override String get saving_to_database => 'डेटाबेस में सहेज रहा है...';
+	@override String get delete_failed => 'हटाना विफल रहा';
+	@override String get file_selected => 'फ़ाइल चुनी गई।';
+	@override String get file_selected_success => 'फ़ाइल \'{name}\' सफलतापूर्वक चुनी गई।';
+	@override String get no_file_to_install => 'स्थापना के लिए कोई फ़ाइल नहीं चुनी गई।';
+	@override String get install_failed => 'स्थापना विफल रही';
+	@override String get install_success => 'बाइबल सफलतापूर्वक स्थापित की गई!';
 }
 
 // Path: go_add_edit_area_screen
@@ -861,8 +875,12 @@ extension on TranslationsHi {
 			case 'home_settings_screen.back': return 'वापस';
 			case 'home_settings_screen.load': return 'लोड करें';
 			case 'home_settings_screen.bible_settings': return 'बाइबल सेटिंग्स';
+			case 'home_settings_screen.bible_install': return 'बाइबल स्थापित करें';
+			case 'home_settings_screen.uploaded_file': return 'अपलोड की गई फ़ाइल';
+			case 'home_settings_screen.upload_bible': return 'बाइबल अपलोड करें';
+			case 'home_settings_screen.install_bible': return 'बाइबल स्थापित करें';
 			case 'home_settings_screen.bible_download': return 'बाइबल डाउनलोड';
-			case 'home_settings_screen.bible_upload': return 'बाइबल अपलोड';
+			case 'home_settings_screen.download_instructions': return 'डाउनलोड निर्देश यहाँ दिखाई देंगे।';
 			case 'home_settings_screen.bibles_installed': return 'स्थापित बाइबल';
 			case 'home_settings_screen.file_not_selected': return 'कोई फ़ाइल नहीं चुनी गई।';
 			case 'home_settings_screen.file_not_found': return 'फ़ाइल नहीं मिली।';
@@ -879,6 +897,16 @@ extension on TranslationsHi {
 			case 'home_settings_screen.cancel': return 'रद्द करें';
 			case 'home_settings_screen.delete': return 'हटाएँ';
 			case 'home_settings_screen.bible_deleted': return 'बाइबल \'{name}\' हटाई गई।';
+			case 'home_settings_screen.preparing_upload': return 'अपलोड तैयार कर रहा है...';
+			case 'home_settings_screen.deleting_bible': return 'बाइबल \'{name}\' हटाई जा रही है...';
+			case 'home_settings_screen.extracting_and_parsing': return 'निकालना और बाइबल डेटा पार्स कर रहा है...';
+			case 'home_settings_screen.saving_to_database': return 'डेटाबेस में सहेज रहा है...';
+			case 'home_settings_screen.delete_failed': return 'हटाना विफल रहा';
+			case 'home_settings_screen.file_selected': return 'फ़ाइल चुनी गई।';
+			case 'home_settings_screen.file_selected_success': return 'फ़ाइल \'{name}\' सफलतापूर्वक चुनी गई।';
+			case 'home_settings_screen.no_file_to_install': return 'स्थापना के लिए कोई फ़ाइल नहीं चुनी गई।';
+			case 'home_settings_screen.install_failed': return 'स्थापना विफल रही';
+			case 'home_settings_screen.install_success': return 'बाइबल सफलतापूर्वक स्थापित की गई!';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'क्षेत्र के लिए बिंदु जोड़ने के लिए मानचित्र पर टैप करें।';
 			case 'go_add_edit_area_screen.cancel': return 'रद्द करें';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'क्षेत्र निर्माण रद्द करें';

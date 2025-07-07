@@ -535,7 +535,7 @@
     },
     {
       "id": "14:9106214510446720645",
-      "lastPropertyId": "5:3881933936764413591",
+      "lastPropertyId": "6:453852072683028075",
       "name": "UserPreferences",
       "properties": [
         {
@@ -563,6 +563,11 @@
           "id": "5:3881933936764413591",
           "name": "languageCode",
           "type": 9
+        },
+        {
+          "id": "6:453852072683028075",
+          "name": "currentBibleVersionId",
+          "type": 6
         }
       ],
       "relations": []

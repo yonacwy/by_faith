@@ -150,8 +150,12 @@ class TranslationsHomeSettingsScreenEn {
 	String get back => 'Back';
 	String get load => 'Load';
 	String get bible_settings => 'Bible Settings';
+	String get bible_install => 'Bible Install';
+	String get uploaded_file => 'Uploaded File';
+	String get upload_bible => 'Upload Bible';
+	String get install_bible => 'Install Bible';
 	String get bible_download => 'Bible Download';
-	String get bible_upload => 'Bible Upload';
+	String get download_instructions => 'Download instructions will appear here.';
 	String get bibles_installed => 'Bibles Installed';
 	String get file_not_selected => 'No file selected.';
 	String get file_not_found => 'File not found.';
@@ -168,6 +172,16 @@ class TranslationsHomeSettingsScreenEn {
 	String get cancel => 'Cancel';
 	String get delete => 'Delete';
 	String get bible_deleted => 'Bible \'{name}\' deleted.';
+	String get preparing_upload => 'Preparing upload...';
+	String get deleting_bible => 'Deleting Bible \'{name}\'...';
+	String get extracting_and_parsing => 'Extracting and parsing Bible data...';
+	String get saving_to_database => 'Saving to database...';
+	String get delete_failed => 'Deletion failed';
+	String get file_selected => 'File selected.';
+	String get file_selected_success => 'File \'{name}\' selected successfully.';
+	String get no_file_to_install => 'No file selected for installation.';
+	String get install_failed => 'Installation failed';
+	String get install_success => 'Bible installed successfully!';
 }
 
 // Path: home_tab_screen
@@ -851,8 +865,12 @@ extension on Translations {
 			case 'home_settings_screen.back': return 'Back';
 			case 'home_settings_screen.load': return 'Load';
 			case 'home_settings_screen.bible_settings': return 'Bible Settings';
+			case 'home_settings_screen.bible_install': return 'Bible Install';
+			case 'home_settings_screen.uploaded_file': return 'Uploaded File';
+			case 'home_settings_screen.upload_bible': return 'Upload Bible';
+			case 'home_settings_screen.install_bible': return 'Install Bible';
 			case 'home_settings_screen.bible_download': return 'Bible Download';
-			case 'home_settings_screen.bible_upload': return 'Bible Upload';
+			case 'home_settings_screen.download_instructions': return 'Download instructions will appear here.';
 			case 'home_settings_screen.bibles_installed': return 'Bibles Installed';
 			case 'home_settings_screen.file_not_selected': return 'No file selected.';
 			case 'home_settings_screen.file_not_found': return 'File not found.';
@@ -869,6 +887,16 @@ extension on Translations {
 			case 'home_settings_screen.cancel': return 'Cancel';
 			case 'home_settings_screen.delete': return 'Delete';
 			case 'home_settings_screen.bible_deleted': return 'Bible \'{name}\' deleted.';
+			case 'home_settings_screen.preparing_upload': return 'Preparing upload...';
+			case 'home_settings_screen.deleting_bible': return 'Deleting Bible \'{name}\'...';
+			case 'home_settings_screen.extracting_and_parsing': return 'Extracting and parsing Bible data...';
+			case 'home_settings_screen.saving_to_database': return 'Saving to database...';
+			case 'home_settings_screen.delete_failed': return 'Deletion failed';
+			case 'home_settings_screen.file_selected': return 'File selected.';
+			case 'home_settings_screen.file_selected_success': return 'File \'{name}\' selected successfully.';
+			case 'home_settings_screen.no_file_to_install': return 'No file selected for installation.';
+			case 'home_settings_screen.install_failed': return 'Installation failed';
+			case 'home_settings_screen.install_success': return 'Bible installed successfully!';
 			case 'home_tab_screen.title': return 'Home';
 			case 'home_tab_screen.menu': return 'Home Menu';
 			case 'home_tab_screen.info': return 'Info';
