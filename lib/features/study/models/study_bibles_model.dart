@@ -33,6 +33,16 @@ class Book {
   final chapters = ToMany<Chapter>();
 
   Book({this.id = 0, required this.name, required this.bookId});
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Book &&
+          runtimeType == other.runtimeType &&
+          id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 @Entity()
