@@ -86,6 +86,81 @@
     "settings": "Settings",
     "content": "Home Tab Content"
   },
+  "study_add_edit_mapping_screen": {
+    "title": "Study Add Edit Mapping",
+    "content": "Study Add Edit Mapping Content"
+  },
+  "study_add_edit_notes_screen": {
+    "title": "Study Add Edit Notes",
+    "content": "Study Add Edit Notes Content"
+  },
+  "study_add_edit_references_screen": {
+    "title": "Study Add Edit References",
+    "content": "Study Add Edit References Content"
+  },
+  "study_add_edit_topics_screen": {
+    "title": "Study Add Edit Topics",
+    "content": "Study Add Edit Topics Content"
+  },
+  "study_export_import_screen": {
+    "title": "Study Export Import",
+    "content": "Study Export Import Content"
+  },
+  "study_mapping_screen": {
+    "title": "Study Mapping",
+    "content": "Study Mapping Content"
+  },
+  "study_notes_screen": {
+    "title": "Study Notes",
+    "content": "Study Notes Content"
+  },
+  "study_plans_screen": {
+    "title": "Study Plans",
+    "content": "Study Plans Content"
+  },
+  "study_references_screen": {
+    "title": "Study References",
+    "content": "Study References Content"
+  },
+  "study_search_screen": {
+    "title": "Study Search",
+    "content": "Study Search Content"
+  },
+  "study_settings_screen": {
+    "title": "Settings",
+    "text_settings": "Text Settings",
+    "font_family": "Font Family",
+    "font_size": "Font Size:",
+    "preview": "Preview:",
+    "back": "Back",
+    "load": "Load",
+    "sample_text": "Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth."
+  },
+  "study_share_screen": {
+    "title": "Study Share",
+    "content": "Study Share Content"
+  },
+  "study_strongs_dictionary_screen": {
+    "title": "Study Strongs Dictionary",
+    "content": "Study Strongs Dictionary Content"
+  },
+  "study_tab_screen": {
+    "title": "Study",
+    "study_menu": "Study Menu",
+    "mapping": "Mapping",
+    "notes": "Notes",
+    "plans": "Plans",
+    "references": "References",
+    "topics": "Topics",
+    "bibles": "Bibles",
+    "select_bible_version": "Select Bible Version",
+    "select_book": "Select Book",
+    "select_chapter": "Select Chapter"
+  },
+  "study_topics_screen": {
+    "title": "Study Topics",
+    "content": "Study Topics Content"
+  },
   "go_add_edit_area_screen": {
     "tap_to_add_points": "Tap on the map to add points for Area.",
     "cancel": "Cancel",
@@ -541,28 +616,5 @@
     "enter_address": "Enter address",
     "world": "World",
     "go_menu": "Go Menu"
-  },
-    "study_plans_screen": {
-    "title": "Study Plans",
-    "content": "Study Plans Content"
-  },
-  "study_settings_screen": {
-    "title": "Settings",
-    "text_settings": "Text Settings",
-    "font_family": "Font Family",
-    "font_size": "Font Size:",
-    "preview": "Preview:",
-    "back": "Back",
-    "load": "Load",
-    "sample_text": "Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth."
-  },
-  "study_tab_screen": {
-    "title": "Study",
-    "study_menu": "Study Menu",
-    "bibles": "Bibles",
-    "no_bibles_installed": "No Bibles installed yet.",
-    "select_bible_version": "Select Bible Version",
-    "select_book": "Select Book",
-    "select_chapter": "Select Chapter"
   }
 }

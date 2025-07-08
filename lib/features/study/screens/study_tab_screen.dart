@@ -111,6 +111,19 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
   @override
   Widget build(BuildContext context) {
     final bibleVersions = store.box<BibleVersion>().getAll();
+    final isSmallScreen = MediaQuery.of(context).size.width < 400;
+    // Helper for abbreviations
+    String bibleAbbr(BibleVersion v) => v.name.length > 6 ? v.name.split(' ').map((w) => w[0]).join().toUpperCase() : v.name;
+    String bookAbbr(Book b) {
+      if (b.bookId.length <= 4) {
+        // Capitalize first letter, rest lowercase
+        return b.bookId[0].toUpperCase() + b.bookId.substring(1).toLowerCase();
+      } else {
+        // Abbreviate to first 3 letters, capitalize first letter, rest lowercase
+        return b.bookId.substring(0, 1).toUpperCase() + b.bookId.substring(1, 3).toLowerCase();
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(t.study_tab_screen.title),
@@ -124,12 +137,9 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
               );
             },
           ),
-          // Fullscreen toggle icon
           IconButton(
             icon: const Icon(Icons.fullscreen),
-            onPressed: () {
-              // TODO: Implement fullscreen toggle logic
-            },
+            onPressed: () {},
           ),
           Builder(
             builder: (context) => IconButton(
@@ -155,8 +165,7 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                       t.study_tab_screen.study_menu,
                       style: TextStyle(
                         color: Colors.white,
-                        fontFamily: context.watch<StudySettingsFontProvider>().fontFamily,
-                        fontSize: context.watch<StudySettingsFontProvider>().fontSize + 6,
+                        fontSize: 24,
                       ),
                     ),
                   ),
@@ -171,9 +180,7 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                             Navigator.pop(context);
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => const StudyShareScreen(),
-                              ),
+                              MaterialPageRoute(builder: (context) => const StudyShareScreen()),
                             );
                           },
                         ),
@@ -183,13 +190,8 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                             Navigator.pop(context);
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => const StudyExportImportScreen(),
-                              ),
-                            ).then((_) {
-                              // This code runs when StudyExportImportScreen is popped
-                              _loadInitialBibleData(); // Reload data when returning
-                            });
+                              MaterialPageRoute(builder: (context) => const StudyExportImportScreen()),
+                            );
                           },
                         ),
                         IconButton(
@@ -198,9 +200,7 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                             Navigator.pop(context);
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => const StudySettingsScreen(),
-                              ),
+                              MaterialPageRoute(builder: (context) => const StudySettingsScreen()),
                             );
                           },
                         ),
@@ -211,10 +211,10 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
               ),
             ),
             ListTile(
-              leading: const Icon(Symbols.network_node),
-              title: const Text('Mapping'),
+              leading: const Icon(Icons.account_tree),
+              title: Text(t.study_tab_screen.mapping),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pop(context); // Close the drawer
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const StudyMappingScreen()),
@@ -223,9 +223,9 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.notes),
-              title: const Text('Notes'),
+              title: Text(t.study_tab_screen.notes),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pop(context); // Close the drawer
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const StudyNotesScreen()),
@@ -233,10 +233,10 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.assignment),
-              title: const Text('Plans'),
+              leading: const Icon(Icons.event_note),
+              title: Text(t.study_tab_screen.plans),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pop(context); // Close the drawer
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const StudyPlansScreen()),
@@ -244,10 +244,10 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.book),
-              title: const Text('References'),
+              leading: const Icon(Icons.bookmark),
+              title: Text(t.study_tab_screen.references),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pop(context); // Close the drawer
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const StudyReferencesScreen()),
@@ -256,9 +256,9 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.topic),
-              title: const Text('Topics'),
+              title: Text(t.study_tab_screen.topics),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pop(context); // Close the drawer
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const StudyTopicsScreen()),
@@ -268,18 +268,20 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        child: Column(
+          children: [
+            Row(
               children: [
-                Expanded(
+                Flexible(
+                  flex: isSmallScreen ? 2 : 3,
                   child: DropdownButton<BibleVersion>(
+                    isExpanded: true,
                     value: _selectedBibleVersion == null
                         ? null
                         : bibleVersions.firstWhereOrNull((b) => b.id == _selectedBibleVersion!.id),
-                    hint: Text(t.study_tab_screen.select_bible_version),
+                    hint: Text(isSmallScreen ? t.study_tab_screen.bibles : t.study_tab_screen.select_bible_version),
                     onChanged: (BibleVersion? newValue) async {
                       if (newValue != null) {
                         final selected = bibleVersions.firstWhere((b) => b.id == newValue.id);
@@ -290,8 +292,6 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                           _verses = [];
                         });
                         await _loadBooks(selected);
-
-                        // Save selected Bible version to UserPreferences
                         final prefs = getUserPreferences(userPreferencesBox);
                         prefs.currentBibleVersionId = selected.id;
                         userPreferencesBox.put(prefs);
@@ -300,16 +300,18 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                     items: bibleVersions.map<DropdownMenuItem<BibleVersion>>((BibleVersion value) {
                       return DropdownMenuItem<BibleVersion>(
                         value: value,
-                        child: Text(value.name),
+                        child: Text(isSmallScreen ? bibleAbbr(value) : value.name, overflow: TextOverflow.ellipsis),
                       );
                     }).toList(),
                   ),
                 ),
-                const SizedBox(width: 8),
-                Expanded(
+                const SizedBox(width: 4),
+                Flexible(
+                  flex: isSmallScreen ? 2 : 3,
                   child: DropdownButton<Book>(
+                    isExpanded: true,
                     value: _selectedBook,
-                    hint: Text(t.study_tab_screen.select_book),
+                    hint: Text(isSmallScreen ? t.study_tab_screen.bibles : t.study_tab_screen.select_book),
                     onChanged: (Book? newValue) async {
                       if (newValue != null) {
                         setState(() {
@@ -323,14 +325,16 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                     items: _selectedBibleVersion?.books.map<DropdownMenuItem<Book>>((Book value) {
                       return DropdownMenuItem<Book>(
                         value: value,
-                        child: Text(value.name),
+                        child: Text(isSmallScreen ? bookAbbr(value) : value.name, overflow: TextOverflow.ellipsis),
                       );
                     }).toList() ?? [],
                   ),
                 ),
-                const SizedBox(width: 8),
-                Expanded(
+                const SizedBox(width: 4),
+                Flexible(
+                  flex: 1,
                   child: DropdownButton<Chapter>(
+                    isExpanded: true,
                     value: _selectedChapter,
                     hint: Text(t.study_tab_screen.select_chapter),
                     onChanged: (Chapter? newValue) async {
@@ -351,26 +355,27 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                 ),
               ],
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _verses.length,
-              itemBuilder: (context, index) {
-                final verse = _verses[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-                  child: Text(
-                    '${verse.verseNumber}. ${verse.text}',
-                    style: TextStyle(
-                      fontFamily: context.watch<StudySettingsFontProvider>().fontFamily,
-                      fontSize: context.watch<StudySettingsFontProvider>().fontSize,
+            const SizedBox(height: 4),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _verses.length,
+                itemBuilder: (context, index) {
+                  final verse = _verses[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
+                    child: Text(
+                      '${verse.verseNumber}. ${verse.text}',
+                      style: TextStyle(
+                        fontFamily: context.watch<StudySettingsFontProvider>().fontFamily,
+                        fontSize: context.watch<StudySettingsFontProvider>().fontSize,
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

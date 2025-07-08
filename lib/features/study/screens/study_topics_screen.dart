@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:by_faith/app/i18n/strings.g.dart';
 
 class StudyTopicsScreen extends StatelessWidget {
   const StudyTopicsScreen({super.key});
@@ -7,10 +8,10 @@ class StudyTopicsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Topics Screen'),
+        title: Text(t.study_topics_screen.title),
       ),
-      body: const Center(
-        child: Text('Topics Screen Content'),
+      body: Center(
+        child: Text(t.study_topics_screen.content),
       ),
     );
   }

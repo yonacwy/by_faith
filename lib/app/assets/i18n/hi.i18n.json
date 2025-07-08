@@ -86,6 +86,81 @@
     "install_failed": "स्थापना विफल रही",
     "install_success": "बाइबल सफलतापूर्वक स्थापित की गई!"
   },
+  "study_add_edit_mapping_screen": {
+    "title": "अध्ययन जोड़ें संपादित करें मैपिंग",
+    "content": "अध्ययन जोड़ें संपादित करें मैपिंग सामग्री"
+  },
+  "study_add_edit_notes_screen": {
+    "title": "अध्ययन जोड़ें संपादित करें नोट्स",
+    "content": "अध्ययन जोड़ें संपादित करें नोट्स सामग्री"
+  },
+  "study_add_edit_references_screen": {
+    "title": "अध्ययन जोड़ें संपादित करें संदर्भ",
+    "content": "अध्ययन जोड़ें संपादित करें संदर्भ सामग्री"
+  },
+  "study_add_edit_topics_screen": {
+    "title": "अध्ययन जोड़ें संपादित करें विषय",
+    "content": "अध्ययन जोड़ें संपादित करें विषय सामग्री"
+  },
+  "study_export_import_screen": {
+    "title": "अध्ययन निर्यात आयात",
+    "content": "अध्ययन निर्यात आयात सामग्री"
+  },
+  "study_mapping_screen": {
+    "title": "अध्ययन मैपिंग",
+    "content": "अध्ययन मैपिंग सामग्री"
+  },
+  "study_notes_screen": {
+    "title": "अध्ययन नोट्स",
+    "content": "अध्ययन नोट्स सामग्री"
+  },
+  "study_plans_screen": {
+    "title": "अध्ययन योजनाएँ",
+    "content": "अध्ययन योजनाओं की सामग्री"
+  },
+  "study_references_screen": {
+    "title": "अध्ययन संदर्भ",
+    "content": "अध्ययन संदर्भ सामग्री"
+  },
+  "study_search_screen": {
+    "title": "अध्ययन खोज",
+    "content": "अध्ययन खोज सामग्री"
+  },
+  "study_settings_screen": {
+    "title": "सेटिंग्स",
+    "text_settings": "पाठ सेटिंग्स",
+    "font_family": "फ़ॉन्ट परिवार",
+    "font_size": "फ़ॉन्ट आकार:",
+    "preview": "पूर्वावलोकन:",
+    "back": "वापस",
+    "load": "लोड करें",
+    "sample_text": "अपने आप को परमेश्वर के सामने स्वीकार्य बनाने के लिए अध्ययन करो, ताकि तुम एक ऐसे काम करने वाले बनो जिसे लज्जित न होना पड़े, और जो सत्य के वचन को ठीक प्रकार से प्रस्तुत करता है।"
+  },
+  "study_share_screen": {
+    "title": "अध्ययन साझा करें",
+    "content": "अध्ययन साझा करें सामग्री"
+  },
+  "study_strongs_dictionary_screen": {
+    "title": "अध्ययन स्ट्रॉन्ग्स डिक्शनरी",
+    "content": "अध्ययन स्ट्रॉन्ग्स डिक्शनरी सामग्री"
+  },
+  "study_tab_screen": {
+    "title": "अध्ययन",
+    "study_menu": "अध्ययन मेनू",
+    "mapping": "मैपिंग",
+    "notes": "नोट्स",
+    "plans": "योजनाएँ",
+    "references": "संदर्भ",
+    "topics": "विषय",
+    "bibles": "बाइबल",
+    "select_bible_version": "बाइबल संस्करण चुनें",
+    "select_book": "पुस्तक चुनें",
+    "select_chapter": "अध्याय चुनें"
+  },
+  "study_topics_screen": {
+    "title": "अध्ययन विषय",
+    "content": "अध्ययन विषय सामग्री"
+  },
   "go_add_edit_area_screen": {
     "tap_to_add_points": "क्षेत्र के लिए बिंदु जोड़ने के लिए मानचित्र पर टैप करें।",
     "cancel": "रद्द करें",
@@ -542,28 +617,5 @@
     "world": "विश्व",
     "go_menu": "गो मेनू",
     "tap_on_the_map_to_add_a_marker": "मानचित्र पर मार्कर जोड़ने के लिए टैप करें।"
-  },
-  "study_plans_screen": {
-    "title": "अध्ययन योजनाएँ",
-    "content": "अध्ययन योजनाओं की सामग्री"
-  },
-  "study_settings_screen": {
-    "title": "सेटिंग्स",
-    "text_settings": "पाठ सेटिंग्स",
-    "font_family": "फ़ॉन्ट परिवार",
-    "font_size": "फ़ॉन्ट आकार:",
-    "preview": "पूर्वावलोकन:",
-    "back": "वापस",
-    "load": "लोड करें",
-    "sample_text": "अपने आप को परमेश्वर के सामने स्वीकार्य बनाने के लिए अध्ययन करो, ताकि तुम एक ऐसे काम करने वाले बनो जिसे लज्जित न होना पड़े, और जो सत्य के वचन को ठीक प्रकार से प्रस्तुत करता है।"
-    },
-    "study_tab_screen": {
-      "title": "अध्ययन",
-      "study_menu": "अध्ययन मेनू",
-      "bibles": "बाइबल",
-      "no_bibles_installed": "कोई बाइबल स्थापित नहीं है।",
-      "select_bible_version": "बाइबल संस्करण चुनें",
-      "select_book": "पुस्तक चुनें",
-      "select_chapter": "अध्याय चुनें"
-    }
   }
+}

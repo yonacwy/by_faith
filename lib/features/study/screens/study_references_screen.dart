@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:by_faith/app/i18n/strings.g.dart';
 
 class StudyReferencesScreen extends StatelessWidget {
   const StudyReferencesScreen({super.key});
@@ -7,10 +8,10 @@ class StudyReferencesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('References Screen'),
+        title: Text(t.study_references_screen.title),
       ),
-      body: const Center(
-        child: Text('References Screen Content'),
+      body: Center(
+        child: Text(t.study_references_screen.content),
       ),
     );
   }

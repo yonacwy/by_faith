@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:by_faith/app/i18n/strings.g.dart';
 
 class StudyMappingScreen extends StatelessWidget {
   const StudyMappingScreen({super.key});
@@ -7,10 +8,10 @@ class StudyMappingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Study Mapping'),
+        title: Text(t.study_mapping_screen.title),
       ),
-      body: const Center(
-        child: Text('Study Mapping Screen Content'),
+      body: Center(
+        child: Text(t.study_mapping_screen.content),
       ),
     );
   }

@@ -43,6 +43,21 @@ class TranslationsEs implements Translations {
 	@override late final _TranslationsHomeSearchScreenEs home_search_screen = _TranslationsHomeSearchScreenEs._(_root);
 	@override late final _TranslationsHomeTabScreenEs home_tab_screen = _TranslationsHomeTabScreenEs._(_root);
 	@override late final _TranslationsHomeSettingsScreenEs home_settings_screen = _TranslationsHomeSettingsScreenEs._(_root);
+	@override late final _TranslationsStudyAddEditMappingScreenEs study_add_edit_mapping_screen = _TranslationsStudyAddEditMappingScreenEs._(_root);
+	@override late final _TranslationsStudyAddEditNotesScreenEs study_add_edit_notes_screen = _TranslationsStudyAddEditNotesScreenEs._(_root);
+	@override late final _TranslationsStudyAddEditReferencesScreenEs study_add_edit_references_screen = _TranslationsStudyAddEditReferencesScreenEs._(_root);
+	@override late final _TranslationsStudyAddEditTopicsScreenEs study_add_edit_topics_screen = _TranslationsStudyAddEditTopicsScreenEs._(_root);
+	@override late final _TranslationsStudyExportImportScreenEs study_export_import_screen = _TranslationsStudyExportImportScreenEs._(_root);
+	@override late final _TranslationsStudyMappingScreenEs study_mapping_screen = _TranslationsStudyMappingScreenEs._(_root);
+	@override late final _TranslationsStudyNotesScreenEs study_notes_screen = _TranslationsStudyNotesScreenEs._(_root);
+	@override late final _TranslationsStudyPlansScreenEs study_plans_screen = _TranslationsStudyPlansScreenEs._(_root);
+	@override late final _TranslationsStudyReferencesScreenEs study_references_screen = _TranslationsStudyReferencesScreenEs._(_root);
+	@override late final _TranslationsStudySearchScreenEs study_search_screen = _TranslationsStudySearchScreenEs._(_root);
+	@override late final _TranslationsStudySettingsScreenEs study_settings_screen = _TranslationsStudySettingsScreenEs._(_root);
+	@override late final _TranslationsStudyShareScreenEs study_share_screen = _TranslationsStudyShareScreenEs._(_root);
+	@override late final _TranslationsStudyStrongsDictionaryScreenEs study_strongs_dictionary_screen = _TranslationsStudyStrongsDictionaryScreenEs._(_root);
+	@override late final _TranslationsStudyTabScreenEs study_tab_screen = _TranslationsStudyTabScreenEs._(_root);
+	@override late final _TranslationsStudyTopicsScreenEs study_topics_screen = _TranslationsStudyTopicsScreenEs._(_root);
 	@override late final _TranslationsGoAddEditAreaScreenEs go_add_edit_area_screen = _TranslationsGoAddEditAreaScreenEs._(_root);
 	@override late final _TranslationsGoAddEditChurchScreenEs go_add_edit_church_screen = _TranslationsGoAddEditChurchScreenEs._(_root);
 	@override late final _TranslationsGoAddEditContactScreenEs go_add_edit_contact_screen = _TranslationsGoAddEditContactScreenEs._(_root);
@@ -61,9 +76,6 @@ class TranslationsEs implements Translations {
 	@override late final _TranslationsGoSettingsScreenEs go_settings_screen = _TranslationsGoSettingsScreenEs._(_root);
 	@override late final _TranslationsGoShareScreenEs go_share_screen = _TranslationsGoShareScreenEs._(_root);
 	@override late final _TranslationsGoTabScreenEs go_tab_screen = _TranslationsGoTabScreenEs._(_root);
-	@override late final _TranslationsStudyPlansScreenEs study_plans_screen = _TranslationsStudyPlansScreenEs._(_root);
-	@override late final _TranslationsStudySettingsScreenEs study_settings_screen = _TranslationsStudySettingsScreenEs._(_root);
-	@override late final _TranslationsStudyTabScreenEs study_tab_screen = _TranslationsStudyTabScreenEs._(_root);
 }
 
 // Path: main
@@ -200,6 +212,186 @@ class _TranslationsHomeSettingsScreenEs implements TranslationsHomeSettingsScree
 	@override String get no_file_to_install => 'No se ha seleccionado ningún archivo para la instalación.';
 	@override String get install_failed => 'Error en la instalación';
 	@override String get install_success => '¡Biblia instalada con éxito!';
+}
+
+// Path: study_add_edit_mapping_screen
+class _TranslationsStudyAddEditMappingScreenEs implements TranslationsStudyAddEditMappingScreenEn {
+	_TranslationsStudyAddEditMappingScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Estudio Añadir Editar Mapeo';
+	@override String get content => 'Contenido de Estudio Añadir Editar Mapeo';
+}
+
+// Path: study_add_edit_notes_screen
+class _TranslationsStudyAddEditNotesScreenEs implements TranslationsStudyAddEditNotesScreenEn {
+	_TranslationsStudyAddEditNotesScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Estudio Añadir Editar Notas';
+	@override String get content => 'Contenido de Estudio Añadir Editar Notas';
+}
+
+// Path: study_add_edit_references_screen
+class _TranslationsStudyAddEditReferencesScreenEs implements TranslationsStudyAddEditReferencesScreenEn {
+	_TranslationsStudyAddEditReferencesScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Estudio Añadir Editar Referencias';
+	@override String get content => 'Contenido de Estudio Añadir Editar Referencias';
+}
+
+// Path: study_add_edit_topics_screen
+class _TranslationsStudyAddEditTopicsScreenEs implements TranslationsStudyAddEditTopicsScreenEn {
+	_TranslationsStudyAddEditTopicsScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Estudio Añadir Editar Temas';
+	@override String get content => 'Contenido de Estudio Añadir Editar Temas';
+}
+
+// Path: study_export_import_screen
+class _TranslationsStudyExportImportScreenEs implements TranslationsStudyExportImportScreenEn {
+	_TranslationsStudyExportImportScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Estudio Exportar Importar';
+	@override String get content => 'Contenido de Estudio Exportar Importar';
+}
+
+// Path: study_mapping_screen
+class _TranslationsStudyMappingScreenEs implements TranslationsStudyMappingScreenEn {
+	_TranslationsStudyMappingScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Estudio Mapeo';
+	@override String get content => 'Contenido de Estudio Mapeo';
+}
+
+// Path: study_notes_screen
+class _TranslationsStudyNotesScreenEs implements TranslationsStudyNotesScreenEn {
+	_TranslationsStudyNotesScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Estudio Notas';
+	@override String get content => 'Contenido de Estudio Notas';
+}
+
+// Path: study_plans_screen
+class _TranslationsStudyPlansScreenEs implements TranslationsStudyPlansScreenEn {
+	_TranslationsStudyPlansScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Planes de Estudio';
+	@override String get content => 'Contenido de los Planes de Estudio';
+}
+
+// Path: study_references_screen
+class _TranslationsStudyReferencesScreenEs implements TranslationsStudyReferencesScreenEn {
+	_TranslationsStudyReferencesScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Estudio Referencias';
+	@override String get content => 'Contenido de Estudio Referencias';
+}
+
+// Path: study_search_screen
+class _TranslationsStudySearchScreenEs implements TranslationsStudySearchScreenEn {
+	_TranslationsStudySearchScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Estudio Búsqueda';
+	@override String get content => 'Contenido de Estudio Búsqueda';
+}
+
+// Path: study_settings_screen
+class _TranslationsStudySettingsScreenEs implements TranslationsStudySettingsScreenEn {
+	_TranslationsStudySettingsScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Configuración';
+	@override String get text_settings => 'Configuración de texto';
+	@override String get font_family => 'Tipo de letra';
+	@override String get font_size => 'Tamaño de letra:';
+	@override String get preview => 'Vista previa:';
+	@override String get back => 'Atrás';
+	@override String get load => 'Cargar';
+	@override String get sample_text => 'Estudia para presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad.';
+}
+
+// Path: study_share_screen
+class _TranslationsStudyShareScreenEs implements TranslationsStudyShareScreenEn {
+	_TranslationsStudyShareScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Estudio Compartir';
+	@override String get content => 'Contenido de Estudio Compartir';
+}
+
+// Path: study_strongs_dictionary_screen
+class _TranslationsStudyStrongsDictionaryScreenEs implements TranslationsStudyStrongsDictionaryScreenEn {
+	_TranslationsStudyStrongsDictionaryScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Estudio Diccionario Strongs';
+	@override String get content => 'Contenido de Estudio Diccionario Strongs';
+}
+
+// Path: study_tab_screen
+class _TranslationsStudyTabScreenEs implements TranslationsStudyTabScreenEn {
+	_TranslationsStudyTabScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Estudio';
+	@override String get study_menu => 'Menú de Estudio';
+	@override String get mapping => 'Mapeo';
+	@override String get notes => 'Notas';
+	@override String get plans => 'Planes';
+	@override String get references => 'Referencias';
+	@override String get topics => 'Temas';
+	@override String get bibles => 'Biblias';
+	@override String get select_bible_version => 'Seleccionar Versión de la Biblia';
+	@override String get select_book => 'Seleccionar Libro';
+	@override String get select_chapter => 'Seleccionar Capítulo';
+}
+
+// Path: study_topics_screen
+class _TranslationsStudyTopicsScreenEs implements TranslationsStudyTopicsScreenEn {
+	_TranslationsStudyTopicsScreenEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Estudio Temas';
+	@override String get content => 'Contenido de Estudio Temas';
 }
 
 // Path: go_add_edit_area_screen
@@ -784,50 +976,6 @@ class _TranslationsGoTabScreenEs implements TranslationsGoTabScreenEn {
 	@override String get go_menu => 'Menú Ir';
 }
 
-// Path: study_plans_screen
-class _TranslationsStudyPlansScreenEs implements TranslationsStudyPlansScreenEn {
-	_TranslationsStudyPlansScreenEs._(this._root);
-
-	final TranslationsEs _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'Planes de Estudio';
-	@override String get content => 'Contenido de los Planes de Estudio';
-}
-
-// Path: study_settings_screen
-class _TranslationsStudySettingsScreenEs implements TranslationsStudySettingsScreenEn {
-	_TranslationsStudySettingsScreenEs._(this._root);
-
-	final TranslationsEs _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'Configuración';
-	@override String get text_settings => 'Configuración de texto';
-	@override String get font_family => 'Tipo de letra';
-	@override String get font_size => 'Tamaño de letra:';
-	@override String get preview => 'Vista previa:';
-	@override String get back => 'Atrás';
-	@override String get load => 'Cargar';
-	@override String get sample_text => 'Estudia para presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad.';
-}
-
-// Path: study_tab_screen
-class _TranslationsStudyTabScreenEs implements TranslationsStudyTabScreenEn {
-	_TranslationsStudyTabScreenEs._(this._root);
-
-	final TranslationsEs _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'Estudio';
-	@override String get study_menu => 'Menú de Estudio';
-	@override String get bibles => 'Biblias';
-	@override String get no_bibles_installed => 'No hay Biblias instaladas aún.';
-	@override String get select_bible_version => 'Seleccionar Versión de la Biblia';
-	@override String get select_book => 'Seleccionar Libro';
-	@override String get select_chapter => 'Seleccionar Capítulo';
-}
-
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on TranslationsEs {
@@ -906,6 +1054,51 @@ extension on TranslationsEs {
 			case 'home_settings_screen.no_file_to_install': return 'No se ha seleccionado ningún archivo para la instalación.';
 			case 'home_settings_screen.install_failed': return 'Error en la instalación';
 			case 'home_settings_screen.install_success': return '¡Biblia instalada con éxito!';
+			case 'study_add_edit_mapping_screen.title': return 'Estudio Añadir Editar Mapeo';
+			case 'study_add_edit_mapping_screen.content': return 'Contenido de Estudio Añadir Editar Mapeo';
+			case 'study_add_edit_notes_screen.title': return 'Estudio Añadir Editar Notas';
+			case 'study_add_edit_notes_screen.content': return 'Contenido de Estudio Añadir Editar Notas';
+			case 'study_add_edit_references_screen.title': return 'Estudio Añadir Editar Referencias';
+			case 'study_add_edit_references_screen.content': return 'Contenido de Estudio Añadir Editar Referencias';
+			case 'study_add_edit_topics_screen.title': return 'Estudio Añadir Editar Temas';
+			case 'study_add_edit_topics_screen.content': return 'Contenido de Estudio Añadir Editar Temas';
+			case 'study_export_import_screen.title': return 'Estudio Exportar Importar';
+			case 'study_export_import_screen.content': return 'Contenido de Estudio Exportar Importar';
+			case 'study_mapping_screen.title': return 'Estudio Mapeo';
+			case 'study_mapping_screen.content': return 'Contenido de Estudio Mapeo';
+			case 'study_notes_screen.title': return 'Estudio Notas';
+			case 'study_notes_screen.content': return 'Contenido de Estudio Notas';
+			case 'study_plans_screen.title': return 'Planes de Estudio';
+			case 'study_plans_screen.content': return 'Contenido de los Planes de Estudio';
+			case 'study_references_screen.title': return 'Estudio Referencias';
+			case 'study_references_screen.content': return 'Contenido de Estudio Referencias';
+			case 'study_search_screen.title': return 'Estudio Búsqueda';
+			case 'study_search_screen.content': return 'Contenido de Estudio Búsqueda';
+			case 'study_settings_screen.title': return 'Configuración';
+			case 'study_settings_screen.text_settings': return 'Configuración de texto';
+			case 'study_settings_screen.font_family': return 'Tipo de letra';
+			case 'study_settings_screen.font_size': return 'Tamaño de letra:';
+			case 'study_settings_screen.preview': return 'Vista previa:';
+			case 'study_settings_screen.back': return 'Atrás';
+			case 'study_settings_screen.load': return 'Cargar';
+			case 'study_settings_screen.sample_text': return 'Estudia para presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad.';
+			case 'study_share_screen.title': return 'Estudio Compartir';
+			case 'study_share_screen.content': return 'Contenido de Estudio Compartir';
+			case 'study_strongs_dictionary_screen.title': return 'Estudio Diccionario Strongs';
+			case 'study_strongs_dictionary_screen.content': return 'Contenido de Estudio Diccionario Strongs';
+			case 'study_tab_screen.title': return 'Estudio';
+			case 'study_tab_screen.study_menu': return 'Menú de Estudio';
+			case 'study_tab_screen.mapping': return 'Mapeo';
+			case 'study_tab_screen.notes': return 'Notas';
+			case 'study_tab_screen.plans': return 'Planes';
+			case 'study_tab_screen.references': return 'Referencias';
+			case 'study_tab_screen.topics': return 'Temas';
+			case 'study_tab_screen.bibles': return 'Biblias';
+			case 'study_tab_screen.select_bible_version': return 'Seleccionar Versión de la Biblia';
+			case 'study_tab_screen.select_book': return 'Seleccionar Libro';
+			case 'study_tab_screen.select_chapter': return 'Seleccionar Capítulo';
+			case 'study_topics_screen.title': return 'Estudio Temas';
+			case 'study_topics_screen.content': return 'Contenido de Estudio Temas';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'Toca el mapa para añadir puntos para el Área.';
 			case 'go_add_edit_area_screen.cancel': return 'Cancelar';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'Cancelar Creación de Área';
@@ -1326,23 +1519,6 @@ extension on TranslationsEs {
 			case 'go_tab_screen.enter_address': return 'Introduce una dirección';
 			case 'go_tab_screen.world': return 'Mundo';
 			case 'go_tab_screen.go_menu': return 'Menú Ir';
-			case 'study_plans_screen.title': return 'Planes de Estudio';
-			case 'study_plans_screen.content': return 'Contenido de los Planes de Estudio';
-			case 'study_settings_screen.title': return 'Configuración';
-			case 'study_settings_screen.text_settings': return 'Configuración de texto';
-			case 'study_settings_screen.font_family': return 'Tipo de letra';
-			case 'study_settings_screen.font_size': return 'Tamaño de letra:';
-			case 'study_settings_screen.preview': return 'Vista previa:';
-			case 'study_settings_screen.back': return 'Atrás';
-			case 'study_settings_screen.load': return 'Cargar';
-			case 'study_settings_screen.sample_text': return 'Estudia para presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad.';
-			case 'study_tab_screen.title': return 'Estudio';
-			case 'study_tab_screen.study_menu': return 'Menú de Estudio';
-			case 'study_tab_screen.bibles': return 'Biblias';
-			case 'study_tab_screen.no_bibles_installed': return 'No hay Biblias instaladas aún.';
-			case 'study_tab_screen.select_bible_version': return 'Seleccionar Versión de la Biblia';
-			case 'study_tab_screen.select_book': return 'Seleccionar Libro';
-			case 'study_tab_screen.select_chapter': return 'Seleccionar Capítulo';
 			default: return null;
 		}
 	}

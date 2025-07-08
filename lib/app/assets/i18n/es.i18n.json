@@ -86,6 +86,81 @@
     "install_failed": "Error en la instalación",
     "install_success": "¡Biblia instalada con éxito!"
   },
+  "study_add_edit_mapping_screen": {
+    "title": "Estudio Añadir Editar Mapeo",
+    "content": "Contenido de Estudio Añadir Editar Mapeo"
+  },
+  "study_add_edit_notes_screen": {
+    "title": "Estudio Añadir Editar Notas",
+    "content": "Contenido de Estudio Añadir Editar Notas"
+  },
+  "study_add_edit_references_screen": {
+    "title": "Estudio Añadir Editar Referencias",
+    "content": "Contenido de Estudio Añadir Editar Referencias"
+  },
+  "study_add_edit_topics_screen": {
+    "title": "Estudio Añadir Editar Temas",
+    "content": "Contenido de Estudio Añadir Editar Temas"
+  },
+  "study_export_import_screen": {
+    "title": "Estudio Exportar Importar",
+    "content": "Contenido de Estudio Exportar Importar"
+  },
+  "study_mapping_screen": {
+    "title": "Estudio Mapeo",
+    "content": "Contenido de Estudio Mapeo"
+  },
+  "study_notes_screen": {
+    "title": "Estudio Notas",
+    "content": "Contenido de Estudio Notas"
+  },
+  "study_plans_screen": {
+    "title": "Planes de Estudio",
+    "content": "Contenido de los Planes de Estudio"
+  },
+  "study_references_screen": {
+    "title": "Estudio Referencias",
+    "content": "Contenido de Estudio Referencias"
+  },
+  "study_search_screen": {
+    "title": "Estudio Búsqueda",
+    "content": "Contenido de Estudio Búsqueda"
+  },
+  "study_settings_screen": {
+    "title": "Configuración",
+    "text_settings": "Configuración de texto",
+    "font_family": "Tipo de letra",
+    "font_size": "Tamaño de letra:",
+    "preview": "Vista previa:",
+    "back": "Atrás",
+    "load": "Cargar",
+    "sample_text": "Estudia para presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad."
+  },
+  "study_share_screen": {
+    "title": "Estudio Compartir",
+    "content": "Contenido de Estudio Compartir"
+  },
+  "study_strongs_dictionary_screen": {
+    "title": "Estudio Diccionario Strongs",
+    "content": "Contenido de Estudio Diccionario Strongs"
+  },
+  "study_tab_screen": {
+    "title": "Estudio",
+    "study_menu": "Menú de Estudio",
+    "mapping": "Mapeo",
+    "notes": "Notas",
+    "plans": "Planes",
+    "references": "Referencias",
+    "topics": "Temas",
+    "bibles": "Biblias",
+    "select_bible_version": "Seleccionar Versión de la Biblia",
+    "select_book": "Seleccionar Libro",
+    "select_chapter": "Seleccionar Capítulo"
+  },
+  "study_topics_screen": {
+    "title": "Estudio Temas",
+    "content": "Contenido de Estudio Temas"
+  },
   "go_add_edit_area_screen": {
     "tap_to_add_points": "Toca el mapa para añadir puntos para el Área.",
     "cancel": "Cancelar",
@@ -541,28 +616,5 @@
     "enter_address": "Introduce una dirección",
     "world": "Mundo",
     "go_menu": "Menú Ir"
-  },
-  "study_plans_screen": {
-    "title": "Planes de Estudio",
-    "content": "Contenido de los Planes de Estudio"
-  },
-  "study_settings_screen": {
-    "title": "Configuración",
-    "text_settings": "Configuración de texto",
-    "font_family": "Tipo de letra",
-    "font_size": "Tamaño de letra:",
-    "preview": "Vista previa:",
-    "back": "Atrás",
-    "load": "Cargar",
-    "sample_text": "Estudia para presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad."
-  },
-    "study_tab_screen": {
-    "title": "Estudio",
-    "study_menu": "Menú de Estudio",
-    "bibles": "Biblias",
-    "no_bibles_installed": "No hay Biblias instaladas aún.",
-    "select_bible_version": "Seleccionar Versión de la Biblia",
-    "select_book": "Seleccionar Libro",
-    "select_chapter": "Seleccionar Capítulo"
   }
 }

@@ -43,6 +43,21 @@ class TranslationsHi implements Translations {
 	@override late final _TranslationsHomeSearchScreenHi home_search_screen = _TranslationsHomeSearchScreenHi._(_root);
 	@override late final _TranslationsHomeTabScreenHi home_tab_screen = _TranslationsHomeTabScreenHi._(_root);
 	@override late final _TranslationsHomeSettingsScreenHi home_settings_screen = _TranslationsHomeSettingsScreenHi._(_root);
+	@override late final _TranslationsStudyAddEditMappingScreenHi study_add_edit_mapping_screen = _TranslationsStudyAddEditMappingScreenHi._(_root);
+	@override late final _TranslationsStudyAddEditNotesScreenHi study_add_edit_notes_screen = _TranslationsStudyAddEditNotesScreenHi._(_root);
+	@override late final _TranslationsStudyAddEditReferencesScreenHi study_add_edit_references_screen = _TranslationsStudyAddEditReferencesScreenHi._(_root);
+	@override late final _TranslationsStudyAddEditTopicsScreenHi study_add_edit_topics_screen = _TranslationsStudyAddEditTopicsScreenHi._(_root);
+	@override late final _TranslationsStudyExportImportScreenHi study_export_import_screen = _TranslationsStudyExportImportScreenHi._(_root);
+	@override late final _TranslationsStudyMappingScreenHi study_mapping_screen = _TranslationsStudyMappingScreenHi._(_root);
+	@override late final _TranslationsStudyNotesScreenHi study_notes_screen = _TranslationsStudyNotesScreenHi._(_root);
+	@override late final _TranslationsStudyPlansScreenHi study_plans_screen = _TranslationsStudyPlansScreenHi._(_root);
+	@override late final _TranslationsStudyReferencesScreenHi study_references_screen = _TranslationsStudyReferencesScreenHi._(_root);
+	@override late final _TranslationsStudySearchScreenHi study_search_screen = _TranslationsStudySearchScreenHi._(_root);
+	@override late final _TranslationsStudySettingsScreenHi study_settings_screen = _TranslationsStudySettingsScreenHi._(_root);
+	@override late final _TranslationsStudyShareScreenHi study_share_screen = _TranslationsStudyShareScreenHi._(_root);
+	@override late final _TranslationsStudyStrongsDictionaryScreenHi study_strongs_dictionary_screen = _TranslationsStudyStrongsDictionaryScreenHi._(_root);
+	@override late final _TranslationsStudyTabScreenHi study_tab_screen = _TranslationsStudyTabScreenHi._(_root);
+	@override late final _TranslationsStudyTopicsScreenHi study_topics_screen = _TranslationsStudyTopicsScreenHi._(_root);
 	@override late final _TranslationsGoAddEditAreaScreenHi go_add_edit_area_screen = _TranslationsGoAddEditAreaScreenHi._(_root);
 	@override late final _TranslationsGoAddEditChurchScreenHi go_add_edit_church_screen = _TranslationsGoAddEditChurchScreenHi._(_root);
 	@override late final _TranslationsGoAddEditContactScreenHi go_add_edit_contact_screen = _TranslationsGoAddEditContactScreenHi._(_root);
@@ -61,9 +76,6 @@ class TranslationsHi implements Translations {
 	@override late final _TranslationsGoSettingsScreenHi go_settings_screen = _TranslationsGoSettingsScreenHi._(_root);
 	@override late final _TranslationsGoShareScreenHi go_share_screen = _TranslationsGoShareScreenHi._(_root);
 	@override late final _TranslationsGoTabScreenHi go_tab_screen = _TranslationsGoTabScreenHi._(_root);
-	@override late final _TranslationsStudyPlansScreenHi study_plans_screen = _TranslationsStudyPlansScreenHi._(_root);
-	@override late final _TranslationsStudySettingsScreenHi study_settings_screen = _TranslationsStudySettingsScreenHi._(_root);
-	@override late final _TranslationsStudyTabScreenHi study_tab_screen = _TranslationsStudyTabScreenHi._(_root);
 }
 
 // Path: main
@@ -200,6 +212,186 @@ class _TranslationsHomeSettingsScreenHi implements TranslationsHomeSettingsScree
 	@override String get no_file_to_install => 'स्थापना के लिए कोई फ़ाइल नहीं चुनी गई।';
 	@override String get install_failed => 'स्थापना विफल रही';
 	@override String get install_success => 'बाइबल सफलतापूर्वक स्थापित की गई!';
+}
+
+// Path: study_add_edit_mapping_screen
+class _TranslationsStudyAddEditMappingScreenHi implements TranslationsStudyAddEditMappingScreenEn {
+	_TranslationsStudyAddEditMappingScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'अध्ययन जोड़ें संपादित करें मैपिंग';
+	@override String get content => 'अध्ययन जोड़ें संपादित करें मैपिंग सामग्री';
+}
+
+// Path: study_add_edit_notes_screen
+class _TranslationsStudyAddEditNotesScreenHi implements TranslationsStudyAddEditNotesScreenEn {
+	_TranslationsStudyAddEditNotesScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'अध्ययन जोड़ें संपादित करें नोट्स';
+	@override String get content => 'अध्ययन जोड़ें संपादित करें नोट्स सामग्री';
+}
+
+// Path: study_add_edit_references_screen
+class _TranslationsStudyAddEditReferencesScreenHi implements TranslationsStudyAddEditReferencesScreenEn {
+	_TranslationsStudyAddEditReferencesScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'अध्ययन जोड़ें संपादित करें संदर्भ';
+	@override String get content => 'अध्ययन जोड़ें संपादित करें संदर्भ सामग्री';
+}
+
+// Path: study_add_edit_topics_screen
+class _TranslationsStudyAddEditTopicsScreenHi implements TranslationsStudyAddEditTopicsScreenEn {
+	_TranslationsStudyAddEditTopicsScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'अध्ययन जोड़ें संपादित करें विषय';
+	@override String get content => 'अध्ययन जोड़ें संपादित करें विषय सामग्री';
+}
+
+// Path: study_export_import_screen
+class _TranslationsStudyExportImportScreenHi implements TranslationsStudyExportImportScreenEn {
+	_TranslationsStudyExportImportScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'अध्ययन निर्यात आयात';
+	@override String get content => 'अध्ययन निर्यात आयात सामग्री';
+}
+
+// Path: study_mapping_screen
+class _TranslationsStudyMappingScreenHi implements TranslationsStudyMappingScreenEn {
+	_TranslationsStudyMappingScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'अध्ययन मैपिंग';
+	@override String get content => 'अध्ययन मैपिंग सामग्री';
+}
+
+// Path: study_notes_screen
+class _TranslationsStudyNotesScreenHi implements TranslationsStudyNotesScreenEn {
+	_TranslationsStudyNotesScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'अध्ययन नोट्स';
+	@override String get content => 'अध्ययन नोट्स सामग्री';
+}
+
+// Path: study_plans_screen
+class _TranslationsStudyPlansScreenHi implements TranslationsStudyPlansScreenEn {
+	_TranslationsStudyPlansScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'अध्ययन योजनाएँ';
+	@override String get content => 'अध्ययन योजनाओं की सामग्री';
+}
+
+// Path: study_references_screen
+class _TranslationsStudyReferencesScreenHi implements TranslationsStudyReferencesScreenEn {
+	_TranslationsStudyReferencesScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'अध्ययन संदर्भ';
+	@override String get content => 'अध्ययन संदर्भ सामग्री';
+}
+
+// Path: study_search_screen
+class _TranslationsStudySearchScreenHi implements TranslationsStudySearchScreenEn {
+	_TranslationsStudySearchScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'अध्ययन खोज';
+	@override String get content => 'अध्ययन खोज सामग्री';
+}
+
+// Path: study_settings_screen
+class _TranslationsStudySettingsScreenHi implements TranslationsStudySettingsScreenEn {
+	_TranslationsStudySettingsScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'सेटिंग्स';
+	@override String get text_settings => 'पाठ सेटिंग्स';
+	@override String get font_family => 'फ़ॉन्ट परिवार';
+	@override String get font_size => 'फ़ॉन्ट आकार:';
+	@override String get preview => 'पूर्वावलोकन:';
+	@override String get back => 'वापस';
+	@override String get load => 'लोड करें';
+	@override String get sample_text => 'अपने आप को परमेश्वर के सामने स्वीकार्य बनाने के लिए अध्ययन करो, ताकि तुम एक ऐसे काम करने वाले बनो जिसे लज्जित न होना पड़े, और जो सत्य के वचन को ठीक प्रकार से प्रस्तुत करता है।';
+}
+
+// Path: study_share_screen
+class _TranslationsStudyShareScreenHi implements TranslationsStudyShareScreenEn {
+	_TranslationsStudyShareScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'अध्ययन साझा करें';
+	@override String get content => 'अध्ययन साझा करें सामग्री';
+}
+
+// Path: study_strongs_dictionary_screen
+class _TranslationsStudyStrongsDictionaryScreenHi implements TranslationsStudyStrongsDictionaryScreenEn {
+	_TranslationsStudyStrongsDictionaryScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'अध्ययन स्ट्रॉन्ग्स डिक्शनरी';
+	@override String get content => 'अध्ययन स्ट्रॉन्ग्स डिक्शनरी सामग्री';
+}
+
+// Path: study_tab_screen
+class _TranslationsStudyTabScreenHi implements TranslationsStudyTabScreenEn {
+	_TranslationsStudyTabScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'अध्ययन';
+	@override String get study_menu => 'अध्ययन मेनू';
+	@override String get mapping => 'मैपिंग';
+	@override String get notes => 'नोट्स';
+	@override String get plans => 'योजनाएँ';
+	@override String get references => 'संदर्भ';
+	@override String get topics => 'विषय';
+	@override String get bibles => 'बाइबल';
+	@override String get select_bible_version => 'बाइबल संस्करण चुनें';
+	@override String get select_book => 'पुस्तक चुनें';
+	@override String get select_chapter => 'अध्याय चुनें';
+}
+
+// Path: study_topics_screen
+class _TranslationsStudyTopicsScreenHi implements TranslationsStudyTopicsScreenEn {
+	_TranslationsStudyTopicsScreenHi._(this._root);
+
+	final TranslationsHi _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'अध्ययन विषय';
+	@override String get content => 'अध्ययन विषय सामग्री';
 }
 
 // Path: go_add_edit_area_screen
@@ -785,50 +977,6 @@ class _TranslationsGoTabScreenHi implements TranslationsGoTabScreenEn {
 	@override String get tap_on_the_map_to_add_a_marker => 'मानचित्र पर मार्कर जोड़ने के लिए टैप करें।';
 }
 
-// Path: study_plans_screen
-class _TranslationsStudyPlansScreenHi implements TranslationsStudyPlansScreenEn {
-	_TranslationsStudyPlansScreenHi._(this._root);
-
-	final TranslationsHi _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'अध्ययन योजनाएँ';
-	@override String get content => 'अध्ययन योजनाओं की सामग्री';
-}
-
-// Path: study_settings_screen
-class _TranslationsStudySettingsScreenHi implements TranslationsStudySettingsScreenEn {
-	_TranslationsStudySettingsScreenHi._(this._root);
-
-	final TranslationsHi _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'सेटिंग्स';
-	@override String get text_settings => 'पाठ सेटिंग्स';
-	@override String get font_family => 'फ़ॉन्ट परिवार';
-	@override String get font_size => 'फ़ॉन्ट आकार:';
-	@override String get preview => 'पूर्वावलोकन:';
-	@override String get back => 'वापस';
-	@override String get load => 'लोड करें';
-	@override String get sample_text => 'अपने आप को परमेश्वर के सामने स्वीकार्य बनाने के लिए अध्ययन करो, ताकि तुम एक ऐसे काम करने वाले बनो जिसे लज्जित न होना पड़े, और जो सत्य के वचन को ठीक प्रकार से प्रस्तुत करता है।';
-}
-
-// Path: study_tab_screen
-class _TranslationsStudyTabScreenHi implements TranslationsStudyTabScreenEn {
-	_TranslationsStudyTabScreenHi._(this._root);
-
-	final TranslationsHi _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'अध्ययन';
-	@override String get study_menu => 'अध्ययन मेनू';
-	@override String get bibles => 'बाइबल';
-	@override String get no_bibles_installed => 'कोई बाइबल स्थापित नहीं है।';
-	@override String get select_bible_version => 'बाइबल संस्करण चुनें';
-	@override String get select_book => 'पुस्तक चुनें';
-	@override String get select_chapter => 'अध्याय चुनें';
-}
-
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on TranslationsHi {
@@ -907,6 +1055,51 @@ extension on TranslationsHi {
 			case 'home_settings_screen.no_file_to_install': return 'स्थापना के लिए कोई फ़ाइल नहीं चुनी गई।';
 			case 'home_settings_screen.install_failed': return 'स्थापना विफल रही';
 			case 'home_settings_screen.install_success': return 'बाइबल सफलतापूर्वक स्थापित की गई!';
+			case 'study_add_edit_mapping_screen.title': return 'अध्ययन जोड़ें संपादित करें मैपिंग';
+			case 'study_add_edit_mapping_screen.content': return 'अध्ययन जोड़ें संपादित करें मैपिंग सामग्री';
+			case 'study_add_edit_notes_screen.title': return 'अध्ययन जोड़ें संपादित करें नोट्स';
+			case 'study_add_edit_notes_screen.content': return 'अध्ययन जोड़ें संपादित करें नोट्स सामग्री';
+			case 'study_add_edit_references_screen.title': return 'अध्ययन जोड़ें संपादित करें संदर्भ';
+			case 'study_add_edit_references_screen.content': return 'अध्ययन जोड़ें संपादित करें संदर्भ सामग्री';
+			case 'study_add_edit_topics_screen.title': return 'अध्ययन जोड़ें संपादित करें विषय';
+			case 'study_add_edit_topics_screen.content': return 'अध्ययन जोड़ें संपादित करें विषय सामग्री';
+			case 'study_export_import_screen.title': return 'अध्ययन निर्यात आयात';
+			case 'study_export_import_screen.content': return 'अध्ययन निर्यात आयात सामग्री';
+			case 'study_mapping_screen.title': return 'अध्ययन मैपिंग';
+			case 'study_mapping_screen.content': return 'अध्ययन मैपिंग सामग्री';
+			case 'study_notes_screen.title': return 'अध्ययन नोट्स';
+			case 'study_notes_screen.content': return 'अध्ययन नोट्स सामग्री';
+			case 'study_plans_screen.title': return 'अध्ययन योजनाएँ';
+			case 'study_plans_screen.content': return 'अध्ययन योजनाओं की सामग्री';
+			case 'study_references_screen.title': return 'अध्ययन संदर्भ';
+			case 'study_references_screen.content': return 'अध्ययन संदर्भ सामग्री';
+			case 'study_search_screen.title': return 'अध्ययन खोज';
+			case 'study_search_screen.content': return 'अध्ययन खोज सामग्री';
+			case 'study_settings_screen.title': return 'सेटिंग्स';
+			case 'study_settings_screen.text_settings': return 'पाठ सेटिंग्स';
+			case 'study_settings_screen.font_family': return 'फ़ॉन्ट परिवार';
+			case 'study_settings_screen.font_size': return 'फ़ॉन्ट आकार:';
+			case 'study_settings_screen.preview': return 'पूर्वावलोकन:';
+			case 'study_settings_screen.back': return 'वापस';
+			case 'study_settings_screen.load': return 'लोड करें';
+			case 'study_settings_screen.sample_text': return 'अपने आप को परमेश्वर के सामने स्वीकार्य बनाने के लिए अध्ययन करो, ताकि तुम एक ऐसे काम करने वाले बनो जिसे लज्जित न होना पड़े, और जो सत्य के वचन को ठीक प्रकार से प्रस्तुत करता है।';
+			case 'study_share_screen.title': return 'अध्ययन साझा करें';
+			case 'study_share_screen.content': return 'अध्ययन साझा करें सामग्री';
+			case 'study_strongs_dictionary_screen.title': return 'अध्ययन स्ट्रॉन्ग्स डिक्शनरी';
+			case 'study_strongs_dictionary_screen.content': return 'अध्ययन स्ट्रॉन्ग्स डिक्शनरी सामग्री';
+			case 'study_tab_screen.title': return 'अध्ययन';
+			case 'study_tab_screen.study_menu': return 'अध्ययन मेनू';
+			case 'study_tab_screen.mapping': return 'मैपिंग';
+			case 'study_tab_screen.notes': return 'नोट्स';
+			case 'study_tab_screen.plans': return 'योजनाएँ';
+			case 'study_tab_screen.references': return 'संदर्भ';
+			case 'study_tab_screen.topics': return 'विषय';
+			case 'study_tab_screen.bibles': return 'बाइबल';
+			case 'study_tab_screen.select_bible_version': return 'बाइबल संस्करण चुनें';
+			case 'study_tab_screen.select_book': return 'पुस्तक चुनें';
+			case 'study_tab_screen.select_chapter': return 'अध्याय चुनें';
+			case 'study_topics_screen.title': return 'अध्ययन विषय';
+			case 'study_topics_screen.content': return 'अध्ययन विषय सामग्री';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'क्षेत्र के लिए बिंदु जोड़ने के लिए मानचित्र पर टैप करें।';
 			case 'go_add_edit_area_screen.cancel': return 'रद्द करें';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'क्षेत्र निर्माण रद्द करें';
@@ -1328,23 +1521,6 @@ extension on TranslationsHi {
 			case 'go_tab_screen.world': return 'विश्व';
 			case 'go_tab_screen.go_menu': return 'गो मेनू';
 			case 'go_tab_screen.tap_on_the_map_to_add_a_marker': return 'मानचित्र पर मार्कर जोड़ने के लिए टैप करें।';
-			case 'study_plans_screen.title': return 'अध्ययन योजनाएँ';
-			case 'study_plans_screen.content': return 'अध्ययन योजनाओं की सामग्री';
-			case 'study_settings_screen.title': return 'सेटिंग्स';
-			case 'study_settings_screen.text_settings': return 'पाठ सेटिंग्स';
-			case 'study_settings_screen.font_family': return 'फ़ॉन्ट परिवार';
-			case 'study_settings_screen.font_size': return 'फ़ॉन्ट आकार:';
-			case 'study_settings_screen.preview': return 'पूर्वावलोकन:';
-			case 'study_settings_screen.back': return 'वापस';
-			case 'study_settings_screen.load': return 'लोड करें';
-			case 'study_settings_screen.sample_text': return 'अपने आप को परमेश्वर के सामने स्वीकार्य बनाने के लिए अध्ययन करो, ताकि तुम एक ऐसे काम करने वाले बनो जिसे लज्जित न होना पड़े, और जो सत्य के वचन को ठीक प्रकार से प्रस्तुत करता है।';
-			case 'study_tab_screen.title': return 'अध्ययन';
-			case 'study_tab_screen.study_menu': return 'अध्ययन मेनू';
-			case 'study_tab_screen.bibles': return 'बाइबल';
-			case 'study_tab_screen.no_bibles_installed': return 'कोई बाइबल स्थापित नहीं है।';
-			case 'study_tab_screen.select_bible_version': return 'बाइबल संस्करण चुनें';
-			case 'study_tab_screen.select_book': return 'पुस्तक चुनें';
-			case 'study_tab_screen.select_chapter': return 'अध्याय चुनें';
 			default: return null;
 		}
 	}
