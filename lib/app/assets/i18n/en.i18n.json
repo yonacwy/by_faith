@@ -141,8 +141,14 @@
     "content": "Study Share Content"
   },
   "study_strongs_dictionary_screen": {
-    "title": "Study Strongs Dictionary",
-    "content": "Study Strongs Dictionary Content"
+    "title": "Strong's Dictionary: {number}",
+    "word": "Word",
+    "pronunciation": "Pronunciation",
+    "definition": "Definition",
+    "details": "Details",
+    "not_available": "Not available",
+    "not_found": "No entry found for Strong's number {number}",
+    "error_loading": "Error loading dictionary: {error}"
   },
   "study_tab_screen": {
     "title": "Study",

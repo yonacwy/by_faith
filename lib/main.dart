@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter/services.dart'; // Added for RootIsolateToken
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:by_faith/features/home/screens/home_tab_screen.dart';
 import 'package:by_faith/features/pray/screens/pray_tab_screen.dart';
 import 'package:by_faith/features/read/screens/read_tab_screen.dart';
 import 'package:by_faith/features/study/screens/study_tab_screen.dart';
 import 'package:by_faith/features/go/screens/go_tab_screen.dart';
-import 'package:provider/provider.dart'; // Import provider package
-import 'package:by_faith/app/i18n/strings.g.dart'; // Import translations
-import 'package:flutter_localizations/flutter_localizations.dart'; // Import for localization delegates
+import 'package:provider/provider.dart';
+import 'package:by_faith/app/i18n/strings.g.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:by_faith/objectbox.dart';
-import 'package:by_faith/features/home/providers/home_settings_font_provider.dart'; // Import HomeSettingsFontProvider
-import 'package:by_faith/features/go/providers/go_settings_font_provider.dart'; // Import GoSettingsFontProvider
-import 'package:by_faith/features/study/providers/study_settings_font_provider.dart'; // Import StudySettingsFontProvider
+import 'package:by_faith/features/home/providers/home_settings_font_provider.dart';
+import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
+import 'package:by_faith/features/study/providers/study_settings_font_provider.dart';
 import 'package:by_faith/core/models/user_preferences_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Initialize RootIsolateToken for isolates
+  RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
   await setupObjectBox();
   // Load language preference from ObjectBox
   final prefs = getUserPreferences(userPreferencesBox);
   if (prefs.languageCode != null && prefs.languageCode!.isNotEmpty) {
-    // Set the saved locale
     switch (prefs.languageCode) {
       case 'es':
         LocaleSettings.setLocale(AppLocale.es);
@@ -40,8 +42,8 @@ void main() async {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => HomeSettingsFontProvider()),
-          ChangeNotifierProvider(create: (_) => GoSettingsFontProvider()), // Add StudySettingsFontProvider
-          ChangeNotifierProvider(create: (_) => StudySettingsFontProvider()), // Add StudySettingsFontProvider
+          ChangeNotifierProvider(create: (_) => GoSettingsFontProvider()),
+          ChangeNotifierProvider(create: (_) => StudySettingsFontProvider()),
         ],
         child: const MyApp(),
       ),
@@ -110,19 +112,19 @@ class _MainScreenState extends State<MainScreen> {
             label: t.main.home,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Symbols.folded_hands), // Pray icon
+            icon: const Icon(Symbols.folded_hands),
             label: t.main.pray,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.menu_book), // Read icon
+            icon: const Icon(Icons.menu_book),
             label: t.main.read,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.school), // Study icon
+            icon: const Icon(Icons.school),
             label: t.main.study,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Symbols.globe), // Go icon
+            icon: const Icon(Symbols.globe),
             label: t.main.go,
           ),
         ],
@@ -130,7 +132,7 @@ class _MainScreenState extends State<MainScreen> {
         selectedItemColor: Theme.of(context).colorScheme.primary,
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
-        type: BottomNavigationBarType.fixed, // Ensures all labels are visible
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }

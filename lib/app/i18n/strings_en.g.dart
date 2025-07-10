@@ -362,8 +362,14 @@ class TranslationsStudyStrongsDictionaryScreenEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get title => 'Study Strongs Dictionary';
-	String get content => 'Study Strongs Dictionary Content';
+	String get title => 'Strong\'s Dictionary: {number}';
+	String get word => 'Word';
+	String get pronunciation => 'Pronunciation';
+	String get definition => 'Definition';
+	String get details => 'Details';
+	String get not_available => 'Not available';
+	String get not_found => 'No entry found for Strong\'s number {number}';
+	String get error_loading => 'Error loading dictionary: {error}';
 }
 
 // Path: study_tab_screen
@@ -1087,8 +1093,14 @@ extension on Translations {
 			case 'study_settings_screen.sample_text': return 'Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth.';
 			case 'study_share_screen.title': return 'Study Share';
 			case 'study_share_screen.content': return 'Study Share Content';
-			case 'study_strongs_dictionary_screen.title': return 'Study Strongs Dictionary';
-			case 'study_strongs_dictionary_screen.content': return 'Study Strongs Dictionary Content';
+			case 'study_strongs_dictionary_screen.title': return 'Strong\'s Dictionary: {number}';
+			case 'study_strongs_dictionary_screen.word': return 'Word';
+			case 'study_strongs_dictionary_screen.pronunciation': return 'Pronunciation';
+			case 'study_strongs_dictionary_screen.definition': return 'Definition';
+			case 'study_strongs_dictionary_screen.details': return 'Details';
+			case 'study_strongs_dictionary_screen.not_available': return 'Not available';
+			case 'study_strongs_dictionary_screen.not_found': return 'No entry found for Strong\'s number {number}';
+			case 'study_strongs_dictionary_screen.error_loading': return 'Error loading dictionary: {error}';
 			case 'study_tab_screen.title': return 'Study';
 			case 'study_tab_screen.study_menu': return 'Study Menu';
 			case 'study_tab_screen.mapping': return 'Mapping';

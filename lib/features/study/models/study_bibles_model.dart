@@ -55,6 +55,11 @@ class Chapter {
   final verses = ToMany<Verse>();
 
   Chapter({this.id = 0, required this.chapterNumber});
+
+  void addVerse(Verse verse) {
+    verses.add(verse);
+    verse.chapter.target = this;
+  }
 }
 
 @Entity()
@@ -64,5 +69,24 @@ class Verse {
   String text;
   final chapter = ToOne<Chapter>();
 
+  @Backlink()
+  final strongsEntries = ToMany<StrongsEntry>();
+
   Verse({this.id = 0, required this.verseNumber, required this.text});
+}
+
+@Entity()
+class StrongsEntry {
+  int id;
+  String strongsNumber; // e.g., H123, G123
+  String word; // The word associated with the Strong's number
+  int position; // Position of the word in the verse text (for rendering)
+  final verse = ToOne<Verse>();
+
+  StrongsEntry({
+    this.id = 0,
+    required this.strongsNumber,
+    required this.word,
+    required this.position,
+  });
 }

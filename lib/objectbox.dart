@@ -3,7 +3,6 @@ import 'package:by_faith/objectbox.g.dart';
 import 'package:by_faith/features/go/models/go_model.dart';
 import 'package:by_faith/features/go/models/go_map_info_model.dart';
 import 'package:by_faith/features/study/models/study_bibles_model.dart';
-import 'package:objectbox/objectbox.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart' as fmtc;
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart' show FMTCObjectBoxBackend;
 import 'package:path_provider/path_provider.dart';
@@ -26,6 +25,7 @@ late Box<BibleVersion> bibleVersionBox;
 late Box<Book> bookBox;
 late Box<Chapter> chapterBox;
 late Box<Verse> verseBox;
+late Box<StrongsEntry> strongsEntryBox; // Used for storing Strong's number mappings
 
 /// Initializes the ObjectBox store and FMTC backend.
 /// Returns `true` if successful, `false` otherwise.
@@ -50,6 +50,7 @@ Future<bool> setupObjectBox() async {
     bookBox = store.box<Book>();
     chapterBox = store.box<Chapter>();
     verseBox = store.box<Verse>();
+    strongsEntryBox = store.box<StrongsEntry>();
 
     // Initialize FMTC backend with ObjectBox
     await FMTCObjectBoxBackend().initialise();
@@ -60,7 +61,6 @@ Future<bool> setupObjectBox() async {
     return true;
   } catch (e) {
     print('ObjectBox initialization error: $e');
-    // Optionally notify the user or log to a file
     return false;
   }
 }

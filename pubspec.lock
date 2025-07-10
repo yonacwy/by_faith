@@ -57,14 +57,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.13.0"
-  bible_parser_flutter:
-    dependency: "direct main"
-    description:
-      name: bible_parser_flutter
-      sha256: b6a7d4eca65b39f81c5221320e143aa8f6fc018a41039b37082da5589698f21a
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0"
   boolean_selector:
     dependency: transitive
     description:

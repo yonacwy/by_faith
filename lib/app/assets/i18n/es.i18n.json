@@ -141,8 +141,14 @@
     "content": "Contenido de Estudio Compartir"
   },
   "study_strongs_dictionary_screen": {
-    "title": "Estudio Diccionario Strongs",
-    "content": "Contenido de Estudio Diccionario Strongs"
+    "title": "Diccionario Strong: {number}",
+    "word": "Palabra",
+    "pronunciation": "Pronunciación",
+    "definition": "Definición",
+    "details": "Detalles",
+    "not_available": "No disponible",
+    "not_found": "No se encontró ninguna entrada para el número de Strong {number}",
+    "error_loading": "Error al cargar el diccionario: {error}"
   },
   "study_tab_screen": {
     "title": "Estudio",

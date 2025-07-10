@@ -359,8 +359,14 @@ class _TranslationsStudyStrongsDictionaryScreenHi implements TranslationsStudySt
 	final TranslationsHi _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'अध्ययन स्ट्रॉन्ग्स डिक्शनरी';
-	@override String get content => 'अध्ययन स्ट्रॉन्ग्स डिक्शनरी सामग्री';
+	@override String get title => 'स्ट्रॉन्ग्स डिक्शनरी: {number}';
+	@override String get word => 'शब्द';
+	@override String get pronunciation => 'उच्चारण';
+	@override String get definition => 'परिभाषा';
+	@override String get details => 'विवरण';
+	@override String get not_available => 'उपलब्ध नहीं है';
+	@override String get not_found => 'स्ट्रॉन्ग्स नंबर {number} के लिए कोई प्रविष्टि नहीं मिली';
+	@override String get error_loading => 'डिक्शनरी लोड करने में त्रुटि: {error}';
 }
 
 // Path: study_tab_screen
@@ -1085,8 +1091,14 @@ extension on TranslationsHi {
 			case 'study_settings_screen.sample_text': return 'अपने आप को परमेश्वर के सामने स्वीकार्य बनाने के लिए अध्ययन करो, ताकि तुम एक ऐसे काम करने वाले बनो जिसे लज्जित न होना पड़े, और जो सत्य के वचन को ठीक प्रकार से प्रस्तुत करता है।';
 			case 'study_share_screen.title': return 'अध्ययन साझा करें';
 			case 'study_share_screen.content': return 'अध्ययन साझा करें सामग्री';
-			case 'study_strongs_dictionary_screen.title': return 'अध्ययन स्ट्रॉन्ग्स डिक्शनरी';
-			case 'study_strongs_dictionary_screen.content': return 'अध्ययन स्ट्रॉन्ग्स डिक्शनरी सामग्री';
+			case 'study_strongs_dictionary_screen.title': return 'स्ट्रॉन्ग्स डिक्शनरी: {number}';
+			case 'study_strongs_dictionary_screen.word': return 'शब्द';
+			case 'study_strongs_dictionary_screen.pronunciation': return 'उच्चारण';
+			case 'study_strongs_dictionary_screen.definition': return 'परिभाषा';
+			case 'study_strongs_dictionary_screen.details': return 'विवरण';
+			case 'study_strongs_dictionary_screen.not_available': return 'उपलब्ध नहीं है';
+			case 'study_strongs_dictionary_screen.not_found': return 'स्ट्रॉन्ग्स नंबर {number} के लिए कोई प्रविष्टि नहीं मिली';
+			case 'study_strongs_dictionary_screen.error_loading': return 'डिक्शनरी लोड करने में त्रुटि: {error}';
 			case 'study_tab_screen.title': return 'अध्ययन';
 			case 'study_tab_screen.study_menu': return 'अध्ययन मेनू';
 			case 'study_tab_screen.mapping': return 'मैपिंग';

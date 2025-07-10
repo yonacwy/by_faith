@@ -9,7 +9,7 @@ import 'package:path/path.dart' as p;
 import 'package:by_faith/objectbox.dart';
 import 'package:by_faith/core/models/user_preferences_model.dart';
 import '../providers/home_settings_font_provider.dart';
-import 'package:bible_parser_flutter/bible_parser_flutter.dart' as bp;
+import 'package:by_faith/core/data/bible_parser/bible_parser_flutter.dart' as bp;
 import 'package:by_faith/features/study/models/study_bibles_model.dart' as study_models;
 import 'package:xml/xml.dart' as xml;
 import 'package:by_faith/objectbox.g.dart';
@@ -59,6 +59,7 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
     final bookBox = store.box<study_models.Book>();
     final chapterBox = store.box<study_models.Chapter>();
     final verseBox = store.box<study_models.Verse>();
+    final strongsEntryBox = store.box<study_models.StrongsEntry>();
 
     setState(() {
       _isLoading = true;
@@ -66,7 +67,6 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
     });
 
     try {
-      // Use queries to delete all related entities in bulk
       final bookIds = bible.books.map((book) => book.id).toList();
       final chapterIds = bible.books
           .expand((book) => book.chapters)
@@ -77,8 +77,15 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
           .expand((chapter) => chapter.verses)
           .map((verse) => verse.id)
           .toList();
+      final strongsEntryIds = bible.books
+          .expand((book) => book.chapters)
+          .expand((chapter) => chapter.verses)
+          .expand((verse) => verse.strongsEntries)
+          .map((entry) => entry.id)
+          .toList();
 
       store.runInTransaction(TxMode.write, () {
+        strongsEntryBox.removeMany(strongsEntryIds);
         verseBox.removeMany(verseIds);
         chapterBox.removeMany(chapterIds);
         bookBox.removeMany(bookIds);
@@ -94,7 +101,6 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
       _showSnackBar(t.home_settings_screen.bible_deleted.replaceAll('{name}', bible.name));
     } catch (e) {
       _showSnackBar('${t.home_settings_screen.delete_failed}: $e');
-      debugPrint('Delete error: $e');
     } finally {
       setState(() {
         _isLoading = false;
@@ -148,7 +154,6 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
       }
     } catch (e) {
       _showSnackBar('${t.home_settings_screen.upload_failed}: $e');
-      debugPrint('File selection error: $e');
     } finally {
       setState(() {
         _isLoading = false;
@@ -170,7 +175,7 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
 
     try {
       if (RootIsolateToken.instance == null) {
-        throw Exception('RootIsolateToken is null. Ensure it is initialized.');
+        throw Exception('RootIsolateToken is null. Ensure it is initialized in main.dart.');
       }
 
       final startTime = DateTime.now();
@@ -181,7 +186,7 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
           'rootIsolateToken': RootIsolateToken.instance,
         },
       );
-      debugPrint('Extraction took: ${DateTime.now().difference(startTime).inMilliseconds}ms');
+      // debugPrint('Extraction took: ${DateTime.now().difference(startTime).inMilliseconds}ms');
 
       if (parsedData['error'] != null) {
         _showSnackBar('${t.home_settings_screen.install_failed}: ${parsedData['error']}');
@@ -199,7 +204,6 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
         });
 
         final bibleVersionBox = store.box<study_models.BibleVersion>();
-        // Check for existing Bible
         study_models.BibleVersion? existingVersion = bibleVersionBox
             .query(BibleVersion_.languageCode.equals(languageCode).and(BibleVersion_.name.equals(bibleName)))
             .build()
@@ -208,7 +212,7 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
         if (existingVersion != null) {
           _showSnackBar(t.home_settings_screen.bible_already_exists.replaceAll('{name}', bibleName));
           await Directory(extractPath).delete(recursive: true).catchError((e) {
-            debugPrint('Failed to delete temp directory: $e');
+            // debugPrint('Failed to delete temp directory: $e');
           });
           return;
         }
@@ -217,21 +221,20 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
           name: bibleName,
           languageCode: languageCode,
         );
-        bibleVersionBox.put(newBibleVersion); // Assign ID early for isolate
+        final bibleVersionId = bibleVersionBox.put(newBibleVersion);
 
         final startDbTime = DateTime.now();
-        // Parse in isolate, save in main isolate
         final parsedBibleData = await compute(_parseBibleDataForDb, {
           'xmlContent': usfxXmlContent,
-          'bibleVersionId': newBibleVersion.id,
-          'bibleVersionName': newBibleVersion.name,
-          'bibleVersionLanguageCode': newBibleVersion.languageCode,
+          'bibleVersionId': bibleVersionId,
+          'bibleVersionName': bibleName,
+          'bibleVersionLanguageCode': languageCode,
         });
         _saveBibleDataToDb(parsedBibleData);
-        debugPrint('Database save took: \\${DateTime.now().difference(startDbTime).inMilliseconds}ms');
+        // debugPrint('Database save took: ${DateTime.now().difference(startDbTime).inMilliseconds}ms');
 
         final prefs = getUserPreferences(userPreferencesBox);
-        prefs.currentBibleVersionId = newBibleVersion.id;
+        prefs.currentBibleVersionId = bibleVersionId;
         userPreferencesBox.put(prefs);
 
         _showSnackBar(t.home_settings_screen.install_success);
@@ -244,11 +247,10 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
       }
 
       await Directory(extractPath).delete(recursive: true).catchError((e) {
-        debugPrint('Failed to delete temp directory: $e');
+        // debugPrint('Failed to delete temp directory: $e');
       });
     } catch (e) {
       _showSnackBar('${t.home_settings_screen.install_failed}: $e');
-      debugPrint('Install error: $e');
     } finally {
       setState(() {
         _isLoading = false;
@@ -258,7 +260,6 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
     }
   }
 
-  // Top-level function for extraction and parsing in an isolate
   static Future<Map<String, dynamic>> _extractAndParseBibleData(Map<String, dynamic> data) async {
     final String filePath = data['filePath'];
     final RootIsolateToken? rootIsolateToken = data['rootIsolateToken'];
@@ -266,7 +267,7 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
     if (rootIsolateToken != null) {
       BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
     } else {
-      debugPrint('RootIsolateToken was null in isolate.');
+      // debugPrint('RootIsolateToken was null in isolate.');
     }
 
     Directory? tempDir;
@@ -358,138 +359,119 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
     }
   }
 
-  // Top-level function for saving Bible data in an isolate
-// Only parse and prepare data in the isolate, return as serializable structure
-static Future<Map<String, dynamic>> _parseBibleDataForDb(Map<String, dynamic> data) async {
-  final String xmlContent = data['xmlContent'];
-  final int bibleVersionId = data['bibleVersionId'];
-  final String bibleVersionName = data['bibleVersionName'];
-  final String bibleVersionLanguageCode = data['bibleVersionLanguageCode'];
-  try {
-    final parser = bp.BibleParser(xmlContent);
-    final books = <Map<String, dynamic>>[];
-    final chapters = <Map<String, dynamic>>[];
-    final verses = <Map<String, dynamic>>[];
+  static Future<Map<String, dynamic>> _parseBibleDataForDb(Map<String, dynamic> data) async {
+    final String xmlContent = data['xmlContent'];
+    final int bibleVersionId = data['bibleVersionId'];
+    final String bibleVersionName = data['bibleVersionName'];
+    final String bibleVersionLanguageCode = data['bibleVersionLanguageCode'];
 
-    await for (final parsedBook in parser.books) {
-      final bookId = parsedBook.id;
-      books.add({
-        'name': parsedBook.title,
-        'bookId': bookId,
+    try {
+      final parser = bp.UsfxParser(xmlContent);
+      final books = <study_models.Book>[];
+      final chapters = <study_models.Chapter>[];
+      final verses = <study_models.Verse>[];
+      final strongsEntries = <study_models.StrongsEntry>[];
+
+      final bibleVersion = study_models.BibleVersion(
+        id: bibleVersionId,
+        name: bibleVersionName,
+        languageCode: bibleVersionLanguageCode,
+      );
+
+      await for (final parsedBook in parser.parseBooks()) {
+        final book = study_models.Book(
+          name: parsedBook.title,
+          bookId: parsedBook.id.toLowerCase(),
+        );
+        book.bibleVersion.target = bibleVersion;
+        books.add(book);
+
+        for (final parsedChapter in parsedBook.chapters) {
+          final chapter = study_models.Chapter(
+            chapterNumber: parsedChapter.num,
+          );
+          chapter.book.target = book;
+          chapters.add(chapter);
+
+          for (final parsedVerse in parsedChapter.verses) {
+            final verse = study_models.Verse(
+              verseNumber: parsedVerse.num,
+              text: parsedVerse.text,
+            );
+            verse.chapter.target = chapter;
+            verses.add(verse);
+
+            for (final strongsEntry in parsedVerse.strongsEntries) {
+              final strongsNumber = strongsEntry['strongsNumber'] as String?;
+              final word = strongsEntry['word'] as String?;
+              final position = strongsEntry['position'] as int?;
+              if (strongsNumber != null && word != null && position != null && strongsNumber.isNotEmpty && word.isNotEmpty) {
+                final entry = study_models.StrongsEntry(
+                  strongsNumber: strongsNumber,
+                  word: word,
+                  position: position,
+                );
+                entry.verse.target = verse;
+                strongsEntries.add(entry);
+              } else {
+                // debugPrint('Invalid Strong\'s entry skipped: $strongsEntry');
+              }
+            }
+          }
+        }
+
+        // Debug: Print chapters for this book
+        final chaptersForBook = chapters.where((c) => c.book.target == book).map((c) => c.chapterNumber).toList();
+        // debugPrint('PARSE DEBUG: Book ${book.bookId} (${book.name}) chapters: $chaptersForBook');
+      }
+
+      return {
+        'books': books,
+        'chapters': chapters,
+        'verses': verses,
+        'strongsEntries': strongsEntries,
         'bibleVersionId': bibleVersionId,
         'bibleVersionName': bibleVersionName,
         'bibleVersionLanguageCode': bibleVersionLanguageCode,
-      });
+      };
+    } catch (e, stackTrace) {
+      // debugPrint('Parse error: $e\n$stackTrace');
+      rethrow;
+    }
+  }
 
-      final versesForBook = <bp.Verse>[];
-      await for (final verse in parser.verses.where((v) => v.bookId == bookId)) {
-        versesForBook.add(verse);
+  void _saveBibleDataToDb(Map<String, dynamic> parsedData) {
+    final books = parsedData['books'] as List<study_models.Book>;
+    final chapters = parsedData['chapters'] as List<study_models.Chapter>;
+    final verses = parsedData['verses'] as List<study_models.Verse>;
+    final strongsEntries = parsedData['strongsEntries'] as List<study_models.StrongsEntry>;
+    final bibleVersionId = parsedData['bibleVersionId'] as int;
+
+    final bookBox = store.box<study_models.Book>();
+    final chapterBox = store.box<study_models.Chapter>();
+    final verseBox = store.box<study_models.Verse>();
+    final strongsEntryBox = store.box<study_models.StrongsEntry>();
+    final bibleVersionBox = store.box<study_models.BibleVersion>();
+
+    store.runInTransaction(TxMode.write, () {
+      // Put all entities
+      bookBox.putMany(books);
+      chapterBox.putMany(chapters);
+      verseBox.putMany(verses);
+      strongsEntryBox.putMany(strongsEntries);
+
+      final bibleVersion = bibleVersionBox.get(bibleVersionId);
+      if (bibleVersion != null) {
+        bibleVersion.books.addAll(books);
+        bibleVersionBox.put(bibleVersion);
       }
+    });
 
-      final Map<int, List<bp.Verse>> versesByChapter = {};
-      for (final verse in versesForBook) {
-        versesByChapter.putIfAbsent(verse.chapterNum, () => []).add(verse);
-      }
-
-      for (final chapterNumber in versesByChapter.keys.toList()..sort()) {
-        chapters.add({
-          'chapterNumber': chapterNumber,
-          'bookId': bookId,
-        });
-        for (final parsedVerse in versesByChapter[chapterNumber]!) {
-          verses.add({
-            'verseNumber': parsedVerse.num,
-            'text': parsedVerse.text,
-            'chapterNumber': chapterNumber,
-            'bookId': bookId,
-          });
-        }
-      }
-    }
-    return {
-      'books': books,
-      'chapters': chapters,
-      'verses': verses,
-      'bibleVersionId': bibleVersionId,
-      'bibleVersionName': bibleVersionName,
-      'bibleVersionLanguageCode': bibleVersionLanguageCode,
-    };
-  } catch (e) {
-    debugPrint('Parse error: $e');
-    rethrow;
+    // Debug: Verify Genesis chapters
+    final genesisBook = books.firstWhere((b) => b.bookId == 'gen', orElse: () => study_models.Book(name: 'Genesis', bookId: 'gen'));
+    final genesisChapters = chapters.where((c) => c.book.targetId == genesisBook.id).map((c) => c.chapterNumber).toList();
+    // debugPrint('SAVE DEBUG: Chapters for Genesis: $genesisChapters');
   }
-}
-
-// Save parsed data to ObjectBox in main isolate
-void _saveBibleDataToDb(Map<String, dynamic> parsedData) {
-  final books = parsedData['books'] as List<dynamic>;
-  final chapters = parsedData['chapters'] as List<dynamic>;
-  final verses = parsedData['verses'] as List<dynamic>;
-  final bibleVersionId = parsedData['bibleVersionId'];
-  final bibleVersionName = parsedData['bibleVersionName'];
-  final bibleVersionLanguageCode = parsedData['bibleVersionLanguageCode'];
-
-  final bookBox = store.box<study_models.Book>();
-  final chapterBox = store.box<study_models.Chapter>();
-  final verseBox = store.box<study_models.Verse>();
-
-  final booksToInsert = <study_models.Book>[];
-  final chaptersToInsert = <study_models.Chapter>[];
-  final versesToInsert = <study_models.Verse>[];
-
-  final bookIdToBook = <String, study_models.Book>{};
-  final chapterKeyToChapter = <String, study_models.Chapter>{};
-
-  for (final bookMap in books) {
-    final book = study_models.Book(
-      name: bookMap['name'],
-      bookId: bookMap['bookId'],
-    );
-    book.bibleVersion.target = study_models.BibleVersion(
-      id: bibleVersionId,
-      name: bibleVersionName,
-      languageCode: bibleVersionLanguageCode,
-    );
-    booksToInsert.add(book);
-    bookIdToBook[book.bookId] = book;
-  }
-
-  for (final chapterMap in chapters) {
-    final chapter = study_models.Chapter(
-      chapterNumber: chapterMap['chapterNumber'],
-    );
-    final book = bookIdToBook[chapterMap['bookId']];
-    if (book != null) {
-      chapter.book.target = book;
-    }
-    chaptersToInsert.add(chapter);
-    chapterKeyToChapter['${chapterMap['bookId']}_${chapterMap['chapterNumber']}'] = chapter;
-  }
-
-  for (final verseMap in verses) {
-    final verse = study_models.Verse(
-      verseNumber: verseMap['verseNumber'],
-      text: verseMap['text'],
-    );
-    final chapter = chapterKeyToChapter['${verseMap['bookId']}_${verseMap['chapterNumber']}'];
-    if (chapter != null) {
-      verse.chapter.target = chapter;
-    }
-    versesToInsert.add(verse);
-  }
-
-  store.runInTransaction(TxMode.write, () {
-    if (booksToInsert.isNotEmpty) {
-      bookBox.putMany(booksToInsert);
-    }
-    if (chaptersToInsert.isNotEmpty) {
-      chapterBox.putMany(chaptersToInsert);
-    }
-    if (versesToInsert.isNotEmpty) {
-      verseBox.putMany(versesToInsert);
-    }
-  });
-}
 
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -570,7 +552,6 @@ void _saveBibleDataToDb(Map<String, dynamic> parsedData) {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(t.home_settings_screen.download_instructions),
-                            // TODO: Implement Bible Download functionality
                           ],
                         ),
                       ),
@@ -632,19 +613,19 @@ void _saveBibleDataToDb(Map<String, dynamic> parsedData) {
                       children: [
                         Text(t.home_settings_screen.font_size),
                         Slider(
-                          value: 16,
+                          value: context.watch<HomeSettingsFontProvider>().fontSize,
                           min: 10,
                           max: 30,
                           divisions: 20,
-                          label: '16',
+                          label: context.watch<HomeSettingsFontProvider>().fontSize.round().toString(),
                           onChanged: (double value) {
-                            // TODO: Implement Font Size change
+                            context.read<HomeSettingsFontProvider>().setFontSize(value);
                           },
                         ),
                         Text(t.home_settings_screen.preview),
-                        const Text(
+                        Text(
                           'For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.',
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: context.watch<HomeSettingsFontProvider>().fontSize),
                         ),
                       ],
                     ),

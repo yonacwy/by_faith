@@ -141,8 +141,14 @@
     "content": "अध्ययन साझा करें सामग्री"
   },
   "study_strongs_dictionary_screen": {
-    "title": "अध्ययन स्ट्रॉन्ग्स डिक्शनरी",
-    "content": "अध्ययन स्ट्रॉन्ग्स डिक्शनरी सामग्री"
+    "title": "स्ट्रॉन्ग्स डिक्शनरी: {number}",
+    "word": "शब्द",
+    "pronunciation": "उच्चारण",
+    "definition": "परिभाषा",
+    "details": "विवरण",
+    "not_available": "उपलब्ध नहीं है",
+    "not_found": "स्ट्रॉन्ग्स नंबर {number} के लिए कोई प्रविष्टि नहीं मिली",
+    "error_loading": "डिक्शनरी लोड करने में त्रुटि: {error}"
   },
   "study_tab_screen": {
     "title": "अध्ययन",

@@ -359,8 +359,14 @@ class _TranslationsStudyStrongsDictionaryScreenEs implements TranslationsStudySt
 	final TranslationsEs _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Estudio Diccionario Strongs';
-	@override String get content => 'Contenido de Estudio Diccionario Strongs';
+	@override String get title => 'Diccionario Strong: {number}';
+	@override String get word => 'Palabra';
+	@override String get pronunciation => 'Pronunciación';
+	@override String get definition => 'Definición';
+	@override String get details => 'Detalles';
+	@override String get not_available => 'No disponible';
+	@override String get not_found => 'No se encontró ninguna entrada para el número de Strong {number}';
+	@override String get error_loading => 'Error al cargar el diccionario: {error}';
 }
 
 // Path: study_tab_screen
@@ -1084,8 +1090,14 @@ extension on TranslationsEs {
 			case 'study_settings_screen.sample_text': return 'Estudia para presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad.';
 			case 'study_share_screen.title': return 'Estudio Compartir';
 			case 'study_share_screen.content': return 'Contenido de Estudio Compartir';
-			case 'study_strongs_dictionary_screen.title': return 'Estudio Diccionario Strongs';
-			case 'study_strongs_dictionary_screen.content': return 'Contenido de Estudio Diccionario Strongs';
+			case 'study_strongs_dictionary_screen.title': return 'Diccionario Strong: {number}';
+			case 'study_strongs_dictionary_screen.word': return 'Palabra';
+			case 'study_strongs_dictionary_screen.pronunciation': return 'Pronunciación';
+			case 'study_strongs_dictionary_screen.definition': return 'Definición';
+			case 'study_strongs_dictionary_screen.details': return 'Detalles';
+			case 'study_strongs_dictionary_screen.not_available': return 'No disponible';
+			case 'study_strongs_dictionary_screen.not_found': return 'No se encontró ninguna entrada para el número de Strong {number}';
+			case 'study_strongs_dictionary_screen.error_loading': return 'Error al cargar el diccionario: {error}';
 			case 'study_tab_screen.title': return 'Estudio';
 			case 'study_tab_screen.study_menu': return 'Menú de Estudio';
 			case 'study_tab_screen.mapping': return 'Mapeo';
