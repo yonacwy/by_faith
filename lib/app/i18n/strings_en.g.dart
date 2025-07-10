@@ -365,6 +365,7 @@ class TranslationsStudyStrongsDictionaryScreenEn {
 	String get title => 'Strong\'s Dictionary: {number}';
 	String get word => 'Word';
 	String get pronunciation => 'Pronunciation';
+	String get derivation => 'Derivation';
 	String get definition => 'Definition';
 	String get details => 'Details';
 	String get not_available => 'Not available';
@@ -1096,6 +1097,7 @@ extension on Translations {
 			case 'study_strongs_dictionary_screen.title': return 'Strong\'s Dictionary: {number}';
 			case 'study_strongs_dictionary_screen.word': return 'Word';
 			case 'study_strongs_dictionary_screen.pronunciation': return 'Pronunciation';
+			case 'study_strongs_dictionary_screen.derivation': return 'Derivation';
 			case 'study_strongs_dictionary_screen.definition': return 'Definition';
 			case 'study_strongs_dictionary_screen.details': return 'Details';
 			case 'study_strongs_dictionary_screen.not_available': return 'Not available';

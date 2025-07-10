@@ -362,6 +362,7 @@ class _TranslationsStudyStrongsDictionaryScreenEs implements TranslationsStudySt
 	@override String get title => 'Diccionario Strong: {number}';
 	@override String get word => 'Palabra';
 	@override String get pronunciation => 'Pronunciación';
+	@override String get derivation => 'Derivación';
 	@override String get definition => 'Definición';
 	@override String get details => 'Detalles';
 	@override String get not_available => 'No disponible';
@@ -1093,6 +1094,7 @@ extension on TranslationsEs {
 			case 'study_strongs_dictionary_screen.title': return 'Diccionario Strong: {number}';
 			case 'study_strongs_dictionary_screen.word': return 'Palabra';
 			case 'study_strongs_dictionary_screen.pronunciation': return 'Pronunciación';
+			case 'study_strongs_dictionary_screen.derivation': return 'Derivación';
 			case 'study_strongs_dictionary_screen.definition': return 'Definición';
 			case 'study_strongs_dictionary_screen.details': return 'Detalles';
 			case 'study_strongs_dictionary_screen.not_available': return 'No disponible';

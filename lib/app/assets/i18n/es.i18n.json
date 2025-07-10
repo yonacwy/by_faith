@@ -144,6 +144,7 @@
     "title": "Diccionario Strong: {number}",
     "word": "Palabra",
     "pronunciation": "Pronunciación",
+    "derivation": "Derivación",
     "definition": "Definición",
     "details": "Detalles",
     "not_available": "No disponible",

@@ -362,6 +362,7 @@ class _TranslationsStudyStrongsDictionaryScreenHi implements TranslationsStudySt
 	@override String get title => 'स्ट्रॉन्ग्स डिक्शनरी: {number}';
 	@override String get word => 'शब्द';
 	@override String get pronunciation => 'उच्चारण';
+	@override String get derivation => 'व्युत्पत्ति';
 	@override String get definition => 'परिभाषा';
 	@override String get details => 'विवरण';
 	@override String get not_available => 'उपलब्ध नहीं है';
@@ -1094,6 +1095,7 @@ extension on TranslationsHi {
 			case 'study_strongs_dictionary_screen.title': return 'स्ट्रॉन्ग्स डिक्शनरी: {number}';
 			case 'study_strongs_dictionary_screen.word': return 'शब्द';
 			case 'study_strongs_dictionary_screen.pronunciation': return 'उच्चारण';
+			case 'study_strongs_dictionary_screen.derivation': return 'व्युत्पत्ति';
 			case 'study_strongs_dictionary_screen.definition': return 'परिभाषा';
 			case 'study_strongs_dictionary_screen.details': return 'विवरण';
 			case 'study_strongs_dictionary_screen.not_available': return 'उपलब्ध नहीं है';
