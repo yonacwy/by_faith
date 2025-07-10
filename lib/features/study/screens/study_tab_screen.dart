@@ -132,6 +132,8 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
       // Add the Strong's-linked word
       if (wordIndex < words.length) {
         spans.add(WidgetSpan(
+          alignment: PlaceholderAlignment.baseline,
+          baseline: TextBaseline.alphabetic,
           child: GestureDetector(
             onTap: () {
               Navigator.push(
