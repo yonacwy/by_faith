@@ -162,7 +162,10 @@
     "bibles": "Biblias",
     "select_bible_version": "Seleccionar Versión de la Biblia",
     "select_book": "Seleccionar Libro",
-    "select_chapter": "Seleccionar Capítulo"
+    "select_chapter": "Seleccionar Capítulo",
+    "footnote_text": "Texto de la Nota al Pie",
+    "footnote_title": "Nota al Pie",
+    "close_button": "Cerrar"
   },
   "study_topics_screen": {
     "title": "Estudio Temas",

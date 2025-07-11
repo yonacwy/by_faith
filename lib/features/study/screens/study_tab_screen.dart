@@ -161,6 +161,51 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
       wordIndex++;
     }
 
+    // Add clickable "footnote" for verses that have footnotes
+    if (verse.footnotes.isNotEmpty) {
+      spans.add(TextSpan(text: ' ')); // Add a space before "footnote"
+      spans.add(
+        WidgetSpan(
+          alignment: PlaceholderAlignment.baseline,
+          baseline: TextBaseline.alphabetic,
+          child: GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text(t.study_tab_screen.footnote_title),
+                    content: SingleChildScrollView(
+                      child: ListBody(
+                        children: verse.footnotes.map((f) => Text('${f.caller}: ${f.text}')).toList(),
+                      ),
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text(t.study_tab_screen.close_button),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            child: Text(
+              '[${t.study_tab_screen.footnote_text}]', // Add brackets here
+              style: TextStyle(
+                fontFamily: fontProvider.fontFamily,
+                fontSize: fontProvider.fontSize,
+                color: Colors.black, // Footnote text color
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
     return spans;
   }
 

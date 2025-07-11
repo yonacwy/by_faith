@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:xml/xml.dart';
 import 'package:xml/xml_events.dart';
 import 'package:flutter/foundation.dart';
 import 'base_parser.dart';
@@ -96,7 +97,13 @@ class UsfxParser extends BaseParser {
     Chapter? currentChapter;
     Verse? currentVerse;
     List<Map<String, dynamic>> currentStrongsEntries = [];
+    List<Map<String, dynamic>> currentFootnotes = [];
     StringBuffer verseTextBuffer = StringBuffer();
+    bool inFootnote = false;
+    bool inFootnoteReference = false;
+    bool inFootnoteText = false;
+    String? currentFootnoteCaller;
+    StringBuffer currentFootnoteTextBuffer = StringBuffer();
 
     try {
       await for (final event in parseEvents(content)) {
@@ -137,10 +144,12 @@ class UsfxParser extends BaseParser {
                 text: verseTextBuffer.toString().trim(),
                 bookId: currentVerse.bookId,
                 strongsEntries: List.from(currentStrongsEntries),
+                footnotes: List.from(currentFootnotes),
               );
               currentChapter.addVerse(currentVerse);
               currentVerse = null;
               currentStrongsEntries = [];
+              currentFootnotes = [];
               verseTextBuffer.clear();
             }
 
@@ -172,6 +181,7 @@ class UsfxParser extends BaseParser {
                 text: verseTextBuffer.toString().trim(),
                 bookId: currentVerse.bookId,
                 strongsEntries: List.from(currentStrongsEntries),
+                footnotes: List.from(currentFootnotes),
               );
               currentChapter.addVerse(currentVerse);
             }
@@ -183,8 +193,10 @@ class UsfxParser extends BaseParser {
               text: '',
               bookId: currentBook.id,
               strongsEntries: [],
+              footnotes: [],
             );
             currentStrongsEntries = [];
+            currentFootnotes = [];
             verseTextBuffer.clear();
           } else if (event.name == 'w' &&
               currentBook != null &&
@@ -206,6 +218,17 @@ class UsfxParser extends BaseParser {
             }
           } else if (event.name == 'add' && currentVerse != null) {
             // Handle <add> elements by including them in the verse text
+          } else if (event.name == 'f' && currentVerse != null) {
+            inFootnote = true;
+            inFootnoteReference = true; // Assume <fr> immediately follows <f>
+            currentFootnoteCaller = event.attributes
+                .firstWhere((attr) => attr.name == 'caller', orElse: () => XmlEventAttribute('caller', '+', XmlAttributeType.SINGLE_QUOTE))
+                .value;
+          } else if (event.name == 'fr' && inFootnote) {
+            // Footnote reference text, usually same as caller, but can be more detailed
+            // We will capture this in the XmlTextEvent if inFootnoteReference is true
+          } else if (event.name == 'ft' && inFootnote) {
+            inFootnoteText = true;
           }
         } else if (event is XmlEndElementEvent) {
           if (event.name == 'book' && currentBook != null) {
@@ -218,10 +241,12 @@ class UsfxParser extends BaseParser {
                   text: verseTextBuffer.toString().trim(),
                   bookId: currentVerse.bookId,
                   strongsEntries: List.from(currentStrongsEntries),
+                  footnotes: List.from(currentFootnotes),
                 );
                 currentChapter.addVerse(currentVerse);
                 currentVerse = null;
                 currentStrongsEntries = [];
+                currentFootnotes = [];
                 verseTextBuffer.clear();
               }
               currentBook.addChapter(currentChapter);
@@ -237,10 +262,12 @@ class UsfxParser extends BaseParser {
                 text: verseTextBuffer.toString().trim(),
                 bookId: currentVerse.bookId,
                 strongsEntries: List.from(currentStrongsEntries),
+                footnotes: List.from(currentFootnotes),
               );
               currentChapter.addVerse(currentVerse);
               currentVerse = null;
               currentStrongsEntries = [];
+              currentFootnotes = [];
               verseTextBuffer.clear();
             }
             currentChapter = null;
@@ -251,10 +278,12 @@ class UsfxParser extends BaseParser {
               text: verseTextBuffer.toString().trim(),
               bookId: currentVerse.bookId,
               strongsEntries: List.from(currentStrongsEntries),
+              footnotes: List.from(currentFootnotes),
             );
             currentChapter!.addVerse(currentVerse);
             currentVerse = null;
             currentStrongsEntries = [];
+            currentFootnotes = [];
             verseTextBuffer.clear();
           } else if (event.name == 've' && currentVerse != null) {
             currentVerse = Verse(
@@ -263,23 +292,44 @@ class UsfxParser extends BaseParser {
               text: verseTextBuffer.toString().trim(),
               bookId: currentVerse.bookId,
               strongsEntries: List.from(currentStrongsEntries),
+              footnotes: List.from(currentFootnotes),
             );
             currentChapter!.addVerse(currentVerse);
             currentVerse = null;
             currentStrongsEntries = [];
+            currentFootnotes = [];
             verseTextBuffer.clear();
           } else if (event.name == 'w' && currentVerse != null) {
             // No additional action needed at the end of <w> element
           } else if (event.name == 'add' && currentVerse != null) {
             // No additional action needed at the end of <add> element
+          } else if (event.name == 'ft' && inFootnoteText) {
+            if (currentFootnoteCaller != null && currentFootnoteTextBuffer.isNotEmpty) {
+              currentFootnotes.add({
+                'caller': currentFootnoteCaller,
+                'text': currentFootnoteTextBuffer.toString().trim(),
+              });
+            }
+            inFootnoteText = false;
+            currentFootnoteTextBuffer.clear();
+          } else if (event.name == 'f' && inFootnote) {
+            inFootnote = false;
+            inFootnoteReference = false;
+            inFootnoteText = false;
+            currentFootnoteCaller = null;
+            currentFootnoteTextBuffer.clear();
           }
         } else if (event is XmlTextEvent && currentVerse != null) {
           final text = event.value.trim();
           if (text.isNotEmpty) {
-            if (currentStrongsEntries.isNotEmpty && currentStrongsEntries.last['word']!.isEmpty) {
-              currentStrongsEntries.last['word'] = text;
+            if (inFootnoteText) {
+              currentFootnoteTextBuffer.write(' $text');
+            } else if (!inFootnote) {
+              if (currentStrongsEntries.isNotEmpty && currentStrongsEntries.last['word']!.isEmpty) {
+                currentStrongsEntries.last['word'] = text;
+              }
+              verseTextBuffer.write(' $text');
             }
-            verseTextBuffer.write(' $text');
           }
         }
       }
@@ -319,6 +369,12 @@ class UsfxParser extends BaseParser {
     Verse? currentVerse;
     List<Map<String, dynamic>> currentStrongsEntries = [];
     StringBuffer verseTextBuffer = StringBuffer();
+    List<Map<String, dynamic>> currentFootnotes = [];
+    bool inFootnote = false;
+    bool inFootnoteReference = false;
+    bool inFootnoteText = false;
+    String? currentFootnoteCaller;
+    StringBuffer currentFootnoteTextBuffer = StringBuffer();
 
     try {
       await for (final event in parseEvents(content)) {
@@ -360,6 +416,7 @@ class UsfxParser extends BaseParser {
                 text: verseTextBuffer.toString().trim(),
                 bookId: currentVerse.bookId,
                 strongsEntries: List.from(currentStrongsEntries),
+                footnotes: List.from(currentFootnotes),
               );
               yield currentVerse;
             }
@@ -371,8 +428,10 @@ class UsfxParser extends BaseParser {
               text: '',
               bookId: currentBookId,
               strongsEntries: [],
+              footnotes: [],
             );
             currentStrongsEntries = [];
+            currentFootnotes = [];
             verseTextBuffer.clear();
           } else if (event.name == 'w' &&
               currentBookId != null &&
@@ -394,6 +453,17 @@ class UsfxParser extends BaseParser {
             }
           } else if (event.name == 'add' && currentVerse != null) {
             // Handle <add> elements
+          } else if (event.name == 'f' && currentVerse != null) {
+            inFootnote = true;
+            inFootnoteReference = true; // Assume <fr> immediately follows <f>
+            currentFootnoteCaller = event.attributes
+                .firstWhere((attr) => attr.name == 'caller', orElse: () => XmlEventAttribute('caller', '+', XmlAttributeType.SINGLE_QUOTE))
+                .value;
+          } else if (event.name == 'fr' && inFootnote) {
+            // Footnote reference text, usually same as caller, but can be more detailed
+            // We will capture this in the XmlTextEvent if inFootnoteReference is true
+          } else if (event.name == 'ft' && inFootnote) {
+            inFootnoteText = true;
           }
         } else if (event is XmlEndElementEvent) {
           if (event.name == 'v' && currentVerse != null) {
@@ -403,10 +473,12 @@ class UsfxParser extends BaseParser {
               text: verseTextBuffer.toString().trim(),
               bookId: currentVerse.bookId,
               strongsEntries: List.from(currentStrongsEntries),
+              footnotes: List.from(currentFootnotes),
             );
             yield currentVerse;
             currentVerse = null;
             currentStrongsEntries = [];
+            currentFootnotes = [];
             verseTextBuffer.clear();
           } else if (event.name == 've' && currentVerse != null) {
             currentVerse = Verse(
@@ -415,23 +487,46 @@ class UsfxParser extends BaseParser {
               text: verseTextBuffer.toString().trim(),
               bookId: currentVerse.bookId,
               strongsEntries: List.from(currentStrongsEntries),
+              footnotes: List.from(currentFootnotes),
             );
             yield currentVerse;
             currentVerse = null;
             currentStrongsEntries = [];
+            currentFootnotes = [];
             verseTextBuffer.clear();
           } else if (event.name == 'w' && currentVerse != null) {
             // No additional action needed at the end of <w> element
           } else if (event.name == 'add' && currentVerse != null) {
             // No additional action needed at the end of <add> element
+          } else if (event.name == 'f' && inFootnote) {
+            inFootnote = false;
+            inFootnoteReference = false;
+            inFootnoteText = false;
+            currentFootnoteCaller = null;
+            currentFootnoteTextBuffer.clear();
+          } else if (event.name == 'fr' && inFootnoteReference) {
+            inFootnoteReference = false;
+          } else if (event.name == 'ft' && inFootnoteText) {
+            if (currentFootnoteCaller != null && currentFootnoteTextBuffer.isNotEmpty) {
+              currentFootnotes.add({
+                'caller': currentFootnoteCaller,
+                'text': currentFootnoteTextBuffer.toString().trim(),
+              });
+            }
+            inFootnoteText = false;
+            currentFootnoteTextBuffer.clear();
           }
         } else if (event is XmlTextEvent && currentVerse != null) {
           final text = event.value.trim();
           if (text.isNotEmpty) {
-            if (currentStrongsEntries.isNotEmpty && currentStrongsEntries.last['word']!.isEmpty) {
-              currentStrongsEntries.last['word'] = text;
+            if (inFootnoteText) {
+              currentFootnoteTextBuffer.write(' $text');
+            } else if (!inFootnote) {
+              if (currentStrongsEntries.isNotEmpty && currentStrongsEntries.last['word']!.isEmpty) {
+                currentStrongsEntries.last['word'] = text;
+              }
+              verseTextBuffer.write(' $text');
             }
-            verseTextBuffer.write(' $text');
           }
         }
       }
@@ -444,6 +539,7 @@ class UsfxParser extends BaseParser {
           text: verseTextBuffer.toString().trim(),
           bookId: currentVerse.bookId,
           strongsEntries: List.from(currentStrongsEntries),
+          footnotes: List.from(currentFootnotes),
         );
         yield currentVerse;
       }
@@ -466,10 +562,10 @@ class UsfxParser extends BaseParser {
   }
 
   /// Parses XML events from the content string.
-  Stream<XmlEvent> parseEvents(String content) {
+  Stream<XmlEvent> parseEvents(String content) async* {
     try {
-      final events = XmlEventDecoder().convert(content);
-      return Stream.fromIterable(events);
+      final events = Stream.value(content).transform(XmlEventDecoder()).expand((eventList) => eventList);
+      yield* events;
     } catch (e) {
       throw ParseError('Failed to parse XML content: $e');
     }

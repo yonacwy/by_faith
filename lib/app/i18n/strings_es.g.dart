@@ -388,6 +388,9 @@ class _TranslationsStudyTabScreenEs implements TranslationsStudyTabScreenEn {
 	@override String get select_bible_version => 'Seleccionar Versión de la Biblia';
 	@override String get select_book => 'Seleccionar Libro';
 	@override String get select_chapter => 'Seleccionar Capítulo';
+	@override String get footnote_text => 'Texto de la Nota al Pie';
+	@override String get footnote_title => 'Nota al Pie';
+	@override String get close_button => 'Cerrar';
 }
 
 // Path: study_topics_screen
@@ -1111,6 +1114,9 @@ extension on TranslationsEs {
 			case 'study_tab_screen.select_bible_version': return 'Seleccionar Versión de la Biblia';
 			case 'study_tab_screen.select_book': return 'Seleccionar Libro';
 			case 'study_tab_screen.select_chapter': return 'Seleccionar Capítulo';
+			case 'study_tab_screen.footnote_text': return 'Texto de la Nota al Pie';
+			case 'study_tab_screen.footnote_title': return 'Nota al Pie';
+			case 'study_tab_screen.close_button': return 'Cerrar';
 			case 'study_topics_screen.title': return 'Estudio Temas';
 			case 'study_topics_screen.content': return 'Contenido de Estudio Temas';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'Toca el mapa para añadir puntos para el Área.';

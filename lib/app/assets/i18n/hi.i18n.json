@@ -162,7 +162,10 @@
     "bibles": "बाइबल",
     "select_bible_version": "बाइबल संस्करण चुनें",
     "select_book": "पुस्तक चुनें",
-    "select_chapter": "अध्याय चुनें"
+    "select_chapter": "अध्याय चुनें",
+    "footnote_text": "नोट का पाठ",
+    "footnote_title": "नोट शीर्षक",
+    "close_button": "बंद करें"
   },
   "study_topics_screen": {
     "title": "अध्ययन विषय",

@@ -391,6 +391,9 @@ class TranslationsStudyTabScreenEn {
 	String get select_bible_version => 'Select Bible Version';
 	String get select_book => 'Select Book';
 	String get select_chapter => 'Select Chapter';
+	String get footnote_text => 'footnote';
+	String get footnote_title => 'Footnotes';
+	String get close_button => 'Close';
 }
 
 // Path: study_topics_screen
@@ -1114,6 +1117,9 @@ extension on Translations {
 			case 'study_tab_screen.select_bible_version': return 'Select Bible Version';
 			case 'study_tab_screen.select_book': return 'Select Book';
 			case 'study_tab_screen.select_chapter': return 'Select Chapter';
+			case 'study_tab_screen.footnote_text': return 'footnote';
+			case 'study_tab_screen.footnote_title': return 'Footnotes';
+			case 'study_tab_screen.close_button': return 'Close';
 			case 'study_topics_screen.title': return 'Study Topics';
 			case 'study_topics_screen.content': return 'Study Topics Content';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'Tap on the map to add points for Area.';

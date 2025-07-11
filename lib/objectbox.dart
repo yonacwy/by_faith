@@ -25,6 +25,7 @@ late Box<BibleVersion> bibleVersionBox;
 late Box<Book> bookBox;
 late Box<Chapter> chapterBox;
 late Box<Verse> verseBox;
+late Box<Footnote> footnoteBox;
 late Box<StrongsEntry> strongsEntryBox; // Used for storing Strong's number mappings
 
 /// Initializes the ObjectBox store and FMTC backend.
@@ -50,6 +51,7 @@ Future<bool> setupObjectBox() async {
     bookBox = store.box<Book>();
     chapterBox = store.box<Chapter>();
     verseBox = store.box<Verse>();
+    footnoteBox = store.box<Footnote>();
     strongsEntryBox = store.box<StrongsEntry>();
 
     // Initialize FMTC backend with ObjectBox

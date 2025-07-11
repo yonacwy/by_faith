@@ -72,7 +72,20 @@ class Verse {
   @Backlink()
   final strongsEntries = ToMany<StrongsEntry>();
 
+  @Backlink()
+  final footnotes = ToMany<Footnote>();
+
   Verse({this.id = 0, required this.verseNumber, required this.text});
+}
+
+@Entity()
+class Footnote {
+  int id;
+  String caller;
+  String text;
+  final verse = ToOne<Verse>();
+
+  Footnote({this.id = 0, required this.caller, required this.text});
 }
 
 @Entity()

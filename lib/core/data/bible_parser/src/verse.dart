@@ -15,6 +15,9 @@ class Verse {
   /// The list of Strong's entries associated with the verse.
   final List<Map<String, dynamic>> strongsEntries;
 
+  /// The list of footnotes associated with the verse.
+  final List<Map<String, dynamic>> footnotes;
+
   /// Creates a new verse.
   Verse({
     required this.num,
@@ -22,6 +25,7 @@ class Verse {
     required this.text,
     required this.bookId,
     this.strongsEntries = const [],
+    this.footnotes = const [],
   });
 
   /// Creates a verse from a map, typically from database results.
@@ -32,6 +36,10 @@ class Verse {
       text: map['text'] as String,
       bookId: map['book_id'] as String,
       strongsEntries: (map['strongs_entries'] as List<dynamic>?)
+              ?.map((e) => e as Map<String, dynamic>)
+              .toList() ??
+          const [],
+      footnotes: (map['footnotes'] as List<dynamic>?)
               ?.map((e) => e as Map<String, dynamic>)
               .toList() ??
           const [],
@@ -46,6 +54,7 @@ class Verse {
       'text': text,
       'book_id': bookId,
       'strongs_entries': strongsEntries,
+      'footnotes': footnotes,
     };
   }
   

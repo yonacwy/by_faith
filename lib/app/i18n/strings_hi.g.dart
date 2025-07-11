@@ -388,6 +388,9 @@ class _TranslationsStudyTabScreenHi implements TranslationsStudyTabScreenEn {
 	@override String get select_bible_version => 'बाइबल संस्करण चुनें';
 	@override String get select_book => 'पुस्तक चुनें';
 	@override String get select_chapter => 'अध्याय चुनें';
+	@override String get footnote_text => 'नोट का पाठ';
+	@override String get footnote_title => 'नोट शीर्षक';
+	@override String get close_button => 'बंद करें';
 }
 
 // Path: study_topics_screen
@@ -1112,6 +1115,9 @@ extension on TranslationsHi {
 			case 'study_tab_screen.select_bible_version': return 'बाइबल संस्करण चुनें';
 			case 'study_tab_screen.select_book': return 'पुस्तक चुनें';
 			case 'study_tab_screen.select_chapter': return 'अध्याय चुनें';
+			case 'study_tab_screen.footnote_text': return 'नोट का पाठ';
+			case 'study_tab_screen.footnote_title': return 'नोट शीर्षक';
+			case 'study_tab_screen.close_button': return 'बंद करें';
 			case 'study_topics_screen.title': return 'अध्ययन विषय';
 			case 'study_topics_screen.content': return 'अध्ययन विषय सामग्री';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'क्षेत्र के लिए बिंदु जोड़ने के लिए मानचित्र पर टैप करें।';

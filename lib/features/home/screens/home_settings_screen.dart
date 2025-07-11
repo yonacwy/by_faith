@@ -371,6 +371,7 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
       final chapters = <study_models.Chapter>[];
       final verses = <study_models.Verse>[];
       final strongsEntries = <study_models.StrongsEntry>[];
+      final footnotes = <study_models.Footnote>[]; // Declare footnotes list
 
       final bibleVersion = study_models.BibleVersion(
         id: bibleVersionId,
@@ -417,6 +418,21 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
                 // debugPrint('Invalid Strong\'s entry skipped: $strongsEntry');
               }
             }
+
+            for (final footnoteData in parsedVerse.footnotes) {
+              final caller = footnoteData['caller'] as String?;
+              final text = footnoteData['text'] as String?;
+              if (caller != null && text != null && caller.isNotEmpty && text.isNotEmpty) {
+                final footnote = study_models.Footnote(
+                  caller: caller,
+                  text: text,
+                );
+                footnote.verse.target = verse;
+                footnotes.add(footnote);
+              } else {
+                // debugPrint('Invalid footnote skipped: $footnoteData');
+              }
+            }
           }
         }
 
@@ -430,6 +446,7 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
         'chapters': chapters,
         'verses': verses,
         'strongsEntries': strongsEntries,
+        'footnotes': footnotes, // Add footnotes to the returned map
         'bibleVersionId': bibleVersionId,
         'bibleVersionName': bibleVersionName,
         'bibleVersionLanguageCode': bibleVersionLanguageCode,
@@ -445,11 +462,13 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
     final chapters = parsedData['chapters'] as List<study_models.Chapter>;
     final verses = parsedData['verses'] as List<study_models.Verse>;
     final strongsEntries = parsedData['strongsEntries'] as List<study_models.StrongsEntry>;
+    final footnotes = parsedData['footnotes'] as List<study_models.Footnote>; // Retrieve footnotes
     final bibleVersionId = parsedData['bibleVersionId'] as int;
 
     final bookBox = store.box<study_models.Book>();
     final chapterBox = store.box<study_models.Chapter>();
     final verseBox = store.box<study_models.Verse>();
+    final footnoteBox = store.box<study_models.Footnote>(); // Get footnote box
     final strongsEntryBox = store.box<study_models.StrongsEntry>();
     final bibleVersionBox = store.box<study_models.BibleVersion>();
 
@@ -459,6 +478,7 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
       chapterBox.putMany(chapters);
       verseBox.putMany(verses);
       strongsEntryBox.putMany(strongsEntries);
+      footnoteBox.putMany(footnotes); // Put footnotes into the box
 
       final bibleVersion = bibleVersionBox.get(bibleVersionId);
       if (bibleVersion != null) {

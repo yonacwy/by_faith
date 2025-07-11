@@ -162,7 +162,10 @@
     "bibles": "Bibles",
     "select_bible_version": "Select Bible Version",
     "select_book": "Select Book",
-    "select_chapter": "Select Chapter"
+    "select_chapter": "Select Chapter",
+    "footnote_text": "footnote",
+    "footnote_title": "Footnotes",
+    "close_button": "Close"
   },
   "study_topics_screen": {
     "title": "Study Topics",

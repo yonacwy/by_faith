@@ -24,25 +24,25 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(1, 4482728171628808088),
+    id: const obx_int.IdUid(1, 5929613765295525711),
     name: 'BibleVersion',
-    lastPropertyId: const obx_int.IdUid(3, 441834006586782767),
+    lastPropertyId: const obx_int.IdUid(3, 3290317264722410181),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 2169645469310578494),
+        id: const obx_int.IdUid(1, 5758178587501620443),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 4202249154146545137),
+        id: const obx_int.IdUid(2, 1392895879534642852),
         name: 'name',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 441834006586782767),
+        id: const obx_int.IdUid(3, 3290317264722410181),
         name: 'languageCode',
         type: 9,
         flags: 0,
@@ -54,35 +54,35 @@ final _entities = <obx_int.ModelEntity>[
     ],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(2, 4226625150177985646),
+    id: const obx_int.IdUid(2, 6514144642123825323),
     name: 'Book',
-    lastPropertyId: const obx_int.IdUid(4, 2311206085808286945),
+    lastPropertyId: const obx_int.IdUid(4, 8567328524996187650),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 5382574607229658884),
+        id: const obx_int.IdUid(1, 8229589692010228873),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 7751140709105252629),
+        id: const obx_int.IdUid(2, 5007777714971436213),
         name: 'name',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 8568110562773948755),
+        id: const obx_int.IdUid(3, 8706526003145112344),
         name: 'bookId',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 2311206085808286945),
+        id: const obx_int.IdUid(4, 8567328524996187650),
         name: 'bibleVersionId',
         type: 11,
         flags: 520,
-        indexId: const obx_int.IdUid(1, 840761258564636610),
+        indexId: const obx_int.IdUid(1, 5669627352559423401),
         relationTarget: 'BibleVersion',
       ),
     ],
@@ -96,29 +96,29 @@ final _entities = <obx_int.ModelEntity>[
     ],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(3, 4691356889181268231),
+    id: const obx_int.IdUid(3, 3762921488572440383),
     name: 'Chapter',
-    lastPropertyId: const obx_int.IdUid(3, 2273109067514852175),
+    lastPropertyId: const obx_int.IdUid(3, 2855612311783142804),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 4223311709896295579),
+        id: const obx_int.IdUid(1, 4666106466883923663),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 1958052112299906769),
+        id: const obx_int.IdUid(2, 4519314946582169274),
         name: 'chapterNumber',
         type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 2273109067514852175),
+        id: const obx_int.IdUid(3, 2855612311783142804),
         name: 'bookId',
         type: 11,
         flags: 520,
-        indexId: const obx_int.IdUid(2, 5609053808682956387),
+        indexId: const obx_int.IdUid(2, 4396906875524404158),
         relationTarget: 'Book',
       ),
     ],
@@ -128,31 +128,67 @@ final _entities = <obx_int.ModelEntity>[
     ],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(4, 5620303589643903860),
-    name: 'GoArea',
-    lastPropertyId: const obx_int.IdUid(4, 2674573595770416269),
+    id: const obx_int.IdUid(4, 6346345534202357054),
+    name: 'Footnote',
+    lastPropertyId: const obx_int.IdUid(4, 6593655944184754872),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 3352194923588793309),
+        id: const obx_int.IdUid(1, 7218675280001673471),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 8660003898175730291),
+        id: const obx_int.IdUid(2, 1962691397204313542),
+        name: 'caller',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 5302640864129859718),
+        name: 'text',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 6593655944184754872),
+        name: 'verseId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(3, 525787107501050194),
+        relationTarget: 'Verse',
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(5, 3093801091456645251),
+    name: 'GoArea',
+    lastPropertyId: const obx_int.IdUid(4, 9187343311041933708),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 8711526193263464844),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 5117397325705666607),
         name: 'name',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 2528416917395194786),
+        id: const obx_int.IdUid(3, 1122634101947373708),
         name: 'latitudes',
         type: 29,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 2674573595770416269),
+        id: const obx_int.IdUid(4, 9187343311041933708),
         name: 'longitudes',
         type: 29,
         flags: 0,
@@ -162,61 +198,61 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(5, 6824450946892178884),
+    id: const obx_int.IdUid(6, 5076549526135208464),
     name: 'GoChurch',
-    lastPropertyId: const obx_int.IdUid(9, 1023707778163930859),
+    lastPropertyId: const obx_int.IdUid(9, 1865860877181723305),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 5989260318093165831),
+        id: const obx_int.IdUid(1, 6776039938481921239),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 3569208689102277643),
+        id: const obx_int.IdUid(2, 1802202214352012056),
         name: 'churchName',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 7181235882382363886),
+        id: const obx_int.IdUid(3, 1236425932086081868),
         name: 'pastorName',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 6287938348469778172),
+        id: const obx_int.IdUid(4, 6276729596105895661),
         name: 'address',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 6162620796966546948),
+        id: const obx_int.IdUid(5, 5817736905774350417),
         name: 'phone',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 2561848307928590636),
+        id: const obx_int.IdUid(6, 1445835199665984791),
         name: 'email',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(7, 665941643521627821),
+        id: const obx_int.IdUid(7, 2827091406750670612),
         name: 'latitude',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(8, 8850058897847767653),
+        id: const obx_int.IdUid(8, 8984422833646235842),
         name: 'longitude',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(9, 1023707778163930859),
+        id: const obx_int.IdUid(9, 1865860877181723305),
         name: 'financialStatus',
         type: 9,
         flags: 0,
@@ -224,49 +260,49 @@ final _entities = <obx_int.ModelEntity>[
     ],
     relations: <obx_int.ModelRelation>[
       obx_int.ModelRelation(
-        id: const obx_int.IdUid(1, 3116040134819837718),
+        id: const obx_int.IdUid(1, 2015030421706354878),
         name: 'notes',
-        targetId: const obx_int.IdUid(6, 7362787343765341164),
+        targetId: const obx_int.IdUid(7, 2499198326662473262),
       ),
     ],
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(6, 7362787343765341164),
+    id: const obx_int.IdUid(7, 2499198326662473262),
     name: 'GoChurchNote',
-    lastPropertyId: const obx_int.IdUid(5, 4445206818306765087),
+    lastPropertyId: const obx_int.IdUid(5, 8142606139831620518),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 3469376635463896243),
+        id: const obx_int.IdUid(1, 7752432301512177775),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 6801890172064722456),
+        id: const obx_int.IdUid(2, 8248023890618768752),
         name: 'content',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 1687146798843832456),
+        id: const obx_int.IdUid(3, 4312273668176962616),
         name: 'createdAt',
         type: 10,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 3877854701737003035),
+        id: const obx_int.IdUid(4, 2692851118143566103),
         name: 'updatedAt',
         type: 10,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 4445206818306765087),
+        id: const obx_int.IdUid(5, 8142606139831620518),
         name: 'churchId',
         type: 11,
         flags: 520,
-        indexId: const obx_int.IdUid(3, 1938680371075216941),
+        indexId: const obx_int.IdUid(4, 1621786823281970534),
         relationTarget: 'GoChurch',
       ),
     ],
@@ -274,67 +310,67 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(7, 919338507796927308),
+    id: const obx_int.IdUid(8, 1717469661505577188),
     name: 'GoContact',
-    lastPropertyId: const obx_int.IdUid(10, 8258226066476285579),
+    lastPropertyId: const obx_int.IdUid(10, 998125985376004029),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 2552559768373253909),
+        id: const obx_int.IdUid(1, 5441310615714510213),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 2909425688733344974),
+        id: const obx_int.IdUid(2, 1589128174438907055),
         name: 'fullName',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 5525244951221298304),
+        id: const obx_int.IdUid(3, 466770939428195059),
         name: 'latitude',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 4035158936737453030),
+        id: const obx_int.IdUid(4, 5448218041802257451),
         name: 'longitude',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 5165630253212809390),
+        id: const obx_int.IdUid(5, 1242123621423419750),
         name: 'address',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 5909964722415968736),
+        id: const obx_int.IdUid(6, 3374870492535078005),
         name: 'birthday',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(7, 2422865145809649017),
+        id: const obx_int.IdUid(7, 3819339839779393339),
         name: 'phone',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(8, 6670962964526051010),
+        id: const obx_int.IdUid(8, 5627146550180524167),
         name: 'email',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(9, 5085566663210658983),
+        id: const obx_int.IdUid(9, 641563798363097235),
         name: 'isVisited',
         type: 1,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(10, 8258226066476285579),
+        id: const obx_int.IdUid(10, 998125985376004029),
         name: 'eternalStatus',
         type: 9,
         flags: 0,
@@ -342,49 +378,49 @@ final _entities = <obx_int.ModelEntity>[
     ],
     relations: <obx_int.ModelRelation>[
       obx_int.ModelRelation(
-        id: const obx_int.IdUid(2, 53359987778076941),
+        id: const obx_int.IdUid(2, 2062858452978365094),
         name: 'notes',
-        targetId: const obx_int.IdUid(8, 1093446869927623283),
+        targetId: const obx_int.IdUid(9, 3109441418125994827),
       ),
     ],
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(8, 1093446869927623283),
+    id: const obx_int.IdUid(9, 3109441418125994827),
     name: 'GoContactNote',
-    lastPropertyId: const obx_int.IdUid(5, 4632980149094580267),
+    lastPropertyId: const obx_int.IdUid(5, 6678418344990783533),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 1808864252405301937),
+        id: const obx_int.IdUid(1, 3786405350814971839),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 3931659882073148962),
+        id: const obx_int.IdUid(2, 4306140027779007909),
         name: 'content',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 1132785681523852469),
+        id: const obx_int.IdUid(3, 1671378386930304674),
         name: 'createdAt',
         type: 10,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 6736109218263621334),
+        id: const obx_int.IdUid(4, 7805638875137427974),
         name: 'updatedAt',
         type: 10,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 4632980149094580267),
+        id: const obx_int.IdUid(5, 6678418344990783533),
         name: 'contactId',
         type: 11,
         flags: 520,
-        indexId: const obx_int.IdUid(4, 800706614943667620),
+        indexId: const obx_int.IdUid(5, 5984116275207546566),
         relationTarget: 'GoContact',
       ),
     ],
@@ -392,55 +428,55 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(9, 5451854926162428298),
+    id: const obx_int.IdUid(10, 3404911703197134787),
     name: 'GoMapInfo',
-    lastPropertyId: const obx_int.IdUid(8, 302578108253656548),
+    lastPropertyId: const obx_int.IdUid(8, 3053868796215729586),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 5437112535481104502),
+        id: const obx_int.IdUid(1, 3458484008069971549),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 3733842984089792772),
+        id: const obx_int.IdUid(2, 7307583084094836046),
         name: 'name',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 5652871810322291021),
+        id: const obx_int.IdUid(3, 6628605703134198616),
         name: 'filePath',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 217825679222397789),
+        id: const obx_int.IdUid(4, 192106722506815361),
         name: 'downloadUrl',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 2414239046500058502),
+        id: const obx_int.IdUid(5, 5447524414473885113),
         name: 'isTemporary',
         type: 1,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 3358248108797883915),
+        id: const obx_int.IdUid(6, 334577354790561705),
         name: 'latitude',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(7, 5731326033051477027),
+        id: const obx_int.IdUid(7, 2140902790835553814),
         name: 'longitude',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(8, 302578108253656548),
+        id: const obx_int.IdUid(8, 3053868796215729586),
         name: 'zoomLevel',
         type: 6,
         flags: 0,
@@ -450,61 +486,61 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(10, 6871206539427162766),
+    id: const obx_int.IdUid(11, 283725501347890964),
     name: 'GoMinistry',
-    lastPropertyId: const obx_int.IdUid(9, 6388968274498804345),
+    lastPropertyId: const obx_int.IdUid(9, 4665094315776661541),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 5906377377164619800),
+        id: const obx_int.IdUid(1, 3393618463540252303),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 3746568693552496548),
+        id: const obx_int.IdUid(2, 2753655474694800693),
         name: 'ministryName',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 6529200050673444844),
+        id: const obx_int.IdUid(3, 3502522387022774346),
         name: 'contactName',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 37788032292006427),
+        id: const obx_int.IdUid(4, 1005025353038834202),
         name: 'address',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 8743265267035203974),
+        id: const obx_int.IdUid(5, 7132726411900517184),
         name: 'phone',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 6494256895510717666),
+        id: const obx_int.IdUid(6, 8508260482543604563),
         name: 'email',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(7, 5133941193529491588),
+        id: const obx_int.IdUid(7, 4640763345478523338),
         name: 'latitude',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(8, 828915895919470134),
+        id: const obx_int.IdUid(8, 3958504448917051228),
         name: 'longitude',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(9, 6388968274498804345),
+        id: const obx_int.IdUid(9, 4665094315776661541),
         name: 'partnerStatus',
         type: 9,
         flags: 0,
@@ -512,49 +548,49 @@ final _entities = <obx_int.ModelEntity>[
     ],
     relations: <obx_int.ModelRelation>[
       obx_int.ModelRelation(
-        id: const obx_int.IdUid(3, 3948781000548717162),
+        id: const obx_int.IdUid(3, 2859513150906765962),
         name: 'notes',
-        targetId: const obx_int.IdUid(11, 3091243140180611019),
+        targetId: const obx_int.IdUid(12, 3135516209002801155),
       ),
     ],
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(11, 3091243140180611019),
+    id: const obx_int.IdUid(12, 3135516209002801155),
     name: 'GoMinistryNote',
-    lastPropertyId: const obx_int.IdUid(5, 1624158184125297367),
+    lastPropertyId: const obx_int.IdUid(5, 6386080792583004287),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 6409791428060472587),
+        id: const obx_int.IdUid(1, 8231063750355135913),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 1926716655735424194),
+        id: const obx_int.IdUid(2, 8847855821824570875),
         name: 'content',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 1497927857001845497),
+        id: const obx_int.IdUid(3, 9151336151808821816),
         name: 'createdAt',
         type: 10,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 8207728079034894976),
+        id: const obx_int.IdUid(4, 3148602416260753679),
         name: 'updatedAt',
         type: 10,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 1624158184125297367),
+        id: const obx_int.IdUid(5, 6386080792583004287),
         name: 'ministryId',
         type: 11,
         flags: 520,
-        indexId: const obx_int.IdUid(5, 1710818227591860441),
+        indexId: const obx_int.IdUid(6, 3901299357643600852),
         relationTarget: 'GoMinistry',
       ),
     ],
@@ -562,37 +598,37 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(12, 2401055745602323413),
+    id: const obx_int.IdUid(13, 5999358960303787311),
     name: 'GoStreet',
-    lastPropertyId: const obx_int.IdUid(5, 3710261560682865247),
+    lastPropertyId: const obx_int.IdUid(5, 2169087931705308657),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 8680082772552143406),
+        id: const obx_int.IdUid(1, 3870072043880598632),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 3375897007013201319),
+        id: const obx_int.IdUid(2, 8558609543661008497),
         name: 'name',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 7443637868668607607),
+        id: const obx_int.IdUid(3, 3880902833331981317),
         name: 'latitudes',
         type: 29,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 1898371224505733689),
+        id: const obx_int.IdUid(4, 2906946617906996935),
         name: 'longitudes',
         type: 29,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 3710261560682865247),
+        id: const obx_int.IdUid(5, 2169087931705308657),
         name: 'type',
         type: 9,
         flags: 0,
@@ -602,43 +638,43 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(13, 9035246829916087773),
+    id: const obx_int.IdUid(14, 4038999841859225290),
     name: 'GoZone',
-    lastPropertyId: const obx_int.IdUid(6, 8587512528592724963),
+    lastPropertyId: const obx_int.IdUid(6, 2735574394938914656),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 5724300880673191494),
+        id: const obx_int.IdUid(1, 1105127482469808764),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 7072397186487282197),
+        id: const obx_int.IdUid(2, 7045774242814972848),
         name: 'name',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 8303063668848770851),
+        id: const obx_int.IdUid(3, 2420822347540084249),
         name: 'latitude',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 7421145828638014829),
+        id: const obx_int.IdUid(4, 1027942872478104805),
         name: 'longitude',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 1809941431992229611),
+        id: const obx_int.IdUid(5, 4520034773753455158),
         name: 'widthInMeters',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 8587512528592724963),
+        id: const obx_int.IdUid(6, 2735574394938914656),
         name: 'heightInMeters',
         type: 8,
         flags: 0,
@@ -648,41 +684,41 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(14, 1160668021699638557),
+    id: const obx_int.IdUid(15, 1390472641931917158),
     name: 'StrongsEntry',
-    lastPropertyId: const obx_int.IdUid(5, 7593878513270782538),
+    lastPropertyId: const obx_int.IdUid(5, 7554033657394993695),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 3269611191498056818),
+        id: const obx_int.IdUid(1, 379782591004018024),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 1269301466900629845),
+        id: const obx_int.IdUid(2, 7522504930952985120),
         name: 'strongsNumber',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 1332629271494906005),
+        id: const obx_int.IdUid(3, 244766219523998272),
         name: 'word',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 5967839189852796110),
+        id: const obx_int.IdUid(4, 1517873323773691897),
         name: 'position',
         type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 7593878513270782538),
+        id: const obx_int.IdUid(5, 7554033657394993695),
         name: 'verseId',
         type: 11,
         flags: 520,
-        indexId: const obx_int.IdUid(6, 8412888300990771863),
+        indexId: const obx_int.IdUid(7, 666382964867157644),
         relationTarget: 'Verse',
       ),
     ],
@@ -690,43 +726,43 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(15, 3007263155835355943),
+    id: const obx_int.IdUid(16, 5334916226516842493),
     name: 'UserPreferences',
-    lastPropertyId: const obx_int.IdUid(6, 8754708042687307341),
+    lastPropertyId: const obx_int.IdUid(6, 5465055569150460381),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 5163640103286846899),
+        id: const obx_int.IdUid(1, 4075106502683577224),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 2655594336277824002),
+        id: const obx_int.IdUid(2, 2225132536306165617),
         name: 'currentMap',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 4231964696327542358),
+        id: const obx_int.IdUid(3, 3276710180754875974),
         name: 'fontFamily',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 6993547910079968956),
+        id: const obx_int.IdUid(4, 624801467396458061),
         name: 'fontSize',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(5, 6214136589941206754),
+        id: const obx_int.IdUid(5, 6642757416937063869),
         name: 'languageCode',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(6, 8754708042687307341),
+        id: const obx_int.IdUid(6, 5465055569150460381),
         name: 'currentBibleVersionId',
         type: 6,
         flags: 0,
@@ -736,35 +772,35 @@ final _entities = <obx_int.ModelEntity>[
     backlinks: <obx_int.ModelBacklink>[],
   ),
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(16, 3221366510673903850),
+    id: const obx_int.IdUid(17, 4657239357683002436),
     name: 'Verse',
-    lastPropertyId: const obx_int.IdUid(4, 8501380005619129766),
+    lastPropertyId: const obx_int.IdUid(4, 1042409101757814085),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 7224986660849440431),
+        id: const obx_int.IdUid(1, 5141538200753735708),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 6989118159154072591),
+        id: const obx_int.IdUid(2, 6062646266178215160),
         name: 'verseNumber',
         type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 334068803237579692),
+        id: const obx_int.IdUid(3, 6774991863507784784),
         name: 'text',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 8501380005619129766),
+        id: const obx_int.IdUid(4, 1042409101757814085),
         name: 'chapterId',
         type: 11,
         flags: 520,
-        indexId: const obx_int.IdUid(7, 6773673773272115759),
+        indexId: const obx_int.IdUid(8, 1474436333932053173),
         relationTarget: 'Chapter',
       ),
     ],
@@ -773,6 +809,11 @@ final _entities = <obx_int.ModelEntity>[
       obx_int.ModelBacklink(
         name: 'strongsEntries',
         srcEntity: 'StrongsEntry',
+        srcField: '',
+      ),
+      obx_int.ModelBacklink(
+        name: 'footnotes',
+        srcEntity: 'Footnote',
         srcField: '',
       ),
     ],
@@ -817,9 +858,9 @@ Future<obx.Store> openStore({
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(16, 3221366510673903850),
-    lastIndexId: const obx_int.IdUid(7, 6773673773272115759),
-    lastRelationId: const obx_int.IdUid(3, 3948781000548717162),
+    lastEntityId: const obx_int.IdUid(17, 4657239357683002436),
+    lastIndexId: const obx_int.IdUid(8, 1474436333932053173),
+    lastRelationId: const obx_int.IdUid(3, 2859513150906765962),
     lastSequenceId: const obx_int.IdUid(0, 0),
     retiredEntityUids: const [],
     retiredIndexUids: const [],
@@ -1004,8 +1045,57 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
-    GoArea: obx_int.EntityDefinition<GoArea>(
+    Footnote: obx_int.EntityDefinition<Footnote>(
       model: _entities[3],
+      toOneRelations: (Footnote object) => [object.verse],
+      toManyRelations: (Footnote object) => {},
+      getId: (Footnote object) => object.id,
+      setId: (Footnote object, int id) {
+        object.id = id;
+      },
+      objectToFB: (Footnote object, fb.Builder fbb) {
+        final callerOffset = fbb.writeString(object.caller);
+        final textOffset = fbb.writeString(object.text);
+        fbb.startTable(5);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, callerOffset);
+        fbb.addOffset(2, textOffset);
+        fbb.addInt64(3, object.verse.targetId);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final callerParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final textParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final object = Footnote(
+          id: idParam,
+          caller: callerParam,
+          text: textParam,
+        );
+        object.verse.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          10,
+          0,
+        );
+        object.verse.attach(store);
+        return object;
+      },
+    ),
+    GoArea: obx_int.EntityDefinition<GoArea>(
+      model: _entities[4],
       toOneRelations: (GoArea object) => [],
       toManyRelations: (GoArea object) => {},
       getId: (GoArea object) => object.id,
@@ -1055,7 +1145,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     GoChurch: obx_int.EntityDefinition<GoChurch>(
-      model: _entities[4],
+      model: _entities[5],
       toOneRelations: (GoChurch object) => [],
       toManyRelations: (GoChurch object) => {
         obx_int.RelInfo<GoChurch>.toMany(1, object.id): object.notes,
@@ -1151,7 +1241,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     GoChurchNote: obx_int.EntityDefinition<GoChurchNote>(
-      model: _entities[5],
+      model: _entities[6],
       toOneRelations: (GoChurchNote object) => [object.church],
       toManyRelations: (GoChurchNote object) => {},
       getId: (GoChurchNote object) => object.id,
@@ -1209,7 +1299,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     GoContact: obx_int.EntityDefinition<GoContact>(
-      model: _entities[6],
+      model: _entities[7],
       toOneRelations: (GoContact object) => [],
       toManyRelations: (GoContact object) => {
         obx_int.RelInfo<GoContact>.toMany(2, object.id): object.notes,
@@ -1313,7 +1403,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     GoContactNote: obx_int.EntityDefinition<GoContactNote>(
-      model: _entities[7],
+      model: _entities[8],
       toOneRelations: (GoContactNote object) => [object.contact],
       toManyRelations: (GoContactNote object) => {},
       getId: (GoContactNote object) => object.id,
@@ -1371,7 +1461,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     GoMapInfo: obx_int.EntityDefinition<GoMapInfo>(
-      model: _entities[8],
+      model: _entities[9],
       toOneRelations: (GoMapInfo object) => [],
       toManyRelations: (GoMapInfo object) => {},
       getId: (GoMapInfo object) => object.id,
@@ -1451,7 +1541,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     GoMinistry: obx_int.EntityDefinition<GoMinistry>(
-      model: _entities[9],
+      model: _entities[10],
       toOneRelations: (GoMinistry object) => [],
       toManyRelations: (GoMinistry object) => {
         obx_int.RelInfo<GoMinistry>.toMany(3, object.id): object.notes,
@@ -1547,7 +1637,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     GoMinistryNote: obx_int.EntityDefinition<GoMinistryNote>(
-      model: _entities[10],
+      model: _entities[11],
       toOneRelations: (GoMinistryNote object) => [object.ministry],
       toManyRelations: (GoMinistryNote object) => {},
       getId: (GoMinistryNote object) => object.id,
@@ -1605,7 +1695,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     GoStreet: obx_int.EntityDefinition<GoStreet>(
-      model: _entities[11],
+      model: _entities[12],
       toOneRelations: (GoStreet object) => [],
       toManyRelations: (GoStreet object) => {},
       getId: (GoStreet object) => object.id,
@@ -1663,7 +1753,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     GoZone: obx_int.EntityDefinition<GoZone>(
-      model: _entities[12],
+      model: _entities[13],
       toOneRelations: (GoZone object) => [],
       toManyRelations: (GoZone object) => {},
       getId: (GoZone object) => object.id,
@@ -1731,7 +1821,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     StrongsEntry: obx_int.EntityDefinition<StrongsEntry>(
-      model: _entities[13],
+      model: _entities[14],
       toOneRelations: (StrongsEntry object) => [object.verse],
       toManyRelations: (StrongsEntry object) => {},
       getId: (StrongsEntry object) => object.id,
@@ -1788,7 +1878,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     UserPreferences: obx_int.EntityDefinition<UserPreferences>(
-      model: _entities[14],
+      model: _entities[15],
       toOneRelations: (UserPreferences object) => [],
       toManyRelations: (UserPreferences object) => {},
       getId: (UserPreferences object) => object.id,
@@ -1853,7 +1943,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
     ),
     Verse: obx_int.EntityDefinition<Verse>(
-      model: _entities[15],
+      model: _entities[16],
       toOneRelations: (Verse object) => [object.chapter],
       toManyRelations: (Verse object) => {
         obx_int.RelInfo<StrongsEntry>.toOneBacklink(
@@ -1861,6 +1951,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
           object.id,
           (StrongsEntry srcObject) => srcObject.verse,
         ): object.strongsEntries,
+        obx_int.RelInfo<Footnote>.toOneBacklink(
+          4,
+          object.id,
+          (Footnote srcObject) => srcObject.verse,
+        ): object.footnotes,
       },
       getId: (Verse object) => object.id,
       setId: (Verse object, int id) {
@@ -1913,6 +2008,15 @@ obx_int.ModelDefinition getObjectBoxModel() {
             5,
             object.id,
             (StrongsEntry srcObject) => srcObject.verse,
+          ),
+        );
+        obx_int.InternalToManyAccess.setRelInfo<Verse>(
+          object.footnotes,
+          store,
+          obx_int.RelInfo<Footnote>.toOneBacklink(
+            4,
+            object.id,
+            (Footnote srcObject) => srcObject.verse,
           ),
         );
         return object;
@@ -1989,26 +2093,49 @@ class Chapter_ {
   static final verses = obx.QueryBacklinkToMany<Verse, Chapter>(Verse_.chapter);
 }
 
+/// [Footnote] entity fields to define ObjectBox queries.
+class Footnote_ {
+  /// See [Footnote.id].
+  static final id = obx.QueryIntegerProperty<Footnote>(
+    _entities[3].properties[0],
+  );
+
+  /// See [Footnote.caller].
+  static final caller = obx.QueryStringProperty<Footnote>(
+    _entities[3].properties[1],
+  );
+
+  /// See [Footnote.text].
+  static final text = obx.QueryStringProperty<Footnote>(
+    _entities[3].properties[2],
+  );
+
+  /// See [Footnote.verse].
+  static final verse = obx.QueryRelationToOne<Footnote, Verse>(
+    _entities[3].properties[3],
+  );
+}
+
 /// [GoArea] entity fields to define ObjectBox queries.
 class GoArea_ {
   /// See [GoArea.id].
   static final id = obx.QueryIntegerProperty<GoArea>(
-    _entities[3].properties[0],
+    _entities[4].properties[0],
   );
 
   /// See [GoArea.name].
   static final name = obx.QueryStringProperty<GoArea>(
-    _entities[3].properties[1],
+    _entities[4].properties[1],
   );
 
   /// See [GoArea.latitudes].
   static final latitudes = obx.QueryDoubleVectorProperty<GoArea>(
-    _entities[3].properties[2],
+    _entities[4].properties[2],
   );
 
   /// See [GoArea.longitudes].
   static final longitudes = obx.QueryDoubleVectorProperty<GoArea>(
-    _entities[3].properties[3],
+    _entities[4].properties[3],
   );
 }
 
@@ -2016,52 +2143,52 @@ class GoArea_ {
 class GoChurch_ {
   /// See [GoChurch.id].
   static final id = obx.QueryIntegerProperty<GoChurch>(
-    _entities[4].properties[0],
+    _entities[5].properties[0],
   );
 
   /// See [GoChurch.churchName].
   static final churchName = obx.QueryStringProperty<GoChurch>(
-    _entities[4].properties[1],
+    _entities[5].properties[1],
   );
 
   /// See [GoChurch.pastorName].
   static final pastorName = obx.QueryStringProperty<GoChurch>(
-    _entities[4].properties[2],
+    _entities[5].properties[2],
   );
 
   /// See [GoChurch.address].
   static final address = obx.QueryStringProperty<GoChurch>(
-    _entities[4].properties[3],
+    _entities[5].properties[3],
   );
 
   /// See [GoChurch.phone].
   static final phone = obx.QueryStringProperty<GoChurch>(
-    _entities[4].properties[4],
+    _entities[5].properties[4],
   );
 
   /// See [GoChurch.email].
   static final email = obx.QueryStringProperty<GoChurch>(
-    _entities[4].properties[5],
+    _entities[5].properties[5],
   );
 
   /// See [GoChurch.latitude].
   static final latitude = obx.QueryDoubleProperty<GoChurch>(
-    _entities[4].properties[6],
+    _entities[5].properties[6],
   );
 
   /// See [GoChurch.longitude].
   static final longitude = obx.QueryDoubleProperty<GoChurch>(
-    _entities[4].properties[7],
+    _entities[5].properties[7],
   );
 
   /// See [GoChurch.financialStatus].
   static final financialStatus = obx.QueryStringProperty<GoChurch>(
-    _entities[4].properties[8],
+    _entities[5].properties[8],
   );
 
   /// see [GoChurch.notes]
   static final notes = obx.QueryRelationToMany<GoChurch, GoChurchNote>(
-    _entities[4].relations[0],
+    _entities[5].relations[0],
   );
 }
 
@@ -2069,27 +2196,27 @@ class GoChurch_ {
 class GoChurchNote_ {
   /// See [GoChurchNote.id].
   static final id = obx.QueryIntegerProperty<GoChurchNote>(
-    _entities[5].properties[0],
+    _entities[6].properties[0],
   );
 
   /// See [GoChurchNote.content].
   static final content = obx.QueryStringProperty<GoChurchNote>(
-    _entities[5].properties[1],
+    _entities[6].properties[1],
   );
 
   /// See [GoChurchNote.createdAt].
   static final createdAt = obx.QueryDateProperty<GoChurchNote>(
-    _entities[5].properties[2],
+    _entities[6].properties[2],
   );
 
   /// See [GoChurchNote.updatedAt].
   static final updatedAt = obx.QueryDateProperty<GoChurchNote>(
-    _entities[5].properties[3],
+    _entities[6].properties[3],
   );
 
   /// See [GoChurchNote.church].
   static final church = obx.QueryRelationToOne<GoChurchNote, GoChurch>(
-    _entities[5].properties[4],
+    _entities[6].properties[4],
   );
 }
 
@@ -2097,57 +2224,57 @@ class GoChurchNote_ {
 class GoContact_ {
   /// See [GoContact.id].
   static final id = obx.QueryIntegerProperty<GoContact>(
-    _entities[6].properties[0],
+    _entities[7].properties[0],
   );
 
   /// See [GoContact.fullName].
   static final fullName = obx.QueryStringProperty<GoContact>(
-    _entities[6].properties[1],
+    _entities[7].properties[1],
   );
 
   /// See [GoContact.latitude].
   static final latitude = obx.QueryDoubleProperty<GoContact>(
-    _entities[6].properties[2],
+    _entities[7].properties[2],
   );
 
   /// See [GoContact.longitude].
   static final longitude = obx.QueryDoubleProperty<GoContact>(
-    _entities[6].properties[3],
+    _entities[7].properties[3],
   );
 
   /// See [GoContact.address].
   static final address = obx.QueryStringProperty<GoContact>(
-    _entities[6].properties[4],
+    _entities[7].properties[4],
   );
 
   /// See [GoContact.birthday].
   static final birthday = obx.QueryStringProperty<GoContact>(
-    _entities[6].properties[5],
+    _entities[7].properties[5],
   );
 
   /// See [GoContact.phone].
   static final phone = obx.QueryStringProperty<GoContact>(
-    _entities[6].properties[6],
+    _entities[7].properties[6],
   );
 
   /// See [GoContact.email].
   static final email = obx.QueryStringProperty<GoContact>(
-    _entities[6].properties[7],
+    _entities[7].properties[7],
   );
 
   /// See [GoContact.isVisited].
   static final isVisited = obx.QueryBooleanProperty<GoContact>(
-    _entities[6].properties[8],
+    _entities[7].properties[8],
   );
 
   /// See [GoContact.eternalStatus].
   static final eternalStatus = obx.QueryStringProperty<GoContact>(
-    _entities[6].properties[9],
+    _entities[7].properties[9],
   );
 
   /// see [GoContact.notes]
   static final notes = obx.QueryRelationToMany<GoContact, GoContactNote>(
-    _entities[6].relations[0],
+    _entities[7].relations[0],
   );
 }
 
@@ -2155,27 +2282,27 @@ class GoContact_ {
 class GoContactNote_ {
   /// See [GoContactNote.id].
   static final id = obx.QueryIntegerProperty<GoContactNote>(
-    _entities[7].properties[0],
+    _entities[8].properties[0],
   );
 
   /// See [GoContactNote.content].
   static final content = obx.QueryStringProperty<GoContactNote>(
-    _entities[7].properties[1],
+    _entities[8].properties[1],
   );
 
   /// See [GoContactNote.createdAt].
   static final createdAt = obx.QueryDateProperty<GoContactNote>(
-    _entities[7].properties[2],
+    _entities[8].properties[2],
   );
 
   /// See [GoContactNote.updatedAt].
   static final updatedAt = obx.QueryDateProperty<GoContactNote>(
-    _entities[7].properties[3],
+    _entities[8].properties[3],
   );
 
   /// See [GoContactNote.contact].
   static final contact = obx.QueryRelationToOne<GoContactNote, GoContact>(
-    _entities[7].properties[4],
+    _entities[8].properties[4],
   );
 }
 
@@ -2183,42 +2310,42 @@ class GoContactNote_ {
 class GoMapInfo_ {
   /// See [GoMapInfo.id].
   static final id = obx.QueryIntegerProperty<GoMapInfo>(
-    _entities[8].properties[0],
+    _entities[9].properties[0],
   );
 
   /// See [GoMapInfo.name].
   static final name = obx.QueryStringProperty<GoMapInfo>(
-    _entities[8].properties[1],
+    _entities[9].properties[1],
   );
 
   /// See [GoMapInfo.filePath].
   static final filePath = obx.QueryStringProperty<GoMapInfo>(
-    _entities[8].properties[2],
+    _entities[9].properties[2],
   );
 
   /// See [GoMapInfo.downloadUrl].
   static final downloadUrl = obx.QueryStringProperty<GoMapInfo>(
-    _entities[8].properties[3],
+    _entities[9].properties[3],
   );
 
   /// See [GoMapInfo.isTemporary].
   static final isTemporary = obx.QueryBooleanProperty<GoMapInfo>(
-    _entities[8].properties[4],
+    _entities[9].properties[4],
   );
 
   /// See [GoMapInfo.latitude].
   static final latitude = obx.QueryDoubleProperty<GoMapInfo>(
-    _entities[8].properties[5],
+    _entities[9].properties[5],
   );
 
   /// See [GoMapInfo.longitude].
   static final longitude = obx.QueryDoubleProperty<GoMapInfo>(
-    _entities[8].properties[6],
+    _entities[9].properties[6],
   );
 
   /// See [GoMapInfo.zoomLevel].
   static final zoomLevel = obx.QueryIntegerProperty<GoMapInfo>(
-    _entities[8].properties[7],
+    _entities[9].properties[7],
   );
 }
 
@@ -2226,52 +2353,52 @@ class GoMapInfo_ {
 class GoMinistry_ {
   /// See [GoMinistry.id].
   static final id = obx.QueryIntegerProperty<GoMinistry>(
-    _entities[9].properties[0],
+    _entities[10].properties[0],
   );
 
   /// See [GoMinistry.ministryName].
   static final ministryName = obx.QueryStringProperty<GoMinistry>(
-    _entities[9].properties[1],
+    _entities[10].properties[1],
   );
 
   /// See [GoMinistry.contactName].
   static final contactName = obx.QueryStringProperty<GoMinistry>(
-    _entities[9].properties[2],
+    _entities[10].properties[2],
   );
 
   /// See [GoMinistry.address].
   static final address = obx.QueryStringProperty<GoMinistry>(
-    _entities[9].properties[3],
+    _entities[10].properties[3],
   );
 
   /// See [GoMinistry.phone].
   static final phone = obx.QueryStringProperty<GoMinistry>(
-    _entities[9].properties[4],
+    _entities[10].properties[4],
   );
 
   /// See [GoMinistry.email].
   static final email = obx.QueryStringProperty<GoMinistry>(
-    _entities[9].properties[5],
+    _entities[10].properties[5],
   );
 
   /// See [GoMinistry.latitude].
   static final latitude = obx.QueryDoubleProperty<GoMinistry>(
-    _entities[9].properties[6],
+    _entities[10].properties[6],
   );
 
   /// See [GoMinistry.longitude].
   static final longitude = obx.QueryDoubleProperty<GoMinistry>(
-    _entities[9].properties[7],
+    _entities[10].properties[7],
   );
 
   /// See [GoMinistry.partnerStatus].
   static final partnerStatus = obx.QueryStringProperty<GoMinistry>(
-    _entities[9].properties[8],
+    _entities[10].properties[8],
   );
 
   /// see [GoMinistry.notes]
   static final notes = obx.QueryRelationToMany<GoMinistry, GoMinistryNote>(
-    _entities[9].relations[0],
+    _entities[10].relations[0],
   );
 }
 
@@ -2279,27 +2406,27 @@ class GoMinistry_ {
 class GoMinistryNote_ {
   /// See [GoMinistryNote.id].
   static final id = obx.QueryIntegerProperty<GoMinistryNote>(
-    _entities[10].properties[0],
+    _entities[11].properties[0],
   );
 
   /// See [GoMinistryNote.content].
   static final content = obx.QueryStringProperty<GoMinistryNote>(
-    _entities[10].properties[1],
+    _entities[11].properties[1],
   );
 
   /// See [GoMinistryNote.createdAt].
   static final createdAt = obx.QueryDateProperty<GoMinistryNote>(
-    _entities[10].properties[2],
+    _entities[11].properties[2],
   );
 
   /// See [GoMinistryNote.updatedAt].
   static final updatedAt = obx.QueryDateProperty<GoMinistryNote>(
-    _entities[10].properties[3],
+    _entities[11].properties[3],
   );
 
   /// See [GoMinistryNote.ministry].
   static final ministry = obx.QueryRelationToOne<GoMinistryNote, GoMinistry>(
-    _entities[10].properties[4],
+    _entities[11].properties[4],
   );
 }
 
@@ -2307,27 +2434,27 @@ class GoMinistryNote_ {
 class GoStreet_ {
   /// See [GoStreet.id].
   static final id = obx.QueryIntegerProperty<GoStreet>(
-    _entities[11].properties[0],
+    _entities[12].properties[0],
   );
 
   /// See [GoStreet.name].
   static final name = obx.QueryStringProperty<GoStreet>(
-    _entities[11].properties[1],
+    _entities[12].properties[1],
   );
 
   /// See [GoStreet.latitudes].
   static final latitudes = obx.QueryDoubleVectorProperty<GoStreet>(
-    _entities[11].properties[2],
+    _entities[12].properties[2],
   );
 
   /// See [GoStreet.longitudes].
   static final longitudes = obx.QueryDoubleVectorProperty<GoStreet>(
-    _entities[11].properties[3],
+    _entities[12].properties[3],
   );
 
   /// See [GoStreet.type].
   static final type = obx.QueryStringProperty<GoStreet>(
-    _entities[11].properties[4],
+    _entities[12].properties[4],
   );
 }
 
@@ -2335,32 +2462,32 @@ class GoStreet_ {
 class GoZone_ {
   /// See [GoZone.id].
   static final id = obx.QueryIntegerProperty<GoZone>(
-    _entities[12].properties[0],
+    _entities[13].properties[0],
   );
 
   /// See [GoZone.name].
   static final name = obx.QueryStringProperty<GoZone>(
-    _entities[12].properties[1],
+    _entities[13].properties[1],
   );
 
   /// See [GoZone.latitude].
   static final latitude = obx.QueryDoubleProperty<GoZone>(
-    _entities[12].properties[2],
+    _entities[13].properties[2],
   );
 
   /// See [GoZone.longitude].
   static final longitude = obx.QueryDoubleProperty<GoZone>(
-    _entities[12].properties[3],
+    _entities[13].properties[3],
   );
 
   /// See [GoZone.widthInMeters].
   static final widthInMeters = obx.QueryDoubleProperty<GoZone>(
-    _entities[12].properties[4],
+    _entities[13].properties[4],
   );
 
   /// See [GoZone.heightInMeters].
   static final heightInMeters = obx.QueryDoubleProperty<GoZone>(
-    _entities[12].properties[5],
+    _entities[13].properties[5],
   );
 }
 
@@ -2368,27 +2495,27 @@ class GoZone_ {
 class StrongsEntry_ {
   /// See [StrongsEntry.id].
   static final id = obx.QueryIntegerProperty<StrongsEntry>(
-    _entities[13].properties[0],
+    _entities[14].properties[0],
   );
 
   /// See [StrongsEntry.strongsNumber].
   static final strongsNumber = obx.QueryStringProperty<StrongsEntry>(
-    _entities[13].properties[1],
+    _entities[14].properties[1],
   );
 
   /// See [StrongsEntry.word].
   static final word = obx.QueryStringProperty<StrongsEntry>(
-    _entities[13].properties[2],
+    _entities[14].properties[2],
   );
 
   /// See [StrongsEntry.position].
   static final position = obx.QueryIntegerProperty<StrongsEntry>(
-    _entities[13].properties[3],
+    _entities[14].properties[3],
   );
 
   /// See [StrongsEntry.verse].
   static final verse = obx.QueryRelationToOne<StrongsEntry, Verse>(
-    _entities[13].properties[4],
+    _entities[14].properties[4],
   );
 }
 
@@ -2396,58 +2523,63 @@ class StrongsEntry_ {
 class UserPreferences_ {
   /// See [UserPreferences.id].
   static final id = obx.QueryIntegerProperty<UserPreferences>(
-    _entities[14].properties[0],
+    _entities[15].properties[0],
   );
 
   /// See [UserPreferences.currentMap].
   static final currentMap = obx.QueryStringProperty<UserPreferences>(
-    _entities[14].properties[1],
+    _entities[15].properties[1],
   );
 
   /// See [UserPreferences.fontFamily].
   static final fontFamily = obx.QueryStringProperty<UserPreferences>(
-    _entities[14].properties[2],
+    _entities[15].properties[2],
   );
 
   /// See [UserPreferences.fontSize].
   static final fontSize = obx.QueryDoubleProperty<UserPreferences>(
-    _entities[14].properties[3],
+    _entities[15].properties[3],
   );
 
   /// See [UserPreferences.languageCode].
   static final languageCode = obx.QueryStringProperty<UserPreferences>(
-    _entities[14].properties[4],
+    _entities[15].properties[4],
   );
 
   /// See [UserPreferences.currentBibleVersionId].
   static final currentBibleVersionId =
-      obx.QueryIntegerProperty<UserPreferences>(_entities[14].properties[5]);
+      obx.QueryIntegerProperty<UserPreferences>(_entities[15].properties[5]);
 }
 
 /// [Verse] entity fields to define ObjectBox queries.
 class Verse_ {
   /// See [Verse.id].
   static final id = obx.QueryIntegerProperty<Verse>(
-    _entities[15].properties[0],
+    _entities[16].properties[0],
   );
 
   /// See [Verse.verseNumber].
   static final verseNumber = obx.QueryIntegerProperty<Verse>(
-    _entities[15].properties[1],
+    _entities[16].properties[1],
   );
 
   /// See [Verse.text].
   static final text = obx.QueryStringProperty<Verse>(
-    _entities[15].properties[2],
+    _entities[16].properties[2],
   );
 
   /// See [Verse.chapter].
   static final chapter = obx.QueryRelationToOne<Verse, Chapter>(
-    _entities[15].properties[3],
+    _entities[16].properties[3],
   );
 
   /// see [Verse.strongsEntries]
   static final strongsEntries = obx.QueryBacklinkToMany<StrongsEntry, Verse>(
     StrongsEntry_.verse,
+  );
+
+  /// see [Verse.footnotes]
+  static final footnotes = obx.QueryBacklinkToMany<Footnote, Verse>(
+    Footnote_.verse,
   );
 }
