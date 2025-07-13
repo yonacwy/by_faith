@@ -18,6 +18,7 @@ import 'core/models/user_preferences_model.dart';
 import 'features/go/models/go_map_info_model.dart';
 import 'features/go/models/go_model.dart';
 import 'features/go/models/go_route_models.dart';
+import 'features/home/models/home_model.dart';
 import 'features/study/models/study_bibles_model.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
@@ -818,6 +819,40 @@ final _entities = <obx_int.ModelEntity>[
       ),
     ],
   ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(18, 2449440515455172715),
+    name: 'BiblesDownload',
+    lastPropertyId: const obx_int.IdUid(4, 3576989551083092591),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 5886658958664553980),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 88607254207820200),
+        name: 'name',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 3734680322324408185),
+        name: 'url',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 3576989551083092591),
+        name: 'shortTitle',
+        type: 9,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -858,7 +893,7 @@ Future<obx.Store> openStore({
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(17, 4657239357683002436),
+    lastEntityId: const obx_int.IdUid(18, 2449440515455172715),
     lastIndexId: const obx_int.IdUid(8, 1474436333932053173),
     lastRelationId: const obx_int.IdUid(3, 2859513150906765962),
     lastSequenceId: const obx_int.IdUid(0, 0),
@@ -2022,6 +2057,54 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
+    BiblesDownload: obx_int.EntityDefinition<BiblesDownload>(
+      model: _entities[17],
+      toOneRelations: (BiblesDownload object) => [],
+      toManyRelations: (BiblesDownload object) => {},
+      getId: (BiblesDownload object) => object.id,
+      setId: (BiblesDownload object, int id) {
+        object.id = id;
+      },
+      objectToFB: (BiblesDownload object, fb.Builder fbb) {
+        final nameOffset = fbb.writeString(object.name);
+        final urlOffset = fbb.writeString(object.url);
+        final shortTitleOffset = fbb.writeString(object.shortTitle);
+        fbb.startTable(5);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, nameOffset);
+        fbb.addOffset(2, urlOffset);
+        fbb.addOffset(3, shortTitleOffset);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final nameParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final shortTitleParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 10, '');
+        final urlParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final object = BiblesDownload(
+          id: idParam,
+          name: nameParam,
+          shortTitle: shortTitleParam,
+          url: urlParam,
+        );
+
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -2581,5 +2664,28 @@ class Verse_ {
   /// see [Verse.footnotes]
   static final footnotes = obx.QueryBacklinkToMany<Footnote, Verse>(
     Footnote_.verse,
+  );
+}
+
+/// [BiblesDownload] entity fields to define ObjectBox queries.
+class BiblesDownload_ {
+  /// See [BiblesDownload.id].
+  static final id = obx.QueryIntegerProperty<BiblesDownload>(
+    _entities[17].properties[0],
+  );
+
+  /// See [BiblesDownload.name].
+  static final name = obx.QueryStringProperty<BiblesDownload>(
+    _entities[17].properties[1],
+  );
+
+  /// See [BiblesDownload.url].
+  static final url = obx.QueryStringProperty<BiblesDownload>(
+    _entities[17].properties[2],
+  );
+
+  /// See [BiblesDownload.shortTitle].
+  static final shortTitle = obx.QueryStringProperty<BiblesDownload>(
+    _entities[17].properties[3],
   );
 }

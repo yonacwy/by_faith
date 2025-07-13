@@ -194,6 +194,9 @@ class TranslationsHomeSettingsScreenEn {
 	String get no_file_to_install => 'No file selected for installation.';
 	String get install_failed => 'Installation failed';
 	String get install_success => 'Bible installed successfully!';
+	String get search_bibles => 'Search Bibles';
+	String get downloading_bible => 'Downloading Bible...';
+	String get download_failed => 'Download failed';
 }
 
 // Path: home_tab_screen
@@ -1055,6 +1058,9 @@ extension on Translations {
 			case 'home_settings_screen.no_file_to_install': return 'No file selected for installation.';
 			case 'home_settings_screen.install_failed': return 'Installation failed';
 			case 'home_settings_screen.install_success': return 'Bible installed successfully!';
+			case 'home_settings_screen.search_bibles': return 'Search Bibles';
+			case 'home_settings_screen.downloading_bible': return 'Downloading Bible...';
+			case 'home_settings_screen.download_failed': return 'Download failed';
 			case 'home_tab_screen.title': return 'Home';
 			case 'home_tab_screen.menu': return 'Home Menu';
 			case 'home_tab_screen.info': return 'Info';

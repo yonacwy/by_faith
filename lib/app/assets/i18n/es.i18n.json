@@ -84,7 +84,10 @@
     "file_selected_success": "Archivo '{name}' seleccionado con éxito.",
     "no_file_to_install": "No se ha seleccionado ningún archivo para la instalación.",
     "install_failed": "Error en la instalación",
-    "install_success": "¡Biblia instalada con éxito!"
+    "install_success": "¡Biblia instalada con éxito!",
+    "search_bibles": "Buscar Biblias",
+    "downloading_bible": "Descargando Biblia...",
+    "download_failed": "Descarga fallida"
   },
   "study_add_edit_mapping_screen": {
     "title": "Estudio Añadir Editar Mapeo",

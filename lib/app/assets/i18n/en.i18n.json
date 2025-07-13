@@ -70,7 +70,10 @@
     "file_selected_success": "File '{name}' selected successfully.",
     "no_file_to_install": "No file selected for installation.",
     "install_failed": "Installation failed",
-    "install_success": "Bible installed successfully!"
+    "install_success": "Bible installed successfully!",
+    "search_bibles": "Search Bibles",
+    "downloading_bible": "Downloading Bible...",
+    "download_failed": "Download failed"
   },
   "home_tab_screen": {
     "title": "Home",

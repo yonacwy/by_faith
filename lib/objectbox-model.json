@@ -672,9 +672,38 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "18:2449440515455172715",
+      "lastPropertyId": "4:3576989551083092591",
+      "name": "BiblesDownload",
+      "properties": [
+        {
+          "id": "1:5886658958664553980",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:88607254207820200",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:3734680322324408185",
+          "name": "url",
+          "type": 9
+        },
+        {
+          "id": "4:3576989551083092591",
+          "name": "shortTitle",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "17:4657239357683002436",
+  "lastEntityId": "18:2449440515455172715",
   "lastIndexId": "8:1474436333932053173",
   "lastRelationId": "3:2859513150906765962",
   "lastSequenceId": "0:0",

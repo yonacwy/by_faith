@@ -84,7 +84,10 @@
     "file_selected_success": "फ़ाइल '{name}' सफलतापूर्वक चुनी गई।",
     "no_file_to_install": "स्थापना के लिए कोई फ़ाइल नहीं चुनी गई।",
     "install_failed": "स्थापना विफल रही",
-    "install_success": "बाइबल सफलतापूर्वक स्थापित की गई!"
+    "install_success": "बाइबल सफलतापूर्वक स्थापित की गई!",
+    "search_bibles": "बाइबल खोजें",
+    "downloading_bible": "बाइबल डाउनलोड हो रही है...",
+    "download_failed": "डाउनलोड विफल रहा"
   },
   "study_add_edit_mapping_screen": {
     "title": "अध्ययन जोड़ें संपादित करें मैपिंग",

@@ -212,6 +212,9 @@ class _TranslationsHomeSettingsScreenEs implements TranslationsHomeSettingsScree
 	@override String get no_file_to_install => 'No se ha seleccionado ningún archivo para la instalación.';
 	@override String get install_failed => 'Error en la instalación';
 	@override String get install_success => '¡Biblia instalada con éxito!';
+	@override String get search_bibles => 'Buscar Biblias';
+	@override String get downloading_bible => 'Descargando Biblia...';
+	@override String get download_failed => 'Descarga fallida';
 }
 
 // Path: study_add_edit_mapping_screen
@@ -1064,6 +1067,9 @@ extension on TranslationsEs {
 			case 'home_settings_screen.no_file_to_install': return 'No se ha seleccionado ningún archivo para la instalación.';
 			case 'home_settings_screen.install_failed': return 'Error en la instalación';
 			case 'home_settings_screen.install_success': return '¡Biblia instalada con éxito!';
+			case 'home_settings_screen.search_bibles': return 'Buscar Biblias';
+			case 'home_settings_screen.downloading_bible': return 'Descargando Biblia...';
+			case 'home_settings_screen.download_failed': return 'Descarga fallida';
 			case 'study_add_edit_mapping_screen.title': return 'Estudio Añadir Editar Mapeo';
 			case 'study_add_edit_mapping_screen.content': return 'Contenido de Estudio Añadir Editar Mapeo';
 			case 'study_add_edit_notes_screen.title': return 'Estudio Añadir Editar Notas';

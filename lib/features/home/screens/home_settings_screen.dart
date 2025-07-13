@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:by_faith/objectbox.dart';
 import 'package:by_faith/core/models/user_preferences_model.dart';
+import 'package:by_faith/features/home/models/home_model.dart';
 import '../providers/home_settings_font_provider.dart';
 import 'package:by_faith/core/data/bible_parser/bible_parser_flutter.dart' as bp;
 import 'package:by_faith/features/study/models/study_bibles_model.dart' as study_models;
@@ -15,6 +16,7 @@ import 'package:xml/xml.dart' as xml;
 import 'package:by_faith/objectbox.g.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 
 class HomeSettingsScreen extends StatefulWidget {
   const HomeSettingsScreen({super.key});
@@ -27,17 +29,24 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
   late Locale _selectedLanguage;
   bool _isBiblesInstalledExpanded = false;
   List<study_models.BibleVersion> _installedBibles = [];
+  List<BiblesDownload> _downloadableBibles = [];
+  List<BiblesDownload> _filteredBibles = [];
   bool _isLoading = false;
   String _loadingMessage = '';
   String? _uploadedFilePath;
   bool _showInstallButton = false;
+  int _currentPage = 0;
+  final int _pageSize = 100;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _loadInstalledBibles();
+    _loadDownloadableBibles();
     final prefs = getUserPreferences(userPreferencesBox);
     _selectedLanguage = Locale(prefs.languageCode ?? 'en');
+    _searchController.addListener(_filterBibles);
   }
 
   void _loadInstalledBibles() {
@@ -47,10 +56,47 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
     });
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _selectedLanguage = TranslationProvider.of(context).locale.flutterLocale;
+  void _loadDownloadableBibles() {
+    setState(() {
+      _downloadableBibles = biblesdownloadBox.getAll();
+      _filteredBibles = _downloadableBibles;
+    });
+  }
+
+  void _filterBibles() {
+    final query = _searchController.text.toLowerCase();
+    setState(() {
+      _currentPage = 0; // Reset to first page on search
+      if (query.isEmpty) {
+        _filteredBibles = _downloadableBibles;
+      } else {
+        _filteredBibles = _downloadableBibles
+            .where((bible) => bible.shortTitle.toLowerCase().contains(query))
+            .toList();
+      }
+    });
+  }
+
+  List<BiblesDownload> _getCurrentPageBibles() {
+    final startIndex = _currentPage * _pageSize;
+    final endIndex = (startIndex + _pageSize).clamp(0, _filteredBibles.length);
+    return _filteredBibles.sublist(startIndex, endIndex);
+  }
+
+  void _nextPage() {
+    if ((_currentPage + 1) * _pageSize < _filteredBibles.length) {
+      setState(() {
+        _currentPage++;
+      });
+    }
+  }
+
+  void _previousPage() {
+    if (_currentPage > 0) {
+      setState(() {
+        _currentPage--;
+      });
+    }
   }
 
   void _deleteBible(study_models.BibleVersion bible) {
@@ -174,11 +220,6 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
     });
 
     try {
-      if (RootIsolateToken.instance == null) {
-        throw Exception('RootIsolateToken is null. Ensure it is initialized in main.dart.');
-      }
-
-      final startTime = DateTime.now();
       final Map<String, dynamic> parsedData = await compute(
         _extractAndParseBibleData,
         {
@@ -186,7 +227,6 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
           'rootIsolateToken': RootIsolateToken.instance,
         },
       );
-      // debugPrint('Extraction took: ${DateTime.now().difference(startTime).inMilliseconds}ms');
 
       if (parsedData['error'] != null) {
         _showSnackBar('${t.home_settings_screen.install_failed}: ${parsedData['error']}');
@@ -211,9 +251,7 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
 
         if (existingVersion != null) {
           _showSnackBar(t.home_settings_screen.bible_already_exists.replaceAll('{name}', bibleName));
-          await Directory(extractPath).delete(recursive: true).catchError((e) {
-            // debugPrint('Failed to delete temp directory: $e');
-          });
+          await Directory(extractPath).delete(recursive: true).catchError((e) {});
           return;
         }
 
@@ -223,7 +261,6 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
         );
         final bibleVersionId = bibleVersionBox.put(newBibleVersion);
 
-        final startDbTime = DateTime.now();
         final parsedBibleData = await compute(_parseBibleDataForDb, {
           'xmlContent': usfxXmlContent,
           'bibleVersionId': bibleVersionId,
@@ -231,7 +268,6 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
           'bibleVersionLanguageCode': languageCode,
         });
         _saveBibleDataToDb(parsedBibleData);
-        // debugPrint('Database save took: ${DateTime.now().difference(startDbTime).inMilliseconds}ms');
 
         final prefs = getUserPreferences(userPreferencesBox);
         prefs.currentBibleVersionId = bibleVersionId;
@@ -246,9 +282,7 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
         _showSnackBar(t.home_settings_screen.no_xml_found);
       }
 
-      await Directory(extractPath).delete(recursive: true).catchError((e) {
-        // debugPrint('Failed to delete temp directory: $e');
-      });
+      await Directory(extractPath).delete(recursive: true).catchError((e) {});
     } catch (e) {
       _showSnackBar('${t.home_settings_screen.install_failed}: $e');
     } finally {
@@ -260,14 +294,45 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
     }
   }
 
+  Future<void> _downloadBible(String url, String name, String shortTitle) async {
+    final t = Translations.of(context);
+    setState(() {
+      _isLoading = true;
+      _loadingMessage = t.home_settings_screen.downloading_bible.replaceAll('{name}', shortTitle);
+    });
+
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final tempDir = await getTemporaryDirectory();
+        final filePath = p.join(tempDir.path, '${name.replaceAll(' ', '_')}.zip');
+        final file = File(filePath);
+        await file.writeAsBytes(response.bodyBytes);
+
+        setState(() {
+          _uploadedFilePath = filePath;
+          _showInstallButton = true;
+          _loadingMessage = t.home_settings_screen.file_selected;
+        });
+        _showSnackBar(t.home_settings_screen.file_selected_success.replaceAll('{name}', shortTitle));
+      } else {
+        _showSnackBar(t.home_settings_screen.download_failed);
+      }
+    } catch (e) {
+      _showSnackBar('${t.home_settings_screen.download_failed}: $e');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   static Future<Map<String, dynamic>> _extractAndParseBibleData(Map<String, dynamic> data) async {
     final String filePath = data['filePath'];
     final RootIsolateToken? rootIsolateToken = data['rootIsolateToken'];
 
     if (rootIsolateToken != null) {
       BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
-    } else {
-      // debugPrint('RootIsolateToken was null in isolate.');
     }
 
     Directory? tempDir;
@@ -313,9 +378,7 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
             if (xmlDocument.rootElement.name.local == 'usfx') {
               usfxXmlFilePath = entity.path;
             }
-          } catch (e) {
-            // Ignore non-USFX XML parsing errors
-          }
+          } catch (e) {}
         }
       }
 
@@ -338,9 +401,7 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
             if (nameElement.innerText.isNotEmpty) {
               bibleName = nameElement.innerText;
             }
-          } catch (e) {
-            // Ignore metadata parsing errors
-          }
+          } catch (e) {}
         }
         return {
           'xmlContent': xmlContent,
@@ -371,7 +432,7 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
       final chapters = <study_models.Chapter>[];
       final verses = <study_models.Verse>[];
       final strongsEntries = <study_models.StrongsEntry>[];
-      final footnotes = <study_models.Footnote>[]; // Declare footnotes list
+      final footnotes = <study_models.Footnote>[];
 
       final bibleVersion = study_models.BibleVersion(
         id: bibleVersionId,
@@ -414,8 +475,6 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
                 );
                 entry.verse.target = verse;
                 strongsEntries.add(entry);
-              } else {
-                // debugPrint('Invalid Strong\'s entry skipped: $strongsEntry');
               }
             }
 
@@ -429,16 +488,10 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
                 );
                 footnote.verse.target = verse;
                 footnotes.add(footnote);
-              } else {
-                // debugPrint('Invalid footnote skipped: $footnoteData');
               }
             }
           }
         }
-
-        // Debug: Print chapters for this book
-        final chaptersForBook = chapters.where((c) => c.book.target == book).map((c) => c.chapterNumber).toList();
-        // debugPrint('PARSE DEBUG: Book ${book.bookId} (${book.name}) chapters: $chaptersForBook');
       }
 
       return {
@@ -446,13 +499,12 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
         'chapters': chapters,
         'verses': verses,
         'strongsEntries': strongsEntries,
-        'footnotes': footnotes, // Add footnotes to the returned map
+        'footnotes': footnotes,
         'bibleVersionId': bibleVersionId,
         'bibleVersionName': bibleVersionName,
         'bibleVersionLanguageCode': bibleVersionLanguageCode,
       };
     } catch (e, stackTrace) {
-      // debugPrint('Parse error: $e\n$stackTrace');
       rethrow;
     }
   }
@@ -462,23 +514,22 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
     final chapters = parsedData['chapters'] as List<study_models.Chapter>;
     final verses = parsedData['verses'] as List<study_models.Verse>;
     final strongsEntries = parsedData['strongsEntries'] as List<study_models.StrongsEntry>;
-    final footnotes = parsedData['footnotes'] as List<study_models.Footnote>; // Retrieve footnotes
+    final footnotes = parsedData['footnotes'] as List<study_models.Footnote>;
     final bibleVersionId = parsedData['bibleVersionId'] as int;
 
     final bookBox = store.box<study_models.Book>();
     final chapterBox = store.box<study_models.Chapter>();
     final verseBox = store.box<study_models.Verse>();
-    final footnoteBox = store.box<study_models.Footnote>(); // Get footnote box
+    final footnoteBox = store.box<study_models.Footnote>();
     final strongsEntryBox = store.box<study_models.StrongsEntry>();
     final bibleVersionBox = store.box<study_models.BibleVersion>();
 
     store.runInTransaction(TxMode.write, () {
-      // Put all entities
       bookBox.putMany(books);
       chapterBox.putMany(chapters);
       verseBox.putMany(verses);
       strongsEntryBox.putMany(strongsEntries);
-      footnoteBox.putMany(footnotes); // Put footnotes into the box
+      footnoteBox.putMany(footnotes);
 
       final bibleVersion = bibleVersionBox.get(bibleVersionId);
       if (bibleVersion != null) {
@@ -486,11 +537,6 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
         bibleVersionBox.put(bibleVersion);
       }
     });
-
-    // Debug: Verify Genesis chapters
-    final genesisBook = books.firstWhere((b) => b.bookId == 'gen', orElse: () => study_models.Book(name: 'Genesis', bookId: 'gen'));
-    final genesisChapters = chapters.where((c) => c.book.targetId == genesisBook.id).map((c) => c.chapterNumber).toList();
-    // debugPrint('SAVE DEBUG: Chapters for Genesis: $genesisChapters');
   }
 
   void _showSnackBar(String message) {
@@ -563,18 +609,54 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
                     ),
                   ),
                   ExpansionTile(
-                    title: Text(t.home_settings_screen.bible_download),
+                    title: const Text('Download Bibles'),
                     leading: const Icon(Icons.download),
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(t.home_settings_screen.download_instructions),
-                          ],
+                        child: TextField(
+                          controller: _searchController,
+                          decoration: InputDecoration(
+                            labelText: t.home_settings_screen.search_bibles,
+                            border: const OutlineInputBorder(),
+                            prefixIcon: const Icon(Icons.search),
+                          ),
                         ),
                       ),
+                      if (_filteredBibles.isEmpty)
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                          child: Text('No bibles found.'),
+                        )
+                      else
+                        ..._getCurrentPageBibles().map((bible) {
+                          return ListTile(
+                            title: Text(bible.shortTitle),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.download),
+                              tooltip: 'Download Bible',
+                              onPressed: () => _downloadBible(bible.url, bible.name, bible.shortTitle),
+                            ),
+                          );
+                        }).toList(),
+                      if (_filteredBibles.length > _pageSize)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.arrow_back),
+                                onPressed: _currentPage > 0 ? _previousPage : null,
+                              ),
+                              Text('Page ${_currentPage + 1} of ${(_filteredBibles.length / _pageSize).ceil()}'),
+                              IconButton(
+                                icon: const Icon(Icons.arrow_forward),
+                                onPressed: (_currentPage + 1) * _pageSize < _filteredBibles.length ? _nextPage : null,
+                              ),
+                            ],
+                          ),
+                        ),
                     ],
                   ),
                   ExpansionTile(
@@ -586,24 +668,24 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
                         _isBiblesInstalledExpanded = expanded;
                       });
                     },
-                    children: [
-                      _installedBibles.isEmpty
-                          ? Padding(
+                    children: _installedBibles.isEmpty
+                        ? [
+                            Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                               child: Text(t.home_settings_screen.no_bibles_installed),
-                            )
-                          : Column(
-                              children: _installedBibles.map((bible) => ListTile(
-                                    title: Text(bible.name),
-                                    subtitle: Text(bible.languageCode),
-                                    trailing: IconButton(
-                                      icon: const Icon(Icons.delete),
-                                      tooltip: t.home_settings_screen.delete_bible,
-                                      onPressed: () => _confirmAndDeleteBible(bible),
-                                    ),
-                                  )).toList(),
                             ),
-                    ],
+                          ]
+                        : _installedBibles.map((bible) {
+                            return ListTile(
+                              title: Text(bible.name),
+                              subtitle: Text(bible.languageCode),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.delete),
+                                tooltip: t.home_settings_screen.delete_bible,
+                                onPressed: () => _confirmAndDeleteBible(bible),
+                              ),
+                            );
+                          }).toList(),
                   ),
                 ],
               ),
@@ -731,5 +813,11 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 }

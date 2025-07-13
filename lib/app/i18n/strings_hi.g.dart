@@ -212,6 +212,9 @@ class _TranslationsHomeSettingsScreenHi implements TranslationsHomeSettingsScree
 	@override String get no_file_to_install => 'स्थापना के लिए कोई फ़ाइल नहीं चुनी गई।';
 	@override String get install_failed => 'स्थापना विफल रही';
 	@override String get install_success => 'बाइबल सफलतापूर्वक स्थापित की गई!';
+	@override String get search_bibles => 'बाइबल खोजें';
+	@override String get downloading_bible => 'बाइबल डाउनलोड हो रही है...';
+	@override String get download_failed => 'डाउनलोड विफल रहा';
 }
 
 // Path: study_add_edit_mapping_screen
@@ -1065,6 +1068,9 @@ extension on TranslationsHi {
 			case 'home_settings_screen.no_file_to_install': return 'स्थापना के लिए कोई फ़ाइल नहीं चुनी गई।';
 			case 'home_settings_screen.install_failed': return 'स्थापना विफल रही';
 			case 'home_settings_screen.install_success': return 'बाइबल सफलतापूर्वक स्थापित की गई!';
+			case 'home_settings_screen.search_bibles': return 'बाइबल खोजें';
+			case 'home_settings_screen.downloading_bible': return 'बाइबल डाउनलोड हो रही है...';
+			case 'home_settings_screen.download_failed': return 'डाउनलोड विफल रहा';
 			case 'study_add_edit_mapping_screen.title': return 'अध्ययन जोड़ें संपादित करें मैपिंग';
 			case 'study_add_edit_mapping_screen.content': return 'अध्ययन जोड़ें संपादित करें मैपिंग सामग्री';
 			case 'study_add_edit_notes_screen.title': return 'अध्ययन जोड़ें संपादित करें नोट्स';
