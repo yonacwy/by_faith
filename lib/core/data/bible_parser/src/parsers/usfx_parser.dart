@@ -112,7 +112,7 @@ class UsfxParser extends BaseParser {
             String bookId = '';
             for (var attr in event.attributes) {
               if (attr.name == 'id') {
-                bookId = attr.value.toUpperCase();
+                bookId = attr.value.trim().toUpperCase();
                 break;
               }
             }
@@ -120,6 +120,12 @@ class UsfxParser extends BaseParser {
 
             final bookNum = _getBookNum(bookId);
             final bookName = _getBookName(bookId);
+
+            // Skip books that are not recognized (e.g., "INT", "TDX")
+            if (bookName == 'Unknown') {
+              debugPrint('Skipping unknown book ID: $bookId');
+              continue;
+            }
 
             currentBook = Book(
               id: bookId,
@@ -550,7 +556,7 @@ class UsfxParser extends BaseParser {
 
   /// Gets the book number based on its ID.
   int _getBookNum(String bookId) {
-    final upperBookId = bookId.toUpperCase();
+    final upperBookId = bookId.trim().toUpperCase();
     final keys = _bookNames.keys.toList();
     final index = keys.indexOf(upperBookId);
     return index >= 0 ? index + 1 : 0;
@@ -558,7 +564,7 @@ class UsfxParser extends BaseParser {
 
   /// Gets the book name based on its ID.
   String _getBookName(String bookId) {
-    return _bookNames[bookId.toUpperCase()] ?? 'Unknown';
+    return _bookNames[bookId.trim().toUpperCase()] ?? 'Unknown';
   }
 
   /// Parses XML events from the content string.

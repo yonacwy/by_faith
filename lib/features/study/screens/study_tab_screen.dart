@@ -105,7 +105,7 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
     final fontProvider = context.watch<StudySettingsFontProvider>();
     final textStyle = TextStyle(
       fontFamily: fontProvider.fontFamily,
-      fontSize: fontProvider.fontSize,
+      fontSize: fontProvider.fontSize + 1.0, // Increase plain text font size
       color: Colors.black,
     );
     final strongsStyle = TextStyle(
