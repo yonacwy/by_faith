@@ -611,6 +611,11 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
                   ExpansionTile(
                     title: const Text('Download Bibles'),
                     leading: const Icon(Icons.download),
+                    onExpansionChanged: (bool expanded) {
+                      if (expanded) {
+                        _loadDownloadableBibles();
+                      }
+                    },
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -623,23 +628,34 @@ class _HomeSettingsScreenState extends State<HomeSettingsScreen> {
                           ),
                         ),
                       ),
-                      if (_filteredBibles.isEmpty)
+                      if (_searchController.text.isNotEmpty && _filteredBibles.isEmpty)
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                          child: Text('No bibles found.'),
+                          child: Text('No bibles found for your search.'),
                         )
-                      else
+                      else if (_searchController.text.isNotEmpty && _filteredBibles.isNotEmpty)
                         ..._getCurrentPageBibles().map((bible) {
-                          return ListTile(
-                            title: Text(bible.shortTitle),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.download),
-                              tooltip: 'Download Bible',
-                              onPressed: () => _downloadBible(bible.url, bible.name, bible.shortTitle),
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    bible.shortTitle,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.download),
+                                  tooltip: 'Download Bible',
+                                  onPressed: () => _downloadBible(bible.url, bible.name, bible.shortTitle),
+                                ),
+                              ],
                             ),
                           );
                         }).toList(),
-                      if (_filteredBibles.length > _pageSize)
+                      if (_searchController.text.isNotEmpty && _filteredBibles.length > _pageSize)
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                           child: Row(
