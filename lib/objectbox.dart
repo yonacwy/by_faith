@@ -32,7 +32,8 @@ late Box<Verse> verseBox;
 late Box<Footnote> footnoteBox;
 late Box<StrongsEntry> strongsEntryBox;
 late Box<BiblesDownload> biblesdownloadBox;
-late Box<CreatedTopicsEn> studyTopicsEnBox; // Box for topics
+late Box<CreatedTopicsEn> studyCreatedTopicsEnBox; // Box for created topics
+late Box<GeneratedTopicsEn> studyGeneratedTopicsEnBox; // Box for generated topics
 
 /// Initializes the ObjectBox store and FMTC backend.
 /// Returns `true` if successful, `false` otherwise.
@@ -60,7 +61,8 @@ Future<bool> setupObjectBox() async {
     footnoteBox = store.box<Footnote>();
     strongsEntryBox = store.box<StrongsEntry>();
     biblesdownloadBox = store.box<BiblesDownload>();
-    studyTopicsEnBox = store.box<CreatedTopicsEn>();
+    studyCreatedTopicsEnBox = store.box<CreatedTopicsEn>();
+    studyGeneratedTopicsEnBox = store.box<GeneratedTopicsEn>();
 
     // Initialize FMTC backend with ObjectBox
     await FMTCObjectBoxBackend().initialise();
@@ -101,12 +103,12 @@ Future<void> loadTopicsFromJson() async {
   try {
     final String response = await rootBundle.loadString('lib/features/study/assets/data/topics_en.i18n.json');
     final Map<String, dynamic> data = jsonDecode(response);
-    final List<CreatedTopicsEn> topics = data.entries.map((entry) {
+    final List<GeneratedTopicsEn> topics = data.entries.map((entry) {
       final title = entry.key.replaceAll(RegExp(r'\{TOP\d*\}'), '').trim();
       final verses = (entry.value as List<dynamic>).map((item) => item['bible'] as String).toList();
-      return CreatedTopicsEn(title: title, verses: verses);
+      return GeneratedTopicsEn(title: title, verses: verses);
     }).toList();
-    studyTopicsEnBox.putMany(topics);
+    studyGeneratedTopicsEnBox.putMany(topics);
     print('Loaded ${topics.length} topics into ObjectBox.');
   } catch (e) {
     print('Error loading topics from JSON: $e');

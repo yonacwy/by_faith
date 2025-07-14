@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:by_faith/app/i18n/strings.g.dart';
 import 'package:by_faith/features/study/models/study_topics_model.dart';
 import 'package:by_faith/objectbox.dart';
-import 'package:objectbox/objectbox.dart'; // Required for Box type
 import 'package:by_faith/features/study/screens/study_add_edit_topics_screen.dart';
 
 class StudyTopicsScreen extends StatefulWidget {
@@ -15,54 +14,50 @@ class StudyTopicsScreen extends StatefulWidget {
 class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
   final TextEditingController _searchController = TextEditingController();
   List<CreatedTopicsEn> _createdTopics = [];
-  List<CreatedTopicsEn> _filteredGeneratedTopics = [];
-  List<CreatedTopicsEn> _allGeneratedTopics = [];
-  late Box<GeneratedTopicsEn> _generatedTopicsBox;
+  List<CreatedTopicsEn> _filteredCreatedTopics = [];
+  List<GeneratedTopicsEn> _generatedTopics = [];
+  List<GeneratedTopicsEn> _filteredGeneratedTopics = [];
 
   @override
   void initState() {
     super.initState();
-    _generatedTopicsBox = store.box<GeneratedTopicsEn>();
     _loadTopics();
     _searchController.addListener(_filterTopics);
   }
 
   void _loadTopics() {
     setState(() {
-      _createdTopics = _generatedTopicsBox.getAll().map((t) => CreatedTopicsEn(title: t.title, verses: t.verses)).toList();
-      _allGeneratedTopics = studyTopicsEnBox.getAll();
-      _filteredGeneratedTopics = _allGeneratedTopics;
+      _createdTopics = studyCreatedTopicsEnBox.getAll();
+      _filteredCreatedTopics = _createdTopics;
+      _generatedTopics = studyGeneratedTopicsEnBox.getAll();
+      _filteredGeneratedTopics = _generatedTopics;
     });
   }
 
   void _filterTopics() {
     final query = _searchController.text.toLowerCase();
     setState(() {
-      _filteredGeneratedTopics = _allGeneratedTopics
+      _filteredCreatedTopics = _createdTopics
           .where((topic) => topic.title.toLowerCase().contains(query))
+          .toList();
+      _filteredGeneratedTopics = _generatedTopics
+          .where((topic) => (topic as GeneratedTopicsEn).title.toLowerCase().contains(query))
           .toList();
     });
   }
 
-  void _addTopicToCreated(CreatedTopicsEn topic) {
-    setState(() {
-      _generatedTopicsBox.put(GeneratedTopicsEn(title: topic.title, verses: topic.verses));
-      _loadTopics();
-    });
-  }
-
-  void _removeVerseFromTopic(GeneratedTopicsEn topic, String verse) {
+  void _removeVerseFromTopic(CreatedTopicsEn topic, String verse) {
     setState(() {
       topic.verses.remove(verse);
-      _generatedTopicsBox.put(topic);
+      studyCreatedTopicsEnBox.put(topic);
       _loadTopics();
     });
   }
 
-  void _addVerseToTopic(GeneratedTopicsEn topic, String verse) {
+  void _addVerseToTopic(CreatedTopicsEn topic, String verse) {
     setState(() {
       topic.verses.add(verse);
-      _generatedTopicsBox.put(topic);
+      studyCreatedTopicsEnBox.put(topic);
       _loadTopics();
     });
   }
@@ -85,7 +80,7 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const StudyAddEditTopicsScreen(),
+                  builder: (context) => StudyAddEditTopicsScreen(topic: null),
                 ),
               ).then((_) => _loadTopics());
             },
@@ -94,7 +89,7 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
       ),
       body: Column(
         children: [
-          // Search bar for Generated Topics
+          // Search bar for Created Topics
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -117,35 +112,37 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
-                ..._createdTopics.map((topic) => ExpansionTile(
+                ..._filteredCreatedTopics.map((topic) => ExpansionTile(
                       title: Text(topic.title),
-                      children: topic.verses.isEmpty
-                          ? [
-                              ListTile(
-                                title: Text(t.study_topics_screen.no_verses),
+                      children: [
+                        if (topic.verses.isEmpty)
+                          ListTile(
+                            title: Text(t.study_topics_screen.no_verses),
+                          ),
+                        ...topic.verses.map((verse) => ListTile(
+                              title: Text(verse),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  final createdTopic = studyCreatedTopicsEnBox
+                                      .getAll()
+                                      .firstWhere((t) => t.title == topic.title);
+                                  _removeVerseFromTopic(createdTopic, verse);
+                                },
                               ),
-                            ]
-                          : topic.verses.map((verse) => ListTile(
-                                title: Text(verse),
-                                trailing: IconButton(
-                                  icon: const Icon(Icons.delete),
-                                  onPressed: () {
-                                    final genTopic = _generatedTopicsBox.getAll().firstWhere((t) => t.title == topic.title);
-                                    _removeVerseFromTopic(genTopic, verse);
-                                  },
-                                ),
-                              )).toList()
-                        ..add(ListTile(
+                            )),
+                        ListTile(
                           title: Text(t.study_topics_screen.add_verse),
                           leading: const Icon(Icons.add),
                           onTap: () {
-                            final genTopic = _generatedTopicsBox.getAll().firstWhere((t) => t.title == topic.title);
-                            // Placeholder for verse selection
-                            _addVerseToTopic(genTopic, 'John 3:16'); // Replace with actual verse selection
+                            final createdTopic = studyCreatedTopicsEnBox
+                                .getAll()
+                                .firstWhere((t) => t.title == topic.title);
+                            _addVerseToTopic(createdTopic, 'John 3:16');
                           },
-                        )),
+                        ),
+                      ],
                     )),
-
                 // Generated Topics Section
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -155,21 +152,16 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
                   ),
                 ),
                 ..._filteredGeneratedTopics.map((topic) => ExpansionTile(
-                      title: Text(topic.title),
-                      children: topic.verses.isEmpty
-                          ? [
-                              ListTile(
-                                title: Text(t.study_topics_screen.no_verses),
-                              ),
-                            ]
-                          : topic.verses.map((verse) => ListTile(
-                                title: Text(verse),
-                              )).toList()
-                        ..add(ListTile(
-                          title: Text(t.study_topics_screen.add_to_created),
-                          leading: const Icon(Icons.add),
-                          onTap: () => _addTopicToCreated(topic),
-                        )),
+                      title: Text((topic as GeneratedTopicsEn).title),
+                      children: [
+                        if ((topic as GeneratedTopicsEn).verses.isEmpty)
+                          ListTile(
+                            title: Text(t.study_topics_screen.no_verses),
+                          ),
+                        ...(topic as GeneratedTopicsEn).verses.map((verse) => ListTile(
+                              title: Text(verse),
+                            )),
+                      ],
                     )),
               ],
             ),

@@ -4,7 +4,7 @@ import 'package:by_faith/features/study/models/study_topics_model.dart';
 import 'package:by_faith/objectbox.dart';
 
 class StudyAddEditTopicsScreen extends StatefulWidget {
-  final CreatedTopicsEn? topic; // Optional topic for editing
+  final CreatedTopicsEn? topic; // Optional topic for editing created topics
 
   const StudyAddEditTopicsScreen({super.key, this.topic});
 
@@ -41,7 +41,7 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
       if (widget.topic != null) {
         topic.id = widget.topic!.id; // Preserve ID for editing
       }
-      studyTopicsEnBox.put(topic);
+      studyCreatedTopicsEnBox.put(topic);
       Navigator.pop(context);
     }
   }
