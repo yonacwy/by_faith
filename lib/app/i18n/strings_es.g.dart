@@ -257,15 +257,12 @@ class _TranslationsStudyAddEditTopicsScreenEs implements TranslationsStudyAddEdi
 	final TranslationsEs _root; // ignore: unused_field
 
 	// Translations
-	@override String get title_add => 'Añadir Tema';
-	@override String get title_edit => 'Editar Tema';
+	@override String get add_title => 'Añadir Tema';
+	@override String get edit_title => 'Editar Tema';
 	@override String get title_label => 'Título del Tema';
-	@override String get title_error => 'Por favor, introduce un título';
-	@override String get verses_label => 'Versículos';
-	@override String get add_verse => 'Añadir Versículo';
-	@override String get select_verse => 'Seleccionar Versículo';
-	@override String get verse_input_hint => 'Ingresa el versículo (ej., Juan 3:16)';
-	@override String get cancel => 'Cancelar';
+	@override String get save_button => 'Guardar';
+	@override String get empty_title_error => 'El título del tema no puede estar vacío';
+	@override String get duplicate_title_error => 'Ya existe un tema con este título';
 }
 
 // Path: study_export_import_screen
@@ -394,6 +391,7 @@ class _TranslationsStudyTabScreenEs implements TranslationsStudyTabScreenEn {
 	@override String get plans => 'Planes';
 	@override String get references => 'Referencias';
 	@override String get topics => 'Temas';
+	@override String get add_topic => 'Añadir a Tema';
 	@override String get bibles => 'Biblias';
 	@override String get select_bible_version => 'Seleccionar Versión de la Biblia';
 	@override String get select_book => 'Seleccionar Libro';
@@ -1091,15 +1089,12 @@ extension on TranslationsEs {
 			case 'study_add_edit_notes_screen.content': return 'Contenido de Estudio Añadir Editar Notas';
 			case 'study_add_edit_references_screen.title': return 'Estudio Añadir Editar Referencias';
 			case 'study_add_edit_references_screen.content': return 'Contenido de Estudio Añadir Editar Referencias';
-			case 'study_add_edit_topics_screen.title_add': return 'Añadir Tema';
-			case 'study_add_edit_topics_screen.title_edit': return 'Editar Tema';
+			case 'study_add_edit_topics_screen.add_title': return 'Añadir Tema';
+			case 'study_add_edit_topics_screen.edit_title': return 'Editar Tema';
 			case 'study_add_edit_topics_screen.title_label': return 'Título del Tema';
-			case 'study_add_edit_topics_screen.title_error': return 'Por favor, introduce un título';
-			case 'study_add_edit_topics_screen.verses_label': return 'Versículos';
-			case 'study_add_edit_topics_screen.add_verse': return 'Añadir Versículo';
-			case 'study_add_edit_topics_screen.select_verse': return 'Seleccionar Versículo';
-			case 'study_add_edit_topics_screen.verse_input_hint': return 'Ingresa el versículo (ej., Juan 3:16)';
-			case 'study_add_edit_topics_screen.cancel': return 'Cancelar';
+			case 'study_add_edit_topics_screen.save_button': return 'Guardar';
+			case 'study_add_edit_topics_screen.empty_title_error': return 'El título del tema no puede estar vacío';
+			case 'study_add_edit_topics_screen.duplicate_title_error': return 'Ya existe un tema con este título';
 			case 'study_export_import_screen.title': return 'Estudio Exportar Importar';
 			case 'study_export_import_screen.content': return 'Contenido de Estudio Exportar Importar';
 			case 'study_mapping_screen.title': return 'Estudio Mapeo';
@@ -1138,6 +1133,7 @@ extension on TranslationsEs {
 			case 'study_tab_screen.plans': return 'Planes';
 			case 'study_tab_screen.references': return 'Referencias';
 			case 'study_tab_screen.topics': return 'Temas';
+			case 'study_tab_screen.add_topic': return 'Añadir a Tema';
 			case 'study_tab_screen.bibles': return 'Biblias';
 			case 'study_tab_screen.select_bible_version': return 'Seleccionar Versión de la Biblia';
 			case 'study_tab_screen.select_book': return 'Seleccionar Libro';

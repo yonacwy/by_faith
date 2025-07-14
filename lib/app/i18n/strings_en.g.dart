@@ -260,15 +260,12 @@ class TranslationsStudyAddEditTopicsScreenEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get title_add => 'Add Topic';
-	String get title_edit => 'Edit Topic';
+	String get add_title => 'Add Topic';
+	String get edit_title => 'Edit Topic';
 	String get title_label => 'Topic Title';
-	String get title_error => 'Please enter a title';
-	String get verses_label => 'Verses';
-	String get add_verse => 'Add Verse';
-	String get select_verse => 'Select Verse';
-	String get verse_input_hint => 'Enter verse (e.g., John 3:16)';
-	String get cancel => 'Cancel';
+	String get save_button => 'Save';
+	String get empty_title_error => 'Topic title cannot be empty';
+	String get duplicate_title_error => 'A topic with this title already exists';
 }
 
 // Path: study_export_import_screen
@@ -397,6 +394,7 @@ class TranslationsStudyTabScreenEn {
 	String get plans => 'Plans';
 	String get references => 'References';
 	String get topics => 'Topics';
+	String get add_topic => 'Add to Topic';
 	String get bibles => 'Bibles';
 	String get select_bible_version => 'Select Bible Version';
 	String get select_book => 'Select Book';
@@ -1094,15 +1092,12 @@ extension on Translations {
 			case 'study_add_edit_notes_screen.content': return 'Study Add Edit Notes Content';
 			case 'study_add_edit_references_screen.title': return 'Study Add Edit References';
 			case 'study_add_edit_references_screen.content': return 'Study Add Edit References Content';
-			case 'study_add_edit_topics_screen.title_add': return 'Add Topic';
-			case 'study_add_edit_topics_screen.title_edit': return 'Edit Topic';
+			case 'study_add_edit_topics_screen.add_title': return 'Add Topic';
+			case 'study_add_edit_topics_screen.edit_title': return 'Edit Topic';
 			case 'study_add_edit_topics_screen.title_label': return 'Topic Title';
-			case 'study_add_edit_topics_screen.title_error': return 'Please enter a title';
-			case 'study_add_edit_topics_screen.verses_label': return 'Verses';
-			case 'study_add_edit_topics_screen.add_verse': return 'Add Verse';
-			case 'study_add_edit_topics_screen.select_verse': return 'Select Verse';
-			case 'study_add_edit_topics_screen.verse_input_hint': return 'Enter verse (e.g., John 3:16)';
-			case 'study_add_edit_topics_screen.cancel': return 'Cancel';
+			case 'study_add_edit_topics_screen.save_button': return 'Save';
+			case 'study_add_edit_topics_screen.empty_title_error': return 'Topic title cannot be empty';
+			case 'study_add_edit_topics_screen.duplicate_title_error': return 'A topic with this title already exists';
 			case 'study_export_import_screen.title': return 'Study Export Import';
 			case 'study_export_import_screen.content': return 'Study Export Import Content';
 			case 'study_mapping_screen.title': return 'Study Mapping';
@@ -1141,6 +1136,7 @@ extension on Translations {
 			case 'study_tab_screen.plans': return 'Plans';
 			case 'study_tab_screen.references': return 'References';
 			case 'study_tab_screen.topics': return 'Topics';
+			case 'study_tab_screen.add_topic': return 'Add to Topic';
 			case 'study_tab_screen.bibles': return 'Bibles';
 			case 'study_tab_screen.select_bible_version': return 'Select Bible Version';
 			case 'study_tab_screen.select_book': return 'Select Book';

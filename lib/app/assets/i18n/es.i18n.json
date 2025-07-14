@@ -102,15 +102,12 @@
     "content": "Contenido de Estudio Añadir Editar Referencias"
   },
   "study_add_edit_topics_screen": {
-    "title_add": "Añadir Tema",
-    "title_edit": "Editar Tema",
+    "add_title": "Añadir Tema",
+    "edit_title": "Editar Tema",
     "title_label": "Título del Tema",
-    "title_error": "Por favor, introduce un título",
-    "verses_label": "Versículos",
-    "add_verse": "Añadir Versículo",
-    "select_verse": "Seleccionar Versículo",
-    "verse_input_hint": "Ingresa el versículo (ej., Juan 3:16)",
-    "cancel": "Cancelar"
+    "save_button": "Guardar",
+    "empty_title_error": "El título del tema no puede estar vacío",
+    "duplicate_title_error": "Ya existe un tema con este título"
   },
   "study_export_import_screen": {
     "title": "Estudio Exportar Importar",
@@ -169,6 +166,7 @@
     "plans": "Planes",
     "references": "Referencias",
     "topics": "Temas",
+    "add_topic": "Añadir a Tema",
     "bibles": "Biblias",
     "select_bible_version": "Seleccionar Versión de la Biblia",
     "select_book": "Seleccionar Libro",

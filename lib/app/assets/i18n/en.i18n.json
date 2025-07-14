@@ -102,15 +102,12 @@
     "content": "Study Add Edit References Content"
   },
   "study_add_edit_topics_screen": {
-    "title_add": "Add Topic",
-    "title_edit": "Edit Topic",
+    "add_title": "Add Topic",
+    "edit_title": "Edit Topic",
     "title_label": "Topic Title",
-    "title_error": "Please enter a title",
-    "verses_label": "Verses",
-    "add_verse": "Add Verse",
-    "select_verse": "Select Verse",
-    "verse_input_hint": "Enter verse (e.g., John 3:16)",
-    "cancel": "Cancel"
+    "save_button": "Save",
+    "empty_title_error": "Topic title cannot be empty",
+    "duplicate_title_error": "A topic with this title already exists"
   },
   "study_export_import_screen": {
     "title": "Study Export Import",
@@ -169,6 +166,7 @@
     "plans": "Plans",
     "references": "References",
     "topics": "Topics",
+    "add_topic": "Add to Topic",
     "bibles": "Bibles",
     "select_bible_version": "Select Bible Version",
     "select_book": "Select Book",

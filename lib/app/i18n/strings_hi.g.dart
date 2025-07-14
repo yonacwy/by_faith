@@ -257,15 +257,12 @@ class _TranslationsStudyAddEditTopicsScreenHi implements TranslationsStudyAddEdi
 	final TranslationsHi _root; // ignore: unused_field
 
 	// Translations
-	@override String get title_add => 'विषय जोड़ें';
-	@override String get title_edit => 'विषय संपादित करें';
-	@override String get title_label => 'विषय शीर्षक';
-	@override String get title_error => 'कृपया एक शीर्षक दर्ज करें';
-	@override String get verses_label => 'छंद';
-	@override String get add_verse => 'छंद जोड़ें';
-	@override String get select_verse => 'छंद चुनें';
-	@override String get verse_input_hint => 'छंद दर्ज करें (उदा., यूहन्ना 3:16)';
-	@override String get cancel => 'रद्द करें';
+	@override String get add_title => 'विषय जोड़ें';
+	@override String get edit_title => 'विषय संपादित करें';
+	@override String get title_label => 'विषय का शीर्षक';
+	@override String get save_button => 'सहेजें';
+	@override String get empty_title_error => 'विषय का शीर्षक खाली नहीं हो सकता';
+	@override String get duplicate_title_error => 'इस शीर्षक के साथ एक विषय पहले से मौजूद है';
 }
 
 // Path: study_export_import_screen
@@ -394,6 +391,7 @@ class _TranslationsStudyTabScreenHi implements TranslationsStudyTabScreenEn {
 	@override String get plans => 'योजनाएँ';
 	@override String get references => 'संदर्भ';
 	@override String get topics => 'विषय';
+	@override String get add_topic => 'विषय में जोड़ें';
 	@override String get bibles => 'बाइबल';
 	@override String get select_bible_version => 'बाइबल संस्करण चुनें';
 	@override String get select_book => 'पुस्तक चुनें';
@@ -1092,15 +1090,12 @@ extension on TranslationsHi {
 			case 'study_add_edit_notes_screen.content': return 'अध्ययन जोड़ें संपादित करें नोट्स सामग्री';
 			case 'study_add_edit_references_screen.title': return 'अध्ययन जोड़ें संपादित करें संदर्भ';
 			case 'study_add_edit_references_screen.content': return 'अध्ययन जोड़ें संपादित करें संदर्भ सामग्री';
-			case 'study_add_edit_topics_screen.title_add': return 'विषय जोड़ें';
-			case 'study_add_edit_topics_screen.title_edit': return 'विषय संपादित करें';
-			case 'study_add_edit_topics_screen.title_label': return 'विषय शीर्षक';
-			case 'study_add_edit_topics_screen.title_error': return 'कृपया एक शीर्षक दर्ज करें';
-			case 'study_add_edit_topics_screen.verses_label': return 'छंद';
-			case 'study_add_edit_topics_screen.add_verse': return 'छंद जोड़ें';
-			case 'study_add_edit_topics_screen.select_verse': return 'छंद चुनें';
-			case 'study_add_edit_topics_screen.verse_input_hint': return 'छंद दर्ज करें (उदा., यूहन्ना 3:16)';
-			case 'study_add_edit_topics_screen.cancel': return 'रद्द करें';
+			case 'study_add_edit_topics_screen.add_title': return 'विषय जोड़ें';
+			case 'study_add_edit_topics_screen.edit_title': return 'विषय संपादित करें';
+			case 'study_add_edit_topics_screen.title_label': return 'विषय का शीर्षक';
+			case 'study_add_edit_topics_screen.save_button': return 'सहेजें';
+			case 'study_add_edit_topics_screen.empty_title_error': return 'विषय का शीर्षक खाली नहीं हो सकता';
+			case 'study_add_edit_topics_screen.duplicate_title_error': return 'इस शीर्षक के साथ एक विषय पहले से मौजूद है';
 			case 'study_export_import_screen.title': return 'अध्ययन निर्यात आयात';
 			case 'study_export_import_screen.content': return 'अध्ययन निर्यात आयात सामग्री';
 			case 'study_mapping_screen.title': return 'अध्ययन मैपिंग';
@@ -1139,6 +1134,7 @@ extension on TranslationsHi {
 			case 'study_tab_screen.plans': return 'योजनाएँ';
 			case 'study_tab_screen.references': return 'संदर्भ';
 			case 'study_tab_screen.topics': return 'विषय';
+			case 'study_tab_screen.add_topic': return 'विषय में जोड़ें';
 			case 'study_tab_screen.bibles': return 'बाइबल';
 			case 'study_tab_screen.select_bible_version': return 'बाइबल संस्करण चुनें';
 			case 'study_tab_screen.select_book': return 'पुस्तक चुनें';

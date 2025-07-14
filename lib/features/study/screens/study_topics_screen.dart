@@ -3,6 +3,9 @@ import 'package:by_faith/app/i18n/strings.g.dart';
 import 'package:by_faith/features/study/models/study_topics_model.dart';
 import 'package:by_faith/objectbox.dart';
 import 'package:by_faith/features/study/screens/study_add_edit_topics_screen.dart';
+import 'package:by_faith/features/study/screens/study_tab_screen.dart';
+import 'package:by_faith/features/study/models/study_bibles_model.dart';
+import 'package:by_faith/objectbox.g.dart'; // Added for ObjectBox query classes
 
 class StudyTopicsScreen extends StatefulWidget {
   const StudyTopicsScreen({super.key});
@@ -41,7 +44,7 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
           .where((topic) => topic.title.toLowerCase().contains(query))
           .toList();
       _filteredGeneratedTopics = _generatedTopics
-          .where((topic) => (topic as GeneratedTopicsEn).title.toLowerCase().contains(query))
+          .where((topic) => topic.title.toLowerCase().contains(query))
           .toList();
     });
   }
@@ -52,6 +55,42 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
       studyCreatedTopicsEnBox.put(topic);
       _loadTopics();
     });
+  }
+
+  void _navigateToVerse(String verseReference) async {
+    // Parse verse reference (e.g., "Exod.20.1")
+    final parts = verseReference.split('.');
+    if (parts.length != 3) return;
+
+    final bookName = parts[0];
+    final chapterNumber = int.tryParse(parts[1]);
+    final verseNumber = int.tryParse(parts[2]);
+
+    if (chapterNumber == null || verseNumber == null) return;
+
+    final bookBox = store.box<Book>();
+    final chapterBox = store.box<Chapter>();
+    final verseBox = store.box<Verse>();
+
+    final book = bookBox.query(Book_.name.equals(bookName)).build().findFirst();
+    if (book == null) return;
+
+    final chapter = chapterBox
+        .query(Chapter_.book.equals(book.id) & Chapter_.chapterNumber.equals(chapterNumber))
+        .build()
+        .findFirst();
+    if (chapter == null) return;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => StudyTabScreen(
+          initialBook: book,
+          initialChapter: chapter,
+          initialVerseNumber: verseNumber,
+        ),
+      ),
+    );
   }
 
   void _addVerseToTopic(CreatedTopicsEn topic, String verse) {
@@ -80,6 +119,10 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(t.study_topics_screen.title),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -96,7 +139,6 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
       ),
       body: Column(
         children: [
-          // Search bar for Created Topics
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -107,12 +149,11 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
                 border: const OutlineInputBorder(),
               ),
             ),
-          ), // Closing parenthesis for TextField
+          ),
           Expanded(
             child: _searchController.text.isEmpty
                 ? ListView(
                     children: [
-                      // Created Topics Section (when no search query)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
@@ -128,13 +169,22 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
                                   title: Text(t.study_topics_screen.no_verses),
                                 ),
                               ...topic.verses.map((verse) => ListTile(
-                                    title: Text(verse),
+                                    title: GestureDetector(
+                                      onTap: () => _navigateToVerse(verse),
+                                      child: Text(
+                                        verse,
+                                        style: const TextStyle(
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ),
                                     trailing: IconButton(
                                       icon: const Icon(Icons.delete),
                                       onPressed: () {
-                                        final createdTopic =
-                                            studyCreatedTopicsEnBox.getAll().firstWhere(
-                                                (t) => t.title == topic.title);
+                                        final createdTopic = studyCreatedTopicsEnBox
+                                            .getAll()
+                                            .firstWhere((t) => t.title == topic.title);
                                         _removeVerseFromTopic(createdTopic, verse);
                                       },
                                     ),
@@ -146,7 +196,7 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
                                   final createdTopic = studyCreatedTopicsEnBox
                                       .getAll()
                                       .firstWhere((t) => t.title == topic.title);
-                                  _addVerseToTopic(createdTopic, 'John 3:16');
+                                  _addVerseToTopic(createdTopic, 'John.3.16');
                                 },
                               ),
                               ListTile(
@@ -156,8 +206,7 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          StudyAddEditTopicsScreen(topic: topic),
+                                      builder: (context) => StudyAddEditTopicsScreen(topic: topic),
                                     ),
                                   ).then((_) => _loadTopics());
                                 },
@@ -171,11 +220,51 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
                               ),
                             ],
                           )),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          t.study_topics_screen.generated_topics,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
+                      ..._filteredGeneratedTopics.map((topic) => ExpansionTile(
+                            title: Text(topic.title),
+                            children: [
+                              if (topic.verses.isEmpty)
+                                ListTile(
+                                  title: Text(t.study_topics_screen.no_verses),
+                                ),
+                              ...topic.verses.map((verse) => ListTile(
+                                    title: GestureDetector(
+                                      onTap: () => _navigateToVerse(verse),
+                                      child: Text(
+                                        verse,
+                                        style: const TextStyle(
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ),
+                                  )),
+                              ListTile(
+                                title: Text(t.study_topics_screen.add_to_created),
+                                leading: const Icon(Icons.add),
+                                onTap: () {
+                                  final newCreatedTopic = CreatedTopicsEn(
+                                    title: topic.title,
+                                    verses: List.from(topic.verses),
+                                  );
+                                  studyCreatedTopicsEnBox.put(newCreatedTopic);
+                                  _loadTopics();
+                                  _searchController.clear();
+                                },
+                              ),
+                            ],
+                          )),
                     ],
                   )
                 : ListView(
                     children: [
-                      // Search Results Section
                       if (_filteredCreatedTopics.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -192,13 +281,22 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
                                   title: Text(t.study_topics_screen.no_verses),
                                 ),
                               ...topic.verses.map((verse) => ListTile(
-                                    title: Text(verse),
+                                    title: GestureDetector(
+                                      onTap: () => _navigateToVerse(verse),
+                                      child: Text(
+                                        verse,
+                                        style: const TextStyle(
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ),
                                     trailing: IconButton(
                                       icon: const Icon(Icons.delete),
                                       onPressed: () {
-                                        final createdTopic =
-                                            studyCreatedTopicsEnBox.getAll().firstWhere(
-                                                (t) => t.title == topic.title);
+                                        final createdTopic = studyCreatedTopicsEnBox
+                                            .getAll()
+                                            .firstWhere((t) => t.title == topic.title);
                                         _removeVerseFromTopic(createdTopic, verse);
                                       },
                                     ),
@@ -210,7 +308,7 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
                                   final createdTopic = studyCreatedTopicsEnBox
                                       .getAll()
                                       .firstWhere((t) => t.title == topic.title);
-                                  _addVerseToTopic(createdTopic, 'John 3:16');
+                                  _addVerseToTopic(createdTopic, 'John.3.16');
                                 },
                               ),
                               ListTile(
@@ -220,8 +318,7 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          StudyAddEditTopicsScreen(topic: topic),
+                                      builder: (context) => StudyAddEditTopicsScreen(topic: topic),
                                     ),
                                   ).then((_) => _loadTopics());
                                 },
@@ -251,29 +348,37 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
                                   title: Text(t.study_topics_screen.no_verses),
                                 ),
                               ...topic.verses.map((verse) => ListTile(
-                                    title: Text(verse),
+                                    title: GestureDetector(
+                                      onTap: () => _navigateToVerse(verse),
+                                      child: Text(
+                                        verse,
+                                        style: const TextStyle(
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ),
                                   )),
                               ListTile(
                                 title: Text(t.study_topics_screen.add_to_created),
                                 leading: const Icon(Icons.add),
                                 onTap: () {
-                                  // Add generated topic to created topics
                                   final newCreatedTopic = CreatedTopicsEn(
                                     title: topic.title,
                                     verses: List.from(topic.verses),
                                   );
                                   studyCreatedTopicsEnBox.put(newCreatedTopic);
                                   _loadTopics();
-                                  _searchController.clear(); // Clear search after adding
+                                  _searchController.clear();
                                 },
                               ),
                             ],
                           )),
                     ],
                   ),
-                ), // Closing parenthesis for Expanded
-              ],
-            ),
-          ); // Closing parenthesis for Scaffold and semicolon
+          ),
+        ],
+      ),
+    );
   }
 }

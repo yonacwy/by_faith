@@ -10,6 +10,7 @@ import 'package:by_faith/features/study/screens/study_share_screen.dart';
 import 'package:by_faith/features/study/screens/study_export_import_screen.dart';
 import 'package:by_faith/features/study/screens/study_plans_screen.dart';
 import 'package:by_faith/features/study/screens/study_strongs_dictionary_screen.dart';
+import 'package:by_faith/features/study/screens/study_add_edit_topics_screen.dart';
 import 'package:by_faith/objectbox.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:by_faith/objectbox.g.dart';
@@ -21,7 +22,16 @@ import 'package:by_faith/features/study/models/study_bibles_model.dart';
 import 'package:collection/collection.dart';
 
 class StudyTabScreen extends StatefulWidget {
-  const StudyTabScreen({super.key});
+  final Book? initialBook;
+  final Chapter? initialChapter;
+  final int? initialVerseNumber;
+
+  const StudyTabScreen({
+    super.key,
+    this.initialBook,
+    this.initialChapter,
+    this.initialVerseNumber,
+  });
 
   @override
   State<StudyTabScreen> createState() => _StudyTabScreenState();
@@ -55,7 +65,32 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
       setState(() {
         _selectedBibleVersion = allBibles.firstWhere((b) => b.id == initialBible!.id);
       });
-      await _loadBooks(initialBible);
+
+      if (widget.initialBook != null && widget.initialChapter != null) {
+        // Validate that initialBook belongs to the selected BibleVersion
+        final book = _selectedBibleVersion!.books.firstWhereOrNull((b) => b.id == widget.initialBook!.id);
+        if (book != null) {
+          // Validate that initialChapter belongs to the selected book
+          final chapter = book.chapters.firstWhereOrNull((c) => c.id == widget.initialChapter!.id);
+          if (chapter != null) {
+            setState(() {
+              _selectedBook = book;
+              _selectedChapter = chapter;
+              _verses = chapter.verses.toList();
+              // Scroll to the initial verse if provided (requires ScrollController for precise scrolling)
+              print('Selected initial book: ${book.name}, chapter: ${chapter.chapterNumber}, verse: ${widget.initialVerseNumber}');
+            });
+          } else {
+            print('Initial chapter not found in book ${book.name}. Loading first chapter.');
+            await _loadBooks(_selectedBibleVersion!);
+          }
+        } else {
+          print('Initial book not found in ${_selectedBibleVersion!.name}. Loading first book.');
+          await _loadBooks(_selectedBibleVersion!);
+        }
+      } else {
+        await _loadBooks(_selectedBibleVersion!);
+      }
     }
   }
 
@@ -101,11 +136,43 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
     print('Loaded ${_verses.length} verses for chapter ${chapter.chapterNumber}.');
   }
 
+  void _showVerseOptions(BuildContext context, Verse verse) {
+    final verseReference = '${_selectedBook!.name}.${_selectedChapter!.chapterNumber}.${verse.verseNumber}';
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.topic),
+                title: Text(t.study_tab_screen.add_topic),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StudyAddEditTopicsScreen(
+                        topic: null,
+                        initialVerse: verseReference,
+                      ),
+                    ),
+                  ).then((_) => setState(() {}));
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   List<InlineSpan> _buildVerseText(Verse verse, BuildContext context) {
     final fontProvider = context.watch<StudySettingsFontProvider>();
     final textStyle = TextStyle(
       fontFamily: fontProvider.fontFamily,
-      fontSize: fontProvider.fontSize + 1.0, // Increase plain text font size
+      fontSize: fontProvider.fontSize + 1.0,
       color: Colors.black,
     );
     final strongsStyle = TextStyle(
@@ -119,17 +186,14 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
     final spans = <InlineSpan>[];
     int wordIndex = 0;
 
-    // Sort strongsEntries by position to ensure correct order
     final sortedEntries = verse.strongsEntries.toList()
       ..sort((a, b) => a.position.compareTo(b.position));
 
     for (final entry in sortedEntries) {
-      // Add non-Strong's words before the current Strong's entry
       while (wordIndex < entry.position && wordIndex < words.length) {
         spans.add(TextSpan(text: '${words[wordIndex]} ', style: textStyle));
         wordIndex++;
       }
-      // Add the Strong's-linked word
       if (wordIndex < words.length) {
         spans.add(WidgetSpan(
           alignment: PlaceholderAlignment.baseline,
@@ -155,15 +219,13 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
       }
     }
 
-    // Add remaining words
     while (wordIndex < words.length) {
       spans.add(TextSpan(text: '${words[wordIndex]} ', style: textStyle));
       wordIndex++;
     }
 
-    // Add clickable "footnote" for verses that have footnotes
     if (verse.footnotes.isNotEmpty) {
-      spans.add(TextSpan(text: ' ')); // Add a space before "footnote"
+      spans.add(TextSpan(text: ' '));
       spans.add(
         WidgetSpan(
           alignment: PlaceholderAlignment.baseline,
@@ -193,11 +255,11 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
               );
             },
             child: Text(
-              '[${t.study_tab_screen.footnote_text}]', // Add brackets here
+              '[${t.study_tab_screen.footnote_text}]',
               style: TextStyle(
                 fontFamily: fontProvider.fontFamily,
                 fontSize: fontProvider.fontSize,
-                color: Colors.black, // Footnote text color
+                color: Colors.black,
                 decoration: TextDecoration.underline,
               ),
             ),
@@ -213,7 +275,8 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
   Widget build(BuildContext context) {
     final bibleVersions = store.box<BibleVersion>().getAll();
     final isSmallScreen = MediaQuery.of(context).size.width < 400;
-    String bibleAbbr(BibleVersion v) => v.name.length > 6 ? v.name.split(' ').map((w) => w[0]).join().toUpperCase() : v.name;
+    String bibleAbbr(BibleVersion v) =>
+        v.name.length > 6 ? v.name.split(' ').map((w) => w[0]).join().toUpperCase() : v.name;
     String bookAbbr(Book b) {
       if (b.bookId.length <= 4) {
         return b.bookId[0].toUpperCase() + b.bookId.substring(1).toLowerCase();
@@ -261,7 +324,7 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       t.study_tab_screen.study_menu,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 24,
                       ),
@@ -443,12 +506,16 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                         await _loadVerses(newValue);
                       }
                     },
-                    items: _selectedBook?.chapters.map<DropdownMenuItem<Chapter>>((Chapter value) {
-                      return DropdownMenuItem<Chapter>(
-                        value: value,
-                        child: Text(value.chapterNumber.toString()),
-                      );
-                    }).toList() ?? [],
+                    items: _selectedBook?.chapters
+                            .asMap()
+                            .entries
+                            .map<DropdownMenuItem<Chapter>>((entry) {
+                          final chapter = entry.value;
+                          return DropdownMenuItem<Chapter>(
+                            value: chapter,
+                            child: Text(chapter.chapterNumber.toString()),
+                          );
+                        }).toList() ?? [],
                   ),
                 ),
               ],
@@ -464,13 +531,19 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                     child: RichText(
                       text: TextSpan(
                         children: [
-                          TextSpan(
-                            text: '${verse.verseNumber}. ',
-                            style: TextStyle(
-                              fontFamily: context.watch<StudySettingsFontProvider>().fontFamily,
-                              fontSize: context.watch<StudySettingsFontProvider>().fontSize,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                          WidgetSpan(
+                            child: GestureDetector(
+                              onTap: () => _showVerseOptions(context, verse),
+                              child: Text(
+                                '${verse.verseNumber}. ',
+                                style: TextStyle(
+                                  fontFamily: context.watch<StudySettingsFontProvider>().fontFamily,
+                                  fontSize: context.watch<StudySettingsFontProvider>().fontSize,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
                             ),
                           ),
                           ..._buildVerseText(verse, context),
