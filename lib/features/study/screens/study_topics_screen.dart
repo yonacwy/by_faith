@@ -62,6 +62,13 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
     });
   }
 
+  void _deleteTopic(CreatedTopicsEn topic) {
+    setState(() {
+      studyCreatedTopicsEnBox.remove(topic.id);
+      _loadTopics();
+    });
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
@@ -100,74 +107,173 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
                 border: const OutlineInputBorder(),
               ),
             ),
-          ),
+          ), // Closing parenthesis for TextField
           Expanded(
-            child: ListView(
-              children: [
-                // Created Topics Section
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    t.study_topics_screen.created_topics,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ),
-                ..._filteredCreatedTopics.map((topic) => ExpansionTile(
-                      title: Text(topic.title),
-                      children: [
-                        if (topic.verses.isEmpty)
-                          ListTile(
-                            title: Text(t.study_topics_screen.no_verses),
-                          ),
-                        ...topic.verses.map((verse) => ListTile(
-                              title: Text(verse),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () {
+            child: _searchController.text.isEmpty
+                ? ListView(
+                    children: [
+                      // Created Topics Section (when no search query)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          t.study_topics_screen.created_topics,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
+                      ..._filteredCreatedTopics.map((topic) => ExpansionTile(
+                            title: Text(topic.title),
+                            children: [
+                              if (topic.verses.isEmpty)
+                                ListTile(
+                                  title: Text(t.study_topics_screen.no_verses),
+                                ),
+                              ...topic.verses.map((verse) => ListTile(
+                                    title: Text(verse),
+                                    trailing: IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      onPressed: () {
+                                        final createdTopic =
+                                            studyCreatedTopicsEnBox.getAll().firstWhere(
+                                                (t) => t.title == topic.title);
+                                        _removeVerseFromTopic(createdTopic, verse);
+                                      },
+                                    ),
+                                  )),
+                              ListTile(
+                                title: Text(t.study_topics_screen.add_verse),
+                                leading: const Icon(Icons.add),
+                                onTap: () {
                                   final createdTopic = studyCreatedTopicsEnBox
                                       .getAll()
                                       .firstWhere((t) => t.title == topic.title);
-                                  _removeVerseFromTopic(createdTopic, verse);
+                                  _addVerseToTopic(createdTopic, 'John 3:16');
                                 },
                               ),
-                            )),
-                        ListTile(
-                          title: Text(t.study_topics_screen.add_verse),
-                          leading: const Icon(Icons.add),
-                          onTap: () {
-                            final createdTopic = studyCreatedTopicsEnBox
-                                .getAll()
-                                .firstWhere((t) => t.title == topic.title);
-                            _addVerseToTopic(createdTopic, 'John 3:16');
-                          },
-                        ),
-                      ],
-                    )),
-                // Generated Topics Section
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    t.study_topics_screen.generated_topics,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ),
-                ..._filteredGeneratedTopics.map((topic) => ExpansionTile(
-                      title: Text((topic as GeneratedTopicsEn).title),
-                      children: [
-                        if ((topic as GeneratedTopicsEn).verses.isEmpty)
-                          ListTile(
-                            title: Text(t.study_topics_screen.no_verses),
+                              ListTile(
+                                title: Text(t.study_topics_screen.edit_topic),
+                                leading: const Icon(Icons.edit),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          StudyAddEditTopicsScreen(topic: topic),
+                                    ),
+                                  ).then((_) => _loadTopics());
+                                },
+                              ),
+                              ListTile(
+                                title: Text(t.study_topics_screen.delete_topic),
+                                leading: const Icon(Icons.delete_forever),
+                                onTap: () {
+                                  _deleteTopic(topic);
+                                },
+                              ),
+                            ],
+                          )),
+                    ],
+                  )
+                : ListView(
+                    children: [
+                      // Search Results Section
+                      if (_filteredCreatedTopics.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            t.study_topics_screen.created_topics,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
-                        ...(topic as GeneratedTopicsEn).verses.map((verse) => ListTile(
-                              title: Text(verse),
-                            )),
-                      ],
-                    )),
+                        ),
+                      ..._filteredCreatedTopics.map((topic) => ExpansionTile(
+                            title: Text(topic.title),
+                            children: [
+                              if (topic.verses.isEmpty)
+                                ListTile(
+                                  title: Text(t.study_topics_screen.no_verses),
+                                ),
+                              ...topic.verses.map((verse) => ListTile(
+                                    title: Text(verse),
+                                    trailing: IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      onPressed: () {
+                                        final createdTopic =
+                                            studyCreatedTopicsEnBox.getAll().firstWhere(
+                                                (t) => t.title == topic.title);
+                                        _removeVerseFromTopic(createdTopic, verse);
+                                      },
+                                    ),
+                                  )),
+                              ListTile(
+                                title: Text(t.study_topics_screen.add_verse),
+                                leading: const Icon(Icons.add),
+                                onTap: () {
+                                  final createdTopic = studyCreatedTopicsEnBox
+                                      .getAll()
+                                      .firstWhere((t) => t.title == topic.title);
+                                  _addVerseToTopic(createdTopic, 'John 3:16');
+                                },
+                              ),
+                              ListTile(
+                                title: Text(t.study_topics_screen.edit_topic),
+                                leading: const Icon(Icons.edit),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          StudyAddEditTopicsScreen(topic: topic),
+                                    ),
+                                  ).then((_) => _loadTopics());
+                                },
+                              ),
+                              ListTile(
+                                title: Text(t.study_topics_screen.delete_topic),
+                                leading: const Icon(Icons.delete_forever),
+                                onTap: () {
+                                  _deleteTopic(topic);
+                                },
+                              ),
+                            ],
+                          )),
+                      if (_filteredGeneratedTopics.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            t.study_topics_screen.generated_topics,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                        ),
+                      ..._filteredGeneratedTopics.map((topic) => ExpansionTile(
+                            title: Text(topic.title),
+                            children: [
+                              if (topic.verses.isEmpty)
+                                ListTile(
+                                  title: Text(t.study_topics_screen.no_verses),
+                                ),
+                              ...topic.verses.map((verse) => ListTile(
+                                    title: Text(verse),
+                                  )),
+                              ListTile(
+                                title: Text(t.study_topics_screen.add_to_created),
+                                leading: const Icon(Icons.add),
+                                onTap: () {
+                                  // Add generated topic to created topics
+                                  final newCreatedTopic = CreatedTopicsEn(
+                                    title: topic.title,
+                                    verses: List.from(topic.verses),
+                                  );
+                                  studyCreatedTopicsEnBox.put(newCreatedTopic);
+                                  _loadTopics();
+                                  _searchController.clear(); // Clear search after adding
+                                },
+                              ),
+                            ],
+                          )),
+                    ],
+                  ),
+                ), // Closing parenthesis for Expanded
               ],
             ),
-          ),
-        ],
-      ),
-    );
+          ); // Closing parenthesis for Scaffold and semicolon
   }
 }

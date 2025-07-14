@@ -185,7 +185,9 @@
     "search_placeholder": "विषय खोजें...",
     "no_verses": "कोई छंद जोड़ा नहीं गया",
     "add_verse": "छंद जोड़ें",
-    "add_to_created": "निर्मित विषयों में जोड़ें"
+    "add_to_created": "निर्मित विषयों में जोड़ें",
+    "edit_topic": "विषय संपादित करें",
+    "delete_topic": "विषय हटाएँ"
   },
   "go_add_edit_area_screen": {
     "tap_to_add_points": "क्षेत्र के लिए बिंदु जोड़ने के लिए मानचित्र पर टैप करें।",

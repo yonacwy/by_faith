@@ -185,7 +185,9 @@
     "search_placeholder": "Buscar temas...",
     "no_verses": "No hay versículos añadidos",
     "add_verse": "Añadir Versículo",
-    "add_to_created": "Añadir a Temas Creados"
+    "add_to_created": "Añadir a Temas Creados",
+    "edit_topic": "Editar Tema",
+    "delete_topic": "Eliminar Tema"
   },
   "go_add_edit_area_screen": {
     "tap_to_add_points": "Toca el mapa para añadir puntos para el Área.",

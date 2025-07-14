@@ -418,6 +418,8 @@ class _TranslationsStudyTopicsScreenHi implements TranslationsStudyTopicsScreenE
 	@override String get no_verses => 'कोई छंद जोड़ा नहीं गया';
 	@override String get add_verse => 'छंद जोड़ें';
 	@override String get add_to_created => 'निर्मित विषयों में जोड़ें';
+	@override String get edit_topic => 'विषय संपादित करें';
+	@override String get delete_topic => 'विषय हटाएँ';
 }
 
 // Path: go_add_edit_area_screen
@@ -1152,6 +1154,8 @@ extension on TranslationsHi {
 			case 'study_topics_screen.no_verses': return 'कोई छंद जोड़ा नहीं गया';
 			case 'study_topics_screen.add_verse': return 'छंद जोड़ें';
 			case 'study_topics_screen.add_to_created': return 'निर्मित विषयों में जोड़ें';
+			case 'study_topics_screen.edit_topic': return 'विषय संपादित करें';
+			case 'study_topics_screen.delete_topic': return 'विषय हटाएँ';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'क्षेत्र के लिए बिंदु जोड़ने के लिए मानचित्र पर टैप करें।';
 			case 'go_add_edit_area_screen.cancel': return 'रद्द करें';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'क्षेत्र निर्माण रद्द करें';

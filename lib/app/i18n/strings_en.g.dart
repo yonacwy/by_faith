@@ -421,6 +421,8 @@ class TranslationsStudyTopicsScreenEn {
 	String get no_verses => 'No verses added';
 	String get add_verse => 'Add Verse';
 	String get add_to_created => 'Add to Created Topics';
+	String get edit_topic => 'Edit Topic';
+	String get delete_topic => 'Delete Topic';
 }
 
 // Path: go_add_edit_area_screen
@@ -1154,6 +1156,8 @@ extension on Translations {
 			case 'study_topics_screen.no_verses': return 'No verses added';
 			case 'study_topics_screen.add_verse': return 'Add Verse';
 			case 'study_topics_screen.add_to_created': return 'Add to Created Topics';
+			case 'study_topics_screen.edit_topic': return 'Edit Topic';
+			case 'study_topics_screen.delete_topic': return 'Delete Topic';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'Tap on the map to add points for Area.';
 			case 'go_add_edit_area_screen.cancel': return 'Cancel';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'Cancel Area Creation';

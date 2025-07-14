@@ -418,6 +418,8 @@ class _TranslationsStudyTopicsScreenEs implements TranslationsStudyTopicsScreenE
 	@override String get no_verses => 'No hay versículos añadidos';
 	@override String get add_verse => 'Añadir Versículo';
 	@override String get add_to_created => 'Añadir a Temas Creados';
+	@override String get edit_topic => 'Editar Tema';
+	@override String get delete_topic => 'Eliminar Tema';
 }
 
 // Path: go_add_edit_area_screen
@@ -1151,6 +1153,8 @@ extension on TranslationsEs {
 			case 'study_topics_screen.no_verses': return 'No hay versículos añadidos';
 			case 'study_topics_screen.add_verse': return 'Añadir Versículo';
 			case 'study_topics_screen.add_to_created': return 'Añadir a Temas Creados';
+			case 'study_topics_screen.edit_topic': return 'Editar Tema';
+			case 'study_topics_screen.delete_topic': return 'Eliminar Tema';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'Toca el mapa para añadir puntos para el Área.';
 			case 'go_add_edit_area_screen.cancel': return 'Cancelar';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'Cancelar Creación de Área';

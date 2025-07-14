@@ -185,7 +185,9 @@
     "search_placeholder": "Search topics...",
     "no_verses": "No verses added",
     "add_verse": "Add Verse",
-    "add_to_created": "Add to Created Topics"
+    "add_to_created": "Add to Created Topics",
+    "edit_topic": "Edit Topic",
+    "delete_topic": "Delete Topic"
   },
   "go_add_edit_area_screen": {
     "tap_to_add_points": "Tap on the map to add points for Area.",
