@@ -20,6 +20,7 @@ import 'features/go/models/go_model.dart';
 import 'features/go/models/go_route_models.dart';
 import 'features/home/models/home_model.dart';
 import 'features/study/models/study_bibles_model.dart';
+import 'features/study/models/study_topics_model.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -853,6 +854,62 @@ final _entities = <obx_int.ModelEntity>[
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
   ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(19, 6879537834501714086),
+    name: 'CreatedTopicsEn',
+    lastPropertyId: const obx_int.IdUid(3, 1428862638119318465),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 3788330591405441662),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 5618646351069630956),
+        name: 'title',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 1428862638119318465),
+        name: 'verses',
+        type: 30,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(20, 63075563683391252),
+    name: 'GeneratedTopicsEn',
+    lastPropertyId: const obx_int.IdUid(3, 2761437874095405459),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 8193785431522212055),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 513951999737016647),
+        name: 'title',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 2761437874095405459),
+        name: 'verses',
+        type: 30,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -893,7 +950,7 @@ Future<obx.Store> openStore({
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(18, 2449440515455172715),
+    lastEntityId: const obx_int.IdUid(20, 63075563683391252),
     lastIndexId: const obx_int.IdUid(8, 1474436333932053173),
     lastRelationId: const obx_int.IdUid(3, 2859513150906765962),
     lastSequenceId: const obx_int.IdUid(0, 0),
@@ -2105,6 +2162,78 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
+    CreatedTopicsEn: obx_int.EntityDefinition<CreatedTopicsEn>(
+      model: _entities[18],
+      toOneRelations: (CreatedTopicsEn object) => [],
+      toManyRelations: (CreatedTopicsEn object) => {},
+      getId: (CreatedTopicsEn object) => object.id,
+      setId: (CreatedTopicsEn object, int id) {
+        object.id = id;
+      },
+      objectToFB: (CreatedTopicsEn object, fb.Builder fbb) {
+        final titleOffset = fbb.writeString(object.title);
+        final versesOffset = fbb.writeList(
+          object.verses.map(fbb.writeString).toList(growable: false),
+        );
+        fbb.startTable(4);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, titleOffset);
+        fbb.addOffset(2, versesOffset);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final titleParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final versesParam = const fb.ListReader<String>(
+          fb.StringReader(asciiOptimization: true),
+          lazy: false,
+        ).vTableGet(buffer, rootOffset, 8, []);
+        final object = CreatedTopicsEn(title: titleParam, verses: versesParam)
+          ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
+        return object;
+      },
+    ),
+    GeneratedTopicsEn: obx_int.EntityDefinition<GeneratedTopicsEn>(
+      model: _entities[19],
+      toOneRelations: (GeneratedTopicsEn object) => [],
+      toManyRelations: (GeneratedTopicsEn object) => {},
+      getId: (GeneratedTopicsEn object) => object.id,
+      setId: (GeneratedTopicsEn object, int id) {
+        object.id = id;
+      },
+      objectToFB: (GeneratedTopicsEn object, fb.Builder fbb) {
+        final titleOffset = fbb.writeString(object.title);
+        final versesOffset = fbb.writeList(
+          object.verses.map(fbb.writeString).toList(growable: false),
+        );
+        fbb.startTable(4);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, titleOffset);
+        fbb.addOffset(2, versesOffset);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final titleParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final versesParam = const fb.ListReader<String>(
+          fb.StringReader(asciiOptimization: true),
+          lazy: false,
+        ).vTableGet(buffer, rootOffset, 8, []);
+        final object = GeneratedTopicsEn(title: titleParam, verses: versesParam)
+          ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -2687,5 +2816,41 @@ class BiblesDownload_ {
   /// See [BiblesDownload.shortTitle].
   static final shortTitle = obx.QueryStringProperty<BiblesDownload>(
     _entities[17].properties[3],
+  );
+}
+
+/// [CreatedTopicsEn] entity fields to define ObjectBox queries.
+class CreatedTopicsEn_ {
+  /// See [CreatedTopicsEn.id].
+  static final id = obx.QueryIntegerProperty<CreatedTopicsEn>(
+    _entities[18].properties[0],
+  );
+
+  /// See [CreatedTopicsEn.title].
+  static final title = obx.QueryStringProperty<CreatedTopicsEn>(
+    _entities[18].properties[1],
+  );
+
+  /// See [CreatedTopicsEn.verses].
+  static final verses = obx.QueryStringVectorProperty<CreatedTopicsEn>(
+    _entities[18].properties[2],
+  );
+}
+
+/// [GeneratedTopicsEn] entity fields to define ObjectBox queries.
+class GeneratedTopicsEn_ {
+  /// See [GeneratedTopicsEn.id].
+  static final id = obx.QueryIntegerProperty<GeneratedTopicsEn>(
+    _entities[19].properties[0],
+  );
+
+  /// See [GeneratedTopicsEn.title].
+  static final title = obx.QueryStringProperty<GeneratedTopicsEn>(
+    _entities[19].properties[1],
+  );
+
+  /// See [GeneratedTopicsEn.verses].
+  static final verses = obx.QueryStringVectorProperty<GeneratedTopicsEn>(
+    _entities[19].properties[2],
   );
 }

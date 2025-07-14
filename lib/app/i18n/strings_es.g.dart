@@ -257,8 +257,15 @@ class _TranslationsStudyAddEditTopicsScreenEs implements TranslationsStudyAddEdi
 	final TranslationsEs _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Estudio Añadir Editar Temas';
-	@override String get content => 'Contenido de Estudio Añadir Editar Temas';
+	@override String get title_add => 'Añadir Tema';
+	@override String get title_edit => 'Editar Tema';
+	@override String get title_label => 'Título del Tema';
+	@override String get title_error => 'Por favor, introduce un título';
+	@override String get verses_label => 'Versículos';
+	@override String get add_verse => 'Añadir Versículo';
+	@override String get select_verse => 'Seleccionar Versículo';
+	@override String get verse_input_hint => 'Ingresa el versículo (ej., Juan 3:16)';
+	@override String get cancel => 'Cancelar';
 }
 
 // Path: study_export_import_screen
@@ -403,8 +410,14 @@ class _TranslationsStudyTopicsScreenEs implements TranslationsStudyTopicsScreenE
 	final TranslationsEs _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Estudio Temas';
-	@override String get content => 'Contenido de Estudio Temas';
+	@override String get title => 'Temas de Estudio';
+	@override String get content => 'Explora y gestiona tus temas de estudio';
+	@override String get created_topics => 'Temas Creados';
+	@override String get generated_topics => 'Temas Generados';
+	@override String get search_placeholder => 'Buscar temas...';
+	@override String get no_verses => 'No hay versículos añadidos';
+	@override String get add_verse => 'Añadir Versículo';
+	@override String get add_to_created => 'Añadir a Temas Creados';
 }
 
 // Path: go_add_edit_area_screen
@@ -1076,8 +1089,15 @@ extension on TranslationsEs {
 			case 'study_add_edit_notes_screen.content': return 'Contenido de Estudio Añadir Editar Notas';
 			case 'study_add_edit_references_screen.title': return 'Estudio Añadir Editar Referencias';
 			case 'study_add_edit_references_screen.content': return 'Contenido de Estudio Añadir Editar Referencias';
-			case 'study_add_edit_topics_screen.title': return 'Estudio Añadir Editar Temas';
-			case 'study_add_edit_topics_screen.content': return 'Contenido de Estudio Añadir Editar Temas';
+			case 'study_add_edit_topics_screen.title_add': return 'Añadir Tema';
+			case 'study_add_edit_topics_screen.title_edit': return 'Editar Tema';
+			case 'study_add_edit_topics_screen.title_label': return 'Título del Tema';
+			case 'study_add_edit_topics_screen.title_error': return 'Por favor, introduce un título';
+			case 'study_add_edit_topics_screen.verses_label': return 'Versículos';
+			case 'study_add_edit_topics_screen.add_verse': return 'Añadir Versículo';
+			case 'study_add_edit_topics_screen.select_verse': return 'Seleccionar Versículo';
+			case 'study_add_edit_topics_screen.verse_input_hint': return 'Ingresa el versículo (ej., Juan 3:16)';
+			case 'study_add_edit_topics_screen.cancel': return 'Cancelar';
 			case 'study_export_import_screen.title': return 'Estudio Exportar Importar';
 			case 'study_export_import_screen.content': return 'Contenido de Estudio Exportar Importar';
 			case 'study_mapping_screen.title': return 'Estudio Mapeo';
@@ -1123,8 +1143,14 @@ extension on TranslationsEs {
 			case 'study_tab_screen.footnote_text': return 'Texto de la Nota al Pie';
 			case 'study_tab_screen.footnote_title': return 'Nota al Pie';
 			case 'study_tab_screen.close_button': return 'Cerrar';
-			case 'study_topics_screen.title': return 'Estudio Temas';
-			case 'study_topics_screen.content': return 'Contenido de Estudio Temas';
+			case 'study_topics_screen.title': return 'Temas de Estudio';
+			case 'study_topics_screen.content': return 'Explora y gestiona tus temas de estudio';
+			case 'study_topics_screen.created_topics': return 'Temas Creados';
+			case 'study_topics_screen.generated_topics': return 'Temas Generados';
+			case 'study_topics_screen.search_placeholder': return 'Buscar temas...';
+			case 'study_topics_screen.no_verses': return 'No hay versículos añadidos';
+			case 'study_topics_screen.add_verse': return 'Añadir Versículo';
+			case 'study_topics_screen.add_to_created': return 'Añadir a Temas Creados';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'Toca el mapa para añadir puntos para el Área.';
 			case 'go_add_edit_area_screen.cancel': return 'Cancelar';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'Cancelar Creación de Área';

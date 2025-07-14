@@ -260,8 +260,15 @@ class TranslationsStudyAddEditTopicsScreenEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get title => 'Study Add Edit Topics';
-	String get content => 'Study Add Edit Topics Content';
+	String get title_add => 'Add Topic';
+	String get title_edit => 'Edit Topic';
+	String get title_label => 'Topic Title';
+	String get title_error => 'Please enter a title';
+	String get verses_label => 'Verses';
+	String get add_verse => 'Add Verse';
+	String get select_verse => 'Select Verse';
+	String get verse_input_hint => 'Enter verse (e.g., John 3:16)';
+	String get cancel => 'Cancel';
 }
 
 // Path: study_export_import_screen
@@ -407,7 +414,13 @@ class TranslationsStudyTopicsScreenEn {
 
 	// Translations
 	String get title => 'Study Topics';
-	String get content => 'Study Topics Content';
+	String get content => 'Explore and manage your study topics';
+	String get created_topics => 'Created Topics';
+	String get generated_topics => 'Generated Topics';
+	String get search_placeholder => 'Search topics...';
+	String get no_verses => 'No verses added';
+	String get add_verse => 'Add Verse';
+	String get add_to_created => 'Add to Created Topics';
 }
 
 // Path: go_add_edit_area_screen
@@ -1079,8 +1092,15 @@ extension on Translations {
 			case 'study_add_edit_notes_screen.content': return 'Study Add Edit Notes Content';
 			case 'study_add_edit_references_screen.title': return 'Study Add Edit References';
 			case 'study_add_edit_references_screen.content': return 'Study Add Edit References Content';
-			case 'study_add_edit_topics_screen.title': return 'Study Add Edit Topics';
-			case 'study_add_edit_topics_screen.content': return 'Study Add Edit Topics Content';
+			case 'study_add_edit_topics_screen.title_add': return 'Add Topic';
+			case 'study_add_edit_topics_screen.title_edit': return 'Edit Topic';
+			case 'study_add_edit_topics_screen.title_label': return 'Topic Title';
+			case 'study_add_edit_topics_screen.title_error': return 'Please enter a title';
+			case 'study_add_edit_topics_screen.verses_label': return 'Verses';
+			case 'study_add_edit_topics_screen.add_verse': return 'Add Verse';
+			case 'study_add_edit_topics_screen.select_verse': return 'Select Verse';
+			case 'study_add_edit_topics_screen.verse_input_hint': return 'Enter verse (e.g., John 3:16)';
+			case 'study_add_edit_topics_screen.cancel': return 'Cancel';
 			case 'study_export_import_screen.title': return 'Study Export Import';
 			case 'study_export_import_screen.content': return 'Study Export Import Content';
 			case 'study_mapping_screen.title': return 'Study Mapping';
@@ -1127,7 +1147,13 @@ extension on Translations {
 			case 'study_tab_screen.footnote_title': return 'Footnotes';
 			case 'study_tab_screen.close_button': return 'Close';
 			case 'study_topics_screen.title': return 'Study Topics';
-			case 'study_topics_screen.content': return 'Study Topics Content';
+			case 'study_topics_screen.content': return 'Explore and manage your study topics';
+			case 'study_topics_screen.created_topics': return 'Created Topics';
+			case 'study_topics_screen.generated_topics': return 'Generated Topics';
+			case 'study_topics_screen.search_placeholder': return 'Search topics...';
+			case 'study_topics_screen.no_verses': return 'No verses added';
+			case 'study_topics_screen.add_verse': return 'Add Verse';
+			case 'study_topics_screen.add_to_created': return 'Add to Created Topics';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'Tap on the map to add points for Area.';
 			case 'go_add_edit_area_screen.cancel': return 'Cancel';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'Cancel Area Creation';

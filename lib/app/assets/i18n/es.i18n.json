@@ -102,8 +102,15 @@
     "content": "Contenido de Estudio Añadir Editar Referencias"
   },
   "study_add_edit_topics_screen": {
-    "title": "Estudio Añadir Editar Temas",
-    "content": "Contenido de Estudio Añadir Editar Temas"
+    "title_add": "Añadir Tema",
+    "title_edit": "Editar Tema",
+    "title_label": "Título del Tema",
+    "title_error": "Por favor, introduce un título",
+    "verses_label": "Versículos",
+    "add_verse": "Añadir Versículo",
+    "select_verse": "Seleccionar Versículo",
+    "verse_input_hint": "Ingresa el versículo (ej., Juan 3:16)",
+    "cancel": "Cancelar"
   },
   "study_export_import_screen": {
     "title": "Estudio Exportar Importar",
@@ -171,8 +178,14 @@
     "close_button": "Cerrar"
   },
   "study_topics_screen": {
-    "title": "Estudio Temas",
-    "content": "Contenido de Estudio Temas"
+    "title": "Temas de Estudio",
+    "content": "Explora y gestiona tus temas de estudio",
+    "created_topics": "Temas Creados",
+    "generated_topics": "Temas Generados",
+    "search_placeholder": "Buscar temas...",
+    "no_verses": "No hay versículos añadidos",
+    "add_verse": "Añadir Versículo",
+    "add_to_created": "Añadir a Temas Creados"
   },
   "go_add_edit_area_screen": {
     "tap_to_add_points": "Toca el mapa para añadir puntos para el Área.",

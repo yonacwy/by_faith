@@ -701,9 +701,57 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "19:6879537834501714086",
+      "lastPropertyId": "3:1428862638119318465",
+      "name": "CreatedTopicsEn",
+      "properties": [
+        {
+          "id": "1:3788330591405441662",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5618646351069630956",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:1428862638119318465",
+          "name": "verses",
+          "type": 30
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "20:63075563683391252",
+      "lastPropertyId": "3:2761437874095405459",
+      "name": "GeneratedTopicsEn",
+      "properties": [
+        {
+          "id": "1:8193785431522212055",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:513951999737016647",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:2761437874095405459",
+          "name": "verses",
+          "type": 30
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "18:2449440515455172715",
+  "lastEntityId": "20:63075563683391252",
   "lastIndexId": "8:1474436333932053173",
   "lastRelationId": "3:2859513150906765962",
   "lastSequenceId": "0:0",

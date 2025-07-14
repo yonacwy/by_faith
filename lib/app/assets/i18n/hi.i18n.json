@@ -102,8 +102,15 @@
     "content": "अध्ययन जोड़ें संपादित करें संदर्भ सामग्री"
   },
   "study_add_edit_topics_screen": {
-    "title": "अध्ययन जोड़ें संपादित करें विषय",
-    "content": "अध्ययन जोड़ें संपादित करें विषय सामग्री"
+    "title_add": "विषय जोड़ें",
+    "title_edit": "विषय संपादित करें",
+    "title_label": "विषय शीर्षक",
+    "title_error": "कृपया एक शीर्षक दर्ज करें",
+    "verses_label": "छंद",
+    "add_verse": "छंद जोड़ें",
+    "select_verse": "छंद चुनें",
+    "verse_input_hint": "छंद दर्ज करें (उदा., यूहन्ना 3:16)",
+    "cancel": "रद्द करें"
   },
   "study_export_import_screen": {
     "title": "अध्ययन निर्यात आयात",
@@ -172,7 +179,13 @@
   },
   "study_topics_screen": {
     "title": "अध्ययन विषय",
-    "content": "अध्ययन विषय सामग्री"
+    "content": "अपने अध्ययन विषयों को खोजें और प्रबंधित करें",
+    "created_topics": "निर्मित विषय",
+    "generated_topics": "उत्पन्न विषय",
+    "search_placeholder": "विषय खोजें...",
+    "no_verses": "कोई छंद जोड़ा नहीं गया",
+    "add_verse": "छंद जोड़ें",
+    "add_to_created": "निर्मित विषयों में जोड़ें"
   },
   "go_add_edit_area_screen": {
     "tap_to_add_points": "क्षेत्र के लिए बिंदु जोड़ने के लिए मानचित्र पर टैप करें।",

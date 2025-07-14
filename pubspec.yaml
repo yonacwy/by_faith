@@ -75,4 +75,5 @@ flutter:
     - lib/features/go/assets/images/marker_ministry.png
     - lib/features/study/assets/data/strongs-greek-dictionary.json
     - lib/features/study/assets/data/strongs-hebrew-dictionary.json
+    - lib/features/study/assets/data/topics_en.i18n.json
     - lib/features/home/assets/data/bibles_download.json
