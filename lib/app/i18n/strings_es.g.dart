@@ -408,12 +408,11 @@ class _TranslationsStudyTopicsScreenEs implements TranslationsStudyTopicsScreenE
 	final TranslationsEs _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Temas de Estudio';
-	@override String get content => 'Explora y gestiona tus temas de estudio';
+	@override String get title => 'Temas';
+	@override String get search_placeholder => 'Buscar temas';
 	@override String get created_topics => 'Temas Creados';
-	@override String get generated_topics => 'Temas Generados';
-	@override String get search_placeholder => 'Buscar temas...';
-	@override String get no_verses => 'No hay versículos añadidos';
+	@override String get search_results => 'Resultados de Búsqueda';
+	@override String get no_verses => 'No se han añadido versículos';
 	@override String get add_verse => 'Añadir Versículo';
 	@override String get add_to_created => 'Añadir a Temas Creados';
 	@override String get edit_topic => 'Editar Tema';
@@ -1141,12 +1140,11 @@ extension on TranslationsEs {
 			case 'study_tab_screen.footnote_text': return 'Texto de la Nota al Pie';
 			case 'study_tab_screen.footnote_title': return 'Nota al Pie';
 			case 'study_tab_screen.close_button': return 'Cerrar';
-			case 'study_topics_screen.title': return 'Temas de Estudio';
-			case 'study_topics_screen.content': return 'Explora y gestiona tus temas de estudio';
+			case 'study_topics_screen.title': return 'Temas';
+			case 'study_topics_screen.search_placeholder': return 'Buscar temas';
 			case 'study_topics_screen.created_topics': return 'Temas Creados';
-			case 'study_topics_screen.generated_topics': return 'Temas Generados';
-			case 'study_topics_screen.search_placeholder': return 'Buscar temas...';
-			case 'study_topics_screen.no_verses': return 'No hay versículos añadidos';
+			case 'study_topics_screen.search_results': return 'Resultados de Búsqueda';
+			case 'study_topics_screen.no_verses': return 'No se han añadido versículos';
 			case 'study_topics_screen.add_verse': return 'Añadir Versículo';
 			case 'study_topics_screen.add_to_created': return 'Añadir a Temas Creados';
 			case 'study_topics_screen.edit_topic': return 'Editar Tema';

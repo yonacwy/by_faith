@@ -411,11 +411,10 @@ class TranslationsStudyTopicsScreenEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get title => 'Study Topics';
-	String get content => 'Explore and manage your study topics';
+	String get title => 'Topics';
+	String get search_placeholder => 'Search topics';
 	String get created_topics => 'Created Topics';
-	String get generated_topics => 'Generated Topics';
-	String get search_placeholder => 'Search topics...';
+	String get search_results => 'Search Results';
 	String get no_verses => 'No verses added';
 	String get add_verse => 'Add Verse';
 	String get add_to_created => 'Add to Created Topics';
@@ -1144,11 +1143,10 @@ extension on Translations {
 			case 'study_tab_screen.footnote_text': return 'footnote';
 			case 'study_tab_screen.footnote_title': return 'Footnotes';
 			case 'study_tab_screen.close_button': return 'Close';
-			case 'study_topics_screen.title': return 'Study Topics';
-			case 'study_topics_screen.content': return 'Explore and manage your study topics';
+			case 'study_topics_screen.title': return 'Topics';
+			case 'study_topics_screen.search_placeholder': return 'Search topics';
 			case 'study_topics_screen.created_topics': return 'Created Topics';
-			case 'study_topics_screen.generated_topics': return 'Generated Topics';
-			case 'study_topics_screen.search_placeholder': return 'Search topics...';
+			case 'study_topics_screen.search_results': return 'Search Results';
 			case 'study_topics_screen.no_verses': return 'No verses added';
 			case 'study_topics_screen.add_verse': return 'Add Verse';
 			case 'study_topics_screen.add_to_created': return 'Add to Created Topics';

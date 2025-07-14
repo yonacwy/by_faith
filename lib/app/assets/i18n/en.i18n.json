@@ -176,11 +176,10 @@
     "close_button": "Close"
   },
   "study_topics_screen": {
-    "title": "Study Topics",
-    "content": "Explore and manage your study topics",
+    "title": "Topics",
+    "search_placeholder": "Search topics",
     "created_topics": "Created Topics",
-    "generated_topics": "Generated Topics",
-    "search_placeholder": "Search topics...",
+    "search_results": "Search Results",
     "no_verses": "No verses added",
     "add_verse": "Add Verse",
     "add_to_created": "Add to Created Topics",

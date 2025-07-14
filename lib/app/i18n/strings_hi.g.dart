@@ -408,16 +408,15 @@ class _TranslationsStudyTopicsScreenHi implements TranslationsStudyTopicsScreenE
 	final TranslationsHi _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'अध्ययन विषय';
-	@override String get content => 'अपने अध्ययन विषयों को खोजें और प्रबंधित करें';
+	@override String get title => 'विषय';
+	@override String get search_placeholder => 'विषय खोजें';
 	@override String get created_topics => 'निर्मित विषय';
-	@override String get generated_topics => 'उत्पन्न विषय';
-	@override String get search_placeholder => 'विषय खोजें...';
+	@override String get search_results => 'खोज परिणाम';
 	@override String get no_verses => 'कोई छंद जोड़ा नहीं गया';
 	@override String get add_verse => 'छंद जोड़ें';
-	@override String get add_to_created => 'निर्मित विषयों में जोड़ें';
+	@override String get add_to_created => 'निर्मित विषय में जोड़ें';
 	@override String get edit_topic => 'विषय संपादित करें';
-	@override String get delete_topic => 'विषय हटाएँ';
+	@override String get delete_topic => 'विषय हटाएं';
 }
 
 // Path: go_add_edit_area_screen
@@ -1142,16 +1141,15 @@ extension on TranslationsHi {
 			case 'study_tab_screen.footnote_text': return 'नोट का पाठ';
 			case 'study_tab_screen.footnote_title': return 'नोट शीर्षक';
 			case 'study_tab_screen.close_button': return 'बंद करें';
-			case 'study_topics_screen.title': return 'अध्ययन विषय';
-			case 'study_topics_screen.content': return 'अपने अध्ययन विषयों को खोजें और प्रबंधित करें';
+			case 'study_topics_screen.title': return 'विषय';
+			case 'study_topics_screen.search_placeholder': return 'विषय खोजें';
 			case 'study_topics_screen.created_topics': return 'निर्मित विषय';
-			case 'study_topics_screen.generated_topics': return 'उत्पन्न विषय';
-			case 'study_topics_screen.search_placeholder': return 'विषय खोजें...';
+			case 'study_topics_screen.search_results': return 'खोज परिणाम';
 			case 'study_topics_screen.no_verses': return 'कोई छंद जोड़ा नहीं गया';
 			case 'study_topics_screen.add_verse': return 'छंद जोड़ें';
-			case 'study_topics_screen.add_to_created': return 'निर्मित विषयों में जोड़ें';
+			case 'study_topics_screen.add_to_created': return 'निर्मित विषय में जोड़ें';
 			case 'study_topics_screen.edit_topic': return 'विषय संपादित करें';
-			case 'study_topics_screen.delete_topic': return 'विषय हटाएँ';
+			case 'study_topics_screen.delete_topic': return 'विषय हटाएं';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'क्षेत्र के लिए बिंदु जोड़ने के लिए मानचित्र पर टैप करें।';
 			case 'go_add_edit_area_screen.cancel': return 'रद्द करें';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'क्षेत्र निर्माण रद्द करें';
