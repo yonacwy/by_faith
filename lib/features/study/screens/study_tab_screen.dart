@@ -172,7 +172,7 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
     final fontProvider = context.watch<StudySettingsFontProvider>();
     final textStyle = TextStyle(
       fontFamily: fontProvider.fontFamily,
-      fontSize: fontProvider.fontSize + 1.0,
+      fontSize: fontProvider.fontSize,
       color: Colors.black,
     );
     final strongsStyle = TextStyle(
@@ -526,29 +526,36 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                 itemCount: _verses.length,
                 itemBuilder: (context, index) {
                   final verse = _verses[index];
+                  final fontProvider = context.watch<StudySettingsFontProvider>();
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          WidgetSpan(
-                            child: GestureDetector(
-                              onTap: () => _showVerseOptions(context, verse),
-                              child: Text(
-                                '${verse.verseNumber}. ',
-                                style: TextStyle(
-                                  fontFamily: context.watch<StudySettingsFontProvider>().fontFamily,
-                                  fontSize: context.watch<StudySettingsFontProvider>().fontSize,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue,
-                                  decoration: TextDecoration.underline,
-                                ),
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        GestureDetector(
+                          onTap: () => _showVerseOptions(context, verse),
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8.0), // Add spacing after verse number
+                            child: Text(
+                              '${verse.verseNumber}.', // Remove trailing space, padding handles it
+                              style: TextStyle(
+                                fontFamily: fontProvider.fontFamily,
+                                fontSize: fontProvider.fontSize, // Match text size
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue,
                               ),
                             ),
                           ),
-                          ..._buildVerseText(verse, context),
-                        ],
-                      ),
+                        ),
+                        Expanded(
+                          child: RichText(
+                            text: TextSpan(
+                              children: _buildVerseText(verse, context),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 },
