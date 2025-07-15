@@ -278,6 +278,21 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
     String bibleAbbr(BibleVersion v) =>
         v.name.length > 6 ? v.name.split(' ').map((w) => w[0]).join().toUpperCase() : v.name;
     String bookAbbr(Book b) {
+      final bookName = b.name;
+      if (bookName.startsWith('1 ') || bookName.startsWith('2 ') || bookName.startsWith('3 ')) {
+        final parts = bookName.split(' ');
+        if (parts.length > 1) {
+          final number = parts[0];
+          final name = parts.sublist(1).join(' ');
+          String abbreviatedName;
+          if (name.length > 3) {
+            abbreviatedName = name.substring(0, 3);
+          } else {
+            abbreviatedName = name;
+          }
+          return '$number ${abbreviatedName[0].toUpperCase()}${abbreviatedName.substring(1).toLowerCase()}';
+        }
+      }
       if (b.bookId.length <= 4) {
         return b.bookId[0].toUpperCase() + b.bookId.substring(1).toLowerCase();
       } else {
