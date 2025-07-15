@@ -104,6 +104,7 @@
   "study_add_edit_topics_screen": {
     "add_title": "Add Topic",
     "edit_title": "Edit Topic",
+    "add_verse":"Add Verse",
     "title_label": "Topic Title",
     "save_button": "Save",
     "empty_title_error": "Topic title cannot be empty",
@@ -171,8 +172,10 @@
     "select_bible_version": "Select Bible Version",
     "select_book": "Select Book",
     "select_chapter": "Select Chapter",
+    "select_verse": "Select Verse",
     "footnote_text": "footnote",
     "footnote_title": "Footnotes",
+    "copied_to_clipboard": "Copied to clipboard",
     "close_button": "Close"
   },
   "study_topics_screen": {

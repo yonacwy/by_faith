@@ -1,6 +1,7 @@
 import 'package:by_faith/features/study/screens/study_references_screen.dart';
 import 'package:by_faith/features/study/screens/study_topics_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Added for Clipboard
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:by_faith/features/study/screens/study_notes_screen.dart';
 import 'package:by_faith/features/study/screens/study_search_screen.dart';
@@ -25,12 +26,14 @@ class StudyTabScreen extends StatefulWidget {
   final Book? initialBook;
   final Chapter? initialChapter;
   final int? initialVerseNumber;
+  final Function(String)? onVerseSelected; // Added for verse selection callback
 
   const StudyTabScreen({
     super.key,
     this.initialBook,
     this.initialChapter,
     this.initialVerseNumber,
+    this.onVerseSelected, // Added for verse selection
   });
 
   @override
@@ -42,6 +45,7 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
   Book? _selectedBook;
   Chapter? _selectedChapter;
   List<Verse> _verses = [];
+  final ScrollController _scrollController = ScrollController(); // Added for scrolling
 
   @override
   void initState() {
@@ -67,19 +71,29 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
       });
 
       if (widget.initialBook != null && widget.initialChapter != null) {
-        // Validate that initialBook belongs to the selected BibleVersion
         final book = _selectedBibleVersion!.books.firstWhereOrNull((b) => b.id == widget.initialBook!.id);
         if (book != null) {
-          // Validate that initialChapter belongs to the selected book
           final chapter = book.chapters.firstWhereOrNull((c) => c.id == widget.initialChapter!.id);
           if (chapter != null) {
             setState(() {
               _selectedBook = book;
               _selectedChapter = chapter;
               _verses = chapter.verses.toList();
-              // Scroll to the initial verse if provided (requires ScrollController for precise scrolling)
               print('Selected initial book: ${book.name}, chapter: ${chapter.chapterNumber}, verse: ${widget.initialVerseNumber}');
             });
+            // Scroll to the initial verse if provided
+            if (widget.initialVerseNumber != null) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                final index = _verses.indexWhere((v) => v.verseNumber == widget.initialVerseNumber);
+                if (index != -1) {
+                  _scrollController.animateTo(
+                    index * 50.0, // Approximate height per verse item
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              });
+            }
           } else {
             print('Initial chapter not found in book ${book.name}. Loading first chapter.');
             await _loadBooks(_selectedBibleVersion!);
@@ -161,6 +175,16 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                   ).then((_) => setState(() {}));
                 },
               ),
+              if (widget.onVerseSelected != null) // Added for verse selection
+                ListTile(
+                  leading: const Icon(Icons.check),
+                  title: Text(t.study_tab_screen.select_verse),
+                  onTap: () {
+                    widget.onVerseSelected?.call(verseReference);
+                    Navigator.pop(context);
+                    Navigator.pop(context); // Return to previous screen
+                  },
+                ),
             ],
           ),
         );
@@ -269,6 +293,24 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
     }
 
     return spans;
+  }
+
+  void _copyText(String text) {
+    Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(t.study_tab_screen.copied_to_clipboard)),
+    );
+  }
+
+  void _selectAllVerses() {
+    final allText = _verses.map((verse) => '${verse.verseNumber}. ${verse.text}').join('\n');
+    _copyText(allText);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose(); // Dispose ScrollController
+    super.dispose();
   }
 
   @override
@@ -538,10 +580,12 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
             const SizedBox(height: 4),
             Expanded(
               child: ListView.builder(
+                controller: _scrollController, // Attach ScrollController
                 itemCount: _verses.length,
                 itemBuilder: (context, index) {
                   final verse = _verses[index];
                   final fontProvider = context.watch<StudySettingsFontProvider>();
+                  final verseReference = '${_selectedBook!.name}.${_selectedChapter!.chapterNumber}.${verse.verseNumber}';
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4.0),
                     child: Row(
@@ -551,12 +595,12 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                         GestureDetector(
                           onTap: () => _showVerseOptions(context, verse),
                           child: Padding(
-                            padding: const EdgeInsets.only(right: 8.0), // Add spacing after verse number
+                            padding: const EdgeInsets.only(right: 8.0),
                             child: Text(
-                              '${verse.verseNumber}.', // Remove trailing space, padding handles it
+                              '${verse.verseNumber}.',
                               style: TextStyle(
                                 fontFamily: fontProvider.fontFamily,
-                                fontSize: fontProvider.fontSize, // Match text size
+                                fontSize: fontProvider.fontSize,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.blue,
                               ),
@@ -564,9 +608,30 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                           ),
                         ),
                         Expanded(
-                          child: RichText(
-                            text: TextSpan(
-                              children: _buildVerseText(verse, context),
+                          child: SelectionArea(
+                            contextMenuBuilder: (context, state) => AdaptiveTextSelectionToolbar(
+                              anchors: state.contextMenuAnchors,
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    _copyText(verse.text);
+                                    state.hideToolbar();
+                                  },
+                                  child: const Text('Copy'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    _selectAllVerses();
+                                    state.hideToolbar();
+                                  },
+                                  child: const Text('Select All'),
+                                ),
+                              ],
+                            ),
+                            child: RichText(
+                              text: TextSpan(
+                                children: _buildVerseText(verse, context),
+                              ),
                             ),
                           ),
                         ),

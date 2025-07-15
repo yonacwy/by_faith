@@ -262,6 +262,7 @@ class TranslationsStudyAddEditTopicsScreenEn {
 	// Translations
 	String get add_title => 'Add Topic';
 	String get edit_title => 'Edit Topic';
+	String get add_verse => 'Add Verse';
 	String get title_label => 'Topic Title';
 	String get save_button => 'Save';
 	String get empty_title_error => 'Topic title cannot be empty';
@@ -399,8 +400,10 @@ class TranslationsStudyTabScreenEn {
 	String get select_bible_version => 'Select Bible Version';
 	String get select_book => 'Select Book';
 	String get select_chapter => 'Select Chapter';
+	String get select_verse => 'Select Verse';
 	String get footnote_text => 'footnote';
 	String get footnote_title => 'Footnotes';
+	String get copied_to_clipboard => 'Copied to clipboard';
 	String get close_button => 'Close';
 }
 
@@ -1093,6 +1096,7 @@ extension on Translations {
 			case 'study_add_edit_references_screen.content': return 'Study Add Edit References Content';
 			case 'study_add_edit_topics_screen.add_title': return 'Add Topic';
 			case 'study_add_edit_topics_screen.edit_title': return 'Edit Topic';
+			case 'study_add_edit_topics_screen.add_verse': return 'Add Verse';
 			case 'study_add_edit_topics_screen.title_label': return 'Topic Title';
 			case 'study_add_edit_topics_screen.save_button': return 'Save';
 			case 'study_add_edit_topics_screen.empty_title_error': return 'Topic title cannot be empty';
@@ -1140,8 +1144,10 @@ extension on Translations {
 			case 'study_tab_screen.select_bible_version': return 'Select Bible Version';
 			case 'study_tab_screen.select_book': return 'Select Book';
 			case 'study_tab_screen.select_chapter': return 'Select Chapter';
+			case 'study_tab_screen.select_verse': return 'Select Verse';
 			case 'study_tab_screen.footnote_text': return 'footnote';
 			case 'study_tab_screen.footnote_title': return 'Footnotes';
+			case 'study_tab_screen.copied_to_clipboard': return 'Copied to clipboard';
 			case 'study_tab_screen.close_button': return 'Close';
 			case 'study_topics_screen.title': return 'Topics';
 			case 'study_topics_screen.search_placeholder': return 'Search topics';

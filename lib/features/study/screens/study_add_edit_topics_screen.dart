@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:by_faith/app/i18n/strings.g.dart';
 import 'package:by_faith/features/study/models/study_topics_model.dart';
 import 'package:by_faith/objectbox.dart';
-import 'package:collection/collection.dart'; // Added for firstWhereOrNull
+import 'package:by_faith/features/study/screens/study_tab_screen.dart';
+import 'package:collection/collection.dart';
 
 class StudyAddEditTopicsScreen extends StatefulWidget {
   final CreatedTopicsEn? topic;
@@ -20,6 +21,7 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
   List<GeneratedTopicsEn> _generatedTopics = [];
   List<String> _suggestedTopics = [];
   CreatedTopicsEn? _selectedTopic;
+  List<String> _verses = []; // To store verses for the topic
 
   @override
   void initState() {
@@ -28,6 +30,10 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
     if (widget.topic != null) {
       _titleController.text = widget.topic!.title;
       _selectedTopic = widget.topic;
+      _verses = List.from(widget.topic!.verses);
+    }
+    if (widget.initialVerse != null) {
+      _verses.add(widget.initialVerse!);
     }
   }
 
@@ -61,30 +67,52 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
       return;
     }
 
-    if (_selectedTopic != null && _selectedTopic!.title == title) {
-      // Update existing topic
-      if (widget.initialVerse != null && !_selectedTopic!.verses.contains(widget.initialVerse)) {
-        _selectedTopic!.verses.add(widget.initialVerse!);
-        studyCreatedTopicsEnBox.put(_selectedTopic!);
-      }
-    } else {
-      // Check for duplicate title
-      if (_createdTopics.any((t) => t.title.toLowerCase() == title.toLowerCase())) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(t.study_add_edit_topics_screen.duplicate_title_error)),
-        );
-        return;
-      }
+    final existingTopic = _createdTopics.firstWhereOrNull((t) => t.title.toLowerCase() == title.toLowerCase());
 
+    if (existingTopic != null && existingTopic != widget.topic) {
+      // Override existing topic
+      existingTopic.verses = _verses;
+      studyCreatedTopicsEnBox.put(existingTopic);
+      print('Overrode existing topic: ${existingTopic.title}');
+    } else if (_selectedTopic != null && _selectedTopic!.title == title) {
+      // Update existing topic
+      _selectedTopic!.verses = _verses;
+      studyCreatedTopicsEnBox.put(_selectedTopic!);
+      print('Updated topic: ${_selectedTopic!.title}');
+    } else {
       // Create new topic
       final newTopic = CreatedTopicsEn(
         title: title,
-        verses: widget.initialVerse != null ? [widget.initialVerse!] : [],
+        verses: _verses,
       );
       studyCreatedTopicsEnBox.put(newTopic);
+      print('Created new topic: $title');
     }
 
     Navigator.pop(context);
+  }
+
+  void _addVerse() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => StudyTabScreen(
+          onVerseSelected: (verseReference) {
+            setState(() {
+              if (!_verses.contains(verseReference)) {
+                _verses.add(verseReference);
+              }
+            });
+          },
+        ),
+      ),
+    );
+  }
+
+  void _removeVerse(String verse) {
+    setState(() {
+      _verses.remove(verse);
+    });
   }
 
   @override
@@ -125,6 +153,11 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
                       onTap: () {
                         _titleController.text = _suggestedTopics[index];
                         _selectedTopic = _createdTopics.firstWhereOrNull((t) => t.title == _suggestedTopics[index]);
+                        if (_selectedTopic != null) {
+                          setState(() {
+                            _verses = List.from(_selectedTopic!.verses);
+                          });
+                        }
                         setState(() {
                           _suggestedTopics = [];
                         });
@@ -133,6 +166,27 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
                   },
                 ),
               ),
+            const SizedBox(height: 16),
+            ListTile(
+              title: Text(t.study_add_edit_topics_screen.add_verse),
+              leading: const Icon(Icons.add),
+              onTap: _addVerse,
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _verses.length,
+                itemBuilder: (context, index) {
+                  final verse = _verses[index];
+                  return ListTile(
+                    title: Text(verse),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () => _removeVerse(verse),
+                    ),
+                  );
+                },
+              ),
+            ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _saveTopic,

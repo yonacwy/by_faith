@@ -259,6 +259,7 @@ class _TranslationsStudyAddEditTopicsScreenEs implements TranslationsStudyAddEdi
 	// Translations
 	@override String get add_title => 'Añadir Tema';
 	@override String get edit_title => 'Editar Tema';
+	@override String get add_verse => 'Añadir Versículo';
 	@override String get title_label => 'Título del Tema';
 	@override String get save_button => 'Guardar';
 	@override String get empty_title_error => 'El título del tema no puede estar vacío';
@@ -396,8 +397,10 @@ class _TranslationsStudyTabScreenEs implements TranslationsStudyTabScreenEn {
 	@override String get select_bible_version => 'Seleccionar Versión de la Biblia';
 	@override String get select_book => 'Seleccionar Libro';
 	@override String get select_chapter => 'Seleccionar Capítulo';
+	@override String get select_verse => 'Seleccionar Versículo';
 	@override String get footnote_text => 'Texto de la Nota al Pie';
 	@override String get footnote_title => 'Nota al Pie';
+	@override String get copied_to_clipboard => 'Copiado al portapapeles';
 	@override String get close_button => 'Cerrar';
 }
 
@@ -1090,6 +1093,7 @@ extension on TranslationsEs {
 			case 'study_add_edit_references_screen.content': return 'Contenido de Estudio Añadir Editar Referencias';
 			case 'study_add_edit_topics_screen.add_title': return 'Añadir Tema';
 			case 'study_add_edit_topics_screen.edit_title': return 'Editar Tema';
+			case 'study_add_edit_topics_screen.add_verse': return 'Añadir Versículo';
 			case 'study_add_edit_topics_screen.title_label': return 'Título del Tema';
 			case 'study_add_edit_topics_screen.save_button': return 'Guardar';
 			case 'study_add_edit_topics_screen.empty_title_error': return 'El título del tema no puede estar vacío';
@@ -1137,8 +1141,10 @@ extension on TranslationsEs {
 			case 'study_tab_screen.select_bible_version': return 'Seleccionar Versión de la Biblia';
 			case 'study_tab_screen.select_book': return 'Seleccionar Libro';
 			case 'study_tab_screen.select_chapter': return 'Seleccionar Capítulo';
+			case 'study_tab_screen.select_verse': return 'Seleccionar Versículo';
 			case 'study_tab_screen.footnote_text': return 'Texto de la Nota al Pie';
 			case 'study_tab_screen.footnote_title': return 'Nota al Pie';
+			case 'study_tab_screen.copied_to_clipboard': return 'Copiado al portapapeles';
 			case 'study_tab_screen.close_button': return 'Cerrar';
 			case 'study_topics_screen.title': return 'Temas';
 			case 'study_topics_screen.search_placeholder': return 'Buscar temas';

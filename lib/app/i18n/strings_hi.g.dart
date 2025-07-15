@@ -259,6 +259,7 @@ class _TranslationsStudyAddEditTopicsScreenHi implements TranslationsStudyAddEdi
 	// Translations
 	@override String get add_title => 'विषय जोड़ें';
 	@override String get edit_title => 'विषय संपादित करें';
+	@override String get add_verse => 'छंद जोड़ें';
 	@override String get title_label => 'विषय का शीर्षक';
 	@override String get save_button => 'सहेजें';
 	@override String get empty_title_error => 'विषय का शीर्षक खाली नहीं हो सकता';
@@ -396,8 +397,10 @@ class _TranslationsStudyTabScreenHi implements TranslationsStudyTabScreenEn {
 	@override String get select_bible_version => 'बाइबल संस्करण चुनें';
 	@override String get select_book => 'पुस्तक चुनें';
 	@override String get select_chapter => 'अध्याय चुनें';
+	@override String get select_verse => 'छंद चुनें';
 	@override String get footnote_text => 'नोट का पाठ';
 	@override String get footnote_title => 'नोट शीर्षक';
+	@override String get copied_to_clipboard => 'क्लिपबोर्ड पर कॉपी किया गया';
 	@override String get close_button => 'बंद करें';
 }
 
@@ -1091,6 +1094,7 @@ extension on TranslationsHi {
 			case 'study_add_edit_references_screen.content': return 'अध्ययन जोड़ें संपादित करें संदर्भ सामग्री';
 			case 'study_add_edit_topics_screen.add_title': return 'विषय जोड़ें';
 			case 'study_add_edit_topics_screen.edit_title': return 'विषय संपादित करें';
+			case 'study_add_edit_topics_screen.add_verse': return 'छंद जोड़ें';
 			case 'study_add_edit_topics_screen.title_label': return 'विषय का शीर्षक';
 			case 'study_add_edit_topics_screen.save_button': return 'सहेजें';
 			case 'study_add_edit_topics_screen.empty_title_error': return 'विषय का शीर्षक खाली नहीं हो सकता';
@@ -1138,8 +1142,10 @@ extension on TranslationsHi {
 			case 'study_tab_screen.select_bible_version': return 'बाइबल संस्करण चुनें';
 			case 'study_tab_screen.select_book': return 'पुस्तक चुनें';
 			case 'study_tab_screen.select_chapter': return 'अध्याय चुनें';
+			case 'study_tab_screen.select_verse': return 'छंद चुनें';
 			case 'study_tab_screen.footnote_text': return 'नोट का पाठ';
 			case 'study_tab_screen.footnote_title': return 'नोट शीर्षक';
+			case 'study_tab_screen.copied_to_clipboard': return 'क्लिपबोर्ड पर कॉपी किया गया';
 			case 'study_tab_screen.close_button': return 'बंद करें';
 			case 'study_topics_screen.title': return 'विषय';
 			case 'study_topics_screen.search_placeholder': return 'विषय खोजें';

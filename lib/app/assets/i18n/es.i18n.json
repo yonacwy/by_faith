@@ -104,6 +104,7 @@
   "study_add_edit_topics_screen": {
     "add_title": "Añadir Tema",
     "edit_title": "Editar Tema",
+    "add_verse": "Añadir Versículo",
     "title_label": "Título del Tema",
     "save_button": "Guardar",
     "empty_title_error": "El título del tema no puede estar vacío",
@@ -171,8 +172,10 @@
     "select_bible_version": "Seleccionar Versión de la Biblia",
     "select_book": "Seleccionar Libro",
     "select_chapter": "Seleccionar Capítulo",
+    "select_verse": "Seleccionar Versículo",
     "footnote_text": "Texto de la Nota al Pie",
     "footnote_title": "Nota al Pie",
+    "copied_to_clipboard": "Copiado al portapapeles",
     "close_button": "Cerrar"
   },
   "study_topics_screen": {

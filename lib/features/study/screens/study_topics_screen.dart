@@ -23,7 +23,6 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
   int _currentPage = 0;
   final int _pageSize = 50;
 
-  // Mapping of abbreviated book names to full names
   static const Map<String, String> _bookNameMap = {
     'Gen': 'Genesis',
     'Exod': 'Exodus',
@@ -93,7 +92,6 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
     'Rev': 'Revelation',
   };
 
-  // Helper function to capitalize the first letter of each word
   String _capitalizeTitle(String title) {
     return title
         .split(' ')
@@ -139,7 +137,7 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
           ...generatedQuery.find(),
         ];
         generatedQuery.close();
-        _currentPage = 0; // Reset to first page on new search
+        _currentPage = 0;
         print('Filtered ${_filteredCreatedTopics.length} created topics and ${_filteredSearchResults.length} total search results for query: $query');
       }
     });
@@ -157,7 +155,6 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
   void _navigateToVerse(String verseReference) async {
     print('Attempting to navigate to verse: $verseReference');
     
-    // Handle verse ranges by taking the first verse (e.g., "Exod.20.1-Exod.20.26" -> "Exod.20.1")
     String singleVerse = verseReference.split('-')[0].trim();
     final parts = singleVerse.split('.');
     if (parts.length != 3) {
@@ -174,13 +171,11 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
       return;
     }
 
-    // Map abbreviated book name to full name
     bookName = _bookNameMap[bookName] ?? bookName;
     print('Mapped book name: ${parts[0]} -> $bookName');
 
     final bookBox = store.box<Book>();
     final chapterBox = store.box<Chapter>();
-    final verseBox = store.box<Verse>();
 
     final book = bookBox.query(Book_.name.equals(bookName)).build().findFirst();
     if (book == null) {
@@ -204,7 +199,7 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
         builder: (context) => StudyTabScreen(
           initialBook: book,
           initialChapter: chapter,
-          initialVerseNumber: verseNumber,
+          initialVerseNumber: verseNumber, // Pass verse number for scrolling
         ),
       ),
     );
@@ -262,7 +257,6 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
     return _filteredSearchResults.sublist(startIndex, endIndex);
   }
 
-  // Helper function to copy text to clipboard
   void _copyText(String text) {
     Clipboard.setData(ClipboardData(text: text));
     ScaffoldMessenger.of(context).showSnackBar(
@@ -270,13 +264,11 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
     );
   }
 
-  // Helper function to select all verses in a topic
   void _selectAllVerses(BuildContext context, List<String> verses) {
     final controller = TextSelection.fromPosition(
       TextPosition(offset: verses.join('\n').length),
     );
-    // Note: Select All for verses requires custom handling as SelectionArea doesn't support multi-widget selection
-    _copyText(verses.join('\n')); // Copy all verses as a fallback
+    _copyText(verses.join('\n'));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('All verses copied to clipboard')),
     );
@@ -412,7 +404,16 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
                                   final createdTopic = studyCreatedTopicsEnBox
                                       .getAll()
                                       .firstWhere((t) => t.title == topic.title);
-                                  _addVerseToTopic(createdTopic, 'John.3.16');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => StudyTabScreen(
+                                        onVerseSelected: (verseReference) {
+                                          _addVerseToTopic(createdTopic, verseReference);
+                                        },
+                                      ),
+                                    ),
+                                  );
                                 },
                               ),
                               ListTile(
@@ -528,7 +529,16 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
                                         final createdTopic = studyCreatedTopicsEnBox
                                             .getAll()
                                             .firstWhere((t) => t.title == topic.title);
-                                        _addVerseToTopic(createdTopic, 'John.3.16');
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => StudyTabScreen(
+                                              onVerseSelected: (verseReference) {
+                                                _addVerseToTopic(createdTopic, verseReference);
+                                              },
+                                            ),
+                                          ),
+                                        );
                                       },
                                     ),
                                     ListTile(
@@ -639,7 +649,16 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
                                         final createdTopic = studyCreatedTopicsEnBox
                                             .getAll()
                                             .firstWhere((t) => t.title == topic.title);
-                                        _addVerseToTopic(createdTopic, 'John.3.16');
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => StudyTabScreen(
+                                              onVerseSelected: (verseReference) {
+                                                _addVerseToTopic(createdTopic, verseReference);
+                                              },
+                                            ),
+                                          ),
+                                        );
                                       },
                                     ),
                                     ListTile(

@@ -104,6 +104,7 @@
   "study_add_edit_topics_screen": {
     "add_title": "विषय जोड़ें",
     "edit_title": "विषय संपादित करें",
+    "add_verse": "छंद जोड़ें",
     "title_label": "विषय का शीर्षक",
     "save_button": "सहेजें",
     "empty_title_error": "विषय का शीर्षक खाली नहीं हो सकता",
@@ -171,8 +172,10 @@
     "select_bible_version": "बाइबल संस्करण चुनें",
     "select_book": "पुस्तक चुनें",
     "select_chapter": "अध्याय चुनें",
+    "select_verse": "छंद चुनें",
     "footnote_text": "नोट का पाठ",
     "footnote_title": "नोट शीर्षक",
+    "copied_to_clipboard": "क्लिपबोर्ड पर कॉपी किया गया",
     "close_button": "बंद करें"
   },
   "study_topics_screen": {
