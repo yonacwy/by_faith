@@ -4,6 +4,7 @@ import 'package:by_faith/features/go/models/go_model.dart';
 import 'package:by_faith/features/go/models/go_map_info_model.dart';
 import 'package:by_faith/features/study/models/study_bibles_model.dart';
 import 'package:by_faith/features/study/models/study_topics_model.dart';
+import 'package:by_faith/features/study/models/study_references_model.dart'; // Add this import
 import 'package:by_faith/features/home/models/home_model.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart' as fmtc;
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart' show FMTCObjectBoxBackend;
@@ -32,8 +33,9 @@ late Box<Verse> verseBox;
 late Box<Footnote> footnoteBox;
 late Box<StrongsEntry> strongsEntryBox;
 late Box<BiblesDownload> biblesdownloadBox;
-late Box<CreatedTopicsEn> studyCreatedTopicsEnBox; // Box for created topics
-late Box<GeneratedTopicsEn> studyGeneratedTopicsEnBox; // Box for generated topics
+late Box<CreatedTopicsEn> studyCreatedTopicsEnBox;
+late Box<GeneratedTopicsEn> studyGeneratedTopicsEnBox;
+late Box<CrossReference> crossReferenceBox; // Add this box
 
 /// Initializes the ObjectBox store and FMTC backend.
 /// Returns `true` if successful, `false` otherwise.
@@ -63,6 +65,7 @@ Future<bool> setupObjectBox() async {
     biblesdownloadBox = store.box<BiblesDownload>();
     studyCreatedTopicsEnBox = store.box<CreatedTopicsEn>();
     studyGeneratedTopicsEnBox = store.box<GeneratedTopicsEn>();
+    crossReferenceBox = store.box<CrossReference>(); // Initialize the box
 
     // Initialize FMTC backend with ObjectBox
     await FMTCObjectBoxBackend().initialise();
@@ -70,9 +73,10 @@ Future<bool> setupObjectBox() async {
     // Create FMTC store for tile caching
     await fmtc.FMTCStore('tile_cache').manage.create();
 
-    // Load bibles and topics from JSON
+    // Load data from JSON
     await loadBiblesFromJson();
     await loadTopicsFromJson();
+    await loadCrossReferencesFromJson(); // Load cross-references
 
     return true;
   } catch (e) {
@@ -112,6 +116,27 @@ Future<void> loadTopicsFromJson() async {
     print('Loaded ${topics.length} topics into ObjectBox.');
   } catch (e) {
     print('Error loading topics from JSON: $e');
+  }
+}
+
+/// Loads cross-references from JSON asset into ObjectBox.
+Future<void> loadCrossReferencesFromJson() async {
+  try {
+    final String response = await rootBundle.loadString('lib/features/study/assets/data/cross_references.json');
+    final Map<String, dynamic> data = jsonDecode(response);
+    final List<CrossReference> references = [];
+    data.forEach((verse, toVerses) {
+      for (var toVerse in toVerses) {
+        references.add(CrossReference(
+          verse: verse,
+          toVerse: toVerse['toVerse'],
+        ));
+      }
+    });
+    crossReferenceBox.putMany(references);
+    print('Loaded ${references.length} cross-references into ObjectBox.');
+  } catch (e) {
+    print('Error loading cross-references from JSON: $e');
   }
 }
 

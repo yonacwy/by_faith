@@ -127,8 +127,12 @@
     "content": "Contenido de los Planes de Estudio"
   },
   "study_references_screen": {
-    "title": "Estudio Referencias",
-    "content": "Contenido de Estudio Referencias"
+    "title": "Referencias Cruzadas",
+    "old_testament": "Antiguo Testamento",
+    "new_testament": "Nuevo Testamento",
+    "add_verse": "Agregar Versículo",
+    "delete_reference": "Eliminar Referencia",
+    "no_references": "No hay referencias cruzadas disponibles para este versículo."
   },
   "study_search_screen": {
     "title": "Estudio Búsqueda",
@@ -176,7 +180,8 @@
     "footnote_text": "Texto de la Nota al Pie",
     "footnote_title": "Nota al Pie",
     "copied_to_clipboard": "Copiado al portapapeles",
-    "close_button": "Cerrar"
+    "close_button": "Cerrar",
+    "view_references": "Ver Referencias"
   },
   "study_topics_screen": {
     "title": "Temas",

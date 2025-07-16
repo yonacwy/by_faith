@@ -127,8 +127,12 @@
     "content": "Study Plans Content"
   },
   "study_references_screen": {
-    "title": "Study References",
-    "content": "Study References Content"
+    "title": "Cross References",
+    "old_testament": "Old Testament",
+    "new_testament": "New Testament",
+    "add_verse": "Add Verse",
+    "delete_reference": "Delete Reference",
+    "no_references": "No cross-references available for this verse."
   },
   "study_search_screen": {
     "title": "Study Search",
@@ -176,7 +180,8 @@
     "footnote_text": "footnote",
     "footnote_title": "Footnotes",
     "copied_to_clipboard": "Copied to clipboard",
-    "close_button": "Close"
+    "close_button": "Close",
+    "view_references": "View References"
   },
   "study_topics_screen": {
     "title": "Topics",

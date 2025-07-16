@@ -317,8 +317,12 @@ class _TranslationsStudyReferencesScreenEs implements TranslationsStudyReference
 	final TranslationsEs _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Estudio Referencias';
-	@override String get content => 'Contenido de Estudio Referencias';
+	@override String get title => 'Referencias Cruzadas';
+	@override String get old_testament => 'Antiguo Testamento';
+	@override String get new_testament => 'Nuevo Testamento';
+	@override String get add_verse => 'Agregar Versículo';
+	@override String get delete_reference => 'Eliminar Referencia';
+	@override String get no_references => 'No hay referencias cruzadas disponibles para este versículo.';
 }
 
 // Path: study_search_screen
@@ -402,6 +406,7 @@ class _TranslationsStudyTabScreenEs implements TranslationsStudyTabScreenEn {
 	@override String get footnote_title => 'Nota al Pie';
 	@override String get copied_to_clipboard => 'Copiado al portapapeles';
 	@override String get close_button => 'Cerrar';
+	@override String get view_references => 'Ver Referencias';
 }
 
 // Path: study_topics_screen
@@ -1106,8 +1111,12 @@ extension on TranslationsEs {
 			case 'study_notes_screen.content': return 'Contenido de Estudio Notas';
 			case 'study_plans_screen.title': return 'Planes de Estudio';
 			case 'study_plans_screen.content': return 'Contenido de los Planes de Estudio';
-			case 'study_references_screen.title': return 'Estudio Referencias';
-			case 'study_references_screen.content': return 'Contenido de Estudio Referencias';
+			case 'study_references_screen.title': return 'Referencias Cruzadas';
+			case 'study_references_screen.old_testament': return 'Antiguo Testamento';
+			case 'study_references_screen.new_testament': return 'Nuevo Testamento';
+			case 'study_references_screen.add_verse': return 'Agregar Versículo';
+			case 'study_references_screen.delete_reference': return 'Eliminar Referencia';
+			case 'study_references_screen.no_references': return 'No hay referencias cruzadas disponibles para este versículo.';
 			case 'study_search_screen.title': return 'Estudio Búsqueda';
 			case 'study_search_screen.content': return 'Contenido de Estudio Búsqueda';
 			case 'study_settings_screen.title': return 'Configuración';
@@ -1146,6 +1155,7 @@ extension on TranslationsEs {
 			case 'study_tab_screen.footnote_title': return 'Nota al Pie';
 			case 'study_tab_screen.copied_to_clipboard': return 'Copiado al portapapeles';
 			case 'study_tab_screen.close_button': return 'Cerrar';
+			case 'study_tab_screen.view_references': return 'Ver Referencias';
 			case 'study_topics_screen.title': return 'Temas';
 			case 'study_topics_screen.search_placeholder': return 'Buscar temas';
 			case 'study_topics_screen.created_topics': return 'Temas Creados';

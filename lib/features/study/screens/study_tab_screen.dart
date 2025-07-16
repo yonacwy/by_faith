@@ -186,6 +186,21 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                   ).then((_) => setState(() {}));
                 },
               ),
+              ListTile(
+                leading: const Icon(Icons.bookmark),
+                title: Text(t.study_tab_screen.view_references),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StudyReferencesScreen(
+                        initialVerseReference: verseReference,
+                      ),
+                    ),
+                  );
+                },
+              ),
               if (widget.onVerseSelected != null)
                 ListTile(
                   leading: const Icon(Icons.check),

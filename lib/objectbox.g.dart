@@ -20,6 +20,7 @@ import 'features/go/models/go_model.dart';
 import 'features/go/models/go_route_models.dart';
 import 'features/home/models/home_model.dart';
 import 'features/study/models/study_bibles_model.dart';
+import 'features/study/models/study_references_model.dart';
 import 'features/study/models/study_topics_model.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
@@ -910,6 +911,34 @@ final _entities = <obx_int.ModelEntity>[
       ),
     ],
   ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(21, 4824274276133561271),
+    name: 'CrossReference',
+    lastPropertyId: const obx_int.IdUid(3, 1650187876632627935),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 2472955614833149099),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 2514976019325936167),
+        name: 'verse',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 1650187876632627935),
+        name: 'toVerse',
+        type: 9,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -950,7 +979,7 @@ Future<obx.Store> openStore({
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(20, 5335617474368253470),
+    lastEntityId: const obx_int.IdUid(21, 4824274276133561271),
     lastIndexId: const obx_int.IdUid(8, 6870265368133356022),
     lastRelationId: const obx_int.IdUid(3, 7126796807909353330),
     lastSequenceId: const obx_int.IdUid(0, 0),
@@ -2234,6 +2263,39 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
+    CrossReference: obx_int.EntityDefinition<CrossReference>(
+      model: _entities[20],
+      toOneRelations: (CrossReference object) => [],
+      toManyRelations: (CrossReference object) => {},
+      getId: (CrossReference object) => object.id,
+      setId: (CrossReference object, int id) {
+        object.id = id;
+      },
+      objectToFB: (CrossReference object, fb.Builder fbb) {
+        final verseOffset = fbb.writeString(object.verse);
+        final toVerseOffset = fbb.writeString(object.toVerse);
+        fbb.startTable(4);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, verseOffset);
+        fbb.addOffset(2, toVerseOffset);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final verseParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final toVerseParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final object = CrossReference(verse: verseParam, toVerse: toVerseParam)
+          ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -2852,5 +2914,23 @@ class Verse_ {
   /// see [Verse.footnotes]
   static final footnotes = obx.QueryBacklinkToMany<Footnote, Verse>(
     Footnote_.verse,
+  );
+}
+
+/// [CrossReference] entity fields to define ObjectBox queries.
+class CrossReference_ {
+  /// See [CrossReference.id].
+  static final id = obx.QueryIntegerProperty<CrossReference>(
+    _entities[20].properties[0],
+  );
+
+  /// See [CrossReference.verse].
+  static final verse = obx.QueryStringProperty<CrossReference>(
+    _entities[20].properties[1],
+  );
+
+  /// See [CrossReference.toVerse].
+  static final toVerse = obx.QueryStringProperty<CrossReference>(
+    _entities[20].properties[2],
   );
 }

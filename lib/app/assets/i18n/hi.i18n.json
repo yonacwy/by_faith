@@ -127,8 +127,12 @@
     "content": "अध्ययन योजनाओं की सामग्री"
   },
   "study_references_screen": {
-    "title": "अध्ययन संदर्भ",
-    "content": "अध्ययन संदर्भ सामग्री"
+    "title": "क्रॉस संदर्भ",
+    "old_testament": "पुराना नियम",
+    "new_testament": "नया नियम",
+    "add_verse": "पद जोड़ें",
+    "delete_reference": "संदर्भ हटाएं",
+    "no_references": "इस पद के लिए कोई क्रॉस-संदर्भ उपलब्ध नहीं है।"
   },
   "study_search_screen": {
     "title": "अध्ययन खोज",
@@ -176,7 +180,8 @@
     "footnote_text": "नोट का पाठ",
     "footnote_title": "नोट शीर्षक",
     "copied_to_clipboard": "क्लिपबोर्ड पर कॉपी किया गया",
-    "close_button": "बंद करें"
+    "close_button": "बंद करें",
+    "view_references": "संदर्भ देखें"
   },
   "study_topics_screen": {
     "title": "विषय",

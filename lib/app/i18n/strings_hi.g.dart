@@ -317,8 +317,12 @@ class _TranslationsStudyReferencesScreenHi implements TranslationsStudyReference
 	final TranslationsHi _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'अध्ययन संदर्भ';
-	@override String get content => 'अध्ययन संदर्भ सामग्री';
+	@override String get title => 'क्रॉस संदर्भ';
+	@override String get old_testament => 'पुराना नियम';
+	@override String get new_testament => 'नया नियम';
+	@override String get add_verse => 'पद जोड़ें';
+	@override String get delete_reference => 'संदर्भ हटाएं';
+	@override String get no_references => 'इस पद के लिए कोई क्रॉस-संदर्भ उपलब्ध नहीं है।';
 }
 
 // Path: study_search_screen
@@ -402,6 +406,7 @@ class _TranslationsStudyTabScreenHi implements TranslationsStudyTabScreenEn {
 	@override String get footnote_title => 'नोट शीर्षक';
 	@override String get copied_to_clipboard => 'क्लिपबोर्ड पर कॉपी किया गया';
 	@override String get close_button => 'बंद करें';
+	@override String get view_references => 'संदर्भ देखें';
 }
 
 // Path: study_topics_screen
@@ -1107,8 +1112,12 @@ extension on TranslationsHi {
 			case 'study_notes_screen.content': return 'अध्ययन नोट्स सामग्री';
 			case 'study_plans_screen.title': return 'अध्ययन योजनाएँ';
 			case 'study_plans_screen.content': return 'अध्ययन योजनाओं की सामग्री';
-			case 'study_references_screen.title': return 'अध्ययन संदर्भ';
-			case 'study_references_screen.content': return 'अध्ययन संदर्भ सामग्री';
+			case 'study_references_screen.title': return 'क्रॉस संदर्भ';
+			case 'study_references_screen.old_testament': return 'पुराना नियम';
+			case 'study_references_screen.new_testament': return 'नया नियम';
+			case 'study_references_screen.add_verse': return 'पद जोड़ें';
+			case 'study_references_screen.delete_reference': return 'संदर्भ हटाएं';
+			case 'study_references_screen.no_references': return 'इस पद के लिए कोई क्रॉस-संदर्भ उपलब्ध नहीं है।';
 			case 'study_search_screen.title': return 'अध्ययन खोज';
 			case 'study_search_screen.content': return 'अध्ययन खोज सामग्री';
 			case 'study_settings_screen.title': return 'सेटिंग्स';
@@ -1147,6 +1156,7 @@ extension on TranslationsHi {
 			case 'study_tab_screen.footnote_title': return 'नोट शीर्षक';
 			case 'study_tab_screen.copied_to_clipboard': return 'क्लिपबोर्ड पर कॉपी किया गया';
 			case 'study_tab_screen.close_button': return 'बंद करें';
+			case 'study_tab_screen.view_references': return 'संदर्भ देखें';
 			case 'study_topics_screen.title': return 'विषय';
 			case 'study_topics_screen.search_placeholder': return 'विषय खोजें';
 			case 'study_topics_screen.created_topics': return 'निर्मित विषय';

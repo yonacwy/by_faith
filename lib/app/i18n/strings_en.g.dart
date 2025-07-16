@@ -320,8 +320,12 @@ class TranslationsStudyReferencesScreenEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get title => 'Study References';
-	String get content => 'Study References Content';
+	String get title => 'Cross References';
+	String get old_testament => 'Old Testament';
+	String get new_testament => 'New Testament';
+	String get add_verse => 'Add Verse';
+	String get delete_reference => 'Delete Reference';
+	String get no_references => 'No cross-references available for this verse.';
 }
 
 // Path: study_search_screen
@@ -405,6 +409,7 @@ class TranslationsStudyTabScreenEn {
 	String get footnote_title => 'Footnotes';
 	String get copied_to_clipboard => 'Copied to clipboard';
 	String get close_button => 'Close';
+	String get view_references => 'View References';
 }
 
 // Path: study_topics_screen
@@ -1109,8 +1114,12 @@ extension on Translations {
 			case 'study_notes_screen.content': return 'Study Notes Content';
 			case 'study_plans_screen.title': return 'Study Plans';
 			case 'study_plans_screen.content': return 'Study Plans Content';
-			case 'study_references_screen.title': return 'Study References';
-			case 'study_references_screen.content': return 'Study References Content';
+			case 'study_references_screen.title': return 'Cross References';
+			case 'study_references_screen.old_testament': return 'Old Testament';
+			case 'study_references_screen.new_testament': return 'New Testament';
+			case 'study_references_screen.add_verse': return 'Add Verse';
+			case 'study_references_screen.delete_reference': return 'Delete Reference';
+			case 'study_references_screen.no_references': return 'No cross-references available for this verse.';
 			case 'study_search_screen.title': return 'Study Search';
 			case 'study_search_screen.content': return 'Study Search Content';
 			case 'study_settings_screen.title': return 'Settings';
@@ -1149,6 +1158,7 @@ extension on Translations {
 			case 'study_tab_screen.footnote_title': return 'Footnotes';
 			case 'study_tab_screen.copied_to_clipboard': return 'Copied to clipboard';
 			case 'study_tab_screen.close_button': return 'Close';
+			case 'study_tab_screen.view_references': return 'View References';
 			case 'study_topics_screen.title': return 'Topics';
 			case 'study_topics_screen.search_placeholder': return 'Search topics';
 			case 'study_topics_screen.created_topics': return 'Created Topics';

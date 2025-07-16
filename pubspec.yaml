@@ -76,4 +76,5 @@ flutter:
     - lib/features/study/assets/data/strongs-greek-dictionary.json
     - lib/features/study/assets/data/strongs-hebrew-dictionary.json
     - lib/features/study/assets/data/topics_en.i18n.json
+    - lib/features/study/assets/data/cross_references.json
     - lib/features/home/assets/data/bibles_download.json

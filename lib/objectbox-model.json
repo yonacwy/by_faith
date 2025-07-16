@@ -749,9 +749,33 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "21:4824274276133561271",
+      "lastPropertyId": "3:1650187876632627935",
+      "name": "CrossReference",
+      "properties": [
+        {
+          "id": "1:2472955614833149099",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2514976019325936167",
+          "name": "verse",
+          "type": 9
+        },
+        {
+          "id": "3:1650187876632627935",
+          "name": "toVerse",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "20:5335617474368253470",
+  "lastEntityId": "21:4824274276133561271",
   "lastIndexId": "8:6870265368133356022",
   "lastRelationId": "3:7126796807909353330",
   "lastSequenceId": "0:0",
