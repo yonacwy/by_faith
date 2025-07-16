@@ -1,7 +1,7 @@
 import 'package:by_faith/features/study/screens/study_references_screen.dart';
 import 'package:by_faith/features/study/screens/study_topics_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // Added for Clipboard
+import 'package:flutter/services.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:by_faith/features/study/screens/study_notes_screen.dart';
 import 'package:by_faith/features/study/screens/study_search_screen.dart';
@@ -26,14 +26,14 @@ class StudyTabScreen extends StatefulWidget {
   final Book? initialBook;
   final Chapter? initialChapter;
   final int? initialVerseNumber;
-  final Function(String)? onVerseSelected; // Added for verse selection callback
+  final Function(String)? onVerseSelected;
 
   const StudyTabScreen({
     super.key,
     this.initialBook,
     this.initialChapter,
     this.initialVerseNumber,
-    this.onVerseSelected, // Added for verse selection
+    this.onVerseSelected,
   });
 
   @override
@@ -45,12 +45,24 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
   Book? _selectedBook;
   Chapter? _selectedChapter;
   List<Verse> _verses = [];
-  final ScrollController _scrollController = ScrollController(); // Added for scrolling
+  final ScrollController _scrollController = ScrollController();
+  bool _isFullscreen = false;
 
   @override
   void initState() {
     super.initState();
     _loadInitialBibleData();
+  }
+
+  void _toggleFullscreen() {
+    setState(() {
+      _isFullscreen = !_isFullscreen;
+    });
+    if (_isFullscreen) {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky, overlays: []);
+    } else {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    }
   }
 
   Future<void> _loadInitialBibleData() async {
@@ -81,13 +93,12 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
               _verses = chapter.verses.toList();
               print('Selected initial book: ${book.name}, chapter: ${chapter.chapterNumber}, verse: ${widget.initialVerseNumber}');
             });
-            // Scroll to the initial verse if provided
             if (widget.initialVerseNumber != null) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 final index = _verses.indexWhere((v) => v.verseNumber == widget.initialVerseNumber);
                 if (index != -1) {
                   _scrollController.animateTo(
-                    index * 50.0, // Approximate height per verse item
+                    index * 50.0,
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInOut,
                   );
@@ -175,14 +186,14 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                   ).then((_) => setState(() {}));
                 },
               ),
-              if (widget.onVerseSelected != null) // Added for verse selection
+              if (widget.onVerseSelected != null)
                 ListTile(
                   leading: const Icon(Icons.check),
                   title: Text(t.study_tab_screen.select_verse),
                   onTap: () {
                     widget.onVerseSelected?.call(verseReference);
                     Navigator.pop(context);
-                    Navigator.pop(context); // Return to previous screen
+                    Navigator.pop(context);
                   },
                 ),
             ],
@@ -190,6 +201,12 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
         );
       },
     );
+  }
+
+  String _buildVersePlainText(Verse verse) {
+    final words = verse.text.split(' ').where((w) => w.isNotEmpty).toList();
+    final text = words.join(' ');
+    return '${verse.verseNumber}. $text${verse.footnotes.isNotEmpty ? ' [${t.study_tab_screen.footnote_text}]' : ''}';
   }
 
   List<InlineSpan> _buildVerseText(Verse verse, BuildContext context) {
@@ -303,13 +320,13 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
   }
 
   void _selectAllVerses() {
-    final allText = _verses.map((verse) => '${verse.verseNumber}. ${verse.text}').join('\n');
+    final allText = _verses.map((verse) => '${verse.verseNumber}. ${_buildVersePlainText(verse)}').join('\n');
     _copyText(allText);
   }
 
   @override
   void dispose() {
-    _scrollController.dispose(); // Dispose ScrollController
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -356,8 +373,8 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.fullscreen),
-            onPressed: () {},
+            icon: Icon(_isFullscreen ? Icons.fullscreen_exit : Icons.fullscreen),
+            onPressed: _toggleFullscreen,
           ),
           Builder(
             builder: (context) => IconButton(
@@ -580,12 +597,14 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
             const SizedBox(height: 4),
             Expanded(
               child: ListView.builder(
-                controller: _scrollController, // Attach ScrollController
+                controller: _scrollController,
                 itemCount: _verses.length,
                 itemBuilder: (context, index) {
                   final verse = _verses[index];
                   final fontProvider = context.watch<StudySettingsFontProvider>();
                   final verseReference = '${_selectedBook!.name}.${_selectedChapter!.chapterNumber}.${verse.verseNumber}';
+                  final verseText = _buildVersePlainText(verse);
+
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4.0),
                     child: Row(
@@ -608,31 +627,41 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                           ),
                         ),
                         Expanded(
-                          child: SelectionArea(
-                            contextMenuBuilder: (context, state) => AdaptiveTextSelectionToolbar(
-                              anchors: state.contextMenuAnchors,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    _copyText(verse.text);
-                                    state.hideToolbar();
-                                  },
-                                  child: const Text('Copy'),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    _selectAllVerses();
-                                    state.hideToolbar();
-                                  },
-                                  child: const Text('Select All'),
-                                ),
-                              ],
+                          child: SelectableText.rich(
+                            TextSpan(
+                              children: _buildVerseText(verse, context),
                             ),
-                            child: RichText(
-                              text: TextSpan(
-                                children: _buildVerseText(verse, context),
-                              ),
-                            ),
+                            contextMenuBuilder: (context, state) {
+                              String selectedText = '';
+                              if (state.textEditingValue.selection != null && state.textEditingValue.selection!.isValid) {
+                                final textSpan = _buildVerseText(verse, context);
+                                final plainText = '${verse.verseNumber}. ${_buildVersePlainText(verse)}';
+                                final selection = state.textEditingValue.selection!;
+                                selectedText = plainText.substring(
+                                  selection.start,
+                                  selection.end > plainText.length ? plainText.length : selection.end,
+                                ).trim();
+                              }
+                              return AdaptiveTextSelectionToolbar(
+                                anchors: state.contextMenuAnchors,
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      _copyText(selectedText.isNotEmpty ? selectedText : verseText);
+                                      state.hideToolbar();
+                                    },
+                                    child: const Text('Copy'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      _selectAllVerses();
+                                      state.hideToolbar();
+                                    },
+                                    child: const Text('Select All'),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                         ),
                       ],
