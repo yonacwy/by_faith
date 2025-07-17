@@ -20,9 +20,15 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Initialize RootIsolateToken for isolates
   RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
-  await setupObjectBox();
+  final store = await setupObjectBox();
+  if (store == null) {
+    // Handle the case where ObjectBox initialization failed
+    // You might want to log an error or show an error screen
+    print('Failed to initialize ObjectBox. Exiting app.');
+    return;
+  }
   // Load language preference from ObjectBox
-  final prefs = getUserPreferences(userPreferencesBox);
+  final prefs = getUserPreferences(store.box<UserPreferences>());
   if (prefs.languageCode != null && prefs.languageCode!.isNotEmpty) {
     switch (prefs.languageCode) {
       case 'es':

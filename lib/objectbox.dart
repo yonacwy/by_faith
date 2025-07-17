@@ -15,57 +15,74 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
 /// Global ObjectBox store instance.
-late Store store;
+Store? _store;
 
-/// Boxes for various entity types.
-late Box<GoContact> goContactsBox;
-late Box<GoChurch> goChurchesBox;
-late Box<GoMinistry> goMinistriesBox;
-late Box<GoMapInfo> goMapInfoBox;
-late Box<UserPreferences> userPreferencesBox;
-late Box<GoContactNote> goContactNotesBox;
-late Box<GoChurchNote> goChurchNotesBox;
-late Box<GoMinistryNote> goMinistryNotesBox;
-late Box<BibleVersion> bibleVersionBox;
-late Box<Book> bookBox;
-late Box<Chapter> chapterBox;
-late Box<Verse> verseBox;
-late Box<Footnote> footnoteBox;
-late Box<StrongsEntry> strongsEntryBox;
-late Box<BiblesDownload> biblesdownloadBox;
-late Box<CreatedTopicsEn> studyCreatedTopicsEnBox;
-late Box<GeneratedTopicsEn> studyGeneratedTopicsEnBox;
-late Box<CrossReference> crossReferenceBox; // Add this box
+Box<GoContact>? _goContactsBox;
+Box<GoChurch>? _goChurchesBox;
+Box<GoMinistry>? _goMinistriesBox;
+Box<GoMapInfo>? _goMapInfoBox;
+Box<UserPreferences>? _userPreferencesBox;
+Box<GoContactNote>? _goContactNotesBox;
+Box<GoChurchNote>? _goChurchNotesBox;
+Box<GoMinistryNote>? _goMinistryNotesBox;
+Box<BibleVersion>? _bibleVersionBox;
+Box<Book>? _bookBox;
+Box<Chapter>? _chapterBox;
+Box<Verse>? _verseBox;
+Box<Footnote>? _footnoteBox;
+Box<StrongsEntry>? _strongsEntryBox;
+Box<BiblesDownload>? _biblesdownloadBox;
+Box<CreatedTopicsEn>? _studyCreatedTopicsEnBox;
+Box<GeneratedTopicsEn>? _studyGeneratedTopicsEnBox;
+Box<CrossReference>? _crossReferenceBox;
+
+Store get store => _store!;
+Box<GoContact> get goContactsBox => _goContactsBox!;
+Box<GoChurch> get goChurchesBox => _goChurchesBox!;
+Box<GoMinistry> get goMinistriesBox => _goMinistriesBox!;
+Box<GoMapInfo> get goMapInfoBox => _goMapInfoBox!;
+Box<UserPreferences> get userPreferencesBox => _userPreferencesBox!;
+Box<GoContactNote> get goContactNotesBox => _goContactNotesBox!;
+Box<GoChurchNote> get goChurchNotesBox => _goChurchNotesBox!;
+Box<GoMinistryNote> get goMinistryNotesBox => _goMinistryNotesBox!;
+Box<BibleVersion> get bibleVersionBox => _bibleVersionBox!;
+Box<Book> get bookBox => _bookBox!;
+Box<Chapter> get chapterBox => _chapterBox!;
+Box<Verse> get verseBox => _verseBox!;
+Box<Footnote> get footnoteBox => _footnoteBox!;
+Box<StrongsEntry> get strongsEntryBox => _strongsEntryBox!;
+Box<BiblesDownload> get biblesdownloadBox => _biblesdownloadBox!;
+Box<CreatedTopicsEn> get studyCreatedTopicsEnBox => _studyCreatedTopicsEnBox!;
+Box<GeneratedTopicsEn> get studyGeneratedTopicsEnBox => _studyGeneratedTopicsEnBox!;
+Box<CrossReference> get crossReferenceBox => _crossReferenceBox!;
 
 /// Initializes the ObjectBox store and FMTC backend.
-/// Returns `true` if successful, `false` otherwise.
-Future<bool> setupObjectBox() async {
+/// Returns the initialized [Store] if successful, `null` otherwise.
+Future<Store?> setupObjectBox() async {
   try {
-    // Get the app's documents directory
     final appDocDir = await getApplicationDocumentsDirectory();
     final objectBoxDir = path.join(appDocDir.path, 'objectbox');
     await Directory(objectBoxDir).create(recursive: true);
 
-    // Initialize ObjectBox store
-    store = await openStore(directory: objectBoxDir);
-    goContactsBox = store.box<GoContact>();
-    goChurchesBox = store.box<GoChurch>();
-    goMinistriesBox = store.box<GoMinistry>();
-    goMapInfoBox = store.box<GoMapInfo>();
-    userPreferencesBox = store.box<UserPreferences>();
-    goContactNotesBox = store.box<GoContactNote>();
-    goChurchNotesBox = store.box<GoChurchNote>();
-    goMinistryNotesBox = store.box<GoMinistryNote>();
-    bibleVersionBox = store.box<BibleVersion>();
-    bookBox = store.box<Book>();
-    chapterBox = store.box<Chapter>();
-    verseBox = store.box<Verse>();
-    footnoteBox = store.box<Footnote>();
-    strongsEntryBox = store.box<StrongsEntry>();
-    biblesdownloadBox = store.box<BiblesDownload>();
-    studyCreatedTopicsEnBox = store.box<CreatedTopicsEn>();
-    studyGeneratedTopicsEnBox = store.box<GeneratedTopicsEn>();
-    crossReferenceBox = store.box<CrossReference>(); // Initialize the box
+    _store = await openStore(directory: objectBoxDir);
+    _goContactsBox = _store!.box<GoContact>();
+    _goChurchesBox = _store!.box<GoChurch>();
+    _goMinistriesBox = _store!.box<GoMinistry>();
+    _goMapInfoBox = _store!.box<GoMapInfo>();
+    _userPreferencesBox = _store!.box<UserPreferences>();
+    _goContactNotesBox = _store!.box<GoContactNote>();
+    _goChurchNotesBox = _store!.box<GoChurchNote>();
+    _goMinistryNotesBox = _store!.box<GoMinistryNote>();
+    _bibleVersionBox = _store!.box<BibleVersion>();
+    _bookBox = _store!.box<Book>();
+    _chapterBox = _store!.box<Chapter>();
+    _verseBox = _store!.box<Verse>();
+    _footnoteBox = _store!.box<Footnote>();
+    _strongsEntryBox = _store!.box<StrongsEntry>();
+    _biblesdownloadBox = _store!.box<BiblesDownload>();
+    _studyCreatedTopicsEnBox = _store!.box<CreatedTopicsEn>();
+    _studyGeneratedTopicsEnBox = _store!.box<GeneratedTopicsEn>();
+    _crossReferenceBox = _store!.box<CrossReference>();
 
     // Initialize FMTC backend with ObjectBox
     await FMTCObjectBoxBackend().initialise();
@@ -78,10 +95,10 @@ Future<bool> setupObjectBox() async {
     await loadTopicsFromJson();
     await loadCrossReferencesFromJson(); // Load cross-references
 
-    return true;
+    return _store;
   } catch (e) {
     print('ObjectBox initialization error: $e');
-    return false;
+    return null;
   }
 }
 
@@ -142,5 +159,5 @@ Future<void> loadCrossReferencesFromJson() async {
 
 /// Cleans up ObjectBox resources when the app closes.
 void closeObjectBox() {
-  store.close();
+  _store?.close();
 }
