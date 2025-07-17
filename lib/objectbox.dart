@@ -4,7 +4,7 @@ import 'package:by_faith/features/go/models/go_model.dart';
 import 'package:by_faith/features/go/models/go_map_info_model.dart';
 import 'package:by_faith/features/study/models/study_bibles_model.dart';
 import 'package:by_faith/features/study/models/study_topics_model.dart';
-import 'package:by_faith/features/study/models/study_references_model.dart'; // Add this import
+import 'package:by_faith/features/study/models/study_references_model.dart';
 import 'package:by_faith/features/home/models/home_model.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart' as fmtc;
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart' show FMTCObjectBoxBackend;
@@ -93,7 +93,7 @@ Future<Store?> setupObjectBox() async {
     // Load data from JSON
     await loadBiblesFromJson();
     await loadTopicsFromJson();
-    await loadCrossReferencesFromJson(); // Load cross-references
+    // Note: Removed loadCrossReferencesFromJson to avoid loading into crossReferenceBox
 
     return _store;
   } catch (e) {
@@ -133,27 +133,6 @@ Future<void> loadTopicsFromJson() async {
     print('Loaded ${topics.length} topics into ObjectBox.');
   } catch (e) {
     print('Error loading topics from JSON: $e');
-  }
-}
-
-/// Loads cross-references from JSON asset into ObjectBox.
-Future<void> loadCrossReferencesFromJson() async {
-  try {
-    final String response = await rootBundle.loadString('lib/features/study/assets/data/cross_references.json');
-    final Map<String, dynamic> data = jsonDecode(response);
-    final List<CrossReference> references = [];
-    data.forEach((verse, toVerses) {
-      for (var toVerse in toVerses) {
-        references.add(CrossReference(
-          verse: verse,
-          toVerse: toVerse['toVerse'],
-        ));
-      }
-    });
-    crossReferenceBox.putMany(references);
-    print('Loaded ${references.length} cross-references into ObjectBox.');
-  } catch (e) {
-    print('Error loading cross-references from JSON: $e');
   }
 }
 

@@ -246,8 +246,17 @@ class _TranslationsStudyAddEditReferencesScreenHi implements TranslationsStudyAd
 	final TranslationsHi _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'अध्ययन जोड़ें संपादित करें संदर्भ';
-	@override String get content => 'अध्ययन जोड़ें संपादित करें संदर्भ सामग्री';
+	@override String get title => 'क्रॉस-संदर्भ संपादित करें';
+	@override String get current_verse => '{verseReference} के लिए संदर्भ';
+	@override String get json_references => 'मानक संदर्भ';
+	@override String get user_references => 'आपके संदर्भ';
+	@override String get no_references => 'कोई संदर्भ उपलब्ध नहीं';
+	@override String get add_reference => 'संदर्भ जोड़ें';
+	@override String get delete_reference => 'संदर्भ हटाएं';
+	@override String get add_reference_dialog_title => 'क्रॉस-संदर्भ जोड़ें';
+	@override String get add_reference_dialog_content => 'क्या आप अपने क्रॉस-संदर्भों में \'{toVerse}\' जोड़ना चाहते हैं?';
+	@override String get cancel_button => 'रद्द करें';
+	@override String get add_button => 'जोड़ें';
 }
 
 // Path: study_add_edit_topics_screen
@@ -317,12 +326,11 @@ class _TranslationsStudyReferencesScreenHi implements TranslationsStudyReference
 	final TranslationsHi _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'क्रॉस संदर्भ';
-	@override String get old_testament => 'पुराना नियम';
-	@override String get new_testament => 'नया नियम';
-	@override String get add_verse => 'पद जोड़ें';
+	@override String get title => 'क्रॉस-संदर्भ';
+	@override String get no_references => 'कोई क्रॉस-संदर्भ उपलब्ध नहीं';
+	@override String get edit_reference => 'संदर्भ संपादित करें';
 	@override String get delete_reference => 'संदर्भ हटाएं';
-	@override String get no_references => 'इस पद के लिए कोई क्रॉस-संदर्भ उपलब्ध नहीं है।';
+	@override String get add_reference => 'संदर्भ जोड़ें';
 }
 
 // Path: study_search_screen
@@ -1095,8 +1103,17 @@ extension on TranslationsHi {
 			case 'study_add_edit_mapping_screen.content': return 'अध्ययन जोड़ें संपादित करें मैपिंग सामग्री';
 			case 'study_add_edit_notes_screen.title': return 'अध्ययन जोड़ें संपादित करें नोट्स';
 			case 'study_add_edit_notes_screen.content': return 'अध्ययन जोड़ें संपादित करें नोट्स सामग्री';
-			case 'study_add_edit_references_screen.title': return 'अध्ययन जोड़ें संपादित करें संदर्भ';
-			case 'study_add_edit_references_screen.content': return 'अध्ययन जोड़ें संपादित करें संदर्भ सामग्री';
+			case 'study_add_edit_references_screen.title': return 'क्रॉस-संदर्भ संपादित करें';
+			case 'study_add_edit_references_screen.current_verse': return '{verseReference} के लिए संदर्भ';
+			case 'study_add_edit_references_screen.json_references': return 'मानक संदर्भ';
+			case 'study_add_edit_references_screen.user_references': return 'आपके संदर्भ';
+			case 'study_add_edit_references_screen.no_references': return 'कोई संदर्भ उपलब्ध नहीं';
+			case 'study_add_edit_references_screen.add_reference': return 'संदर्भ जोड़ें';
+			case 'study_add_edit_references_screen.delete_reference': return 'संदर्भ हटाएं';
+			case 'study_add_edit_references_screen.add_reference_dialog_title': return 'क्रॉस-संदर्भ जोड़ें';
+			case 'study_add_edit_references_screen.add_reference_dialog_content': return 'क्या आप अपने क्रॉस-संदर्भों में \'{toVerse}\' जोड़ना चाहते हैं?';
+			case 'study_add_edit_references_screen.cancel_button': return 'रद्द करें';
+			case 'study_add_edit_references_screen.add_button': return 'जोड़ें';
 			case 'study_add_edit_topics_screen.add_title': return 'विषय जोड़ें';
 			case 'study_add_edit_topics_screen.edit_title': return 'विषय संपादित करें';
 			case 'study_add_edit_topics_screen.add_verse': return 'छंद जोड़ें';
@@ -1112,12 +1129,11 @@ extension on TranslationsHi {
 			case 'study_notes_screen.content': return 'अध्ययन नोट्स सामग्री';
 			case 'study_plans_screen.title': return 'अध्ययन योजनाएँ';
 			case 'study_plans_screen.content': return 'अध्ययन योजनाओं की सामग्री';
-			case 'study_references_screen.title': return 'क्रॉस संदर्भ';
-			case 'study_references_screen.old_testament': return 'पुराना नियम';
-			case 'study_references_screen.new_testament': return 'नया नियम';
-			case 'study_references_screen.add_verse': return 'पद जोड़ें';
+			case 'study_references_screen.title': return 'क्रॉस-संदर्भ';
+			case 'study_references_screen.no_references': return 'कोई क्रॉस-संदर्भ उपलब्ध नहीं';
+			case 'study_references_screen.edit_reference': return 'संदर्भ संपादित करें';
 			case 'study_references_screen.delete_reference': return 'संदर्भ हटाएं';
-			case 'study_references_screen.no_references': return 'इस पद के लिए कोई क्रॉस-संदर्भ उपलब्ध नहीं है।';
+			case 'study_references_screen.add_reference': return 'संदर्भ जोड़ें';
 			case 'study_search_screen.title': return 'अध्ययन खोज';
 			case 'study_search_screen.content': return 'अध्ययन खोज सामग्री';
 			case 'study_settings_screen.title': return 'सेटिंग्स';

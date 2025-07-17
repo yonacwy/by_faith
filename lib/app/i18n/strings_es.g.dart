@@ -246,8 +246,17 @@ class _TranslationsStudyAddEditReferencesScreenEs implements TranslationsStudyAd
 	final TranslationsEs _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Estudio Añadir Editar Referencias';
-	@override String get content => 'Contenido de Estudio Añadir Editar Referencias';
+	@override String get title => 'Editar Referencias Cruzadas';
+	@override String get current_verse => 'Referencias para {verseReference}';
+	@override String get json_references => 'Referencias Estándar';
+	@override String get user_references => 'Tus Referencias';
+	@override String get no_references => 'No hay referencias disponibles';
+	@override String get add_reference => 'Agregar Referencia';
+	@override String get delete_reference => 'Eliminar Referencia';
+	@override String get add_reference_dialog_title => 'Añadir Referencia Cruzada';
+	@override String get add_reference_dialog_content => '¿Quieres añadir \'{toVerse}\' a tus referencias cruzadas?';
+	@override String get cancel_button => 'Cancelar';
+	@override String get add_button => 'Añadir';
 }
 
 // Path: study_add_edit_topics_screen
@@ -318,11 +327,10 @@ class _TranslationsStudyReferencesScreenEs implements TranslationsStudyReference
 
 	// Translations
 	@override String get title => 'Referencias Cruzadas';
-	@override String get old_testament => 'Antiguo Testamento';
-	@override String get new_testament => 'Nuevo Testamento';
-	@override String get add_verse => 'Agregar Versículo';
+	@override String get no_references => 'No hay referencias cruzadas disponibles';
+	@override String get edit_reference => 'Editar Referencia';
 	@override String get delete_reference => 'Eliminar Referencia';
-	@override String get no_references => 'No hay referencias cruzadas disponibles para este versículo.';
+	@override String get add_reference => 'Agregar Referencia';
 }
 
 // Path: study_search_screen
@@ -1094,8 +1102,17 @@ extension on TranslationsEs {
 			case 'study_add_edit_mapping_screen.content': return 'Contenido de Estudio Añadir Editar Mapeo';
 			case 'study_add_edit_notes_screen.title': return 'Estudio Añadir Editar Notas';
 			case 'study_add_edit_notes_screen.content': return 'Contenido de Estudio Añadir Editar Notas';
-			case 'study_add_edit_references_screen.title': return 'Estudio Añadir Editar Referencias';
-			case 'study_add_edit_references_screen.content': return 'Contenido de Estudio Añadir Editar Referencias';
+			case 'study_add_edit_references_screen.title': return 'Editar Referencias Cruzadas';
+			case 'study_add_edit_references_screen.current_verse': return 'Referencias para {verseReference}';
+			case 'study_add_edit_references_screen.json_references': return 'Referencias Estándar';
+			case 'study_add_edit_references_screen.user_references': return 'Tus Referencias';
+			case 'study_add_edit_references_screen.no_references': return 'No hay referencias disponibles';
+			case 'study_add_edit_references_screen.add_reference': return 'Agregar Referencia';
+			case 'study_add_edit_references_screen.delete_reference': return 'Eliminar Referencia';
+			case 'study_add_edit_references_screen.add_reference_dialog_title': return 'Añadir Referencia Cruzada';
+			case 'study_add_edit_references_screen.add_reference_dialog_content': return '¿Quieres añadir \'{toVerse}\' a tus referencias cruzadas?';
+			case 'study_add_edit_references_screen.cancel_button': return 'Cancelar';
+			case 'study_add_edit_references_screen.add_button': return 'Añadir';
 			case 'study_add_edit_topics_screen.add_title': return 'Añadir Tema';
 			case 'study_add_edit_topics_screen.edit_title': return 'Editar Tema';
 			case 'study_add_edit_topics_screen.add_verse': return 'Añadir Versículo';
@@ -1112,11 +1129,10 @@ extension on TranslationsEs {
 			case 'study_plans_screen.title': return 'Planes de Estudio';
 			case 'study_plans_screen.content': return 'Contenido de los Planes de Estudio';
 			case 'study_references_screen.title': return 'Referencias Cruzadas';
-			case 'study_references_screen.old_testament': return 'Antiguo Testamento';
-			case 'study_references_screen.new_testament': return 'Nuevo Testamento';
-			case 'study_references_screen.add_verse': return 'Agregar Versículo';
+			case 'study_references_screen.no_references': return 'No hay referencias cruzadas disponibles';
+			case 'study_references_screen.edit_reference': return 'Editar Referencia';
 			case 'study_references_screen.delete_reference': return 'Eliminar Referencia';
-			case 'study_references_screen.no_references': return 'No hay referencias cruzadas disponibles para este versículo.';
+			case 'study_references_screen.add_reference': return 'Agregar Referencia';
 			case 'study_search_screen.title': return 'Estudio Búsqueda';
 			case 'study_search_screen.content': return 'Contenido de Estudio Búsqueda';
 			case 'study_settings_screen.title': return 'Configuración';

@@ -249,8 +249,17 @@ class TranslationsStudyAddEditReferencesScreenEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get title => 'Study Add Edit References';
-	String get content => 'Study Add Edit References Content';
+	String get title => 'Edit Cross-References';
+	String get current_verse => 'References for {verseReference}';
+	String get json_references => 'Standard References';
+	String get user_references => 'Your References';
+	String get no_references => 'No references available';
+	String get add_reference => 'Add Reference';
+	String get delete_reference => 'Delete Reference';
+	String get add_reference_dialog_title => 'Add Cross-Reference';
+	String get add_reference_dialog_content => 'Do you want to add \'{toVerse}\' to your cross-references?';
+	String get cancel_button => 'Cancel';
+	String get add_button => 'Add';
 }
 
 // Path: study_add_edit_topics_screen
@@ -320,12 +329,11 @@ class TranslationsStudyReferencesScreenEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get title => 'Cross References';
-	String get old_testament => 'Old Testament';
-	String get new_testament => 'New Testament';
-	String get add_verse => 'Add Verse';
+	String get title => 'Cross-References';
+	String get no_references => 'No cross-references available';
+	String get edit_reference => 'Edit Reference';
 	String get delete_reference => 'Delete Reference';
-	String get no_references => 'No cross-references available for this verse.';
+	String get add_reference => 'Add Reference';
 }
 
 // Path: study_search_screen
@@ -1097,8 +1105,17 @@ extension on Translations {
 			case 'study_add_edit_mapping_screen.content': return 'Study Add Edit Mapping Content';
 			case 'study_add_edit_notes_screen.title': return 'Study Add Edit Notes';
 			case 'study_add_edit_notes_screen.content': return 'Study Add Edit Notes Content';
-			case 'study_add_edit_references_screen.title': return 'Study Add Edit References';
-			case 'study_add_edit_references_screen.content': return 'Study Add Edit References Content';
+			case 'study_add_edit_references_screen.title': return 'Edit Cross-References';
+			case 'study_add_edit_references_screen.current_verse': return 'References for {verseReference}';
+			case 'study_add_edit_references_screen.json_references': return 'Standard References';
+			case 'study_add_edit_references_screen.user_references': return 'Your References';
+			case 'study_add_edit_references_screen.no_references': return 'No references available';
+			case 'study_add_edit_references_screen.add_reference': return 'Add Reference';
+			case 'study_add_edit_references_screen.delete_reference': return 'Delete Reference';
+			case 'study_add_edit_references_screen.add_reference_dialog_title': return 'Add Cross-Reference';
+			case 'study_add_edit_references_screen.add_reference_dialog_content': return 'Do you want to add \'{toVerse}\' to your cross-references?';
+			case 'study_add_edit_references_screen.cancel_button': return 'Cancel';
+			case 'study_add_edit_references_screen.add_button': return 'Add';
 			case 'study_add_edit_topics_screen.add_title': return 'Add Topic';
 			case 'study_add_edit_topics_screen.edit_title': return 'Edit Topic';
 			case 'study_add_edit_topics_screen.add_verse': return 'Add Verse';
@@ -1114,12 +1131,11 @@ extension on Translations {
 			case 'study_notes_screen.content': return 'Study Notes Content';
 			case 'study_plans_screen.title': return 'Study Plans';
 			case 'study_plans_screen.content': return 'Study Plans Content';
-			case 'study_references_screen.title': return 'Cross References';
-			case 'study_references_screen.old_testament': return 'Old Testament';
-			case 'study_references_screen.new_testament': return 'New Testament';
-			case 'study_references_screen.add_verse': return 'Add Verse';
+			case 'study_references_screen.title': return 'Cross-References';
+			case 'study_references_screen.no_references': return 'No cross-references available';
+			case 'study_references_screen.edit_reference': return 'Edit Reference';
 			case 'study_references_screen.delete_reference': return 'Delete Reference';
-			case 'study_references_screen.no_references': return 'No cross-references available for this verse.';
+			case 'study_references_screen.add_reference': return 'Add Reference';
 			case 'study_search_screen.title': return 'Study Search';
 			case 'study_search_screen.content': return 'Study Search Content';
 			case 'study_settings_screen.title': return 'Settings';

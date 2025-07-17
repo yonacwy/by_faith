@@ -12,6 +12,7 @@ import 'package:by_faith/features/study/screens/study_export_import_screen.dart'
 import 'package:by_faith/features/study/screens/study_plans_screen.dart';
 import 'package:by_faith/features/study/screens/study_strongs_dictionary_screen.dart';
 import 'package:by_faith/features/study/screens/study_add_edit_topics_screen.dart';
+import 'package:by_faith/features/study/screens/study_add_edit_references_screen.dart';
 import 'package:by_faith/objectbox.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:by_faith/objectbox.g.dart';
@@ -162,7 +163,8 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
   }
 
   void _showVerseOptions(BuildContext context, Verse verse) {
-    final verseReference = '${_selectedBook!.name}.${_selectedChapter!.chapterNumber}.${verse.verseNumber}';
+    final formattedBookId = '${_selectedBook!.bookId[0].toUpperCase()}${_selectedBook!.bookId.substring(1)}';
+    final verseReference = '$formattedBookId.${_selectedChapter!.chapterNumber}.${verse.verseNumber}';
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -194,8 +196,8 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => StudyReferencesScreen(
-                        initialVerseReference: verseReference,
+                      builder: (context) => StudyAddEditReferencesScreen(
+                        verseReference: verseReference,
                       ),
                     ),
                   );

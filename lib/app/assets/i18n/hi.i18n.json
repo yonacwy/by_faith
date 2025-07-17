@@ -98,8 +98,17 @@
     "content": "अध्ययन जोड़ें संपादित करें नोट्स सामग्री"
   },
   "study_add_edit_references_screen": {
-    "title": "अध्ययन जोड़ें संपादित करें संदर्भ",
-    "content": "अध्ययन जोड़ें संपादित करें संदर्भ सामग्री"
+    "title": "क्रॉस-संदर्भ संपादित करें",
+    "current_verse": "{verseReference} के लिए संदर्भ",
+    "json_references": "मानक संदर्भ",
+    "user_references": "आपके संदर्भ",
+    "no_references": "कोई संदर्भ उपलब्ध नहीं",
+    "add_reference": "संदर्भ जोड़ें",
+    "delete_reference": "संदर्भ हटाएं",
+    "add_reference_dialog_title": "क्रॉस-संदर्भ जोड़ें",
+    "add_reference_dialog_content": "क्या आप अपने क्रॉस-संदर्भों में '{toVerse}' जोड़ना चाहते हैं?",
+    "cancel_button": "रद्द करें",
+    "add_button": "जोड़ें"
   },
   "study_add_edit_topics_screen": {
     "add_title": "विषय जोड़ें",
@@ -127,12 +136,11 @@
     "content": "अध्ययन योजनाओं की सामग्री"
   },
   "study_references_screen": {
-    "title": "क्रॉस संदर्भ",
-    "old_testament": "पुराना नियम",
-    "new_testament": "नया नियम",
-    "add_verse": "पद जोड़ें",
+    "title": "क्रॉस-संदर्भ",
+    "no_references": "कोई क्रॉस-संदर्भ उपलब्ध नहीं",
+    "edit_reference": "संदर्भ संपादित करें",
     "delete_reference": "संदर्भ हटाएं",
-    "no_references": "इस पद के लिए कोई क्रॉस-संदर्भ उपलब्ध नहीं है।"
+    "add_reference": "संदर्भ जोड़ें"
   },
   "study_search_screen": {
     "title": "अध्ययन खोज",

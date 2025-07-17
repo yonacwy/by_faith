@@ -98,8 +98,17 @@
     "content": "Study Add Edit Notes Content"
   },
   "study_add_edit_references_screen": {
-    "title": "Study Add Edit References",
-    "content": "Study Add Edit References Content"
+    "title": "Edit Cross-References",
+    "current_verse": "References for {verseReference}",
+    "json_references": "Standard References",
+    "user_references": "Your References",
+    "no_references": "No references available",
+    "add_reference": "Add Reference",
+    "delete_reference": "Delete Reference",
+    "add_reference_dialog_title": "Add Cross-Reference",
+    "add_reference_dialog_content": "Do you want to add '{toVerse}' to your cross-references?",
+    "cancel_button": "Cancel",
+    "add_button": "Add"
   },
   "study_add_edit_topics_screen": {
     "add_title": "Add Topic",
@@ -127,12 +136,11 @@
     "content": "Study Plans Content"
   },
   "study_references_screen": {
-    "title": "Cross References",
-    "old_testament": "Old Testament",
-    "new_testament": "New Testament",
-    "add_verse": "Add Verse",
+    "title": "Cross-References",
+    "no_references": "No cross-references available",
+    "edit_reference": "Edit Reference",
     "delete_reference": "Delete Reference",
-    "no_references": "No cross-references available for this verse."
+    "add_reference": "Add Reference"
   },
   "study_search_screen": {
     "title": "Study Search",
