@@ -122,40 +122,31 @@ class _StudyAddEditReferencesScreenState extends State<StudyAddEditReferencesScr
   @override
   void initState() {
     super.initState();
-    print('Input verseReference: ${widget.verseReference}');
     _loadReferences();
   }
 
   String _normalizeVerseReference(String verseReference) {
-    // Normalize verse reference to match JSON key format (e.g., 2ti.1.1 to 2Tim.1.1)
     final parts = verseReference.split('.');
     if (parts.length != 3) return verseReference;
     final bookId = parts[0];
     final storageId = _bookIdToStorageIdMap[bookId] ?? _bookIdToStorageIdMap[bookId.toLowerCase()] ?? bookId.toUpperCase();
     final normalizedBookId = _storageIdToJsonIdMap[storageId] ?? bookId;
-    final result = '$normalizedBookId.${parts[1]}.${parts[2]}';
-    print('Normalized $verseReference to $result');
-    return result;
+    return '$normalizedBookId.${parts[1]}.${parts[2]}';
   }
 
   String _formatVerseReference(String verseReference) {
-    // Convert verse reference to human-readable format (e.g., 2ti.1.1 to 2 Timothy 1:1)
     final parts = verseReference.split('.');
     if (parts.length != 3) return verseReference;
     final bookId = parts[0];
     final bookName = _bookNameMap[bookId] ?? _bookNameMap[bookId.toLowerCase()] ?? bookId;
-    final result = '$bookName ${parts[1]}:${parts[2]}';
-    print('Formatted $verseReference to $result');
-    return result;
+    return '$bookName ${parts[1]}:${parts[2]}';
   }
 
   Future<void> _loadReferences() async {
     try {
-      // Load references from cross_references.json
       final String response = await rootBundle.loadString('lib/features/study/assets/data/cross_references.json');
       final Map<String, dynamic> data = jsonDecode(response);
       final normalizedReference = _normalizeVerseReference(widget.verseReference);
-      print('DEBUG: Searching for references with key: $normalizedReference');
 
       final List<dynamic>? rawReferences = data[normalizedReference];
 
@@ -166,17 +157,14 @@ class _StudyAddEditReferencesScreenState extends State<StudyAddEditReferencesScr
           return {'toVerse': toVerse, 'verseText': verseText};
         }).toList());
       } else {
-        print('No references found for $normalizedReference in cross_references.json');
         _jsonReferencesWithText = [];
       }
 
-      // Load user-edited references from crossReferenceBox
       _userReferences = crossReferenceBox
           .query(CrossReference_.verse.equals(widget.verseReference))
           .build()
           .find();
     } catch (e) {
-      print('Error loading references: $e');
       _jsonReferencesWithText = [];
     }
 
@@ -185,13 +173,11 @@ class _StudyAddEditReferencesScreenState extends State<StudyAddEditReferencesScr
 
   Future<String> _getVerseText(String verseReference) async {
     if (verseReference.contains('-')) {
-      // Handle verse ranges (e.g., John.5:39-John.5:40)
       final parts = verseReference.split('-');
       if (parts.length != 2) return 'Invalid verse range';
       final startRef = parts[0];
       final endRef = parts[1];
 
-      // Ensure both references are valid and in the same book and chapter
       final startParts = startRef.split('.');
       final endParts = endRef.split('.');
       if (startParts.length != 3 || endParts.length != 3 || startParts[0] != endParts[0] || startParts[1] != endParts[1]) {
@@ -223,20 +209,16 @@ class _StudyAddEditReferencesScreenState extends State<StudyAddEditReferencesScr
         return 'Chapter not found';
       }
 
-      // Fetch text for all verses in the range
       final verses = chapter.verses.toList().where((v) => v.verseNumber >= startVerse && v.verseNumber <= endVerse).toList();
       if (verses.isEmpty) {
         return 'No verses found in range';
       }
 
-      // Combine verse texts with verse numbers
       return verses.map((v) => '${v.verseNumber}. ${v.text}').join(' ');
     }
 
-    // Handle single verse
     final parts = verseReference.split('.');
     if (parts.length != 3) {
-      print('Invalid verse reference format: $verseReference');
       return 'Invalid verse reference';
     }
 
@@ -246,36 +228,27 @@ class _StudyAddEditReferencesScreenState extends State<StudyAddEditReferencesScr
     final verseNumber = int.tryParse(parts[2]);
 
     if (chapterNumber == null || verseNumber == null) {
-      print('Invalid chapter or verse number in: $verseReference');
       return 'Invalid verse numbers';
     }
 
     final bibleVersion = store.box<BibleVersion>().getAll().firstOrNull;
     if (bibleVersion == null) {
-      print('No Bible version found');
       return 'No Bible version found';
     }
 
-    final book = bibleVersion.books.toList().firstWhereOrNull((b) {
-      final isMatch = b.bookId.toUpperCase() == mappedBookId.toUpperCase();
-      print('DEBUG: Comparing search bookId "${mappedBookId.toUpperCase()}" with stored bookId "${b.bookId.toUpperCase()}" (original: ${b.bookId}) - Match: $isMatch');
-      return isMatch;
-    });
+    final book = bibleVersion.books.toList().firstWhereOrNull((b) => b.bookId.toUpperCase() == mappedBookId.toUpperCase());
 
     if (book == null) {
-      print('Book not found for ID: $mappedBookId (original: $originalBookId)');
       return 'Book not found';
     }
 
     final chapter = book.chapters.toList().firstWhereOrNull((c) => c.chapterNumber == chapterNumber);
     if (chapter == null) {
-      print('Chapter $chapterNumber not found in book: $mappedBookId');
       return 'Chapter not found';
     }
 
     final verse = chapter.verses.toList().firstWhereOrNull((v) => v.verseNumber == verseNumber);
     if (verse == null) {
-      print('Verse $verseNumber not found in chapter $chapterNumber of book: $mappedBookId');
       return 'Verse not found';
     }
 
@@ -304,13 +277,11 @@ class _StudyAddEditReferencesScreenState extends State<StudyAddEditReferencesScr
 
   void _navigateToVerse(String verseReference) {
     if (verseReference.contains('-')) {
-      // For verse ranges, navigate to the first verse
       verseReference = verseReference.split('-')[0];
     }
 
     final parts = verseReference.split('.');
     if (parts.length != 3) {
-      print('Invalid verse reference for navigation: $verseReference');
       return;
     }
 
@@ -320,25 +291,21 @@ class _StudyAddEditReferencesScreenState extends State<StudyAddEditReferencesScr
     final verseNumber = int.tryParse(parts[2]);
 
     if (chapterNumber == null || verseNumber == null) {
-      print('Invalid chapter or verse number for navigation: $verseReference');
       return;
     }
 
     final bibleVersion = store.box<BibleVersion>().getAll().firstOrNull;
     if (bibleVersion == null) {
-      print('No Bible version found for navigation');
       return;
     }
 
     final book = bibleVersion.books.toList().firstWhereOrNull((b) => b.bookId.toUpperCase() == mappedBookId.toUpperCase());
     if (book == null) {
-      print('Book not found for navigation: $mappedBookId');
       return;
     }
 
     final chapter = book.chapters.toList().firstWhereOrNull((c) => c.chapterNumber == chapterNumber);
     if (chapter == null) {
-      print('Chapter not found for navigation: $chapterNumber in $mappedBookId');
       return;
     }
 
@@ -357,7 +324,6 @@ class _StudyAddEditReferencesScreenState extends State<StudyAddEditReferencesScr
   @override
   Widget build(BuildContext context) {
     final formattedReference = _formatVerseReference(widget.verseReference);
-    print('Rendering title with: $formattedReference');
     return Scaffold(
       appBar: AppBar(
         title: Text(t.study_add_edit_references_screen.title),
@@ -374,51 +340,6 @@ class _StudyAddEditReferencesScreenState extends State<StudyAddEditReferencesScr
           Expanded(
             child: ListView(
               children: [
-                if (_jsonReferencesWithText.isNotEmpty) ...[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      t.study_add_edit_references_screen.json_references,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                  ),
-                  ..._jsonReferencesWithText.map((refMap) {
-                    final ref = refMap['toVerse']!;
-                    final verseText = refMap['verseText']!;
-                    return ListTile(
-                      title: Text(_formatVerseReference(ref)),
-                      subtitle: Text(verseText),
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text(t.study_add_edit_references_screen.add_reference_dialog_title),
-                              content: Text(t.study_add_edit_references_screen.add_reference_dialog_content.replaceAll('{toVerse}', _formatVerseReference(ref))),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: Text(t.study_add_edit_references_screen.cancel_button),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                TextButton(
-                                  child: Text(t.study_add_edit_references_screen.add_button),
-                                  onPressed: () {
-                                    final newReference = CrossReference(verse: widget.verseReference, toVerse: ref);
-                                    crossReferenceBox.put(newReference);
-                                    _loadReferences();
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    );
-                  }),
-                ],
                 if (_userReferences.isNotEmpty) ...[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -443,6 +364,24 @@ class _StudyAddEditReferencesScreenState extends State<StudyAddEditReferencesScr
                           );
                         },
                       )),
+                ],
+                if (_jsonReferencesWithText.isNotEmpty) ...[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      t.study_add_edit_references_screen.json_references,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ),
+                  ..._jsonReferencesWithText.map((refMap) {
+                    final ref = refMap['toVerse']!;
+                    final verseText = refMap['verseText']!;
+                    return ListTile(
+                      title: Text(_formatVerseReference(ref)),
+                      subtitle: Text(verseText),
+                      onTap: () => _navigateToVerse(ref),
+                    );
+                  }),
                 ],
                 if (_jsonReferencesWithText.isEmpty && _userReferences.isEmpty)
                   Padding(
