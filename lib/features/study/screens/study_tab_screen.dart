@@ -297,7 +297,14 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                     title: Text(t.study_tab_screen.footnote_title),
                     content: SingleChildScrollView(
                       child: ListBody(
-                        children: verse.footnotes.map((f) => Text('${f.caller}: ${f.text}')).toList(),
+                        children: verse.footnotes.map((f) => Text(
+                          '${f.caller}: ${f.text}',
+                          style: TextStyle(
+                            fontFamily: fontProvider.fontFamily,
+                            fontSize: fontProvider.fontSize,
+                            color: Colors.black,
+                          ),
+                        )).toList(),
                       ),
                     ),
                     actions: <Widget>[
