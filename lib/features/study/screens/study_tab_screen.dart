@@ -228,6 +228,7 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
 
   List<InlineSpan> _buildVerseText(Verse verse, BuildContext context) {
     final fontProvider = context.watch<StudySettingsFontProvider>();
+    
     final textStyle = TextStyle(
       fontFamily: fontProvider.fontFamily,
       fontSize: fontProvider.fontSize,
@@ -237,6 +238,12 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
       fontFamily: fontProvider.fontFamily,
       fontSize: fontProvider.fontSize,
       color: Colors.blue,
+      decoration: TextDecoration.underline,
+    );
+    final footnoteStyle = TextStyle(
+      fontFamily: fontProvider.fontFamily,
+      fontSize: fontProvider.fontSize,
+      color: Colors.black,
       decoration: TextDecoration.underline,
     );
 
@@ -249,7 +256,10 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
 
     for (final entry in sortedEntries) {
       while (wordIndex < entry.position && wordIndex < words.length) {
-        spans.add(TextSpan(text: '${words[wordIndex]} ', style: textStyle));
+        spans.add(TextSpan(
+          text: '${words[wordIndex]} ',
+          style: textStyle,
+        ));
         wordIndex++;
       }
       if (wordIndex < words.length) {
@@ -270,6 +280,7 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
             child: Text(
               '${entry.word} ',
               style: strongsStyle,
+              textScaleFactor: 1.0, // Ignore system text scaling
             ),
           ),
         ));
@@ -278,7 +289,10 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
     }
 
     while (wordIndex < words.length) {
-      spans.add(TextSpan(text: '${words[wordIndex]} ', style: textStyle));
+      spans.add(TextSpan(
+        text: '${words[wordIndex]} ',
+        style: textStyle,
+      ));
       wordIndex++;
     }
 
@@ -304,6 +318,7 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                             fontSize: fontProvider.fontSize,
                             color: Colors.black,
                           ),
+                          textScaleFactor: 1.0, // Ignore system text scaling
                         )).toList(),
                       ),
                     ),
@@ -321,12 +336,8 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
             },
             child: Text(
               '[${t.study_tab_screen.footnote_text}]',
-              style: TextStyle(
-                fontFamily: fontProvider.fontFamily,
-                fontSize: fontProvider.fontSize,
-                color: Colors.black,
-                decoration: TextDecoration.underline,
-              ),
+              style: footnoteStyle,
+              textScaleFactor: 1.0, // Ignore system text scaling
             ),
           ),
         ),
@@ -647,6 +658,7 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.blue,
                               ),
+                              textScaleFactor: 1.0, // Ignore system text scaling
                             ),
                           ),
                         ),
@@ -655,6 +667,7 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                             TextSpan(
                               children: _buildVerseText(verse, context),
                             ),
+                            textScaleFactor: 1.0, // Ignore system text scaling for all text spans
                             contextMenuBuilder: (context, state) {
                               String selectedText = '';
                               if (state.textEditingValue.selection != null && state.textEditingValue.selection!.isValid) {
