@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter/services.dart'; // Added for RootIsolateToken
+import 'package:flutter/services.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:by_faith/features/home/screens/home_tab_screen.dart';
 import 'package:by_faith/features/pray/screens/pray_tab_screen.dart';
@@ -14,21 +14,18 @@ import 'package:by_faith/objectbox.dart';
 import 'package:by_faith/features/home/providers/home_settings_font_provider.dart';
 import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
 import 'package:by_faith/features/study/providers/study_settings_font_provider.dart';
-import 'package:by_faith/features/study/providers/study_topics_verse_provider.dart'; // Added provider import
+import 'package:by_faith/features/study/providers/study_topics_verse_provider.dart';
+import 'package:by_faith/features/study/providers/study_references_verse_provider.dart';
 import 'package:by_faith/core/models/user_preferences_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Initialize RootIsolateToken for isolates
   RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
   final store = await setupObjectBox();
   if (store == null) {
-    // Handle the case where ObjectBox initialization failed
-    // You might want to log an error or show an error screen
     print('Failed to initialize ObjectBox. Exiting app.');
     return;
   }
-  // Load language preference from ObjectBox
   final prefs = getUserPreferences(store.box<UserPreferences>());
   if (prefs.languageCode != null && prefs.languageCode!.isNotEmpty) {
     switch (prefs.languageCode) {
@@ -51,7 +48,8 @@ void main() async {
           ChangeNotifierProvider(create: (_) => HomeSettingsFontProvider()),
           ChangeNotifierProvider(create: (_) => GoSettingsFontProvider()),
           ChangeNotifierProvider(create: (_) => StudySettingsFontProvider()),
-          ChangeNotifierProvider(create: (_) => StudyTopicsVerseProvider(store)), // Added StudyTopicsVerseProvider
+          ChangeNotifierProvider(create: (_) => StudyTopicsVerseProvider(store)),
+          ChangeNotifierProvider(create: (_) => StudyReferencesVerseProvider(store)),
         ],
         child: const MyApp(),
       ),

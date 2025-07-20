@@ -257,6 +257,8 @@ class _TranslationsStudyAddEditReferencesScreenHi implements TranslationsStudyAd
 	@override String get add_reference_dialog_content => 'क्या आप अपने क्रॉस-संदर्भों में \'{toVerse}\' जोड़ना चाहते हैं?';
 	@override String get cancel_button => 'रद्द करें';
 	@override String get add_button => 'जोड़ें';
+	@override String get copied_to_clipboard => 'क्लिपबोर्ड पर कॉपी किया गया';
+	@override String get loading => 'लोड हो रहा है...';
 }
 
 // Path: study_add_edit_topics_screen
@@ -332,6 +334,8 @@ class _TranslationsStudyReferencesScreenHi implements TranslationsStudyReference
 	@override String get edit_reference => 'संदर्भ संपादित करें';
 	@override String get delete_reference => 'संदर्भ हटाएं';
 	@override String get add_reference => 'संदर्भ जोड़ें';
+	@override String get copied_to_clipboard => 'क्लिपबोर्ड पर कॉपी किया गया';
+	@override String get loading => 'लोड हो रहा है...';
 }
 
 // Path: study_search_screen
@@ -1118,6 +1122,8 @@ extension on TranslationsHi {
 			case 'study_add_edit_references_screen.add_reference_dialog_content': return 'क्या आप अपने क्रॉस-संदर्भों में \'{toVerse}\' जोड़ना चाहते हैं?';
 			case 'study_add_edit_references_screen.cancel_button': return 'रद्द करें';
 			case 'study_add_edit_references_screen.add_button': return 'जोड़ें';
+			case 'study_add_edit_references_screen.copied_to_clipboard': return 'क्लिपबोर्ड पर कॉपी किया गया';
+			case 'study_add_edit_references_screen.loading': return 'लोड हो रहा है...';
 			case 'study_add_edit_topics_screen.add_title': return 'विषय जोड़ें';
 			case 'study_add_edit_topics_screen.edit_title': return 'विषय संपादित करें';
 			case 'study_add_edit_topics_screen.add_verse': return 'छंद जोड़ें';
@@ -1139,6 +1145,8 @@ extension on TranslationsHi {
 			case 'study_references_screen.edit_reference': return 'संदर्भ संपादित करें';
 			case 'study_references_screen.delete_reference': return 'संदर्भ हटाएं';
 			case 'study_references_screen.add_reference': return 'संदर्भ जोड़ें';
+			case 'study_references_screen.copied_to_clipboard': return 'क्लिपबोर्ड पर कॉपी किया गया';
+			case 'study_references_screen.loading': return 'लोड हो रहा है...';
 			case 'study_search_screen.title': return 'अध्ययन खोज';
 			case 'study_search_screen.content': return 'अध्ययन खोज सामग्री';
 			case 'study_settings_screen.title': return 'सेटिंग्स';

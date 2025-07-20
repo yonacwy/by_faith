@@ -1,0 +1,240 @@
+import 'package:flutter/material.dart';
+import 'package:by_faith/objectbox.g.dart';
+import 'package:by_faith/features/study/models/study_bibles_model.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:convert';
+
+class StudyReferencesVerseProvider extends ChangeNotifier {
+  final Store store;
+
+  StudyReferencesVerseProvider(this.store);
+
+  static const Map<String, String> bookNameMap = {
+    'gen': 'Genesis', 'exo': 'Exodus', 'lev': 'Leviticus', 'num': 'Numbers',
+    'deu': 'Deuteronomy', 'jos': 'Joshua', 'jdg': 'Judges', 'rut': 'Ruth',
+    '1sa': '1 Samuel', '2sa': '2 Samuel', '1ki': '1 Kings', '2ki': '2 Kings',
+    '1ch': '1 Chronicles', '2ch': '2 Chronicles', 'ezr': 'Ezra', 'neh': 'Nehemiah',
+    'est': 'Esther', 'job': 'Job', 'psa': 'Psalms', 'pro': 'Proverbs',
+    'ecc': 'Ecclesiastes', 'sng': 'Song of Solomon', 'isa': 'Isaiah', 'jer': 'Jeremiah',
+    'lam': 'Lamentations', 'ezk': 'Ezekiel', 'dan': 'Daniel', 'hos': 'Hosea',
+    'jol': 'Joel', 'amo': 'Amos', 'oba': 'Obadiah', 'jon': 'Jonah',
+    'mic': 'Micah', 'nam': 'Nahum', 'hab': 'Habakkuk', 'zep': 'Zephaniah',
+    'hag': 'Haggai', 'zec': 'Zechariah', 'mal': 'Malachi', 'mat': 'Matthew',
+    'mrk': 'Mark', 'luk': 'Luke', 'jhn': 'John', 'act': 'Acts',
+    'rom': 'Romans', '1co': '1 Corinthians', '2co': '2 Corinthians', 'gal': 'Galatians',
+    'eph': 'Ephesians', 'php': 'Philippians', 'col': 'Colossians', '1th': '1 Thessalonians',
+    '2th': '2 Thessalonians', '1ti': '1 Timothy', '2ti': '2 Timothy', 'tit': 'Titus',
+    'phm': 'Philemon', 'heb': 'Hebrews', 'jas': 'James', '1pe': '1 Peter',
+    '2pe': '2 Peter', '1jn': '1 John', '2jn': '2 John', '3jn': '3 John',
+    'jud': 'Jude', 'rev': 'Revelation',
+    'Gen': 'Genesis', 'Exod': 'Exodus', 'Lev': 'Leviticus', 'Num': 'Numbers',
+    'Deut': 'Deuteronomy', 'Josh': 'Joshua', 'Judg': 'Judges', 'Ruth': 'Ruth',
+    '1Sam': '1 Samuel', '2Sam': '2 Samuel', '1Kgs': '1 Kings', '2Kgs': '2 Kings',
+    '1Chr': '1 Chronicles', '2Chr': '2 Chronicles', 'Ezra': 'Ezra', 'Neh': 'Nehemiah',
+    'Esth': 'Esther', 'Job': 'Job', 'Ps': 'Psalms', 'Prov': 'Proverbs',
+    'Eccl': 'Ecclesiastes', 'Song': 'Song of Solomon', 'Isa': 'Isaiah', 'Jer': 'Jeremiah',
+    'Lam': 'Lamentations', 'Ezek': 'Ezekiel', 'Dan': 'Daniel', 'Hos': 'Hosea',
+    'Joel': 'Joel', 'Amos': 'Amos', 'Obad': 'Obadiah', 'Jonah': 'Jonah',
+    'Mic': 'Micah', 'Nah': 'Nahum', 'Hab': 'Habakkuk', 'Zeph': 'Zephaniah',
+    'Hag': 'Haggai', 'Zech': 'Zechariah', 'Mal': 'Malachi', 'Matt': 'Matthew',
+    'Mark': 'Mark', 'Luke': 'Luke', 'John': 'John', 'Acts': 'Acts',
+    'Rom': 'Romans', '1Cor': '1 Corinthians', '2Cor': '2 Corinthians', 'Gal': 'Galatians',
+    'Eph': 'Ephesians', 'Phil': 'Philippians', 'Col': 'Colossians', '1Thess': '1 Thessalonians',
+    '2Thess': '2 Thessalonians', '1Tim': '1 Timothy', '2Tim': '2 Timothy', 'Titus': 'Titus',
+    'Phlm': 'Philemon', 'Heb': 'Hebrews', 'Jas': 'James', '1Pet': '1 Peter',
+    '2Pet': '2 Peter', '1John': '1 John', '2John': '2 John', '3John': '3 John',
+    'Jude': 'Jude', 'Rev': 'Revelation',
+  };
+
+  static const Map<String, String> bookIdToStorageIdMap = {
+    'gen': 'GEN', 'exo': 'EXO', 'lev': 'LEV', 'num': 'NUM',
+    'deu': 'DEU', 'jos': 'JOS', 'jdg': 'JDG', 'rut': 'RUT',
+    '1sa': '1SA', '2sa': '2SA', '1ki': '1KI', '2ki': '2KI',
+    '1ch': '1CH', '2ch': '2CH', 'ezr': 'EZR', 'neh': 'NEH',
+    'est': 'EST', 'job': 'JOB', 'psa': 'PSA', 'pro': 'PRO',
+    'ecc': 'ECC', 'sng': 'SNG', 'isa': 'ISA', 'jer': 'JER',
+    'lam': 'LAM', 'ezk': 'EZK', 'dan': 'DAN', 'hos': 'HOS',
+    'jol': 'JOL', 'amo': 'AMO', 'oba': 'OBA', 'jon': 'JON',
+    'mic': 'MIC', 'nam': 'NAM', 'hab': 'HAB', 'zep': 'ZEP',
+    'hag': 'HAG', 'zec': 'ZEC', 'mal': 'MAL', 'mat': 'MAT',
+    'mrk': 'MRK', 'luk': 'LUK', 'jhn': 'JHN', 'act': 'ACT',
+    'rom': 'ROM', '1co': '1CO', '2co': '2CO', 'gal': 'GAL',
+    'eph': 'EPH', 'php': 'PHP', 'col': 'COL', '1th': '1TH',
+    '2th': '2TH', '1ti': '1TI', '2ti': '2TI', 'tit': 'TIT',
+    'phm': 'PHM', 'heb': 'HEB', 'jas': 'JAS', '1pe': '1PE',
+    '2pe': '2PE', '1jn': '1JN', '2jn': '2JN', '3jn': '3JN',
+    'jud': 'JUD', 'rev': 'REV',
+    'Gen': 'GEN', 'Exod': 'EXO', 'Lev': 'LEV', 'Num': 'NUM',
+    'Deut': 'DEU', 'Josh': 'JOS', 'Judg': 'JDG', 'Ruth': 'RUT',
+    '1Sam': '1SA', '2Sam': '2SA', '1Kgs': '1KI', '2Kgs': '2KI',
+    '1Chr': '1CH', '2Chr': '2CH', 'Ezra': 'EZR', 'Neh': 'NEH',
+    'Esth': 'EST', 'Job': 'JOB', 'Ps': 'PSA', 'Prov': 'PRO',
+    'Eccl': 'ECC', 'Song': 'SNG', 'Isa': 'ISA', 'Jer': 'JER',
+    'Lam': 'LAM', 'Ezek': 'EZK', 'Dan': 'DAN', 'Hos': 'HOS',
+    'Joel': 'JOL', 'Amos': 'AMO', 'Obad': 'OBA', 'Jonah': 'JON',
+    'Mic': 'MIC', 'Nah': 'NAM', 'Hab': 'HAB', 'Zeph': 'ZEP',
+    'Hag': 'HAG', 'Zech': 'ZEC', 'Mal': 'MAL', 'Matt': 'MAT',
+    'Mark': 'MRK', 'Luke': 'LUK', 'John': 'JHN', 'Acts': 'ACT',
+    'Rom': 'ROM', '1Cor': '1CO', '2Cor': '2CO', 'Gal': 'GAL',
+    'Eph': 'EPH', 'Phil': 'PHP', 'Col': 'COL', '1Thess': '1TH',
+    '2Thess': '2TH', '1Tim': '1TI', '2Tim': '2TI', 'Titus': 'TIT',
+    'Phlm': 'PHM', 'Heb': 'HEB', 'Jas': 'JAS', '1Pet': '1PE',
+    '2Pet': '2PE', '1John': '1JN', '2John': '2JN', '3John': '3JN',
+    'Jude': 'JUD', 'Rev': 'REV',
+  };
+
+  static const Map<String, String> storageIdToJsonIdMap = {
+    'GEN': 'Gen', 'EXO': 'Exod', 'LEV': 'Lev', 'NUM': 'Num',
+    'DEU': 'Deut', 'JOS': 'Josh', 'JDG': 'Judg', 'RUT': 'Ruth',
+    '1SA': '1Sam', '2SA': '2Sam', '1KI': '1Kgs', '2KI': '2Kgs',
+    '1CH': '1Chr', '2CH': '2Chr', 'EZR': 'Ezra', 'NEH': 'Neh',
+    'EST': 'Esth', 'JOB': 'Job', 'PSA': 'Ps', 'PRO': 'Prov',
+    'ECC': 'Eccl', 'SNG': 'Song', 'ISA': 'Isa', 'JER': 'Jer',
+    'LAM': 'Lam', 'EZK': 'Ezek', 'DAN': 'Dan', 'HOS': 'Hos',
+    'JOL': 'Joel', 'AMO': 'Amos', 'OBA': 'Obad', 'JON': 'Jonah',
+    'MIC': 'Mic', 'NAM': 'Nah', 'HAB': 'Hab', 'ZEP': 'Zeph',
+    'HAG': 'Hag', 'ZEC': 'Zech', 'MAL': 'Mal', 'MAT': 'Matt',
+    'MRK': 'Mark', 'LUK': 'Luke', 'JHN': 'John', 'ACT': 'Acts',
+    'ROM': 'Rom', '1CO': '1Cor', '2CO': '2Cor', 'GAL': 'Gal',
+    'EPH': 'Eph', 'PHP': 'Phil', 'COL': 'Col', '1TH': '1Thess',
+    '2TH': '2Thess', '1TI': '1Tim', '2TI': '2Tim', 'TIT': 'Titus',
+    'PHM': 'Phlm', 'HEB': 'Heb', 'JAS': 'Jas', '1PE': '1Pet',
+    '2PE': '2Pet', '1JN': '1John', '2JN': '2John', '3JN': '3John',
+    'JUD': 'Jude', 'REV': 'Rev',
+  };
+
+  String formatVerseReference(String verseReference) {
+    final parts = verseReference.split('.');
+    if (parts.length != 3) return verseReference;
+    final bookId = parts[0];
+    final bookName = bookNameMap[bookId] ?? bookNameMap[bookId.toLowerCase()] ?? bookId;
+    final formattedBookName = bookName.startsWith(RegExp(r'\d'))
+        ? bookName.replaceFirst(RegExp(r'(\d)\s*'), '\1 ')
+        : bookName;
+    return '$formattedBookName ${parts[1]}:${parts[2]}';
+  }
+
+  String normalizeVerseReference(String verseReference) {
+    final parts = verseReference.split('.');
+    if (parts.length != 3) return verseReference;
+    final bookId = parts[0];
+    final storageId = bookIdToStorageIdMap[bookId] ?? bookIdToStorageIdMap[bookId.toLowerCase()] ?? bookId.toUpperCase();
+    final normalizedBookId = storageIdToJsonIdMap[storageId] ?? bookId;
+    return '$normalizedBookId.${parts[1]}.${parts[2]}';
+  }
+
+  Future<String> getVerseText(String verseReference) async {
+    try {
+      if (verseReference.contains('-')) {
+        final parts = verseReference.split('-');
+        if (parts.length != 2) return 'Invalid verse range';
+        final startRef = parts[0].trim();
+        final endRef = parts[1].trim();
+
+        final startParts = startRef.split('.');
+        final endParts = endRef.split('.');
+        if (startParts.length != 3 || endParts.length != 3 || startParts[0] != endParts[0] || startParts[1] != endParts[1]) {
+          return 'Invalid verse range format';
+        }
+
+        final bookId = startParts[0];
+        final mappedBookId = bookIdToStorageIdMap[bookId] ?? bookIdToStorageIdMap[bookId.toLowerCase()] ?? bookId.toUpperCase();
+        final chapterNumber = int.tryParse(startParts[1]);
+        final startVerse = int.tryParse(startParts[2]);
+        final endVerse = int.tryParse(endParts[2]);
+
+        if (chapterNumber == null || startVerse == null || endVerse == null) {
+          return 'Invalid verse numbers in range';
+        }
+
+        final bibleVersion = store.box<BibleVersion>().getAll().isNotEmpty ? store.box<BibleVersion>().getAll().first : null;
+        if (bibleVersion == null) {
+          print('No Bible version found');
+          return 'No Bible version found';
+        }
+
+        final book = bibleVersion.books.toList().firstWhere(
+              (b) => b.bookId.toUpperCase() == mappedBookId.toUpperCase(),
+              orElse: () => throw Exception('Book not found: $mappedBookId'),
+            );
+
+        final chapter = book.chapters.toList().firstWhere(
+              (c) => c.chapterNumber == chapterNumber,
+              orElse: () => throw Exception('Chapter not found: $chapterNumber'),
+            );
+
+        final verses = chapter.verses.toList().where((v) => v.verseNumber >= startVerse && v.verseNumber <= endVerse).toList();
+        if (verses.isEmpty) {
+          print('No verses found in range: $verseReference');
+          return 'No verses found in range';
+        }
+
+        return verses.map((v) => '${v.verseNumber}. ${v.text}').join(' ');
+      }
+
+      final parts = verseReference.split('.');
+      if (parts.length != 3) {
+        print('Invalid verse reference format: $verseReference');
+        return 'Invalid verse reference';
+      }
+
+      final bookId = parts[0];
+      final mappedBookId = bookIdToStorageIdMap[bookId] ?? bookIdToStorageIdMap[bookId.toLowerCase()] ?? bookId.toUpperCase();
+      final chapterNumber = int.tryParse(parts[1]);
+      final verseNumber = int.tryParse(parts[2]);
+
+      if (chapterNumber == null || verseNumber == null) {
+        print('Invalid chapter or verse number: $chapterNumber, $verseNumber');
+        return 'Invalid verse numbers';
+      }
+
+      final bibleVersion = store.box<BibleVersion>().getAll().isNotEmpty ? store.box<BibleVersion>().getAll().first : null;
+      if (bibleVersion == null) {
+        print('No Bible version found');
+        return 'No Bible version found';
+      }
+
+      final book = bibleVersion.books.toList().firstWhere(
+            (b) => b.bookId.toUpperCase() == mappedBookId.toUpperCase(),
+            orElse: () => throw Exception('Book not found: $mappedBookId'),
+          );
+
+      final chapter = book.chapters.toList().firstWhere(
+            (c) => c.chapterNumber == chapterNumber,
+            orElse: () => throw Exception('Chapter not found: $chapterNumber'),
+          );
+
+      final verse = chapter.verses.toList().firstWhere(
+            (v) => v.verseNumber == verseNumber,
+            orElse: () => throw Exception('Verse not found: $verseNumber'),
+          );
+
+      return verse.text;
+    } catch (e) {
+      print('Error fetching verse text for $verseReference: $e');
+      return 'Error fetching verse';
+    }
+  }
+
+  Future<List<Map<String, String>>> getJsonReferences(String verseReference) async {
+    try {
+      final String response = await rootBundle.loadString('lib/features/study/assets/data/cross_references.json');
+      final Map<String, dynamic> data = jsonDecode(response);
+      final normalizedReference = normalizeVerseReference(verseReference);
+
+      final List<dynamic>? rawReferences = data[normalizedReference];
+      if (rawReferences == null) {
+        return [];
+      }
+
+      return await Future.wait(rawReferences.map((item) async {
+        final toVerse = item['toVerse'] as String;
+        final verseText = await getVerseText(toVerse);
+        return {'toVerse': toVerse, 'verseText': verseText};
+      }).toList());
+    } catch (e) {
+      print('Error loading JSON references for $verseReference: $e');
+      return [];
+    }
+  }
+}

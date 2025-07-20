@@ -108,7 +108,9 @@
     "add_reference_dialog_title": "Añadir Referencia Cruzada",
     "add_reference_dialog_content": "¿Quieres añadir '{toVerse}' a tus referencias cruzadas?",
     "cancel_button": "Cancelar",
-    "add_button": "Añadir"
+    "add_button": "Añadir",
+    "copied_to_clipboard": "Copiado al portapapeles",
+    "loading": "Cargando..."
   },
   "study_add_edit_topics_screen": {
     "add_title": "Añadir Tema",
@@ -141,7 +143,9 @@
     "no_references": "No hay referencias cruzadas disponibles",
     "edit_reference": "Editar Referencia",
     "delete_reference": "Eliminar Referencia",
-    "add_reference": "Agregar Referencia"
+    "add_reference": "Agregar Referencia",
+    "copied_to_clipboard": "Copiado al portapapeles",
+    "loading": "Cargando..."
   },
   "study_search_screen": {
     "title": "Estudio Búsqueda",

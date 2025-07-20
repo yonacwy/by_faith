@@ -260,6 +260,8 @@ class TranslationsStudyAddEditReferencesScreenEn {
 	String get add_reference_dialog_content => 'Do you want to add \'{toVerse}\' to your cross-references?';
 	String get cancel_button => 'Cancel';
 	String get add_button => 'Add';
+	String get copied_to_clipboard => 'Copied to clipboard';
+	String get loading => 'Loading...';
 }
 
 // Path: study_add_edit_topics_screen
@@ -335,6 +337,8 @@ class TranslationsStudyReferencesScreenEn {
 	String get edit_reference => 'Edit Reference';
 	String get delete_reference => 'Delete Reference';
 	String get add_reference => 'Add Reference';
+	String get copied_to_clipboard => 'Copied to clipboard';
+	String get loading => 'Loading...';
 }
 
 // Path: study_search_screen
@@ -1120,6 +1124,8 @@ extension on Translations {
 			case 'study_add_edit_references_screen.add_reference_dialog_content': return 'Do you want to add \'{toVerse}\' to your cross-references?';
 			case 'study_add_edit_references_screen.cancel_button': return 'Cancel';
 			case 'study_add_edit_references_screen.add_button': return 'Add';
+			case 'study_add_edit_references_screen.copied_to_clipboard': return 'Copied to clipboard';
+			case 'study_add_edit_references_screen.loading': return 'Loading...';
 			case 'study_add_edit_topics_screen.add_title': return 'Add Topic';
 			case 'study_add_edit_topics_screen.edit_title': return 'Edit Topic';
 			case 'study_add_edit_topics_screen.add_verse': return 'Add Verse';
@@ -1141,6 +1147,8 @@ extension on Translations {
 			case 'study_references_screen.edit_reference': return 'Edit Reference';
 			case 'study_references_screen.delete_reference': return 'Delete Reference';
 			case 'study_references_screen.add_reference': return 'Add Reference';
+			case 'study_references_screen.copied_to_clipboard': return 'Copied to clipboard';
+			case 'study_references_screen.loading': return 'Loading...';
 			case 'study_search_screen.title': return 'Study Search';
 			case 'study_search_screen.content': return 'Study Search Content';
 			case 'study_settings_screen.title': return 'Settings';

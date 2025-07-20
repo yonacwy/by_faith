@@ -108,7 +108,9 @@
     "add_reference_dialog_title": "क्रॉस-संदर्भ जोड़ें",
     "add_reference_dialog_content": "क्या आप अपने क्रॉस-संदर्भों में '{toVerse}' जोड़ना चाहते हैं?",
     "cancel_button": "रद्द करें",
-    "add_button": "जोड़ें"
+    "add_button": "जोड़ें",
+    "copied_to_clipboard": "क्लिपबोर्ड पर कॉपी किया गया",
+    "loading": "लोड हो रहा है..."
   },
   "study_add_edit_topics_screen": {
     "add_title": "विषय जोड़ें",
@@ -141,7 +143,9 @@
     "no_references": "कोई क्रॉस-संदर्भ उपलब्ध नहीं",
     "edit_reference": "संदर्भ संपादित करें",
     "delete_reference": "संदर्भ हटाएं",
-    "add_reference": "संदर्भ जोड़ें"
+    "add_reference": "संदर्भ जोड़ें",
+    "copied_to_clipboard": "क्लिपबोर्ड पर कॉपी किया गया",
+    "loading": "लोड हो रहा है..."
   },
   "study_search_screen": {
     "title": "अध्ययन खोज",

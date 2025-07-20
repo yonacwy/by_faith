@@ -257,6 +257,8 @@ class _TranslationsStudyAddEditReferencesScreenEs implements TranslationsStudyAd
 	@override String get add_reference_dialog_content => '¿Quieres añadir \'{toVerse}\' a tus referencias cruzadas?';
 	@override String get cancel_button => 'Cancelar';
 	@override String get add_button => 'Añadir';
+	@override String get copied_to_clipboard => 'Copiado al portapapeles';
+	@override String get loading => 'Cargando...';
 }
 
 // Path: study_add_edit_topics_screen
@@ -332,6 +334,8 @@ class _TranslationsStudyReferencesScreenEs implements TranslationsStudyReference
 	@override String get edit_reference => 'Editar Referencia';
 	@override String get delete_reference => 'Eliminar Referencia';
 	@override String get add_reference => 'Agregar Referencia';
+	@override String get copied_to_clipboard => 'Copiado al portapapeles';
+	@override String get loading => 'Cargando...';
 }
 
 // Path: study_search_screen
@@ -1117,6 +1121,8 @@ extension on TranslationsEs {
 			case 'study_add_edit_references_screen.add_reference_dialog_content': return '¿Quieres añadir \'{toVerse}\' a tus referencias cruzadas?';
 			case 'study_add_edit_references_screen.cancel_button': return 'Cancelar';
 			case 'study_add_edit_references_screen.add_button': return 'Añadir';
+			case 'study_add_edit_references_screen.copied_to_clipboard': return 'Copiado al portapapeles';
+			case 'study_add_edit_references_screen.loading': return 'Cargando...';
 			case 'study_add_edit_topics_screen.add_title': return 'Añadir Tema';
 			case 'study_add_edit_topics_screen.edit_title': return 'Editar Tema';
 			case 'study_add_edit_topics_screen.add_verse': return 'Añadir Versículo';
@@ -1138,6 +1144,8 @@ extension on TranslationsEs {
 			case 'study_references_screen.edit_reference': return 'Editar Referencia';
 			case 'study_references_screen.delete_reference': return 'Eliminar Referencia';
 			case 'study_references_screen.add_reference': return 'Agregar Referencia';
+			case 'study_references_screen.copied_to_clipboard': return 'Copiado al portapapeles';
+			case 'study_references_screen.loading': return 'Cargando...';
 			case 'study_search_screen.title': return 'Estudio Búsqueda';
 			case 'study_search_screen.content': return 'Contenido de Estudio Búsqueda';
 			case 'study_settings_screen.title': return 'Configuración';
