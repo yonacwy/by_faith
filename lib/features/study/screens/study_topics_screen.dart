@@ -8,6 +8,7 @@ import 'package:by_faith/features/study/screens/study_tab_screen.dart';
 import 'package:by_faith/features/study/models/study_bibles_model.dart';
 import 'package:by_faith/objectbox.g.dart';
 import 'package:by_faith/features/study/providers/study_topics_verse_provider.dart';
+import 'package:by_faith/features/study/providers/study_settings_font_provider.dart';
 import 'package:provider/provider.dart';
 
 class StudyTopicsScreen extends StatefulWidget {
@@ -87,7 +88,7 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
 
   void _navigateToVerse(String verseReference) async {
     print('Attempting to navigate to verse: $verseReference');
-    
+
     String singleVerse = verseReference.split('-')[0].trim();
     final parts = singleVerse.split('.');
     if (parts.length != 3) {
@@ -95,7 +96,8 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
       return;
     }
 
-    String bookName = StudyTopicsVerseProvider.bookNameMap[parts[0]] ?? parts[0];
+    final bookId = parts[0];
+    final bookName = StudyTopicsVerseProvider.bookNameMap[bookId] ?? bookId;
     final chapterNumber = int.tryParse(parts[1]);
     final verseNumber = int.tryParse(parts[2]);
 
@@ -109,7 +111,7 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
 
     final book = bookBox.query(Book_.name.equals(bookName)).build().findFirst();
     if (book == null) {
-      print('Book not found: $bookName');
+      print('Book not found: $bookName (from $bookId)');
       return;
     }
 
@@ -196,7 +198,10 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
 
   void _selectAllVerses(BuildContext context, List<String> verses) {
     final verseProvider = Provider.of<StudyTopicsVerseProvider>(context, listen: false);
-    final textToCopy = verses.map((v) => '$v: ${verseProvider.getVerseText(v) ?? t.study_topics_screen.no_verse_text}').join('\n');
+    final textToCopy = verses
+        .map((v) =>
+            '${StudyTopicsVerseProvider.formatVerseReference(v)}: ${verseProvider.getVerseText(v) ?? t.study_topics_screen.no_verse_text}')
+        .join('\n');
     _copyText(textToCopy);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('All verses copied to clipboard')),
@@ -212,569 +217,835 @@ class _StudyTopicsScreenState extends State<StudyTopicsScreen> {
   @override
   Widget build(BuildContext context) {
     final verseProvider = Provider.of<StudyTopicsVerseProvider>(context, listen: false);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(t.study_topics_screen.title),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => StudyAddEditTopicsScreen(topic: null),
-                ),
-              ).then((_) => _loadTopics());
-            },
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                labelText: t.study_topics_screen.search_placeholder,
-                prefixIcon: const Icon(Icons.search),
-                border: const OutlineInputBorder(),
-              ),
+    return Consumer<StudySettingsFontProvider>(
+      builder: (context, fontProvider, child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              t.study_topics_screen.title,
+              style: TextStyle(fontSize: fontProvider.fontSize),
             ),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () => Navigator.pop(context),
+            ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StudyAddEditTopicsScreen(topic: null),
+                    ),
+                  ).then((_) => _loadTopics());
+                },
+              ),
+            ],
           ),
-          Expanded(
-            child: _searchController.text.isEmpty
-                ? ListView(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          t.study_topics_screen.created_topics,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                      ),
-                      ..._filteredCreatedTopics.map((topic) => ExpansionTile(
-                            title: SelectableText(
-                              _capitalizeTitle(topic.title),
-                              contextMenuBuilder: (context, state) => AdaptiveTextSelectionToolbar(
-                                anchors: state.contextMenuAnchors,
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      _copyText(topic.title);
-                                      state.hideToolbar();
-                                    },
-                                    child: const Text('Copy'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      _copyText(topic.title);
-                                      state.hideToolbar();
-                                    },
-                                    child: const Text('Select All'),
-                                  ),
-                                ],
-                              ),
+          body: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    labelText: t.study_topics_screen.search_placeholder,
+                    prefixIcon: const Icon(Icons.search),
+                    border: const OutlineInputBorder(),
+                  ),
+                  style: TextStyle(fontSize: fontProvider.fontSize),
+                ),
+              ),
+              Expanded(
+                child: _searchController.text.isEmpty
+                    ? ListView(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              t.study_topics_screen.created_topics,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(fontSize: fontProvider.fontSize),
                             ),
-                            children: [
-                              if (topic.verses.isEmpty)
-                                ListTile(
-                                  title: Text(t.study_topics_screen.no_verses),
+                          ),
+                          ..._filteredCreatedTopics.map((topic) => ExpansionTile(
+                                title: SelectableText(
+                                  _capitalizeTitle(topic.title),
+                                  style: TextStyle(fontSize: fontProvider.fontSize),
+                                  contextMenuBuilder: (context, state) =>
+                                      AdaptiveTextSelectionToolbar(
+                                    anchors: state.contextMenuAnchors,
+                                    children: [
+                                      TextButton(
+                                        onPressed: () {
+                                          _copyText(topic.title);
+                                          state.hideToolbar();
+                                        },
+                                        child: Text(
+                                          'Copy',
+                                          style: TextStyle(
+                                              fontSize: fontProvider.fontSize),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          _copyText(topic.title);
+                                          state.hideToolbar();
+                                        },
+                                        child: Text(
+                                          'Select All',
+                                          style: TextStyle(
+                                              fontSize: fontProvider.fontSize),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ...topic.verses.map((verse) {
-                                final verseText = verseProvider.getVerseText(verse) ?? t.study_topics_screen.no_verse_text;
-                                return ListTile(
-                                  title: SelectionArea(
-                                    contextMenuBuilder: (context, state) => AdaptiveTextSelectionToolbar(
-                                      anchors: state.contextMenuAnchors,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            _copyText('$verse: $verseText');
-                                            state.hideToolbar();
-                                          },
-                                          child: const Text('Copy'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            _selectAllVerses(context, topic.verses);
-                                            state.hideToolbar();
-                                          },
-                                          child: const Text('Select All'),
-                                        ),
-                                      ],
+                                children: [
+                                  if (topic.verses.isEmpty)
+                                    ListTile(
+                                      title: Text(
+                                        t.study_topics_screen.no_verses,
+                                        style: TextStyle(
+                                            fontSize: fontProvider.fontSize),
+                                      ),
                                     ),
-                                    child: GestureDetector(
-                                      onTap: () => _navigateToVerse(verse),
-                                      child: RichText(
-                                        text: TextSpan(
+                                  ...topic.verses.map((verse) {
+                                    final verseText =
+                                        verseProvider.getVerseText(verse) ??
+                                            t.study_topics_screen.no_verse_text;
+                                    return ListTile(
+                                      title: SelectionArea(
+                                        contextMenuBuilder: (context, state) =>
+                                            AdaptiveTextSelectionToolbar(
+                                          anchors: state.contextMenuAnchors,
                                           children: [
-                                            TextSpan(
-                                              text: verse,
-                                              style: const TextStyle(
-                                                color: Colors.blue,
-                                                decoration: TextDecoration.underline,
-                                                fontWeight: FontWeight.bold,
+                                            TextButton(
+                                              onPressed: () {
+                                                _copyText(
+                                                    '${StudyTopicsVerseProvider.formatVerseReference(verse)}: $verseText');
+                                                state.hideToolbar();
+                                              },
+                                              child: Text(
+                                                'Copy',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        fontProvider.fontSize),
                                               ),
                                             ),
-                                            TextSpan(
-                                              text: ' $verseText',
-                                              style: Theme.of(context).textTheme.bodyMedium,
+                                            TextButton(
+                                              onPressed: () {
+                                                _selectAllVerses(
+                                                    context, topic.verses);
+                                                state.hideToolbar();
+                                              },
+                                              child: Text(
+                                                'Select All',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        fontProvider.fontSize),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        child: GestureDetector(
+                                          onTap: () => _navigateToVerse(verse),
+                                          child: RichText(
+                                            text: TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text: StudyTopicsVerseProvider
+                                                      .formatVerseReference(verse),
+                                                  style: TextStyle(
+                                                    color: Colors.blue,
+                                                    decoration:
+                                                        TextDecoration.underline,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: fontProvider.fontSize,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text: ' $verseText',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium
+                                                      ?.copyWith(
+                                                          fontSize:
+                                                              fontProvider.fontSize),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      trailing: IconButton(
+                                        icon: const Icon(Icons.delete),
+                                        onPressed: () {
+                                          final createdTopic = studyCreatedTopicsEnBox
+                                              .getAll()
+                                              .firstWhere(
+                                                  (t) => t.title == topic.title);
+                                          _removeVerseFromTopic(createdTopic, verse);
+                                        },
+                                      ),
+                                    );
+                                  }),
+                                  ListTile(
+                                    title: Text(
+                                      t.study_topics_screen.add_verse,
+                                      style: TextStyle(
+                                          fontSize: fontProvider.fontSize),
+                                    ),
+                                    leading: const Icon(Icons.add),
+                                    onTap: () {
+                                      final createdTopic = studyCreatedTopicsEnBox
+                                          .getAll()
+                                          .firstWhere((t) => t.title == topic.title);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => StudyTabScreen(
+                                            onVerseSelected: (verseReference) {
+                                              _addVerseToTopic(
+                                                  createdTopic, verseReference);
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  ListTile(
+                                    title: Text(
+                                      t.study_topics_screen.edit_topic,
+                                      style: TextStyle(
+                                          fontSize: fontProvider.fontSize),
+                                    ),
+                                    leading: const Icon(Icons.edit),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              StudyAddEditTopicsScreen(
+                                                  topic: topic),
+                                        ),
+                                      ).then((_) => _loadTopics());
+                                    },
+                                  ),
+                                  ListTile(
+                                    title: Text(
+                                      t.study_topics_screen.delete_topic,
+                                      style: TextStyle(
+                                          fontSize: fontProvider.fontSize),
+                                    ),
+                                    leading: const Icon(Icons.delete_forever),
+                                    onTap: () {
+                                      _deleteTopic(topic);
+                                    },
+                                  ),
+                                ],
+                              )),
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          Expanded(
+                            child: ListView(
+                              children: [
+                                if (_filteredCreatedTopics.isNotEmpty)
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      t.study_topics_screen.created_topics,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge
+                                          ?.copyWith(
+                                              fontSize: fontProvider.fontSize),
+                                    ),
+                                  ),
+                                ..._filteredCreatedTopics.map((topic) => ExpansionTile(
+                                      title: SelectableText(
+                                        _capitalizeTitle(topic.title),
+                                        style: TextStyle(
+                                            fontSize: fontProvider.fontSize),
+                                        contextMenuBuilder: (context, state) =>
+                                            AdaptiveTextSelectionToolbar(
+                                          anchors: state.contextMenuAnchors,
+                                          children: [
+                                            TextButton(
+                                              onPressed: () {
+                                                _copyText(topic.title);
+                                                state.hideToolbar();
+                                              },
+                                              child: Text(
+                                                'Copy',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        fontProvider.fontSize),
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                _copyText(topic.title);
+                                                state.hideToolbar();
+                                              },
+                                              child: Text(
+                                                'Select All',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        fontProvider.fontSize),
+                                              ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    onPressed: () {
-                                      final createdTopic = studyCreatedTopicsEnBox
-                                          .getAll()
-                                          .firstWhere((t) => t.title == topic.title);
-                                      _removeVerseFromTopic(createdTopic, verse);
-                                    },
-                                  ),
-                                );
-                              }),
-                              ListTile(
-                                title: Text(t.study_topics_screen.add_verse),
-                                leading: const Icon(Icons.add),
-                                onTap: () {
-                                  final createdTopic = studyCreatedTopicsEnBox
-                                      .getAll()
-                                      .firstWhere((t) => t.title == topic.title);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => StudyTabScreen(
-                                        onVerseSelected: (verseReference) {
-                                          _addVerseToTopic(createdTopic, verseReference);
-                                        },
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                              ListTile(
-                                title: Text(t.study_topics_screen.edit_topic),
-                                leading: const Icon(Icons.edit),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => StudyAddEditTopicsScreen(topic: topic),
-                                    ),
-                                  ).then((_) => _loadTopics());
-                                },
-                              ),
-                              ListTile(
-                                title: Text(t.study_topics_screen.delete_topic),
-                                leading: const Icon(Icons.delete_forever),
-                                onTap: () {
-                                  _deleteTopic(topic);
-                                },
-                              ),
-                            ],
-                          )),
-                    ],
-                  )
-                : Column(
-                    children: [
-                      Expanded(
-                        child: ListView(
-                          children: [
-                            if (_filteredCreatedTopics.isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  t.study_topics_screen.created_topics,
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                ),
-                              ),
-                            ..._filteredCreatedTopics.map((topic) => ExpansionTile(
-                                  title: SelectableText(
-                                    _capitalizeTitle(topic.title),
-                                    contextMenuBuilder: (context, state) => AdaptiveTextSelectionToolbar(
-                                      anchors: state.contextMenuAnchors,
                                       children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            _copyText(topic.title);
-                                            state.hideToolbar();
-                                          },
-                                          child: const Text('Copy'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            _copyText(topic.title);
-                                            state.hideToolbar();
-                                          },
-                                          child: const Text('Select All'),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  children: [
-                                    if (topic.verses.isEmpty)
-                                      ListTile(
-                                        title: Text(t.study_topics_screen.no_verses),
-                                      ),
-                                    ...topic.verses.map((verse) {
-                                      final verseText = verseProvider.getVerseText(verse) ?? t.study_topics_screen.no_verse_text;
-                                      return ListTile(
-                                        title: SelectionArea(
-                                          contextMenuBuilder: (context, state) => AdaptiveTextSelectionToolbar(
-                                            anchors: state.contextMenuAnchors,
-                                            children: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  _copyText('$verse: $verseText');
-                                                  state.hideToolbar();
-                                                },
-                                                child: const Text('Copy'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  _selectAllVerses(context, topic.verses);
-                                                  state.hideToolbar();
-                                                },
-                                                child: const Text('Select All'),
-                                              ),
-                                            ],
+                                        if (topic.verses.isEmpty)
+                                          ListTile(
+                                            title: Text(
+                                              t.study_topics_screen.no_verses,
+                                              style: TextStyle(
+                                                  fontSize: fontProvider.fontSize),
+                                            ),
                                           ),
-                                          child: GestureDetector(
-                                            onTap: () => _navigateToVerse(verse),
-                                            child: RichText(
-                                              text: TextSpan(
+                                        ...topic.verses.map((verse) {
+                                          final verseText = verseProvider
+                                                  .getVerseText(verse) ??
+                                              t.study_topics_screen.no_verse_text;
+                                          return ListTile(
+                                            title: SelectionArea(
+                                              contextMenuBuilder:
+                                                  (context, state) =>
+                                                      AdaptiveTextSelectionToolbar(
+                                                anchors: state.contextMenuAnchors,
                                                 children: [
-                                                  TextSpan(
-                                                    text: verse,
-                                                    style: const TextStyle(
-                                                      color: Colors.blue,
-                                                      decoration: TextDecoration.underline,
-                                                      fontWeight: FontWeight.bold,
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      _copyText(
+                                                          '${StudyTopicsVerseProvider.formatVerseReference(verse)}: $verseText');
+                                                      state.hideToolbar();
+                                                    },
+                                                    child: Text(
+                                                      'Copy',
+                                                      style: TextStyle(
+                                                          fontSize: fontProvider
+                                                              .fontSize),
                                                     ),
                                                   ),
-                                                  TextSpan(
-                                                    text: ' $verseText',
-                                                    style: Theme.of(context).textTheme.bodyMedium,
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      _selectAllVerses(
+                                                          context, topic.verses);
+                                                      state.hideToolbar();
+                                                    },
+                                                    child: Text(
+                                                      'Select All',
+                                                      style: TextStyle(
+                                                          fontSize: fontProvider
+                                                              .fontSize),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
+                                              child: GestureDetector(
+                                                onTap: () => _navigateToVerse(verse),
+                                                child: RichText(
+                                                  text: TextSpan(
+                                                    children: [
+                                                      TextSpan(
+                                                        text:
+                                                            StudyTopicsVerseProvider
+                                                                .formatVerseReference(
+                                                                    verse),
+                                                        style: TextStyle(
+                                                          color: Colors.blue,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize:
+                                                              fontProvider.fontSize,
+                                                        ),
+                                                      ),
+                                                      TextSpan(
+                                                        text: ' $verseText',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyMedium
+                                                            ?.copyWith(
+                                                                fontSize:
+                                                                    fontProvider
+                                                                        .fontSize),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                        trailing: IconButton(
-                                          icon: const Icon(Icons.delete),
-                                          onPressed: () {
-                                            final createdTopic = studyCreatedTopicsEnBox
-                                                .getAll()
-                                                .firstWhere((t) => t.title == topic.title);
-                                            _removeVerseFromTopic(createdTopic, verse);
-                                          },
-                                        ),
-                                      );
-                                    }),
-                                    ListTile(
-                                      title: Text(t.study_topics_screen.add_verse),
-                                      leading: const Icon(Icons.add),
-                                      onTap: () {
-                                        final createdTopic = studyCreatedTopicsEnBox
-                                            .getAll()
-                                            .firstWhere((t) => t.title == topic.title);
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => StudyTabScreen(
-                                              onVerseSelected: (verseReference) {
-                                                _addVerseToTopic(createdTopic, verseReference);
+                                            trailing: IconButton(
+                                              icon: const Icon(Icons.delete),
+                                              onPressed: () {
+                                                final createdTopic =
+                                                    studyCreatedTopicsEnBox
+                                                        .getAll()
+                                                        .firstWhere((t) =>
+                                                            t.title == topic.title);
+                                                _removeVerseFromTopic(
+                                                    createdTopic, verse);
                                               },
                                             ),
+                                          );
+                                        }),
+                                        ListTile(
+                                          title: Text(
+                                            t.study_topics_screen.add_verse,
+                                            style: TextStyle(
+                                                fontSize: fontProvider.fontSize),
                                           ),
-                                        );
-                                      },
-                                    ),
-                                    ListTile(
-                                      title: Text(t.study_topics_screen.edit_topic),
-                                      leading: const Icon(Icons.edit),
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => StudyAddEditTopicsScreen(topic: topic),
-                                          ),
-                                        ).then((_) => _loadTopics());
-                                      },
-                                    ),
-                                    ListTile(
-                                      title: Text(t.study_topics_screen.delete_topic),
-                                      leading: const Icon(Icons.delete_forever),
-                                      onTap: () {
-                                        _deleteTopic(topic);
-                                      },
-                                    ),
-                                  ],
-                                )),
-                            if (_filteredSearchResults.isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  t.study_topics_screen.search_results,
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                ),
-                              ),
-                            ..._getPagedSearchResults().map((topic) {
-                              if (topic is CreatedTopicsEn) {
-                                return ExpansionTile(
-                                  title: SelectableText(
-                                    _capitalizeTitle(topic.title),
-                                    contextMenuBuilder: (context, state) => AdaptiveTextSelectionToolbar(
-                                      anchors: state.contextMenuAnchors,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            _copyText(topic.title);
-                                            state.hideToolbar();
+                                          leading: const Icon(Icons.add),
+                                          onTap: () {
+                                            final createdTopic =
+                                                studyCreatedTopicsEnBox
+                                                    .getAll()
+                                                    .firstWhere(
+                                                        (t) => t.title == topic.title);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => StudyTabScreen(
+                                                  onVerseSelected:
+                                                      (verseReference) {
+                                                    _addVerseToTopic(
+                                                        createdTopic, verseReference);
+                                                  },
+                                                ),
+                                              ),
+                                            );
                                           },
-                                          child: const Text('Copy'),
                                         ),
-                                        TextButton(
-                                          onPressed: () {
-                                            _copyText(topic.title);
-                                            state.hideToolbar();
+                                        ListTile(
+                                          title: Text(
+                                            t.study_topics_screen.edit_topic,
+                                            style: TextStyle(
+                                                fontSize: fontProvider.fontSize),
+                                          ),
+                                          leading: const Icon(Icons.edit),
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    StudyAddEditTopicsScreen(
+                                                        topic: topic),
+                                              ),
+                                            ).then((_) => _loadTopics());
                                           },
-                                          child: const Text('Select All'),
+                                        ),
+                                        ListTile(
+                                          title: Text(
+                                            t.study_topics_screen.delete_topic,
+                                            style: TextStyle(
+                                                fontSize: fontProvider.fontSize),
+                                          ),
+                                          leading: const Icon(Icons.delete_forever),
+                                          onTap: () {
+                                            _deleteTopic(topic);
+                                          },
                                         ),
                                       ],
+                                    )),
+                                if (_filteredSearchResults.isNotEmpty)
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      t.study_topics_screen.search_results,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge
+                                          ?.copyWith(
+                                              fontSize: fontProvider.fontSize),
                                     ),
                                   ),
-                                  children: [
-                                    if (topic.verses.isEmpty)
-                                      ListTile(
-                                        title: Text(t.study_topics_screen.no_verses),
+                                ..._getPagedSearchResults().map((topic) {
+                                  if (topic is CreatedTopicsEn) {
+                                    return ExpansionTile(
+                                      title: SelectableText(
+                                        _capitalizeTitle(topic.title),
+                                        style: TextStyle(
+                                            fontSize: fontProvider.fontSize),
+                                        contextMenuBuilder: (context, state) =>
+                                            AdaptiveTextSelectionToolbar(
+                                          anchors: state.contextMenuAnchors,
+                                          children: [
+                                            TextButton(
+                                              onPressed: () {
+                                                _copyText(topic.title);
+                                                state.hideToolbar();
+                                              },
+                                              child: Text(
+                                                'Copy',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        fontProvider.fontSize),
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                _copyText(topic.title);
+                                                state.hideToolbar();
+                                              },
+                                              child: Text(
+                                                'Select All',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        fontProvider.fontSize),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ...topic.verses.map((verse) {
-                                      final verseText = verseProvider.getVerseText(verse) ?? t.study_topics_screen.no_verse_text;
-                                      return ListTile(
-                                        title: SelectionArea(
-                                          contextMenuBuilder: (context, state) => AdaptiveTextSelectionToolbar(
-                                            anchors: state.contextMenuAnchors,
-                                            children: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  _copyText('$verse: $verseText');
-                                                  state.hideToolbar();
-                                                },
-                                                child: const Text('Copy'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  _selectAllVerses(context, topic.verses);
-                                                  state.hideToolbar();
-                                                },
-                                                child: const Text('Select All'),
-                                              ),
-                                            ],
+                                      children: [
+                                        if (topic.verses.isEmpty)
+                                          ListTile(
+                                            title: Text(
+                                              t.study_topics_screen.no_verses,
+                                              style: TextStyle(
+                                                  fontSize: fontProvider.fontSize),
+                                            ),
                                           ),
-                                          child: GestureDetector(
-                                            onTap: () => _navigateToVerse(verse),
-                                            child: RichText(
-                                              text: TextSpan(
+                                        ...topic.verses.map((verse) {
+                                          final verseText = verseProvider
+                                                  .getVerseText(verse) ??
+                                              t.study_topics_screen.no_verse_text;
+                                          return ListTile(
+                                            title: SelectionArea(
+                                              contextMenuBuilder:
+                                                  (context, state) =>
+                                                      AdaptiveTextSelectionToolbar(
+                                                anchors: state.contextMenuAnchors,
                                                 children: [
-                                                  TextSpan(
-                                                    text: verse,
-                                                    style: const TextStyle(
-                                                      color: Colors.blue,
-                                                      decoration: TextDecoration.underline,
-                                                      fontWeight: FontWeight.bold,
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      _copyText(
+                                                          '${StudyTopicsVerseProvider.formatVerseReference(verse)}: $verseText');
+                                                      state.hideToolbar();
+                                                    },
+                                                    child: Text(
+                                                      'Copy',
+                                                      style: TextStyle(
+                                                          fontSize: fontProvider
+                                                              .fontSize),
                                                     ),
                                                   ),
-                                                  TextSpan(
-                                                    text: ' $verseText',
-                                                    style: Theme.of(context).textTheme.bodyMedium,
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      _selectAllVerses(
+                                                          context, topic.verses);
+                                                      state.hideToolbar();
+                                                    },
+                                                    child: Text(
+                                                      'Select All',
+                                                      style: TextStyle(
+                                                          fontSize: fontProvider
+                                                              .fontSize),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
+                                              child: GestureDetector(
+                                                onTap: () => _navigateToVerse(verse),
+                                                child: RichText(
+                                                  text: TextSpan(
+                                                    children: [
+                                                      TextSpan(
+                                                        text:
+                                                            StudyTopicsVerseProvider
+                                                                .formatVerseReference(
+                                                                    verse),
+                                                        style: TextStyle(
+                                                          color: Colors.blue,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize:
+                                                              fontProvider.fontSize,
+                                                        ),
+                                                      ),
+                                                      TextSpan(
+                                                        text: ' $verseText',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyMedium
+                                                            ?.copyWith(
+                                                                fontSize:
+                                                                    fontProvider
+                                                                        .fontSize),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                        trailing: IconButton(
-                                          icon: const Icon(Icons.delete),
-                                          onPressed: () {
-                                            final createdTopic = studyCreatedTopicsEnBox
-                                                .getAll()
-                                                .firstWhere((t) => t.title == topic.title);
-                                            _removeVerseFromTopic(createdTopic, verse);
-                                          },
-                                        ),
-                                      );
-                                    }),
-                                    ListTile(
-                                      title: Text(t.study_topics_screen.add_verse),
-                                      leading: const Icon(Icons.add),
-                                      onTap: () {
-                                        final createdTopic = studyCreatedTopicsEnBox
-                                            .getAll()
-                                            .firstWhere((t) => t.title == topic.title);
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => StudyTabScreen(
-                                              onVerseSelected: (verseReference) {
-                                                _addVerseToTopic(createdTopic, verseReference);
+                                            trailing: IconButton(
+                                              icon: const Icon(Icons.delete),
+                                              onPressed: () {
+                                                final createdTopic =
+                                                    studyCreatedTopicsEnBox
+                                                        .getAll()
+                                                        .firstWhere((t) =>
+                                                            t.title == topic.title);
+                                                _removeVerseFromTopic(
+                                                    createdTopic, verse);
                                               },
                                             ),
+                                          );
+                                        }),
+                                        ListTile(
+                                          title: Text(
+                                            t.study_topics_screen.add_verse,
+                                            style: TextStyle(
+                                                fontSize: fontProvider.fontSize),
                                           ),
-                                        );
-                                      },
-                                    ),
-                                    ListTile(
-                                      title: Text(t.study_topics_screen.edit_topic),
-                                      leading: const Icon(Icons.edit),
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => StudyAddEditTopicsScreen(topic: topic),
-                                          ),
-                                        ).then((_) => _loadTopics());
-                                      },
-                                    ),
-                                    ListTile(
-                                      title: Text(t.study_topics_screen.delete_topic),
-                                      leading: const Icon(Icons.delete_forever),
-                                      onTap: () {
-                                        _deleteTopic(topic);
-                                      },
-                                    ),
-                                  ],
-                                );
-                              } else if (topic is GeneratedTopicsEn) {
-                                return ExpansionTile(
-                                  title: SelectableText(
-                                    _capitalizeTitle(topic.title),
-                                    contextMenuBuilder: (context, state) => AdaptiveTextSelectionToolbar(
-                                      anchors: state.contextMenuAnchors,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            _copyText(topic.title);
-                                            state.hideToolbar();
+                                          leading: const Icon(Icons.add),
+                                          onTap: () {
+                                            final createdTopic =
+                                                studyCreatedTopicsEnBox
+                                                    .getAll()
+                                                    .firstWhere(
+                                                        (t) => t.title == topic.title);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => StudyTabScreen(
+                                                  onVerseSelected:
+                                                      (verseReference) {
+                                                    _addVerseToTopic(
+                                                        createdTopic, verseReference);
+                                                  },
+                                                ),
+                                              ),
+                                            );
                                           },
-                                          child: const Text('Copy'),
                                         ),
-                                        TextButton(
-                                          onPressed: () {
-                                            _copyText(topic.title);
-                                            state.hideToolbar();
+                                        ListTile(
+                                          title: Text(
+                                            t.study_topics_screen.edit_topic,
+                                            style: TextStyle(
+                                                fontSize: fontProvider.fontSize),
+                                          ),
+                                          leading: const Icon(Icons.edit),
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    StudyAddEditTopicsScreen(
+                                                        topic: topic),
+                                              ),
+                                            ).then((_) => _loadTopics());
                                           },
-                                          child: const Text('Select All'),
+                                        ),
+                                        ListTile(
+                                          title: Text(
+                                            t.study_topics_screen.delete_topic,
+                                            style: TextStyle(
+                                                fontSize: fontProvider.fontSize),
+                                          ),
+                                          leading: const Icon(Icons.delete_forever),
+                                          onTap: () {
+                                            _deleteTopic(topic);
+                                          },
                                         ),
                                       ],
-                                    ),
-                                  ),
-                                  children: [
-                                    if (topic.verses.isEmpty)
-                                      ListTile(
-                                        title: Text(t.study_topics_screen.no_verses),
+                                    );
+                                  } else if (topic is GeneratedTopicsEn) {
+                                    return ExpansionTile(
+                                      title: SelectableText(
+                                        _capitalizeTitle(topic.title),
+                                        style: TextStyle(
+                                            fontSize: fontProvider.fontSize),
+                                        contextMenuBuilder: (context, state) =>
+                                            AdaptiveTextSelectionToolbar(
+                                          anchors: state.contextMenuAnchors,
+                                          children: [
+                                            TextButton(
+                                              onPressed: () {
+                                                _copyText(topic.title);
+                                                state.hideToolbar();
+                                              },
+                                              child: Text(
+                                                'Copy',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        fontProvider.fontSize),
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                _copyText(topic.title);
+                                                state.hideToolbar();
+                                              },
+                                              child: Text(
+                                                'Select All',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        fontProvider.fontSize),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ...topic.verses.map((verse) {
-                                      final verseText = verseProvider.getVerseText(verse) ?? t.study_topics_screen.no_verse_text;
-                                      return ListTile(
-                                        title: SelectionArea(
-                                          contextMenuBuilder: (context, state) => AdaptiveTextSelectionToolbar(
-                                            anchors: state.contextMenuAnchors,
-                                            children: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  _copyText('$verse: $verseText');
-                                                  state.hideToolbar();
-                                                },
-                                                child: const Text('Copy'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  _selectAllVerses(context, topic.verses);
-                                                  state.hideToolbar();
-                                                },
-                                                child: const Text('Select All'),
-                                              ),
-                                            ],
+                                      children: [
+                                        if (topic.verses.isEmpty)
+                                          ListTile(
+                                            title: Text(
+                                              t.study_topics_screen.no_verses,
+                                              style: TextStyle(
+                                                  fontSize: fontProvider.fontSize),
+                                            ),
                                           ),
-                                          child: GestureDetector(
-                                            onTap: () => _navigateToVerse(verse),
-                                            child: RichText(
-                                              text: TextSpan(
+                                        ...topic.verses.map((verse) {
+                                          final verseText = verseProvider
+                                                  .getVerseText(verse) ??
+                                              t.study_topics_screen.no_verse_text;
+                                          return ListTile(
+                                            title: SelectionArea(
+                                              contextMenuBuilder:
+                                                  (context, state) =>
+                                                      AdaptiveTextSelectionToolbar(
+                                                anchors: state.contextMenuAnchors,
                                                 children: [
-                                                  TextSpan(
-                                                    text: verse,
-                                                    style: const TextStyle(
-                                                      color: Colors.blue,
-                                                      decoration: TextDecoration.underline,
-                                                      fontWeight: FontWeight.bold,
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      _copyText(
+                                                          '${StudyTopicsVerseProvider.formatVerseReference(verse)}: $verseText');
+                                                      state.hideToolbar();
+                                                    },
+                                                    child: Text(
+                                                      'Copy',
+                                                      style: TextStyle(
+                                                          fontSize: fontProvider
+                                                              .fontSize),
                                                     ),
                                                   ),
-                                                  TextSpan(
-                                                    text: ' $verseText',
-                                                    style: Theme.of(context).textTheme.bodyMedium,
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      _selectAllVerses(
+                                                          context, topic.verses);
+                                                      state.hideToolbar();
+                                                    },
+                                                    child: Text(
+                                                      'Select All',
+                                                      style: TextStyle(
+                                                          fontSize: fontProvider
+                                                              .fontSize),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
+                                              child: GestureDetector(
+                                                onTap: () => _navigateToVerse(verse),
+                                                child: RichText(
+                                                  text: TextSpan(
+                                                    children: [
+                                                      TextSpan(
+                                                        text:
+                                                            StudyTopicsVerseProvider
+                                                                .formatVerseReference(
+                                                                    verse),
+                                                        style: TextStyle(
+                                                          color: Colors.blue,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize:
+                                                              fontProvider.fontSize,
+                                                        ),
+                                                      ),
+                                                      TextSpan(
+                                                        text: ' $verseText',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyMedium
+                                                            ?.copyWith(
+                                                                fontSize:
+                                                                    fontProvider
+                                                                        .fontSize),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
                                             ),
+                                          );
+                                        }),
+                                        ListTile(
+                                          title: Text(
+                                            t.study_topics_screen.add_to_created,
+                                            style: TextStyle(
+                                                fontSize: fontProvider.fontSize),
                                           ),
+                                          leading: const Icon(Icons.add),
+                                          onTap: () {
+                                            _addGeneratedTopicToCreated(topic);
+                                          },
                                         ),
-                                      );
-                                    }),
-                                    ListTile(
-                                      title: Text(t.study_topics_screen.add_to_created),
-                                      leading: const Icon(Icons.add),
-                                      onTap: () {
-                                        _addGeneratedTopicToCreated(topic);
-                                      },
-                                    ),
-                                  ],
-                                );
-                              }
-                              return const SizedBox.shrink();
-                            }),
-                          ],
-                        ),
-                      ),
-                      if (_filteredSearchResults.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.arrow_back),
-                                onPressed: _currentPage > 0 ? _goToPreviousPage : null,
-                                tooltip: 'Previous Page',
-                              ),
-                              Text(
-                                'Page ${_currentPage + 1} of ${(_filteredSearchResults.length / _pageSize).ceil()}',
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.arrow_forward),
-                                onPressed: _currentPage < (_filteredSearchResults.length / _pageSize).ceil() - 1
-                                    ? _goToNextPage
-                                    : null,
-                                tooltip: 'Next Page',
-                              ),
-                            ],
+                                      ],
+                                    );
+                                  }
+                                  return const SizedBox.shrink();
+                                }),
+                              ],
+                            ),
                           ),
-                        ),
-                    ],
-                  ),
+                          if (_filteredSearchResults.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 4.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.arrow_back),
+                                    onPressed:
+                                        _currentPage > 0 ? _goToPreviousPage : null,
+                                    tooltip: 'Previous Page',
+                                  ),
+                                  Text(
+                                    'Page ${_currentPage + 1} of ${(_filteredSearchResults.length / _pageSize).ceil()}',
+                                    style: TextStyle(
+                                        fontSize: fontProvider.fontSize),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.arrow_forward),
+                                    onPressed: _currentPage <
+                                            (_filteredSearchResults.length /
+                                                        _pageSize)
+                                                    .ceil() -
+                                                1
+                                        ? _goToNextPage
+                                        : null,
+                                    tooltip: 'Next Page',
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:by_faith/features/study/models/study_topics_model.dart';
 import 'package:by_faith/objectbox.dart';
 import 'package:by_faith/features/study/screens/study_tab_screen.dart';
 import 'package:by_faith/features/study/providers/study_topics_verse_provider.dart';
+import 'package:by_faith/features/study/providers/study_settings_font_provider.dart';
 import 'package:collection/collection.dart';
 import 'package:provider/provider.dart';
 
@@ -53,10 +54,15 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
   void _onTitleChanged(String value) {
     setState(() {
       _suggestedTopics = [
-        ..._createdTopics.where((t) => t.title.toLowerCase().contains(value.toLowerCase())).map((t) => t.title),
-        ..._generatedTopics.where((t) => t.title.toLowerCase().contains(value.toLowerCase())).map((t) => t.title),
+        ..._createdTopics
+            .where((t) => t.title.toLowerCase().contains(value.toLowerCase()))
+            .map((t) => t.title),
+        ..._generatedTopics
+            .where((t) => t.title.toLowerCase().contains(value.toLowerCase()))
+            .map((t) => t.title),
       ].toSet().toList();
-      _selectedTopic = _createdTopics.firstWhereOrNull((t) => t.title == value);
+      _selectedTopic =
+          _createdTopics.firstWhereOrNull((t) => t.title == value);
     });
   }
 
@@ -64,12 +70,21 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
     final title = _titleController.text.trim();
     if (title.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(t.study_add_edit_topics_screen.empty_title_error)),
+        SnackBar(
+          content: Text(
+            t.study_add_edit_topics_screen.empty_title_error,
+            style: TextStyle(
+                fontSize:
+                    Provider.of<StudySettingsFontProvider>(context, listen: false)
+                        .fontSize),
+          ),
+        ),
       );
       return;
     }
 
-    final existingTopic = _createdTopics.firstWhereOrNull((t) => t.title.toLowerCase() == title.toLowerCase());
+    final existingTopic = _createdTopics
+        .firstWhereOrNull((t) => t.title.toLowerCase() == title.toLowerCase());
 
     if (existingTopic != null && existingTopic != widget.topic) {
       existingTopic.verses = _verses;
@@ -123,11 +138,15 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
   @override
   Widget build(BuildContext context) {
     final verseProvider = Provider.of<StudyTopicsVerseProvider>(context);
+    final fontProvider = Provider.of<StudySettingsFontProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.topic == null
-            ? t.study_add_edit_topics_screen.add_title
-            : t.study_add_edit_topics_screen.edit_title),
+        title: Text(
+          widget.topic == null
+              ? t.study_add_edit_topics_screen.add_title
+              : t.study_add_edit_topics_screen.edit_title,
+          style: TextStyle(fontSize: fontProvider.fontSize),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -139,6 +158,7 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
                 labelText: t.study_add_edit_topics_screen.title_label,
                 border: const OutlineInputBorder(),
               ),
+              style: TextStyle(fontSize: fontProvider.fontSize),
               onChanged: _onTitleChanged,
             ),
             if (_suggestedTopics.isNotEmpty && _titleController.text.isNotEmpty)
@@ -149,10 +169,14 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
                   itemCount: _suggestedTopics.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text(_suggestedTopics[index]),
+                      title: Text(
+                        _suggestedTopics[index],
+                        style: TextStyle(fontSize: fontProvider.fontSize),
+                      ),
                       onTap: () {
                         _titleController.text = _suggestedTopics[index];
-                        _selectedTopic = _createdTopics.firstWhereOrNull((t) => t.title == _suggestedTopics[index]);
+                        _selectedTopic = _createdTopics
+                            .firstWhereOrNull((t) => t.title == _suggestedTopics[index]);
                         if (_selectedTopic != null) {
                           setState(() {
                             _verses = List.from(_selectedTopic!.verses);
@@ -168,7 +192,10 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
               ),
             const SizedBox(height: 16),
             ListTile(
-              title: Text(t.study_add_edit_topics_screen.add_verse),
+              title: Text(
+                t.study_add_edit_topics_screen.add_verse,
+                style: TextStyle(fontSize: fontProvider.fontSize),
+              ),
               leading: const Icon(Icons.add),
               onTap: _addVerse,
             ),
@@ -177,22 +204,27 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
                 itemCount: _verses.length,
                 itemBuilder: (context, index) {
                   final verse = _verses[index];
-                  final verseText = verseProvider.getVerseText(verse) ?? t.study_add_edit_topics_screen.no_verse_text;
+                  final verseText = verseProvider.getVerseText(verse) ??
+                      t.study_add_edit_topics_screen.no_verse_text;
                   return ListTile(
                     title: RichText(
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: verse,
-                            style: const TextStyle(
+                            text: StudyTopicsVerseProvider.formatVerseReference(verse),
+                            style: TextStyle(
                               color: Colors.blue,
                               decoration: TextDecoration.underline,
                               fontWeight: FontWeight.bold,
+                              fontSize: fontProvider.fontSize,
                             ),
                           ),
                           TextSpan(
                             text: ' $verseText',
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(fontSize: fontProvider.fontSize),
                           ),
                         ],
                       ),
@@ -208,7 +240,10 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _saveTopic,
-              child: Text(t.study_add_edit_topics_screen.save_button),
+              child: Text(
+                t.study_add_edit_topics_screen.save_button,
+                style: TextStyle(fontSize: fontProvider.fontSize),
+              ),
             ),
           ],
         ),
