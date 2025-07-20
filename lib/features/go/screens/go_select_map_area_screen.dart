@@ -288,8 +288,8 @@ class _GoSelectMapAreaScreenState extends State<GoSelectMapAreaScreen> with Tick
             children: [
               fm.TileLayer(
                 urlTemplate: _tileProviderUrl,
+                userAgentPackageName: 'com.example.by_faith',
                 tileProvider: fm.NetworkTileProvider(),
-                userAgentPackageName: 'com.example.app',
               ),
               fm.PolygonLayer(
                 polygons: [

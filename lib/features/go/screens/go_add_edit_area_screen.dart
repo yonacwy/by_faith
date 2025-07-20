@@ -741,6 +741,7 @@ class _GoAddEditAreaScreenState extends State<GoAddEditAreaScreen> with TickerPr
             children: [
               fm.TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                userAgentPackageName: 'com.example.by_faith',
               ),
               if (_showAreas && _polygons.isNotEmpty)
                 fm.PolygonLayer(

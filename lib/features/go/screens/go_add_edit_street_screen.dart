@@ -811,6 +811,7 @@ class _GoAddEditStreetScreenState extends State<GoAddEditStreetScreen> with Tick
             children: [
               fm.TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                userAgentPackageName: 'com.example.by_faith',
               ),
               if (_showStreets && _polylines.isNotEmpty)
                 fm.PolylineLayer(

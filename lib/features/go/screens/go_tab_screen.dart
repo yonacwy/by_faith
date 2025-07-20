@@ -1263,6 +1263,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
                   children: [
                     fm.TileLayer(
                       urlTemplate: _tileProviderUrl,
+                      userAgentPackageName: 'com.example.by_faith',
                       tileProvider: _tileProvider ?? fm.NetworkTileProvider(),
                     ),
                     if (_polygons.isNotEmpty && _showRoutes)
@@ -1536,6 +1537,7 @@ class _GoTabScreenState extends State<GoTabScreen> with TickerProviderStateMixin
         maxZoom: zoomLevel,
         options: fm.TileLayer(
           urlTemplate: _tileProviderUrl,
+          userAgentPackageName: 'com.example.by_faith',
           tileProvider: fm.NetworkTileProvider(),
         ),
       ),

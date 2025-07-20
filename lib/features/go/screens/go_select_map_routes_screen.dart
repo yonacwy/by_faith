@@ -484,6 +484,7 @@ class _GoSelectMapRoutesScreenState extends State<GoSelectMapRoutesScreen> with 
             children: [
               fm.TileLayer(
                 urlTemplate: _tileProviderUrl,
+                userAgentPackageName: 'com.example.by_faith',
               ),
               if (widget.selectionType == 'Area' && _polygons.isNotEmpty)
                 fm.PolygonLayer(
