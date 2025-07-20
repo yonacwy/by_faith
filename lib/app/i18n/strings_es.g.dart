@@ -273,6 +273,7 @@ class _TranslationsStudyAddEditTopicsScreenEs implements TranslationsStudyAddEdi
 	@override String get save_button => 'Guardar';
 	@override String get empty_title_error => 'El título del tema no puede estar vacío';
 	@override String get duplicate_title_error => 'Ya existe un tema con este título';
+	@override String get no_verse_text => 'Texto del versículo no disponible';
 }
 
 // Path: study_export_import_screen
@@ -435,6 +436,7 @@ class _TranslationsStudyTopicsScreenEs implements TranslationsStudyTopicsScreenE
 	@override String get add_to_created => 'Añadir a Temas Creados';
 	@override String get edit_topic => 'Editar Tema';
 	@override String get delete_topic => 'Eliminar Tema';
+	@override String get no_verse_text => 'Texto del versículo no disponible';
 }
 
 // Path: go_add_edit_area_screen
@@ -1122,6 +1124,7 @@ extension on TranslationsEs {
 			case 'study_add_edit_topics_screen.save_button': return 'Guardar';
 			case 'study_add_edit_topics_screen.empty_title_error': return 'El título del tema no puede estar vacío';
 			case 'study_add_edit_topics_screen.duplicate_title_error': return 'Ya existe un tema con este título';
+			case 'study_add_edit_topics_screen.no_verse_text': return 'Texto del versículo no disponible';
 			case 'study_export_import_screen.title': return 'Estudio Exportar Importar';
 			case 'study_export_import_screen.content': return 'Contenido de Estudio Exportar Importar';
 			case 'study_mapping_screen.title': return 'Estudio Mapeo';
@@ -1185,6 +1188,7 @@ extension on TranslationsEs {
 			case 'study_topics_screen.add_to_created': return 'Añadir a Temas Creados';
 			case 'study_topics_screen.edit_topic': return 'Editar Tema';
 			case 'study_topics_screen.delete_topic': return 'Eliminar Tema';
+			case 'study_topics_screen.no_verse_text': return 'Texto del versículo no disponible';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'Toca el mapa para añadir puntos para el Área.';
 			case 'go_add_edit_area_screen.cancel': return 'Cancelar';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'Cancelar Creación de Área';

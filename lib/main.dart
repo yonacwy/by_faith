@@ -14,6 +14,7 @@ import 'package:by_faith/objectbox.dart';
 import 'package:by_faith/features/home/providers/home_settings_font_provider.dart';
 import 'package:by_faith/features/go/providers/go_settings_font_provider.dart';
 import 'package:by_faith/features/study/providers/study_settings_font_provider.dart';
+import 'package:by_faith/features/study/providers/study_topics_verse_provider.dart'; // Added provider import
 import 'package:by_faith/core/models/user_preferences_model.dart';
 
 void main() async {
@@ -50,6 +51,7 @@ void main() async {
           ChangeNotifierProvider(create: (_) => HomeSettingsFontProvider()),
           ChangeNotifierProvider(create: (_) => GoSettingsFontProvider()),
           ChangeNotifierProvider(create: (_) => StudySettingsFontProvider()),
+          ChangeNotifierProvider(create: (_) => StudyTopicsVerseProvider(store)), // Added StudyTopicsVerseProvider
         ],
         child: const MyApp(),
       ),

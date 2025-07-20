@@ -117,7 +117,8 @@
     "title_label": "Topic Title",
     "save_button": "Save",
     "empty_title_error": "Topic title cannot be empty",
-    "duplicate_title_error": "A topic with this title already exists"
+    "duplicate_title_error": "A topic with this title already exists",
+    "no_verse_text": "Verse text not available"
   },
   "study_export_import_screen": {
     "title": "Study Export Import",
@@ -202,7 +203,8 @@
     "add_verse": "Add Verse",
     "add_to_created": "Add to Created Topics",
     "edit_topic": "Edit Topic",
-    "delete_topic": "Delete Topic"
+    "delete_topic": "Delete Topic",
+    "no_verse_text": "Verse text not available"
   },
   "go_add_edit_area_screen": {
     "tap_to_add_points": "Tap on the map to add points for Area.",

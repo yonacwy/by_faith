@@ -117,7 +117,8 @@
     "title_label": "विषय का शीर्षक",
     "save_button": "सहेजें",
     "empty_title_error": "विषय का शीर्षक खाली नहीं हो सकता",
-    "duplicate_title_error": "इस शीर्षक के साथ एक विषय पहले से मौजूद है"
+    "duplicate_title_error": "इस शीर्षक के साथ एक विषय पहले से मौजूद है",
+    "no_verse_text": "छंद पाठ उपलब्ध नहीं है"
   },
   "study_export_import_screen": {
     "title": "अध्ययन निर्यात आयात",
@@ -202,7 +203,8 @@
     "add_verse": "छंद जोड़ें",
     "add_to_created": "निर्मित विषय में जोड़ें",
     "edit_topic": "विषय संपादित करें",
-    "delete_topic": "विषय हटाएं"
+    "delete_topic": "विषय हटाएं",
+    "no_verse_text": "छंद पाठ उपलब्ध नहीं है"
   },
   "go_add_edit_area_screen": {
     "tap_to_add_points": "क्षेत्र के लिए बिंदु जोड़ने के लिए मानचित्र पर टैप करें।",

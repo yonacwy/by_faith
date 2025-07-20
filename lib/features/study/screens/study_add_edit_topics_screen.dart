@@ -3,7 +3,9 @@ import 'package:by_faith/app/i18n/strings.g.dart';
 import 'package:by_faith/features/study/models/study_topics_model.dart';
 import 'package:by_faith/objectbox.dart';
 import 'package:by_faith/features/study/screens/study_tab_screen.dart';
+import 'package:by_faith/features/study/providers/study_topics_verse_provider.dart';
 import 'package:collection/collection.dart';
+import 'package:provider/provider.dart';
 
 class StudyAddEditTopicsScreen extends StatefulWidget {
   final CreatedTopicsEn? topic;
@@ -21,7 +23,7 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
   List<GeneratedTopicsEn> _generatedTopics = [];
   List<String> _suggestedTopics = [];
   CreatedTopicsEn? _selectedTopic;
-  List<String> _verses = []; // To store verses for the topic
+  List<String> _verses = [];
 
   @override
   void initState() {
@@ -70,17 +72,14 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
     final existingTopic = _createdTopics.firstWhereOrNull((t) => t.title.toLowerCase() == title.toLowerCase());
 
     if (existingTopic != null && existingTopic != widget.topic) {
-      // Override existing topic
       existingTopic.verses = _verses;
       studyCreatedTopicsEnBox.put(existingTopic);
       print('Overrode existing topic: ${existingTopic.title}');
     } else if (_selectedTopic != null && _selectedTopic!.title == title) {
-      // Update existing topic
       _selectedTopic!.verses = _verses;
       studyCreatedTopicsEnBox.put(_selectedTopic!);
       print('Updated topic: ${_selectedTopic!.title}');
     } else {
-      // Create new topic
       final newTopic = CreatedTopicsEn(
         title: title,
         verses: _verses,
@@ -123,6 +122,7 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final verseProvider = Provider.of<StudyTopicsVerseProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.topic == null
@@ -177,8 +177,26 @@ class _StudyAddEditTopicsScreenState extends State<StudyAddEditTopicsScreen> {
                 itemCount: _verses.length,
                 itemBuilder: (context, index) {
                   final verse = _verses[index];
+                  final verseText = verseProvider.getVerseText(verse) ?? t.study_add_edit_topics_screen.no_verse_text;
                   return ListTile(
-                    title: Text(verse),
+                    title: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: verse,
+                            style: const TextStyle(
+                              color: Colors.blue,
+                              decoration: TextDecoration.underline,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: ' $verseText',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                    ),
                     trailing: IconButton(
                       icon: const Icon(Icons.delete),
                       onPressed: () => _removeVerse(verse),

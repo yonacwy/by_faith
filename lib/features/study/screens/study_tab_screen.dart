@@ -163,7 +163,7 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
   }
 
   void _showVerseOptions(BuildContext context, Verse verse) {
-    final fontProvider = context.watch<StudySettingsFontProvider>();
+    final fontProvider = Provider.of<StudySettingsFontProvider>(context, listen: false);
     final formattedBookId = '${_selectedBook!.bookId[0].toUpperCase()}${_selectedBook!.bookId.substring(1)}';
     final verseReference = '$formattedBookId.${_selectedChapter!.chapterNumber}.${verse.verseNumber}';
     showModalBottomSheet(

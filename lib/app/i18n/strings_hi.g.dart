@@ -273,6 +273,7 @@ class _TranslationsStudyAddEditTopicsScreenHi implements TranslationsStudyAddEdi
 	@override String get save_button => 'सहेजें';
 	@override String get empty_title_error => 'विषय का शीर्षक खाली नहीं हो सकता';
 	@override String get duplicate_title_error => 'इस शीर्षक के साथ एक विषय पहले से मौजूद है';
+	@override String get no_verse_text => 'छंद पाठ उपलब्ध नहीं है';
 }
 
 // Path: study_export_import_screen
@@ -435,6 +436,7 @@ class _TranslationsStudyTopicsScreenHi implements TranslationsStudyTopicsScreenE
 	@override String get add_to_created => 'निर्मित विषय में जोड़ें';
 	@override String get edit_topic => 'विषय संपादित करें';
 	@override String get delete_topic => 'विषय हटाएं';
+	@override String get no_verse_text => 'छंद पाठ उपलब्ध नहीं है';
 }
 
 // Path: go_add_edit_area_screen
@@ -1123,6 +1125,7 @@ extension on TranslationsHi {
 			case 'study_add_edit_topics_screen.save_button': return 'सहेजें';
 			case 'study_add_edit_topics_screen.empty_title_error': return 'विषय का शीर्षक खाली नहीं हो सकता';
 			case 'study_add_edit_topics_screen.duplicate_title_error': return 'इस शीर्षक के साथ एक विषय पहले से मौजूद है';
+			case 'study_add_edit_topics_screen.no_verse_text': return 'छंद पाठ उपलब्ध नहीं है';
 			case 'study_export_import_screen.title': return 'अध्ययन निर्यात आयात';
 			case 'study_export_import_screen.content': return 'अध्ययन निर्यात आयात सामग्री';
 			case 'study_mapping_screen.title': return 'अध्ययन मैपिंग';
@@ -1186,6 +1189,7 @@ extension on TranslationsHi {
 			case 'study_topics_screen.add_to_created': return 'निर्मित विषय में जोड़ें';
 			case 'study_topics_screen.edit_topic': return 'विषय संपादित करें';
 			case 'study_topics_screen.delete_topic': return 'विषय हटाएं';
+			case 'study_topics_screen.no_verse_text': return 'छंद पाठ उपलब्ध नहीं है';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'क्षेत्र के लिए बिंदु जोड़ने के लिए मानचित्र पर टैप करें।';
 			case 'go_add_edit_area_screen.cancel': return 'रद्द करें';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'क्षेत्र निर्माण रद्द करें';

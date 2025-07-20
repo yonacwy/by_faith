@@ -276,6 +276,7 @@ class TranslationsStudyAddEditTopicsScreenEn {
 	String get save_button => 'Save';
 	String get empty_title_error => 'Topic title cannot be empty';
 	String get duplicate_title_error => 'A topic with this title already exists';
+	String get no_verse_text => 'Verse text not available';
 }
 
 // Path: study_export_import_screen
@@ -438,6 +439,7 @@ class TranslationsStudyTopicsScreenEn {
 	String get add_to_created => 'Add to Created Topics';
 	String get edit_topic => 'Edit Topic';
 	String get delete_topic => 'Delete Topic';
+	String get no_verse_text => 'Verse text not available';
 }
 
 // Path: go_add_edit_area_screen
@@ -1125,6 +1127,7 @@ extension on Translations {
 			case 'study_add_edit_topics_screen.save_button': return 'Save';
 			case 'study_add_edit_topics_screen.empty_title_error': return 'Topic title cannot be empty';
 			case 'study_add_edit_topics_screen.duplicate_title_error': return 'A topic with this title already exists';
+			case 'study_add_edit_topics_screen.no_verse_text': return 'Verse text not available';
 			case 'study_export_import_screen.title': return 'Study Export Import';
 			case 'study_export_import_screen.content': return 'Study Export Import Content';
 			case 'study_mapping_screen.title': return 'Study Mapping';
@@ -1188,6 +1191,7 @@ extension on Translations {
 			case 'study_topics_screen.add_to_created': return 'Add to Created Topics';
 			case 'study_topics_screen.edit_topic': return 'Edit Topic';
 			case 'study_topics_screen.delete_topic': return 'Delete Topic';
+			case 'study_topics_screen.no_verse_text': return 'Verse text not available';
 			case 'go_add_edit_area_screen.tap_to_add_points': return 'Tap on the map to add points for Area.';
 			case 'go_add_edit_area_screen.cancel': return 'Cancel';
 			case 'go_add_edit_area_screen.cancel_area_creation': return 'Cancel Area Creation';

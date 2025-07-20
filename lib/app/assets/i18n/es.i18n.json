@@ -117,7 +117,8 @@
     "title_label": "Título del Tema",
     "save_button": "Guardar",
     "empty_title_error": "El título del tema no puede estar vacío",
-    "duplicate_title_error": "Ya existe un tema con este título"
+    "duplicate_title_error": "Ya existe un tema con este título",
+    "no_verse_text": "Texto del versículo no disponible"
   },
   "study_export_import_screen": {
     "title": "Estudio Exportar Importar",
@@ -202,7 +203,8 @@
     "add_verse": "Añadir Versículo",
     "add_to_created": "Añadir a Temas Creados",
     "edit_topic": "Editar Tema",
-    "delete_topic": "Eliminar Tema"
+    "delete_topic": "Eliminar Tema",
+    "no_verse_text": "Texto del versículo no disponible"
   },
   "go_add_edit_area_screen": {
     "tap_to_add_points": "Toca el mapa para añadir puntos para el Área.",
