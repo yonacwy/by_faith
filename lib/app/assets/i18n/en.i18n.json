@@ -181,6 +181,8 @@
     "topics": "Topics",
     "add_topic": "Add to Topic",
     "bibles": "Bibles",
+    "books": "Books",
+    "chapters": "Chapters",
     "select_bible_version": "Select Bible Version",
     "select_book": "Select Book",
     "select_chapter": "Select Chapter",

@@ -409,6 +409,8 @@ class TranslationsStudyTabScreenEn {
 	String get topics => 'Topics';
 	String get add_topic => 'Add to Topic';
 	String get bibles => 'Bibles';
+	String get books => 'Books';
+	String get chapters => 'Chapters';
 	String get select_bible_version => 'Select Bible Version';
 	String get select_book => 'Select Book';
 	String get select_chapter => 'Select Chapter';
@@ -1166,6 +1168,8 @@ extension on Translations {
 			case 'study_tab_screen.topics': return 'Topics';
 			case 'study_tab_screen.add_topic': return 'Add to Topic';
 			case 'study_tab_screen.bibles': return 'Bibles';
+			case 'study_tab_screen.books': return 'Books';
+			case 'study_tab_screen.chapters': return 'Chapters';
 			case 'study_tab_screen.select_bible_version': return 'Select Bible Version';
 			case 'study_tab_screen.select_book': return 'Select Book';
 			case 'study_tab_screen.select_chapter': return 'Select Chapter';

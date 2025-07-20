@@ -163,6 +163,7 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
   }
 
   void _showVerseOptions(BuildContext context, Verse verse) {
+    final fontProvider = context.watch<StudySettingsFontProvider>();
     final formattedBookId = '${_selectedBook!.bookId[0].toUpperCase()}${_selectedBook!.bookId.substring(1)}';
     final verseReference = '$formattedBookId.${_selectedChapter!.chapterNumber}.${verse.verseNumber}';
     showModalBottomSheet(
@@ -174,7 +175,15 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
             children: [
               ListTile(
                 leading: const Icon(Icons.topic),
-                title: Text(t.study_tab_screen.add_topic),
+                title: Text(
+                  t.study_tab_screen.add_topic,
+                  style: TextStyle(
+                    fontFamily: fontProvider.fontFamily,
+                    fontSize: fontProvider.fontSize,
+                    color: Colors.black,
+                  ),
+                  textScaleFactor: 1.0, // Ignore system text scaling
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(
@@ -190,7 +199,15 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
               ),
               ListTile(
                 leading: const Icon(Icons.bookmark),
-                title: Text(t.study_tab_screen.view_references),
+                title: Text(
+                  t.study_tab_screen.view_references,
+                  style: TextStyle(
+                    fontFamily: fontProvider.fontFamily,
+                    fontSize: fontProvider.fontSize,
+                    color: Colors.black,
+                  ),
+                  textScaleFactor: 1.0, // Ignore system text scaling
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(
@@ -206,7 +223,15 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
               if (widget.onVerseSelected != null)
                 ListTile(
                   leading: const Icon(Icons.check),
-                  title: Text(t.study_tab_screen.select_verse),
+                  title: Text(
+                    t.study_tab_screen.select_verse,
+                    style: TextStyle(
+                      fontFamily: fontProvider.fontFamily,
+                      fontSize: fontProvider.fontSize,
+                      color: Colors.black,
+                    ),
+                    textScaleFactor: 1.0, // Ignore system text scaling
+                  ),
                   onTap: () {
                     widget.onVerseSelected?.call(verseReference);
                     Navigator.pop(context);
@@ -369,6 +394,7 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
   Widget build(BuildContext context) {
     final bibleVersions = store.box<BibleVersion>().getAll();
     final isSmallScreen = MediaQuery.of(context).size.width < 400;
+    final fontProvider = context.watch<StudySettingsFontProvider>();
     String bibleAbbr(BibleVersion v) =>
         v.name.length > 6 ? v.name.split(' ').map((w) => w[0]).join().toUpperCase() : v.name;
     String bookAbbr(Book b) {
@@ -433,10 +459,12 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       t.study_tab_screen.study_menu,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
-                        fontSize: 24,
+                        fontFamily: fontProvider.fontFamily,
+                        fontSize: fontProvider.fontSize,
                       ),
+                      textScaleFactor: 1.0, // Ignore system text scaling
                     ),
                   ),
                   Align(
@@ -482,7 +510,15 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.account_tree),
-              title: Text(t.study_tab_screen.mapping),
+              title: Text(
+                t.study_tab_screen.mapping,
+                style: TextStyle(
+                  fontFamily: fontProvider.fontFamily,
+                  fontSize: fontProvider.fontSize,
+                  color: Colors.black,
+                ),
+                textScaleFactor: 1.0, // Ignore system text scaling
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -493,7 +529,15 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.notes),
-              title: Text(t.study_tab_screen.notes),
+              title: Text(
+                t.study_tab_screen.notes,
+                style: TextStyle(
+                  fontFamily: fontProvider.fontFamily,
+                  fontSize: fontProvider.fontSize,
+                  color: Colors.black,
+                ),
+                textScaleFactor: 1.0, // Ignore system text scaling
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -504,7 +548,15 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.event_note),
-              title: Text(t.study_tab_screen.plans),
+              title: Text(
+                t.study_tab_screen.plans,
+                style: TextStyle(
+                  fontFamily: fontProvider.fontFamily,
+                  fontSize: fontProvider.fontSize,
+                  color: Colors.black,
+                ),
+                textScaleFactor: 1.0, // Ignore system text scaling
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -515,7 +567,15 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.bookmark),
-              title: Text(t.study_tab_screen.references),
+              title: Text(
+                t.study_tab_screen.references,
+                style: TextStyle(
+                  fontFamily: fontProvider.fontFamily,
+                  fontSize: fontProvider.fontSize,
+                  color: Colors.black,
+                ),
+                textScaleFactor: 1.0, // Ignore system text scaling
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -526,7 +586,15 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.topic),
-              title: Text(t.study_tab_screen.topics),
+              title: Text(
+                t.study_tab_screen.topics,
+                style: TextStyle(
+                  fontFamily: fontProvider.fontFamily,
+                  fontSize: fontProvider.fontSize,
+                  color: Colors.black,
+                ),
+                textScaleFactor: 1.0, // Ignore system text scaling
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -545,86 +613,137 @@ class _StudyTabScreenState extends State<StudyTabScreen> {
             Row(
               children: [
                 Flexible(
-                  flex: isSmallScreen ? 2 : 3,
-                  child: DropdownButton<BibleVersion>(
-                    isExpanded: true,
-                    value: _selectedBibleVersion == null
-                        ? null
-                        : bibleVersions.firstWhereOrNull((b) => b.id == _selectedBibleVersion!.id),
-                    hint: Text(isSmallScreen ? t.study_tab_screen.bibles : t.study_tab_screen.select_bible_version),
-                    onChanged: (BibleVersion? newValue) async {
-                      if (newValue != null) {
-                        final selected = bibleVersions.firstWhere((b) => b.id == newValue.id);
-                        setState(() {
-                          _selectedBibleVersion = selected;
-                          _selectedBook = null;
-                          _selectedChapter = null;
-                          _verses = [];
-                        });
-                        await _loadBooks(selected);
-                        final prefs = getUserPreferences(userPreferencesBox);
-                        prefs.currentBibleVersionId = selected.id;
-                        userPreferencesBox.put(prefs);
-                      }
-                    },
-                    items: bibleVersions.map<DropdownMenuItem<BibleVersion>>((BibleVersion value) {
-                      return DropdownMenuItem<BibleVersion>(
-                        value: value,
-                        child: Text(isSmallScreen ? bibleAbbr(value) : value.name, overflow: TextOverflow.ellipsis),
-                      );
-                    }).toList(),
+                  flex: isSmallScreen ? 3 : 3,
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<BibleVersion>(
+                      isExpanded: true,
+                      value: _selectedBibleVersion == null
+                          ? null
+                          : bibleVersions.firstWhereOrNull((b) => b.id == _selectedBibleVersion!.id),
+                      hint: Text(
+                        isSmallScreen ? t.study_tab_screen.bibles : t.study_tab_screen.select_bible_version,
+                        style: TextStyle(
+                          fontSize: fontProvider.fontSize,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        textScaleFactor: 1.0,
+                      ),
+                      onChanged: (BibleVersion? newValue) async {
+                        if (newValue != null) {
+                          final selected = bibleVersions.firstWhere((b) => b.id == newValue.id);
+                          setState(() {
+                            _selectedBibleVersion = selected;
+                            _selectedBook = null;
+                            _selectedChapter = null;
+                            _verses = [];
+                          });
+                          await _loadBooks(selected);
+                          final prefs = getUserPreferences(userPreferencesBox);
+                          prefs.currentBibleVersionId = selected.id;
+                          userPreferencesBox.put(prefs);
+                        }
+                      },
+                      items: bibleVersions.map<DropdownMenuItem<BibleVersion>>((BibleVersion value) {
+                        return DropdownMenuItem<BibleVersion>(
+                          value: value,
+                          child: Text(
+                            isSmallScreen ? bibleAbbr(value) : value.name,
+                            style: TextStyle(
+                              fontSize: fontProvider.fontSize,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            textScaleFactor: 1.0,
+                          ),
+                        );
+                      }).toList(),
+                      menuMaxHeight: 200, // Limit dropdown height for scrollability
+                    ),
                   ),
                 ),
                 const SizedBox(width: 4),
                 Flexible(
-                  flex: isSmallScreen ? 2 : 3,
-                  child: DropdownButton<Book>(
-                    isExpanded: true,
-                    value: _selectedBook,
-                    hint: Text(isSmallScreen ? t.study_tab_screen.bibles : t.study_tab_screen.select_book),
-                    onChanged: (Book? newValue) async {
-                      if (newValue != null) {
-                        setState(() {
-                          _selectedBook = newValue;
-                          _selectedChapter = null;
-                          _verses = [];
-                        });
-                        await _loadChapters(newValue);
-                      }
-                    },
-                    items: _selectedBibleVersion?.books.map<DropdownMenuItem<Book>>((Book value) {
-                      return DropdownMenuItem<Book>(
-                        value: value,
-                        child: Text(isSmallScreen ? bookAbbr(value) : value.name, overflow: TextOverflow.ellipsis),
-                      );
-                    }).toList() ?? [],
+                  flex: isSmallScreen ? 3 : 3,
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<Book>(
+                      isExpanded: true,
+                      value: _selectedBook,
+                      hint: Text(
+                        isSmallScreen ? t.study_tab_screen.books : t.study_tab_screen.select_book,
+                        style: TextStyle(
+                          fontSize: fontProvider.fontSize,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        textScaleFactor: 1.0,
+                      ),
+                      onChanged: (Book? newValue) async {
+                        if (newValue != null) {
+                          setState(() {
+                            _selectedBook = newValue;
+                            _selectedChapter = null;
+                            _verses = [];
+                          });
+                          await _loadChapters(newValue);
+                        }
+                      },
+                      items: _selectedBibleVersion?.books.map<DropdownMenuItem<Book>>((Book value) {
+                        return DropdownMenuItem<Book>(
+                          value: value,
+                          child: Text(
+                            isSmallScreen ? bookAbbr(value) : value.name,
+                            style: TextStyle(
+                              fontSize: fontProvider.fontSize,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            textScaleFactor: 1.0,
+                          ),
+                        );
+                      }).toList() ?? [],
+                      menuMaxHeight: 200, // Limit dropdown height for scrollability
+                    ),
                   ),
                 ),
                 const SizedBox(width: 4),
                 Flexible(
-                  flex: 1,
-                  child: DropdownButton<Chapter>(
-                    isExpanded: true,
-                    value: _selectedChapter,
-                    hint: Text(t.study_tab_screen.select_chapter),
-                    onChanged: (Chapter? newValue) async {
-                      if (newValue != null) {
-                        setState(() {
-                          _selectedChapter = newValue;
-                        });
-                        await _loadVerses(newValue);
-                      }
-                    },
-                    items: _selectedBook?.chapters
-                            .asMap()
-                            .entries
-                            .map<DropdownMenuItem<Chapter>>((entry) {
-                          final chapter = entry.value;
-                          return DropdownMenuItem<Chapter>(
-                            value: chapter,
-                            child: Text(chapter.chapterNumber.toString()),
-                          );
-                        }).toList() ?? [],
+                  flex: isSmallScreen ? 2 : 1,
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<Chapter>(
+                      isExpanded: true,
+                      value: _selectedChapter,
+                      hint: Text(
+                        isSmallScreen ? t.study_tab_screen.chapters : t.study_tab_screen.select_chapter,
+                        style: TextStyle(
+                          fontSize: fontProvider.fontSize,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        textScaleFactor: 1.0,
+                      ),
+                      onChanged: (Chapter? newValue) async {
+                        if (newValue != null) {
+                          setState(() {
+                            _selectedChapter = newValue;
+                          });
+                          await _loadVerses(newValue);
+                        }
+                      },
+                      items: _selectedBook?.chapters
+                              .asMap()
+                              .entries
+                              .map<DropdownMenuItem<Chapter>>((entry) {
+                            final chapter = entry.value;
+                            return DropdownMenuItem<Chapter>(
+                              value: chapter,
+                              child: Text(
+                                chapter.chapterNumber.toString(),
+                                style: TextStyle(
+                                  fontSize: fontProvider.fontSize,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                textScaleFactor: 1.0,
+                              ),
+                            );
+                          }).toList() ?? [],
+                      menuMaxHeight: 200, // Limit dropdown height for scrollability
+                    ),
                   ),
                 ),
               ],

@@ -406,6 +406,8 @@ class _TranslationsStudyTabScreenEs implements TranslationsStudyTabScreenEn {
 	@override String get topics => 'Temas';
 	@override String get add_topic => 'Añadir a Tema';
 	@override String get bibles => 'Biblias';
+	@override String get books => 'Libros';
+	@override String get chapters => 'Capítulos';
 	@override String get select_bible_version => 'Seleccionar Versión de la Biblia';
 	@override String get select_book => 'Seleccionar Libro';
 	@override String get select_chapter => 'Seleccionar Capítulo';
@@ -1163,6 +1165,8 @@ extension on TranslationsEs {
 			case 'study_tab_screen.topics': return 'Temas';
 			case 'study_tab_screen.add_topic': return 'Añadir a Tema';
 			case 'study_tab_screen.bibles': return 'Biblias';
+			case 'study_tab_screen.books': return 'Libros';
+			case 'study_tab_screen.chapters': return 'Capítulos';
 			case 'study_tab_screen.select_bible_version': return 'Seleccionar Versión de la Biblia';
 			case 'study_tab_screen.select_book': return 'Seleccionar Libro';
 			case 'study_tab_screen.select_chapter': return 'Seleccionar Capítulo';

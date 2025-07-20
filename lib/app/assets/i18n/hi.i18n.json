@@ -181,6 +181,8 @@
     "topics": "विषय",
     "add_topic": "विषय में जोड़ें",
     "bibles": "बाइबल",
+    "books": "पुस्तकें",
+    "chapters": "अध्याय",
     "select_bible_version": "बाइबल संस्करण चुनें",
     "select_book": "पुस्तक चुनें",
     "select_chapter": "अध्याय चुनें",
